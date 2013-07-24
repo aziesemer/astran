@@ -1,0 +1,451 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BC97A535178F2BBE0002254A /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
+		BC97A536178F2BBE0002254A /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
+		BC97A537178F2BBE0002254A /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
+		BC97A538178F2BBE0002254A /* circuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A503178F2BBE0002254A /* circuit.cpp */; };
+		BC97A539178F2BBE0002254A /* clayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A505178F2BBE0002254A /* clayout.cpp */; };
+		BC97A53A178F2BBE0002254A /* compaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A507178F2BBE0002254A /* compaction.cpp */; };
+		BC97A53B178F2BBE0002254A /* designmng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A509178F2BBE0002254A /* designmng.cpp */; };
+		BC97A53C178F2BBE0002254A /* draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A50B178F2BBE0002254A /* draw.cpp */; };
+		BC97A53D178F2BBE0002254A /* gds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A50D178F2BBE0002254A /* gds.cpp */; };
+		BC97A53E178F2BBE0002254A /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BC97A50F178F2BBE0002254A /* icon.icns */; };
+		BC97A53F178F2BBE0002254A /* icpdApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A510178F2BBE0002254A /* icpdApp.cpp */; };
+		BC97A540178F2BBE0002254A /* icpdfrm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A512178F2BBE0002254A /* icpdfrm.cpp */; };
+		BC97A541178F2BBE0002254A /* lef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A514178F2BBE0002254A /* lef.cpp */; };
+		BC97A542178F2BBE0002254A /* pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A516178F2BBE0002254A /* pathfinder.cpp */; };
+		BC97A543178F2BBE0002254A /* pathfinder2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A518178F2BBE0002254A /* pathfinder2.cpp */; };
+		BC97A544178F2BBE0002254A /* placer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51A178F2BBE0002254A /* placer.cpp */; };
+		BC97A545178F2BBE0002254A /* router.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51C178F2BBE0002254A /* router.cpp */; };
+		BC97A546178F2BBE0002254A /* rules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51E178F2BBE0002254A /* rules.cpp */; };
+		BC97A547178F2BBE0002254A /* spice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A521178F2BBE0002254A /* spice.cpp */; };
+		BC97A548178F2BBE0002254A /* verilog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A525178F2BBE0002254A /* verilog.cpp */; };
+		BC97A549178F2BBE0002254A /* wxabout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A527178F2BBE0002254A /* wxabout.cpp */; };
+		BC97A54A178F2BBE0002254A /* wxautocell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A529178F2BBE0002254A /* wxautocell.cpp */; };
+		BC97A54B178F2BBE0002254A /* wxcircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52B178F2BBE0002254A /* wxcircuit.cpp */; };
+		BC97A54C178F2BBE0002254A /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
+		BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
+		BC97A54E178F2BBE0002254A /* wxPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A531178F2BBE0002254A /* wxPreferences.cpp */; };
+		BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BC97A4DB178F2B1E0002254A /* Astran.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astran.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC97A4E7178F2B1E0002254A /* Astran-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Astran-Info.plist"; sourceTree = "<group>"; };
+		BC97A4ED178F2B1E0002254A /* Astran-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Astran-Prefix.pch"; sourceTree = "<group>"; };
+		BC97A4FD178F2BBE0002254A /* autocell2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = autocell2.cpp; sourceTree = "<group>"; };
+		BC97A4FE178F2BBE0002254A /* autocell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = autocell2.h; sourceTree = "<group>"; };
+		BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cellnetlst.cpp; sourceTree = "<group>"; };
+		BC97A500178F2BBE0002254A /* cellnetlst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cellnetlst.h; sourceTree = "<group>"; };
+		BC97A501178F2BBE0002254A /* cif.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cif.cpp; sourceTree = "<group>"; };
+		BC97A502178F2BBE0002254A /* cif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cif.h; sourceTree = "<group>"; };
+		BC97A503178F2BBE0002254A /* circuit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = circuit.cpp; sourceTree = "<group>"; };
+		BC97A504178F2BBE0002254A /* circuit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = circuit.h; sourceTree = "<group>"; };
+		BC97A505178F2BBE0002254A /* clayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clayout.cpp; sourceTree = "<group>"; };
+		BC97A506178F2BBE0002254A /* clayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = clayout.h; sourceTree = "<group>"; };
+		BC97A507178F2BBE0002254A /* compaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = compaction.cpp; sourceTree = "<group>"; };
+		BC97A508178F2BBE0002254A /* compaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = compaction.h; sourceTree = "<group>"; };
+		BC97A509178F2BBE0002254A /* designmng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = designmng.cpp; sourceTree = "<group>"; };
+		BC97A50A178F2BBE0002254A /* designmng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = designmng.h; sourceTree = "<group>"; };
+		BC97A50B178F2BBE0002254A /* draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = draw.cpp; sourceTree = "<group>"; };
+		BC97A50C178F2BBE0002254A /* draw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = draw.h; sourceTree = "<group>"; };
+		BC97A50D178F2BBE0002254A /* gds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gds.cpp; sourceTree = "<group>"; };
+		BC97A50E178F2BBE0002254A /* gds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gds.h; sourceTree = "<group>"; };
+		BC97A50F178F2BBE0002254A /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		BC97A510178F2BBE0002254A /* icpdApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = icpdApp.cpp; sourceTree = "<group>"; };
+		BC97A511178F2BBE0002254A /* icpdApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icpdApp.h; sourceTree = "<group>"; };
+		BC97A512178F2BBE0002254A /* icpdfrm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = icpdfrm.cpp; sourceTree = "<group>"; };
+		BC97A513178F2BBE0002254A /* icpdfrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icpdfrm.h; sourceTree = "<group>"; };
+		BC97A514178F2BBE0002254A /* lef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lef.cpp; sourceTree = "<group>"; };
+		BC97A515178F2BBE0002254A /* lef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lef.h; sourceTree = "<group>"; };
+		BC97A516178F2BBE0002254A /* pathfinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pathfinder.cpp; sourceTree = "<group>"; };
+		BC97A517178F2BBE0002254A /* pathfinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pathfinder.h; sourceTree = "<group>"; };
+		BC97A518178F2BBE0002254A /* pathfinder2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pathfinder2.cpp; sourceTree = "<group>"; };
+		BC97A519178F2BBE0002254A /* pathfinder2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pathfinder2.h; sourceTree = "<group>"; };
+		BC97A51A178F2BBE0002254A /* placer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = placer.cpp; sourceTree = "<group>"; };
+		BC97A51B178F2BBE0002254A /* placer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = placer.h; sourceTree = "<group>"; };
+		BC97A51C178F2BBE0002254A /* router.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = router.cpp; sourceTree = "<group>"; };
+		BC97A51D178F2BBE0002254A /* router.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = router.h; sourceTree = "<group>"; };
+		BC97A51E178F2BBE0002254A /* rules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rules.cpp; sourceTree = "<group>"; };
+		BC97A51F178F2BBE0002254A /* rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rules.h; sourceTree = "<group>"; };
+		BC97A520178F2BBE0002254A /* SimulatedAnnealing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulatedAnnealing.h; sourceTree = "<group>"; };
+		BC97A521178F2BBE0002254A /* spice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spice.cpp; sourceTree = "<group>"; };
+		BC97A522178F2BBE0002254A /* spice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spice.h; sourceTree = "<group>"; };
+		BC97A523178F2BBE0002254A /* thresholdaccept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thresholdaccept.h; sourceTree = "<group>"; };
+		BC97A524178F2BBE0002254A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		BC97A525178F2BBE0002254A /* verilog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = verilog.cpp; sourceTree = "<group>"; };
+		BC97A526178F2BBE0002254A /* verilog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = verilog.h; sourceTree = "<group>"; };
+		BC97A527178F2BBE0002254A /* wxabout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxabout.cpp; sourceTree = "<group>"; };
+		BC97A528178F2BBE0002254A /* wxabout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxabout.h; sourceTree = "<group>"; };
+		BC97A529178F2BBE0002254A /* wxautocell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxautocell.cpp; sourceTree = "<group>"; };
+		BC97A52A178F2BBE0002254A /* wxautocell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxautocell.h; sourceTree = "<group>"; };
+		BC97A52B178F2BBE0002254A /* wxcircuit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxcircuit.cpp; sourceTree = "<group>"; };
+		BC97A52C178F2BBE0002254A /* wxcircuit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxcircuit.h; sourceTree = "<group>"; };
+		BC97A52D178F2BBE0002254A /* wxfp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxfp.cpp; sourceTree = "<group>"; };
+		BC97A52E178F2BBE0002254A /* wxfp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxfp.h; sourceTree = "<group>"; };
+		BC97A52F178F2BBE0002254A /* wxinterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxinterface.cpp; sourceTree = "<group>"; };
+		BC97A530178F2BBE0002254A /* wxinterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxinterface.h; sourceTree = "<group>"; };
+		BC97A531178F2BBE0002254A /* wxPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxPreferences.cpp; sourceTree = "<group>"; };
+		BC97A532178F2BBE0002254A /* wxPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxPreferences.h; sourceTree = "<group>"; };
+		BC97A533178F2BBE0002254A /* wxrules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxrules.cpp; sourceTree = "<group>"; };
+		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BC97A4D8178F2B1E0002254A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BC97A4D0178F2B1E0002254A = {
+			isa = PBXGroup;
+			children = (
+				BC97A4FC178F2BBE0002254A /* src */,
+				BC97A4E5178F2B1E0002254A /* Astran */,
+				BC97A4DC178F2B1E0002254A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BC97A4DC178F2B1E0002254A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BC97A4DB178F2B1E0002254A /* Astran.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC97A4E5178F2B1E0002254A /* Astran */ = {
+			isa = PBXGroup;
+			children = (
+				BC97A4E6178F2B1E0002254A /* Supporting Files */,
+			);
+			path = Astran;
+			sourceTree = "<group>";
+		};
+		BC97A4E6178F2B1E0002254A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BC97A4E7178F2B1E0002254A /* Astran-Info.plist */,
+				BC97A4ED178F2B1E0002254A /* Astran-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BC97A4FC178F2BBE0002254A /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BC97A4FD178F2BBE0002254A /* autocell2.cpp */,
+				BC97A4FE178F2BBE0002254A /* autocell2.h */,
+				BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */,
+				BC97A500178F2BBE0002254A /* cellnetlst.h */,
+				BC97A501178F2BBE0002254A /* cif.cpp */,
+				BC97A502178F2BBE0002254A /* cif.h */,
+				BC97A503178F2BBE0002254A /* circuit.cpp */,
+				BC97A504178F2BBE0002254A /* circuit.h */,
+				BC97A505178F2BBE0002254A /* clayout.cpp */,
+				BC97A506178F2BBE0002254A /* clayout.h */,
+				BC97A507178F2BBE0002254A /* compaction.cpp */,
+				BC97A508178F2BBE0002254A /* compaction.h */,
+				BC97A509178F2BBE0002254A /* designmng.cpp */,
+				BC97A50A178F2BBE0002254A /* designmng.h */,
+				BC97A50B178F2BBE0002254A /* draw.cpp */,
+				BC97A50C178F2BBE0002254A /* draw.h */,
+				BC97A50D178F2BBE0002254A /* gds.cpp */,
+				BC97A50E178F2BBE0002254A /* gds.h */,
+				BC97A50F178F2BBE0002254A /* icon.icns */,
+				BC97A510178F2BBE0002254A /* icpdApp.cpp */,
+				BC97A511178F2BBE0002254A /* icpdApp.h */,
+				BC97A512178F2BBE0002254A /* icpdfrm.cpp */,
+				BC97A513178F2BBE0002254A /* icpdfrm.h */,
+				BC97A514178F2BBE0002254A /* lef.cpp */,
+				BC97A515178F2BBE0002254A /* lef.h */,
+				BC97A516178F2BBE0002254A /* pathfinder.cpp */,
+				BC97A517178F2BBE0002254A /* pathfinder.h */,
+				BC97A518178F2BBE0002254A /* pathfinder2.cpp */,
+				BC97A519178F2BBE0002254A /* pathfinder2.h */,
+				BC97A51A178F2BBE0002254A /* placer.cpp */,
+				BC97A51B178F2BBE0002254A /* placer.h */,
+				BC97A51C178F2BBE0002254A /* router.cpp */,
+				BC97A51D178F2BBE0002254A /* router.h */,
+				BC97A51E178F2BBE0002254A /* rules.cpp */,
+				BC97A51F178F2BBE0002254A /* rules.h */,
+				BC97A520178F2BBE0002254A /* SimulatedAnnealing.h */,
+				BC97A521178F2BBE0002254A /* spice.cpp */,
+				BC97A522178F2BBE0002254A /* spice.h */,
+				BC97A523178F2BBE0002254A /* thresholdaccept.h */,
+				BC97A524178F2BBE0002254A /* util.h */,
+				BC97A525178F2BBE0002254A /* verilog.cpp */,
+				BC97A526178F2BBE0002254A /* verilog.h */,
+				BC97A527178F2BBE0002254A /* wxabout.cpp */,
+				BC97A528178F2BBE0002254A /* wxabout.h */,
+				BC97A529178F2BBE0002254A /* wxautocell.cpp */,
+				BC97A52A178F2BBE0002254A /* wxautocell.h */,
+				BC97A52B178F2BBE0002254A /* wxcircuit.cpp */,
+				BC97A52C178F2BBE0002254A /* wxcircuit.h */,
+				BC97A52D178F2BBE0002254A /* wxfp.cpp */,
+				BC97A52E178F2BBE0002254A /* wxfp.h */,
+				BC97A52F178F2BBE0002254A /* wxinterface.cpp */,
+				BC97A530178F2BBE0002254A /* wxinterface.h */,
+				BC97A531178F2BBE0002254A /* wxPreferences.cpp */,
+				BC97A532178F2BBE0002254A /* wxPreferences.h */,
+				BC97A533178F2BBE0002254A /* wxrules.cpp */,
+				BC97A534178F2BBE0002254A /* wxrules.h */,
+			);
+			name = src;
+			path = ../src;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BC97A4DA178F2B1E0002254A /* Astran */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BC97A4F9178F2B1E0002254A /* Build configuration list for PBXNativeTarget "Astran" */;
+			buildPhases = (
+				BC97A4D7178F2B1E0002254A /* Sources */,
+				BC97A4D8178F2B1E0002254A /* Frameworks */,
+				BC97A4D9178F2B1E0002254A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Astran;
+			productName = Astran;
+			productReference = BC97A4DB178F2B1E0002254A /* Astran.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BC97A4D2178F2B1E0002254A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = BC97A4D5178F2B1E0002254A /* Build configuration list for PBXProject "Astran" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BC97A4D0178F2B1E0002254A;
+			productRefGroup = BC97A4DC178F2B1E0002254A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BC97A4DA178F2B1E0002254A /* Astran */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BC97A4D9178F2B1E0002254A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC97A53E178F2BBE0002254A /* icon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BC97A4D7178F2B1E0002254A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC97A535178F2BBE0002254A /* autocell2.cpp in Sources */,
+				BC97A536178F2BBE0002254A /* cellnetlst.cpp in Sources */,
+				BC97A537178F2BBE0002254A /* cif.cpp in Sources */,
+				BC97A538178F2BBE0002254A /* circuit.cpp in Sources */,
+				BC97A539178F2BBE0002254A /* clayout.cpp in Sources */,
+				BC97A53A178F2BBE0002254A /* compaction.cpp in Sources */,
+				BC97A53B178F2BBE0002254A /* designmng.cpp in Sources */,
+				BC97A53C178F2BBE0002254A /* draw.cpp in Sources */,
+				BC97A53D178F2BBE0002254A /* gds.cpp in Sources */,
+				BC97A53F178F2BBE0002254A /* icpdApp.cpp in Sources */,
+				BC97A540178F2BBE0002254A /* icpdfrm.cpp in Sources */,
+				BC97A541178F2BBE0002254A /* lef.cpp in Sources */,
+				BC97A542178F2BBE0002254A /* pathfinder.cpp in Sources */,
+				BC97A543178F2BBE0002254A /* pathfinder2.cpp in Sources */,
+				BC97A544178F2BBE0002254A /* placer.cpp in Sources */,
+				BC97A545178F2BBE0002254A /* router.cpp in Sources */,
+				BC97A546178F2BBE0002254A /* rules.cpp in Sources */,
+				BC97A547178F2BBE0002254A /* spice.cpp in Sources */,
+				BC97A548178F2BBE0002254A /* verilog.cpp in Sources */,
+				BC97A549178F2BBE0002254A /* wxabout.cpp in Sources */,
+				BC97A54A178F2BBE0002254A /* wxautocell.cpp in Sources */,
+				BC97A54B178F2BBE0002254A /* wxcircuit.cpp in Sources */,
+				BC97A54C178F2BBE0002254A /* wxfp.cpp in Sources */,
+				BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */,
+				BC97A54E178F2BBE0002254A /* wxPreferences.cpp in Sources */,
+				BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BC97A4F7178F2B1E0002254A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BC97A4F8178F2B1E0002254A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		BC97A4FA178F2B1E0002254A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Astran/Astran-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "Astran/Astran-Info.plist";
+				OTHER_CFLAGS = (
+					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
+					"-I/usr/include/wx-2.8",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXDEBUG__",
+					"-D__WXMAC__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-framework",
+					QuickTime,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
+					"-lwx_macud-2.8",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = ../build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BC97A4FB178F2B1E0002254A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Astran/Astran-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "Astran/Astran-Info.plist";
+				OTHER_CFLAGS = (
+					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
+					"-I/usr/include/wx-2.8",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXDEBUG__",
+					"-D__WXMAC__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-framework",
+					QuickTime,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
+					"-lwx_macud-2.8",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = ../build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BC97A4D5178F2B1E0002254A /* Build configuration list for PBXProject "Astran" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC97A4F7178F2B1E0002254A /* Debug */,
+				BC97A4F8178F2B1E0002254A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BC97A4F9178F2B1E0002254A /* Build configuration list for PBXNativeTarget "Astran" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BC97A4FA178F2B1E0002254A /* Debug */,
+				BC97A4FB178F2B1E0002254A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BC97A4D2178F2B1E0002254A /* Project object */;
+}

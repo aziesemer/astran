@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="84">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="src" displayName="src" projectFiles="true">
+      <itemPath>src/SimulatedAnnealing.h</itemPath>
+      <itemPath>src/autocell2.cpp</itemPath>
+      <itemPath>src/autocell2.h</itemPath>
+      <itemPath>src/cellnetlst.cpp</itemPath>
+      <itemPath>src/cellnetlst.h</itemPath>
+      <itemPath>src/cif.cpp</itemPath>
+      <itemPath>src/cif.h</itemPath>
+      <itemPath>src/circuit.cpp</itemPath>
+      <itemPath>src/circuit.h</itemPath>
+      <itemPath>src/clayout.cpp</itemPath>
+      <itemPath>src/clayout.h</itemPath>
+      <itemPath>src/compaction.cpp</itemPath>
+      <itemPath>src/compaction.h</itemPath>
+      <itemPath>src/designmng.cpp</itemPath>
+      <itemPath>src/designmng.h</itemPath>
+      <itemPath>src/draw.cpp</itemPath>
+      <itemPath>src/draw.h</itemPath>
+      <itemPath>src/gds.cpp</itemPath>
+      <itemPath>src/gds.h</itemPath>
+      <itemPath>src/icon.icns</itemPath>
+      <itemPath>src/icpdApp.cpp</itemPath>
+      <itemPath>src/icpdApp.h</itemPath>
+      <itemPath>src/icpdfrm.cpp</itemPath>
+      <itemPath>src/icpdfrm.h</itemPath>
+      <itemPath>src/lef.cpp</itemPath>
+      <itemPath>src/lef.h</itemPath>
+      <itemPath>src/pathfinder.cpp</itemPath>
+      <itemPath>src/pathfinder.h</itemPath>
+      <itemPath>src/pathfinder2.cpp</itemPath>
+      <itemPath>src/pathfinder2.h</itemPath>
+      <itemPath>src/placer.cpp</itemPath>
+      <itemPath>src/placer.h</itemPath>
+      <itemPath>src/router.cpp</itemPath>
+      <itemPath>src/router.h</itemPath>
+      <itemPath>src/rules.cpp</itemPath>
+      <itemPath>src/rules.h</itemPath>
+      <itemPath>src/spice.cpp</itemPath>
+      <itemPath>src/spice.h</itemPath>
+      <itemPath>src/thresholdaccept.h</itemPath>
+      <itemPath>src/util.h</itemPath>
+      <itemPath>src/verilog.cpp</itemPath>
+      <itemPath>src/verilog.h</itemPath>
+      <itemPath>src/wxPreferences.cpp</itemPath>
+      <itemPath>src/wxPreferences.h</itemPath>
+      <itemPath>src/wxabout.cpp</itemPath>
+      <itemPath>src/wxabout.h</itemPath>
+      <itemPath>src/wxautocell.cpp</itemPath>
+      <itemPath>src/wxautocell.h</itemPath>
+      <itemPath>src/wxcircuit.cpp</itemPath>
+      <itemPath>src/wxcircuit.h</itemPath>
+      <itemPath>src/wxfp.cpp</itemPath>
+      <itemPath>src/wxfp.h</itemPath>
+      <itemPath>src/wxinterface.cpp</itemPath>
+      <itemPath>src/wxinterface.h</itemPath>
+      <itemPath>src/wxrules.cpp</itemPath>
+      <itemPath>src/wxrules.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>/Users/adrieljr/Dropbox/Astran/src</Elem>
+  </sourceRootList>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <architecture>1</architecture>
+          <commandLine>`wx-config --cppflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>build/bin/Astran.app/Contents/MacOS/Astran</output>
+          <commandLine>`wx-config --libs`</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <architecture>1</architecture>
+          <commandLine>`wx-config --cppflags`</commandLine>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <linkerTool>
+          <output>build/bin/Astran.app/Contents/MacOS/Astran</output>
+          <commandLine>`wx-config --libs`</commandLine>
+        </linkerTool>
+      </compileType>
+    </conf>
+  </confs>
+</configurationDescriptor>

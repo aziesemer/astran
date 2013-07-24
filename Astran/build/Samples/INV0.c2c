@@ -1,0 +1,29 @@
+  cifInKeys = list( nil  
+    'runDir                 "./"
+    'inFile                 "INV0.cif"
+    'primaryCell            "INV0"
+    'libName                "new_design"
+    'dataDump               ""
+    'techfileName           "tech.lib"
+    'scale                  0.0005
+    'units                  "micron"
+    'errFile                "PIPO.LOG"
+    'cellMapTable           ""
+    'layerTable             "CIFLTable.txt"
+    'textFontTable          ""
+    'userSkillFile          ""
+    'hierDepth              32
+    'maxVertices            1024
+    'checkPolygon           nil
+    'snapToGrid             nil
+    'caseSensitivity        "lower"
+    'zeroWireToLine         "lines"
+    'wireToPathStyle        "extend"
+    'roundFlashToEllipse    "ellipse"
+    'skipUndefinedLPP       nil
+    'reportPrecision        nil
+    'runQuiet               nil
+    'saveAtTheEnd           nil
+    'noWriteExistCell               nil
+    'NOUnmappingLayerWarning                nil
+    )

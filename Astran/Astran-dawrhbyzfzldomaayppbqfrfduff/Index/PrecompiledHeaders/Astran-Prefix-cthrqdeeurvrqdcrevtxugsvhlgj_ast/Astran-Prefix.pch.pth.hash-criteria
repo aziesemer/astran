@@ -1,0 +1,35 @@
+Contents of /Users/adrieljr/Dropbox/Astran/Astran/Astran/Astran-Prefix.pch
+3.0 (tags/Apple/clang-211.10.1) (based on LLVM 3.0svn)
+i386-apple-darwin10.8.0
+-x
+c++
+-arch
+i386
+-fmessage-length=0
+-fdiagnostics-print-source-range-info
+-fdiagnostics-show-category=id
+-fdiagnostics-parseable-fixits
+-fpascal-strings
+-O0
+-DDEBUG=1
+-isysroot
+/Developer/SDKs/MacOSX10.6.sdk
+-fasm-blocks
+-mmacosx-version-min=10.6
+-gdwarf-2
+-fvisibility-inlines-hidden
+-iquote
+-iquote
+-I/Users/adrieljr/Dropbox/Astran/Astran/build/Debug/include
+-F/Users/adrieljr/Dropbox/Astran/Astran/build/Debug
+-ferror-limit=10
+-working-directory=/Users/adrieljr/Dropbox/Astran/Astran
+-Xclang
+-detailed-preprocessing-record
+-I/usr/lib/wx/include/mac-unicode-debug-2.8
+-I/usr/include/wx-2.8
+-D_FILE_OFFSET_BITS=64
+-D_LARGE_FILES
+-D__WXDEBUG__
+-D__WXMAC__
+SDK_PRODUCT_BUILD_VERSION=10K549
