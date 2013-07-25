@@ -28,6 +28,7 @@
 
 #include <vector>
 #include <sstream>
+#include <iterator>     // std::next
 #include "clayout.h"
 #include "draw.h"
 #include "rules.h"
@@ -82,9 +83,9 @@ protected:
 	CLayout currentLayout;
 
     string insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos);
-    string insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string metTrack, string lastGatePos, string &lastDiff, layer_name l);
+    string insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string metTrack, string lastGatePos, string &lastDiff, layer_name l, bool endDiff);
     string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string> metTracks, int pos);
-    string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &difsPos, vector<string> &cntsPos, string lastGatePos, string currentDiff, layer_name l);
+    string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &difsPos, vector<string> &cntsPos, string &lastGatePos, string currentDiff, layer_name l);
 
 public:
 	AutoCell();
