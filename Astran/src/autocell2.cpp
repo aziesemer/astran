@@ -427,6 +427,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     compaction cpt(CP_LP, "ILPmodel");
     vector<Box*> geometries;
     
+    cpt.insertConstraint("ZERO", "UM", CP_EQ, 1);
     cpt.insertConstraint("ZERO", "HGRID", CP_EQ, hGrid / 2);
     
     cpt.insertConstraint("ZERO", "height", CP_EQ, height);
@@ -464,9 +465,6 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     bool gapP, gapN;
     string lastNCntPos, lastPCntPos, lastDiffP, lastDiffN, outPolP, outPolN, diffTowerP, diffTowerN, lastNGatePos, lastPGatePos, limiteCntsP, limiteCntsN, difPos, cntPos, gatePos, compacDiffP, compacDiffN, pPolyCnt, nPolyCnt, pPolyGate, nPolyGate;
     vector<string> pCntPos(trackPos.size(), ""), nCntPos(trackPos.size(), ""), pDiffPos(trackPos.size(), ""), nDiffPos(trackPos.size(), "");
-    
-    
-    
     
     //Compact the routing tracks
     for (list<Element>::iterator elements_it = elements.begin(); elements_it != elements.end(); ++elements_it) {
@@ -834,8 +832,8 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     int transWidth = int(ceil((currentNetList.getTrans(transistor).width * currentRules->getScale()) / 2)*2);
     int transLength = int(ceil((currentNetList.getTrans(transistor).length * currentRules->getScale()) / 2)*2);
     if (transLength < currentRules->getRule(W2P1)) cout << "WARNING: Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
-    //draw gate
     
+    //draw gate
     geometries.push_back(&currentLayout.addPolygon(0, 0, 0, 0, POLY));
     string gatePos = intToStr(geometries.size() - 1);
     
@@ -844,9 +842,11 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     cpt.insertConstraint("x" + gatePos + "b", "x" + currentDiff + "b", CP_MIN, currentRules->getRule(E1DFP1));
     cpt.insertConstraint("x" + currentDiff + "a", "x" + currentDiff + "b", CP_EQ, "x" + currentDiff + "min");
     cpt.insertLPMinVar("x" + currentDiff + "min");
+    
     cpt.insertConstraint("y" + currentDiff + "a", "y" + currentDiff + "b", CP_EQ, transWidth);
     cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_EQ, currentRules->getRule(E1P1DF));
     cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_EQ, currentRules->getRule(E1P1DF));
+    cpt.insertConstraint("ZERO", "b" + currentDiff + "_smallTransWidth", CP_EQ, (transWidth<currentRules->getRule(S3DFP1)?1:0));    
     
     if (lastGatePos != "")
         cpt.insertConstraint("x" + lastGatePos + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1P1P1));
@@ -866,9 +866,15 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 cpt.insertLPMinVar("y" + currentDiff + "min");
                 
                 //                        if (currentRules->getRule(S2DFP1) && transWidthN < currentRules->getRule(S3DFP1))
-                //insert conditional contact to gate rule in L shape transistors
-                cpt.insertConstraint("x" + difsPos[x] + "b", "x" + gatePos + "a", CP_MIN, "b" + difsPos[x] + "_LshapeBeforeGate", currentRules->getRule(S2DFP1));
+                
+                //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
+                cpt.forceBinaryVar("b" + difsPos[x] + "_LshapeBeforeGate");
+                cpt.insertConstraint("x" + difsPos[x] + "b", "x" + gatePos + "a", CP_MIN, "b" + difsPos[x] + "_LshapeBeforeGate", currentRules->getRule(S1DFP1));
+                cpt.insertConstraint("ZERO", "y" + difsPos[x] + "LdistBeforeGate", CP_MAX, "b" + difsPos[x] + "_LshapeBeforeGate", 100000);             
+                cpt.insertConstraint("UM", "b" + currentDiff + "_smallTransWidth" + " + " + "b" + difsPos[x] + "_LshapeBeforeGate", CP_MAX, "b" + difsPos[x] + "_applyS2BeforeGate");
+                cpt.insertConstraint("x" + difsPos[x] + "b", "x" + gatePos + "a", CP_MIN, "b" + difsPos[x] + "_applyS2BeforeGate", currentRules->getRule(S2DFP1));
 
+                
                 //                        else
                 //                            cpt.insertConstraint("x" + nDiffPos[x] + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1DFP1));
                 cpt.insertConstraint("x" + cntsPos[x] + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1CTP1));
@@ -895,7 +901,15 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 cpt.insertLPMinVar("y" + currentDiff + "min");
                 
                 //                        if (currentRules->getRule(S2DFP1) && transWidthN < currentRules->getRule(S3DFP1))
-                cpt.insertConstraint("x" + difsPos[x] + "b", "x" + gatePos + "a", CP_MIN, "b" + difsPos[x] + "_LshapeBeforeGate", currentRules->getRule(S2DFP1));
+                
+                // REPETIDO... REFATORAR ABAIXO 
+                
+                //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
+                cpt.forceBinaryVar("b" + difsPos[x] + "_LshapeBeforeGate");
+                cpt.insertConstraint("x" + difsPos[x] + "b", "x" + gatePos + "a", CP_MIN, "b" + difsPos[x] + "_LshapeBeforeGate", currentRules->getRule(S1DFP1));
+                cpt.insertConstraint("ZERO", "y" + difsPos[x] + "LdistBeforeGate", CP_MAX, "b" + difsPos[x] + "_LshapeBeforeGate", 100000);             
+                cpt.insertConstraint("UM", "b" + currentDiff + "_smallTransWidth" + " + " + "b" + difsPos[x] + "_LshapeBeforeGate", CP_MAX, "b" + difsPos[x] + "_applyS2BeforeGate");
+                cpt.insertConstraint("x" + difsPos[x] + "b", "x" + gatePos + "a", CP_MIN, "b" + difsPos[x] + "_applyS2BeforeGate", currentRules->getRule(S2DFP1));
                 //                        else
                 //                            cpt.insertConstraint("x" + nDiffPos[x] + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1DFP1));
                 cpt.insertConstraint("x" + cntsPos[x] + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1CTP1));
@@ -950,19 +964,22 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
         cpt.insertLPMinVar("x" + cntPos + "min");
         cpt.insertConstraint("x" + diffEnc + "b", "x" + lastDiff + "b", CP_EQ, 0);
 
-        //insert conditional contact to gate rule in L shape transistors
+        //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
         cpt.forceBinaryVar("b" + diffEnc + "_LshapeAfterGate");
-        cpt.insertConstraint("x" + lastGatePos + "b", "x" + diffEnc + "a", CP_MIN, "b" + diffEnc + "_LshapeAfterGate", currentRules->getRule(S2DFP1));
-        cpt.insertConstraint("ZERO", "y" + diffEnc + "Ldist", CP_MAX, "b" + diffEnc + "_LshapeAfterGate", 100000);            
+        cpt.insertConstraint("x" + lastGatePos + "b", "x" + diffEnc + "a", CP_MIN, "b" + diffEnc + "_LshapeAfterGate", currentRules->getRule(S1DFP1));
+        cpt.insertConstraint("ZERO", "y" + diffEnc + "LdistAfterGate", CP_MAX, "b" + diffEnc + "_LshapeAfterGate", 100000);             
+        cpt.insertConstraint("UM", "b" + lastDiff + "_smallTransWidth" + " + " + "b" + diffEnc + "_LshapeAfterGate", CP_MAX, "b" + diffEnc + "_applyS2AfterGate");
+        cpt.insertConstraint("x" + lastGatePos + "b", "x" + diffEnc + "a", CP_MIN, "b" + diffEnc + "_applyS2AfterGate", currentRules->getRule(S2DFP1));
 
         //diffusion extension rules for last gate diffusion
         if (l==NDIF) {
             cpt.insertConstraint("y" + diffEnc + "b", "y" + lastDiff + "b", CP_MIN, 0);
-            cpt.insertConstraint("y" + diffEnc + "Ldist", "y" + lastDiff + "a", CP_MAX, "y" + diffEnc + "a");            
+            cpt.insertConstraint("y" + diffEnc + "LdistAfterGate", "y" + lastDiff + "a", CP_MAX, "y" + diffEnc + "a");            
         }else{
             cpt.insertConstraint("y" + lastDiff + "a", "y" + diffEnc + "a", CP_MIN, 0);
-            cpt.insertConstraint("y" + diffEnc + "Ldist", "y" + diffEnc + "b", CP_MAX, "y" + lastDiff + "b");            
+            cpt.insertConstraint("y" + diffEnc + "LdistAfterGate", "y" + diffEnc + "b", CP_MAX, "y" + lastDiff + "b");            
         }
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGate",2);
     }
     
     //if there is not a gap after
@@ -987,22 +1004,18 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
             //insert GAP between diffusions
             cpt.insertConstraint("x" + lastDiff + "b", "x" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFDF));
         }
-    
-        //insert conditional contact to gate rule in L shape transistors
-        cpt.forceBinaryVar("b" + diffEnc + "_LshapeBeforeGate");
-        cpt.insertConstraint("ZERO", "y" + diffEnc + "Ldist", CP_MAX, "b" + diffEnc + "_LshapeBeforeGate", 100000);  //max diff dist = 100000        
         
         //diffusion extension rules for next gate diffusion
         if (l==NDIF) {
             cpt.insertConstraint("y" + diffEnc + "b", "y" + currentDiff + "b", CP_MIN, 0);
-            cpt.insertConstraint("y" + diffEnc + "Ldist", "y" + currentDiff + "a", CP_MAX, "y" + diffEnc + "a");            
+            cpt.insertConstraint("y" + diffEnc + "LdistBeforeGate", "y" + currentDiff + "a", CP_MAX, "y" + diffEnc + "a");            
         }else{
             cpt.insertConstraint("y" + currentDiff + "a", "y" + diffEnc + "a", CP_MIN, 0);
-            cpt.insertConstraint("y" + diffEnc + "Ldist", "y" + diffEnc + "b", CP_MAX, "y" + currentDiff + "b");            
+            cpt.insertConstraint("y" + diffEnc + "LdistBeforeGate", "y" + diffEnc + "b", CP_MAX, "y" + currentDiff + "b");            
         }
+        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGate",2);
         lastDiff = currentDiff;
     }
-    cpt.insertLPMinVar("y" + diffEnc + "Ldist",2);
     
     return diffEnc;
 }
