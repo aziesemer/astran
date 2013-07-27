@@ -82,12 +82,13 @@ protected:
 	CellNetlst currentNetList;
 	CLayout currentLayout;
 
-    string insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos);
+    string insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> polTracks, int pos);
     string insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string metTrack, string lastGatePos, string &lastDiff, layer_name l, bool endDiff);
     string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string> metTracks, int pos);
-    string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &difsPos, vector<string> &cntsPos, string &lastGatePos, string currentDiff, layer_name l);
+   
+    string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string &lastContact, string lastContactDiff, string &lastGatePos, string currentDiff, layer_name l);
 
-public:
+    public:
 	AutoCell();
 	~AutoCell();
 	void clear();
