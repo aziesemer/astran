@@ -9,7 +9,7 @@
 .ends
 
 .subckt INV0 A Q GND VCC
-  MN Q A GND GND nmos L=65n W=120n
+  MN Q A GND GND nmos L=65n W=136n
   MP Q A VCC VCC pmos L=65n W=260n
 .ends
 
