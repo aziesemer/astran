@@ -544,7 +544,6 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                 if (lastPolTrackY != "" && !rt->areConnected(elements_it->pol[x], elements_it->pol[x - 1])) {
                     cpt.insertConstraint("y" + lastPolTrackY + "b", "y" + currentPolTrack[x] + "a", CP_MIN, currentRules->getRule(S1P1P1));
                 }
-                cpt.insertConstraint("y" + lastPolTrackY + "b", "y" + currentPolTrack[x] + "a", CP_MIN, 0);
                 lastPolTrackY = currentPolTrack[x];
             }
             
@@ -570,10 +569,10 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
             if (rt->areConnected(elements_it->met[x], elements_it->pol[x])) {
                 string tmpCnt = insertCnt(geometries, cpt, elements_it, currentMetTrack, x);
                 string tmpPol = insertCntPol(geometries, cpt, tmpCnt, currentPolTrack, x);
-                                
-            //    if (x == 0 && pPolyGate != "") cpt.insertConstraint("x" + pPolyGate + "b", "x" + tmpPol + "a", CP_MIN, currentRules->getRule(S1P1P1));
+                
+                //    if (x == 0 && pPolyGate != "") cpt.insertConstraint("x" + pPolyGate + "b", "x" + tmpPol + "a", CP_MIN, currentRules->getRule(S1P1P1));
                 //				if(x==0 && !rt->areConnected(elements_it->ativeCntP,elements_it->pol[x])) pPolyCnt= tmpPol;
-           //     if (x == trackPos.size() - 1 && nPolyGate != "") cpt.insertConstraint("x" + nPolyGate + "b", "x" + tmpPol + "a", CP_MIN, currentRules->getRule(S1P1P1));
+                //     if (x == trackPos.size() - 1 && nPolyGate != "") cpt.insertConstraint("x" + nPolyGate + "b", "x" + tmpPol + "a", CP_MIN, currentRules->getRule(S1P1P1));
                 //				if(x==nrTracks-1 && !rt->areConnected(elements_it->ativeCntN,elements_it->interPol[x])) nPolyCnt= tmpPol;
                 
             }
@@ -651,7 +650,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                          lastNCntPos = cntPos;
                          }
                          */
-
+                        
                     }
                 }
                 gapP = false;
@@ -830,8 +829,6 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     cpt.insertConstraint("x" + gatePos + "a", "x" + gatePos + "b", CP_EQ, transLength);
     cpt.insertConstraint("x" + currentDiff + "a", "x" + gatePos + "a", CP_MIN, currentRules->getRule(E1DFP1));
     cpt.insertConstraint("x" + gatePos + "b", "x" + currentDiff + "b", CP_MIN, currentRules->getRule(E1DFP1));
-    cpt.insertConstraint("x" + currentDiff + "a", "x" + currentDiff + "b", CP_EQ, "x" + currentDiff + "min");
-    cpt.insertLPMinVar("x" + currentDiff + "min");
     cpt.insertConstraint("ZERO", "b" + currentDiff + "_smallTransWidth", CP_EQ, (transWidth<currentRules->getRule(S3DFP1)?1:0));    
     cpt.insertConstraint("y" + currentDiff + "a", "y" + currentDiff + "b", CP_EQ, transWidth);
     
@@ -848,13 +845,8 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 cpt.insertConstraint("y" + currentDiff + "b", "y" + currentPolTrack[x + 1] + "a", CP_MIN, currentRules->getRule(E1P1DF));
                 cpt.insertConstraint("y" + gatePos + "b", "y" + currentPolTrack[x] + "a", CP_EQ, 0);   
             }
-            if (lastContactDiff != ""){
-                cpt.insertConstraint("y" + lastContactDiff + "b", "y" + currentDiff + "b", CP_MIN, 0);
-                cpt.insertConstraint("y" + lastContactDiff + "a", "y" + currentDiff + "b", CP_EQ, "y" + currentDiff + "min");
-                cpt.insertLPMinVar("y" + currentDiff + "min");
-                break;
-            }
         }
+        cpt.insertConstraint("y" + lastContactDiff + "b", "y" + currentDiff + "b", CP_MIN, 0);
     }else{
         cpt.insertConstraint("yPDiffa", "y" + currentDiff + "a", CP_MIN, 0);
         for (int x = center; x < elements_it->pol.size(); ++x){ // align gate to the internal tracks
@@ -864,15 +856,10 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 cpt.insertConstraint("y" + currentPolTrack[x - 1] + "b", "y" + currentDiff + "a", CP_MIN, currentRules->getRule(E1P1DF));
                 cpt.insertConstraint("y" + gatePos + "a", "y" + currentPolTrack[x] + "b", CP_EQ, 0);
             }
-            if (lastContactDiff != ""){
-                cpt.insertConstraint("y" + currentDiff + "a", "y" + lastContactDiff + "a", CP_MIN, 0);
-                cpt.insertConstraint("y" + currentDiff + "a", "y" + lastContactDiff + "b", CP_EQ, "y" + currentDiff + "min");
-                cpt.insertLPMinVar("y" + currentDiff + "min");
-                break;
-            }
         }
+        cpt.insertConstraint("y" + currentDiff + "a", "y" + lastContactDiff + "a", CP_MIN, 0);
     }
-
+    
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
     cpt.forceBinaryVar("b" + gatePos + "_applyExtraGateExt");
     cpt.insertConstraint("b" + lastContactDiff + "_applyS2BeforeGate", "b" + lastContactDiff + "_LshapeBeforeGate", CP_EQ, "b" + gatePos + "_applyExtraGateExt");
@@ -880,7 +867,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_MIN, "b" + gatePos + "_applyExtraGateExt", currentRules->getRule(E2P1DF));
     cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_MIN, currentRules->getRule(E1P1DF));
     cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_MIN, "b" + gatePos + "_applyExtraGateExt", currentRules->getRule(E2P1DF));
-    cpt.insertConstraint("y" + gatePos + "a", "y" + gatePos + "b", CP_MIN, "y" + gatePos + "min");
+    cpt.insertConstraint("y" + gatePos + "a", "y" + gatePos + "b", CP_EQ, "y" + gatePos + "min");
     cpt.insertLPMinVar("y" + gatePos + "min");
     
     //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
