@@ -860,8 +860,6 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
         cpt.insertConstraint("y" + currentDiff + "a", "y" + lastContactDiff + "a", CP_MIN, 0);
     }
     
-    //BUG: PREFERE S2 DO QUE AUMENTAR A EXTENSAO DO GATE
-
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
     cpt.forceBinaryVar("b" + lastContactDiff + "_LshapeBeforeGate");
     cpt.forceBinaryVar("b" + gatePos + "_applyExtraGateExt");
@@ -873,7 +871,6 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     cpt.insertConstraint("y" + gatePos + "a", "y" + gatePos + "b", CP_EQ, "y" + gatePos + "min");
     cpt.insertLPMinVar("y" + gatePos + "min");
     
-
     //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
     cpt.insertConstraint("x" + lastContactDiff + "b", "x" + gatePos + "a", CP_MIN, "b" + lastContactDiff + "_LshapeBeforeGate", currentRules->getRule(S1DFP1));
     cpt.insertConstraint("ZERO", "y" + lastContactDiff + "LdistBeforeGate", CP_MAX, "b" + lastContactDiff + "_LshapeBeforeGate", 100000);             
