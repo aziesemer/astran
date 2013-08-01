@@ -300,8 +300,15 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
                 tmp->linkN = *eulerPathN_it;
                 tmp->linkN.type = GATE;
-                for (int pos = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]; trackPos[diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]] - trackPos[pos] <= currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width); pos--)
+                for (int pos = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]; pos>=0 && trackPos[diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]] - trackPos[pos] <= currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width); pos--)
                     rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).gate, tmp->pol[pos]);
+                
+                
+                
+                //   TEM UM BUG NA LINHA ANTERIOR QUE TA FAZENDO POS RECEBER -1 corrigido temporariamente com gambi pos>=0
+                
+                
+                
                 // VERIFICAR			rt->lockArc(tmp->pol[0], tmp->met[0], currentNetList.getTrans(eulerPathN_it->link).gate);
                 //				if(nDif_iniY+currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width)+currentRules->getRule(E1P1DF)+currentRules->getRule(S1P1P1)+currentRules->getRule(W2P1)+currentRules->getRule(S1DFP1)>height)
                 //					rt->remArcs(tmp->outPolN);
@@ -457,8 +464,8 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     
     
     list<Element>::iterator lastElements_it;
-    vector<string> lastCntOrientPol(trackPos.size(), ""), lastCntOrientMet(trackPos.size(), ""), lastMetTrackX(trackPos.size(), ""), lastPolTrack(trackPos.size(), "");
-    vector<string> currentMetTrack(trackPos.size(), ""), currentPolTrack(trackPos.size(), "");
+    vector<string> currentMetTrackH(trackPos.size(), ""), currentMetTrackV(trackPos.size(), ""), currentPolTrack(trackPos.size(), "");
+    vector<string> lastMetTrackH(trackPos.size(), ""), lastPolTrack(trackPos.size(), ""), lastCntOrientPol(trackPos.size(), ""), lastCntOrientMet(trackPos.size(), "");
     int x;
     
     //  Transistor Variables
@@ -469,62 +476,43 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     //Compact the routing tracks
     for (list<Element>::iterator elements_it = elements.begin(); elements_it != elements.end(); ++elements_it) {
         elements_it->print();
-        string lastPolTrackY = "", lastMetTrackY = "";
-        currentMetTrack[0]="", currentMetTrack[trackPos.size() - 1]="";
+        string lastPolTrackY = "", lastMetTrackV = "";
+        currentMetTrackH[0]=""; currentMetTrackH[trackPos.size() - 1]="";
+        //create metals and polys for intra-cell routing
         for (x = 0; x < trackPos.size(); x++) {
-            //gera os metais para roteamento
             //conecta as trilhas de metal horizontalmente
             if (rt->getNet(elements_it->met[x]) != -1) {
-                if (currentMetTrack[x] == "" || !rt->areConnected(elements_it->met[x], lastElements_it->met[x])) {
-                    geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, MET1));
-                    geometries.back()->setNet(currentNetList.getNetName(rt->getNet(elements_it->met[x])));
-                    currentMetTrack[x] = intToStr(geometries.size() - 1);
-                    cpt.insertConstraint("x" + currentMetTrack[x] + "a", "x" + currentMetTrack[x] + "b", CP_EQ, "x" + currentMetTrack[x] + "min");
-                    cpt.insertLPMinVar("x" + currentMetTrack[x] + "min");
-                    cpt.insertConstraint("y" + currentMetTrack[x] + "a", "y" + currentMetTrack[x] + "b", CP_EQ, currentRules->getRule(W1M1));
-                    
-                    cpt.insertConstraint("ZERO", "x" + currentMetTrack[x] + "a", CP_MIN, currentRules->getRule(S1M1M1) / 2);
-                    cpt.insertConstraint("x" + currentMetTrack[x] + "b", "width", CP_MIN, currentRules->getRule(S1M1M1) / 2);
-                    
-                    //insere regras de distância mínima entre metais
-                    if (lastMetTrackX[x] != "")
-                        cpt.insertConstraint("x" + lastMetTrackX[x] + "b", "x" + currentMetTrack[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
-                    if (currentNetList.getNetName(rt->getNet(elements_it->met[x])) != currentCircuit->getGndNet())
-                        cpt.insertConstraint("yGNDb", "y" + currentMetTrack[x] + "a", CP_MIN, currentRules->getRule(W1M1));
-                    if (currentNetList.getNetName(rt->getNet(elements_it->met[x])) != currentCircuit->getVddNet())
-                        cpt.insertConstraint("y" + currentMetTrack[x] + "b", "yVDDa", CP_MIN, currentRules->getRule(W1M1));
-                    
-                    if (x == 0)
-                        cpt.insertConstraint("y" + currentMetTrack[x] + "b", "yGNDb", CP_EQ, 0);
-                    
-                    if (x == trackPos.size() - 1)
-                        cpt.insertConstraint("y" + currentMetTrack[x] + "a", "yVDDa", CP_EQ, 0);
-                    
-                }
-                //insere regras de distância mínima entre metais
-                if (lastMetTrackY != "" && !rt->areConnected(elements_it->met[x], elements_it->met[x - 1])) {
-                    cpt.insertConstraint("y" + lastMetTrackY + "b", "y" + currentMetTrack[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
-                }
-                lastMetTrackY = currentMetTrack[x];
+                //create V and H tracks for each node, but the desconected supply ones
+                if(!((x==0 && !rt->areConnected(elements_it->met[x], elements_it->met[x+1])) ||
+                   (x==trackPos.size()-1 && !rt->areConnected(elements_it->met[x], elements_it->met[x-1]))))
+                    createMetalTracks(geometries, cpt, elements_it, x, currentMetTrackH, currentMetTrackV);
                 
-            }
-            //connects to the adjacent metal1 track
-            if (x >= 1 && rt->areConnected(elements_it->met[x], elements_it->met[x - 1])) {
-                geometries.push_back(&currentLayout.addPolygon(0, 0, 0, 0, MET1));
-                geometries.back()->setNet(currentNetList.getNetName(rt->getNet(elements_it->met[x])));
-                string vMet = intToStr(geometries.size() - 1);
-                cpt.insertConstraint("x" + vMet + "a", "x" + vMet + "b", CP_EQ, currentRules->getRule(W1M1));
-                cpt.insertConstraint("x" + currentMetTrack[x] + "a", "x" + vMet + "a", CP_MIN, 0);
-                cpt.insertConstraint("x" + vMet + "b", "x" + currentMetTrack[x] + "b", CP_MIN, 0);
-                cpt.insertConstraint("x" + currentMetTrack[x - 1] + "a", "x" + vMet + "a", CP_MIN, 0);
-                cpt.insertConstraint("x" + vMet + "b", "x" + currentMetTrack[x - 1] + "b", CP_MIN, 0);
+                //connect or insert space between current and last H met if it exists
+                if (lastMetTrackH[x]!=""){
+                    if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
+                        cpt.insertConstraint("x" + lastMetTrackH[x] + "b", "x" + currentMetTrackH[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
+                    else{
+                        cpt.insertConstraint("x" + currentMetTrackV[x] + "b", "x" + lastMetTrackH[x] + "b", CP_MIN, 0);
+                        cpt.insertConstraint("y" + currentMetTrackV[x] + "a", "y" + lastMetTrackH[x] + "a", CP_MIN, 0);
+                        cpt.insertConstraint("y" + lastMetTrackH[x] + "b", "y" + currentMetTrackV[x] + "b", CP_MIN, 0);
+                    }
+                }
                 
-                cpt.insertConstraint("y" + vMet + "a", "y" + vMet + "b", CP_EQ, "y" + vMet + "min"); // SECVAR????
-                cpt.insertLPMinVar("y" + vMet + "min");
-                cpt.insertConstraint("y" + vMet + "a", "y" + vMet + "b", CP_MIN, 0); // SECVAR????
-                cpt.insertConstraint("y" + vMet + "a", "y" + currentMetTrack[x - 1] + "b", CP_EQ, 0);
-                cpt.insertConstraint("y" + vMet + "b", "y" + currentMetTrack[x] + "a", CP_EQ, 0);
+                //connect or insert space between current and last V met if it exists
+                if (lastMetTrackV!=""){
+                    if(!rt->areConnected(elements_it->met[x], elements_it->met[x-1]))
+                        cpt.insertConstraint("y" + lastMetTrackV + "b", "y" + currentMetTrackH[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
+                    else{
+                        cpt.insertConstraint("y" + currentMetTrackH[x] + "a", "y" + currentMetTrackV[x-1] + "b", CP_MIN, currentRules->getRule(W1M1));
+                        cpt.insertConstraint("x" + currentMetTrackH[x] + "a", "x" + currentMetTrackV[x-1] + "a", CP_MIN, 0);
+                        cpt.insertConstraint("x" + currentMetTrackV[x-1] + "b", "x" + currentMetTrackH[x] + "b", CP_MIN, 0);
+                        
+                    }
+                }
+
+                lastMetTrackV = currentMetTrackV[x];
             }
+            //OBS: SEMPRE DEVE HAVER UMA INTERSECCAO DE UM QUADRADO COM LADO W2M1 ENTRE METAIS OU W2P1 ENTRE POLYS
             
             //conecta as trilhas de poly
             if (rt->getNet(elements_it->pol[x]) != -1) {
@@ -567,7 +555,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
             
             //conecta os polys com os metais das trilhas
             if (rt->areConnected(elements_it->met[x], elements_it->pol[x])) {
-                string tmpCnt = insertCnt(geometries, cpt, elements_it, currentMetTrack, x);
+                string tmpCnt = insertCnt(geometries, cpt, elements_it, currentMetTrackH, currentMetTrackV, x);
                 string tmpPol = insertCntPol(geometries, cpt, tmpCnt, currentPolTrack, x);
                 
                 //    if (x == 0 && pPolyGate != "") cpt.insertConstraint("x" + pPolyGate + "b", "x" + tmpPol + "a", CP_MIN, currentRules->getRule(S1P1P1));
@@ -610,9 +598,9 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
             case DRAIN:
                 for (x = center; x >= 0; x--) { // desenha contatos na difusao
                     if (rt->areConnected(elements_it->met[x], elements_it->diffN)) {
-                        lastNContact = insertCnt(geometries, cpt, elements_it, currentMetTrack, x);
+                        lastNContact = insertCnt(geometries, cpt, elements_it, currentMetTrackH, currentMetTrackV, x);
                         list<Element>::iterator next = elements_it; next++;
-                        lastNContactDiff = insertCntDif(geometries, cpt, lastNContact, currentMetTrack[x], lastNGatePos, lastDiffN, NDIF, next->gapN==true || next->linkN.type==GAP);
+                        lastNContactDiff = insertCntDif(geometries, cpt, lastNContact, lastNGatePos, lastDiffN, NDIF, next->gapN==true || next->linkN.type==GAP);
                         
                         /*
                          if (!gapN && lastNCntPos != cntPos) {
@@ -639,9 +627,9 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
             case DRAIN:
                 for (x = center; x < elements_it->met.size(); ++x) { // desenha contatos na difusao
                     if (rt->areConnected(elements_it->met[x], elements_it->diffP)) {
-                        lastPContact = insertCnt(geometries, cpt, elements_it, currentMetTrack, x);
+                        lastPContact = insertCnt(geometries, cpt, elements_it, currentMetTrackH, currentMetTrackV, x);
                         list<Element>::iterator next = elements_it; next++;
-                        lastPContactDiff = insertCntDif(geometries, cpt, lastPContact, currentMetTrack[x], lastPGatePos, lastDiffP, PDIF, next->gapP==true || next->linkP.type==GAP);
+                        lastPContactDiff = insertCntDif(geometries, cpt, lastPContact, lastPGatePos, lastDiffP, PDIF, next->gapP==true || next->linkP.type==GAP);
                         
                         /*
                          if (!gapN && lastNCntPos != cntPos) {
@@ -663,8 +651,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
         }
         lastElements_it = elements_it;
         lastPolTrack = currentPolTrack;
-        lastMetTrackX = currentMetTrack;
-        
+        lastMetTrackH = currentMetTrackH;
     }
     
     
@@ -862,12 +849,14 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
     cpt.forceBinaryVar("b" + lastContactDiff + "_LshapeBeforeGate");
-    cpt.forceBinaryVar("b" + gatePos + "_applyExtraGateExt");
-    cpt.insertConstraint("b" + lastContactDiff + "_applyS2BeforeGate", "b" + lastContactDiff + "_LshapeBeforeGate", CP_MAX, "b" + gatePos + "_applyExtraGateExt");
+    cpt.forceBinaryVar("b" + gatePos + "_applyExtraExtBeforeGate");
+    cpt.insertConstraint("b" + lastContactDiff + "_applyS2BeforeGate", "b" + lastContactDiff + "_LshapeBeforeGate", CP_MAX, "b" + gatePos + "_applyExtraExtBeforeGate");
     cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_MIN, currentRules->getRule(E1P1DF));
-    cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_MIN, "b" + gatePos + "_applyExtraGateExt", currentRules->getRule(E2P1DF));
+    cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_MIN, "b" + gatePos + "_applyExtraExtBeforeGate", currentRules->getRule(E2P1DF));
     cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_MIN, currentRules->getRule(E1P1DF));
-    cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_MIN, "b" + gatePos + "_applyExtraGateExt", currentRules->getRule(E2P1DF));
+    cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_MIN, "b" + gatePos + "_applyExtraExtBeforeGate", currentRules->getRule(E2P1DF));
+    
+    //minimize gate size
     cpt.insertConstraint("y" + gatePos + "a", "y" + gatePos + "b", CP_EQ, "y" + gatePos + "min");
     cpt.insertLPMinVar("y" + gatePos + "min");
     
@@ -900,7 +889,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     return gatePos;
 }
 
-string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string metTrack, string lastGatePos, string &lastDiff, layer_name l, bool endDiff) {
+string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string lastGatePos, string &lastDiff, layer_name l, bool endDiff) {
     geometries.push_back(&currentLayout.addEnc(*geometries.back(), 0, l));
     string diffEnc = intToStr(geometries.size() - 1);
     
@@ -927,8 +916,15 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
         cpt.insertConstraint("x" + lastDiff + "b", "width", CP_MIN, currentRules->getRule(S1DFDF) / 2);
         cpt.insertConstraint("x" + diffEnc + "b", "x" + lastDiff + "b", CP_EQ, 0);
         
-        //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
+        //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
         cpt.forceBinaryVar("b" + diffEnc + "_LshapeAfterGate");
+        cpt.insertConstraint("b" + diffEnc + "_applyS2AfterGate", "b" + diffEnc + "_LshapeAfterGate", CP_MAX, "b" + lastGatePos + "_applyExtraExtAfterGate");
+        cpt.insertConstraint("y" + lastGatePos + "a", "y" + diffEnc + "a", CP_MIN, currentRules->getRule(E1P1DF));
+        cpt.insertConstraint("y" + lastGatePos + "a", "y" + diffEnc + "a", CP_MIN, "b" + lastGatePos + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));
+        cpt.insertConstraint("y" + diffEnc + "b", "y" + lastGatePos + "b", CP_MIN, currentRules->getRule(E1P1DF));
+        cpt.insertConstraint("y" + diffEnc + "b", "y" + lastGatePos + "b", CP_MIN, "b" + lastGatePos + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));
+        
+        //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
         cpt.insertConstraint("x" + lastGatePos + "b", "x" + diffEnc + "a", CP_MIN, "b" + diffEnc + "_LshapeAfterGate", currentRules->getRule(S1DFP1));
         cpt.insertConstraint("ZERO", "y" + diffEnc + "LdistAfterGate", CP_MAX, "b" + diffEnc + "_LshapeAfterGate", 100000);             
         cpt.insertConstraint("UM", "b" + lastDiff + "_smallTransWidth" + " + " + "b" + diffEnc + "_LshapeAfterGate", CP_MAX, "b" + diffEnc + "_applyS2AfterGate");
@@ -985,7 +981,7 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
     return diffEnc;
 }
 
-string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string> metTracks, int pos) {
+string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string> metTracksH, vector<string> metTracksV, int pos) {
     geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
     string cntPos = intToStr(geometries.size() - 1);
     
@@ -1007,7 +1003,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.insertConstraint("x" + metPos + "a", "x" + cntPos + "a", CP_MIN, "x" + cntPos + "hM");
     cpt.insertConstraint("x" + cntPos + "b", "x" + metPos + "b", CP_MIN, "x" + cntPos + "hM");
     cpt.insertConstraint("x" + metPos + "a", "x" + metPos + "b", CP_EQ, "x" + cntPos + "hminM");
-    cpt.insertLPMinVar("x" + cntPos + "hminM",3);
+    cpt.insertLPMinVar("x" + cntPos + "hminM",6);
     
     cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E1M1CT));
     cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E3M1CT));
@@ -1015,14 +1011,34 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.insertConstraint("y" + metPos + "a", "y" + cntPos + "a", CP_MIN, "y" + cntPos + "vM");
     cpt.insertConstraint("y" + cntPos + "b", "y" + metPos + "b", CP_MIN, "y" + cntPos + "vM");
     cpt.insertConstraint("y" + metPos + "a", "y" + metPos + "b", CP_EQ, "y" + cntPos + "vminM");
-    cpt.insertLPMinVar("y" + cntPos + "vminM",3);
+    cpt.insertLPMinVar("y" + cntPos + "vminM",6);
+        
+    //create intersection with the last tracks
+    cpt.insertConstraint("y" + metTracksV[pos] + "a", "y" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("y" + metPos + "a", "y" + metTracksV[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("x" + metTracksH[pos] + "a", "x" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("x" + metPos + "a", "x" + metTracksH[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+
+    //create new V and H tracks
+    createMetalTracks(geometries, cpt, elements_it, pos, metTracksH, metTracksV);
+
+    //create intersection with the new tracks
+    cpt.insertConstraint("y" + metTracksV[pos] + "a", "y" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("y" + metPos + "a", "y" + metTracksV[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("x" + metTracksH[pos] + "a", "x" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("x" + metPos + "a", "x" + metTracksH[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
     
-    
-    //create intersection with the tracks
-    cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
-    cpt.insertConstraint("y" + metPos + "a", "y" + metTracks[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
-    cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
-    cpt.insertConstraint("x" + metPos + "a", "x" + metTracks[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+    /*
+     cpt.insertConstraint("y" + metTracksH[pos] + "a", "y" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+     cpt.insertConstraint("y" + metPos + "a", "y" + metTracksH[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+     cpt.insertConstraint("x" + metTracksH[pos] + "a", "x" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+     cpt.insertConstraint("x" + metPos + "a", "x" + metTracksH[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+     
+     cpt.insertConstraint("y" + metTracksV[pos] + "a", "y" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+     cpt.insertConstraint("y" + metPos + "a", "y" + metTracksV[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+     cpt.insertConstraint("x" + metTracksV[pos] + "a", "x" + metPos + "b", CP_MIN, currentRules->getRule(W1M1));
+     cpt.insertConstraint("x" + metPos + "a", "x" + metTracksV[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+     */
     
     //space rule to the adjacent tracks
     //    if (!rt->areConnected(elements_it->met[pos], elements_it->met[pos - 1]))
@@ -1067,6 +1083,47 @@ string AutoCell::insertCntPol(vector<Box*> &geometries, compaction &cpt, string 
     cpt.insertConstraint("x" + polTracks[pos] + "a", "x" + polPos + "b", CP_MIN, currentRules->getRule(W2P1));
     cpt.insertConstraint("x" + polPos + "a", "x" + polTracks[pos] + "b", CP_MIN, currentRules->getRule(W2P1));
     return polPos;
+}
+
+void AutoCell::createMetalTracks(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentMetTrackH, vector<string> &currentMetTrackV){
+    //creates horizontal track
+    geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, MET1));
+    geometries.back()->setNet(currentNetList.getNetName(rt->getNet(elements_it->met[pos])));
+    currentMetTrackH[pos] = intToStr(geometries.size() - 1);
+    cpt.insertConstraint("x" + currentMetTrackH[pos] + "a", "x" + currentMetTrackH[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("x" + currentMetTrackH[pos] + "a", "x" + currentMetTrackH[pos] + "b", CP_EQ, "x" + currentMetTrackH[pos] + "min");
+    cpt.insertLPMinVar("x" + currentMetTrackH[pos] + "min");
+    cpt.insertConstraint("y" + currentMetTrackH[pos] + "a", "y" + currentMetTrackH[pos] + "b", CP_EQ, currentRules->getRule(W1M1));
+    
+    cpt.insertConstraint("ZERO", "x" + currentMetTrackH[pos] + "a", CP_MIN, currentRules->getRule(S1M1M1) / 2);
+    cpt.insertConstraint("x" + currentMetTrackH[pos] + "b", "width", CP_MIN, currentRules->getRule(S1M1M1) / 2);
+    
+    //creates vertical track
+    geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, MET1));
+    geometries.back()->setNet(currentNetList.getNetName(rt->getNet(elements_it->met[pos])));
+    currentMetTrackV[pos] = intToStr(geometries.size() - 1);
+    cpt.insertConstraint("y" + currentMetTrackV[pos] + "a", "y" + currentMetTrackV[pos] + "b", CP_MIN, currentRules->getRule(W1M1));
+    cpt.insertConstraint("y" + currentMetTrackV[pos] + "a", "y" + currentMetTrackV[pos] + "b", CP_EQ, "y" + currentMetTrackV[pos] + "min");
+    cpt.insertLPMinVar("y" + currentMetTrackV[pos] + "min");
+    cpt.insertConstraint("x" + currentMetTrackV[pos] + "a", "x" + currentMetTrackV[pos] + "b", CP_EQ, currentRules->getRule(W1M1));
+    
+    if (currentNetList.getNetName(rt->getNet(elements_it->met[pos])) != currentCircuit->getGndNet())
+        cpt.insertConstraint("yGNDb", "y" + currentMetTrackV[pos] + "a", CP_MIN, currentRules->getRule(S1M1M1));
+    
+    if (currentNetList.getNetName(rt->getNet(elements_it->met[pos])) != currentCircuit->getVddNet())
+        cpt.insertConstraint("y" + currentMetTrackV[pos] + "b", "yVDDa", CP_MIN, currentRules->getRule(S1M1M1));
+    
+    if (pos == 0)
+        cpt.insertConstraint("y" + currentMetTrackH[pos] + "b", "yGNDb", CP_EQ, 0);
+    
+    if (pos == trackPos.size() - 1)
+        cpt.insertConstraint("y" + currentMetTrackH[pos] + "a", "yVDDa", CP_EQ, 0);
+    
+    //creates intersection between vertical and horizontal tracks
+    cpt.insertConstraint("x" + currentMetTrackH[pos] + "a", "x" + currentMetTrackV[pos] + "a", CP_MIN, 0);
+    cpt.insertConstraint("x" + currentMetTrackV[pos] + "b", "x" + currentMetTrackH[pos] + "b", CP_MIN, 0);
+    cpt.insertConstraint("y" + currentMetTrackV[pos] + "a", "y" + currentMetTrackH[pos] + "a", CP_MIN, 0);
+    cpt.insertConstraint("y" + currentMetTrackH[pos] + "b", "y" + currentMetTrackV[pos] + "b", CP_MIN, 0);
 }
 
 void AutoCell::showIOCost() {

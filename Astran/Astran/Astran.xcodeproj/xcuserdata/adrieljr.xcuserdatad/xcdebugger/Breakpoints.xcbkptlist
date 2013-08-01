@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "396654507.589764"
+         timestampString = "397087533.642641"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "844"
-         endingLineNumber = "844"
+         startingLineNumber = "831"
+         endingLineNumber = "831"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, string &amp;lastContact, string lastContactDiff, string &amp;lastGatePos, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "396654507.589764"
+         timestampString = "397087533.642641"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "843"
-         endingLineNumber = "843"
+         startingLineNumber = "830"
+         endingLineNumber = "830"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, string &amp;lastContact, string lastContactDiff, string &amp;lastGatePos, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -37,12 +37,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "396657977.818487"
+         timestampString = "397087533.642641"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "944"
-         endingLineNumber = "944"
-         landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string cntPos, string metTrack, string lastGatePos, string &amp;lastDiff, layer_name l, bool endDiff)"
+         startingLineNumber = "935"
+         endingLineNumber = "935"
+         landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string cntPos, string lastGatePos, string &amp;lastDiff, layer_name l, bool endDiff)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -51,12 +51,26 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "396657977.818487"
+         timestampString = "397087533.642641"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "947"
-         endingLineNumber = "947"
-         landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string cntPos, string metTrack, string lastGatePos, string &amp;lastDiff, layer_name l, bool endDiff)"
+         startingLineNumber = "938"
+         endingLineNumber = "938"
+         landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string cntPos, string lastGatePos, string &amp;lastDiff, layer_name l, bool endDiff)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
+         timestampString = "397087533.642641"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1117"
+         endingLineNumber = "1117"
+         landmarkName = "AutoCell::createMetalTracks(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, list&lt;Element&gt;::iterator elements_it, int pos, vector&lt;string&gt; &amp;currentMetTrackH, vector&lt;string&gt; &amp;currentMetTrackV)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
