@@ -84,9 +84,11 @@ protected:
 
     string insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> polTracks, int pos);
     string insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string lastGatePos, string &lastDiff, layer_name l, bool endDiff);
-    string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string> metTracksH, vector<string> metTracksV, int pos);
+    string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, int pos);
     string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string &lastContact, string lastContactDiff, string &lastGatePos, string currentDiff, layer_name l);
-    void createMetalTracks(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int x, vector<string> &currentMetTrackH, vector<string> &currentMetTrackV);
+    string createMet(vector<Box*> &geometries, compaction &cpt, string netName, int priority);
+    void createMetalNode(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentMetNode);
+    void createMetTrack(vector<Box*> &geometries, compaction &cpt, string lastMetNode, string currentMetNode, string netName);
 
     public:
 	AutoCell();
