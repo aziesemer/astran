@@ -593,7 +593,6 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                 
             case GATE:
                 lastNGatePos = insertGate(geometries, cpt, elements_it->linkN.link, elements_it, currentPolNode, lastNContact, lastNContactDiff, lastNGatePos, lastDiffN, NDIF);
-                gapN = false;
                 break;
         }
         switch (elements_it->linkP.type) {
@@ -617,7 +616,6 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                 
             case GATE:
                 lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNode, lastPContact, lastPContactDiff, lastPGatePos, lastDiffP, PDIF);                
-                gapP = false;
                 break;
         }
         lastElements_it = elements_it;
