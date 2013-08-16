@@ -492,7 +492,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                     if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
                         cpt.insertConstraint("x" + lastMetNode[x] + "b", "x" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
                     else{
-                        createTrack(geometries, cpt, lastMetNode[x], currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1);
+                        createTrack(geometries, cpt, lastMetNode[x], currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
                     }
                 }
                 
@@ -501,7 +501,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                     if(!rt->areConnected(elements_it->met[x], elements_it->met[x-1]))
                         cpt.insertConstraint("y" + lastMetNodeV + "b", "y" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
                     else{
-                        createTrack(geometries, cpt, lastMetNodeV, currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1);                        
+                        createTrack(geometries, cpt, lastMetNodeV, currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, V);                        
                     }
                 }
                 
@@ -519,7 +519,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                     if(!rt->areConnected(elements_it->pol[x], lastElements_it->pol[x]))
                         cpt.insertConstraint("x" + lastPolNode[x] + "b", "x" + currentPolNode[x] + "a", CP_MIN, currentRules->getRule(S1P1P1));
                     else{
-                        createTrack(geometries, cpt, lastPolNode[x], currentPolNode[x], "", POLY);
+                        createTrack(geometries, cpt, lastPolNode[x], currentPolNode[x], "", POLY, H);
                     }
                 }
                 
@@ -528,7 +528,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                     if(!rt->areConnected(elements_it->pol[x], elements_it->pol[x-1]))
                         cpt.insertConstraint("y" + lastPolNodeV + "b", "y" + currentPolNode[x] + "a", CP_MIN, currentRules->getRule(S1P1P1));
                     else{
-                        createTrack(geometries, cpt, lastPolNodeV, currentPolNode[x], "", POLY);                        
+                        createTrack(geometries, cpt, lastPolNodeV, currentPolNode[x], "", POLY, V);                        
                     }
                 }
                 
@@ -1057,7 +1057,7 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     currentNode[pos]=currentGeo;
 }
 
-void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string lastNode, string currentNode, string netName, layer_name l){
+void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string lastNode, string currentNode, string netName, layer_name l, HorV dir){
     string track = createGeometry(geometries, cpt, netName, 1, l);
     
     int minIntersection = (l==MET1 ? currentRules->getRule(W1M1) : currentRules->getRule(W2P1));
@@ -1071,6 +1071,12 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
     cpt.insertConstraint("x" + track + "a", "x" + currentNode + "b", CP_MIN, minIntersection);
     cpt.insertConstraint("y" + currentNode + "a", "y" + track + "b", CP_MIN, minIntersection);
     cpt.insertConstraint("y" + track + "a", "y" + currentNode + "b", CP_MIN, minIntersection);
+
+    //set track width
+    if(dir==H) 
+        cpt.insertConstraint("y" + track + "a", "y" + track + "b", CP_EQ, minIntersection);
+    else 
+        cpt.insertConstraint("x" + track + "a", "x" + track + "b", CP_EQ, minIntersection);
 }
 
 void AutoCell::showIOCost() {

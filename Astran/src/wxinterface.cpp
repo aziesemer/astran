@@ -1341,10 +1341,10 @@ Help_About::Help_About( wxWindow* parent, wxWindowID id, const wxString& title, 
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 	
-	richtxt_about = new wxRichTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY|wxALWAYS_SHOW_SB|wxNO_BORDER|wxWANTS_CHARS );
-	richtxt_about->Enable( false );
+//	richtxt_about = new wxRichTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY|wxALWAYS_SHOW_SB|wxNO_BORDER|wxWANTS_CHARS );
+//	richtxt_about->Enable( false );
 	
-	bSizer11->Add( richtxt_about, 1, wxALL|wxEXPAND, 0 );
+//	bSizer11->Add( richtxt_about, 1, wxALL|wxEXPAND, 0 );
 	
 	this->SetSizer( bSizer11 );
 	this->Layout();

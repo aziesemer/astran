@@ -26,6 +26,7 @@ using namespace std;
 #define VERSION "2.0"
 
 enum IOType {IOTYPE_INPUT, IOTYPE_OUTPUT, IOTYPE_INOUT};
+enum HorV {V, H};
 
 inline void printHeader (ostream& target, string begin, string end) {
 	time_t timer = time(NULL);

@@ -88,7 +88,7 @@ protected:
     string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string &lastContact, string lastContactDiff, string &lastGatePos, string currentDiff, layer_name l);
     string createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l);
     void createNode(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentMetNode, string netName, layer_name l);
-    void createTrack(vector<Box*> &geometries, compaction &cpt, string lastMetNode, string currentMetNode, string netName, layer_name l);
+    void createTrack(vector<Box*> &geometries, compaction &cpt, string lastMetNode, string currentMetNode, string netName, layer_name l, HorV dir);
 
     public:
 	AutoCell();
