@@ -430,7 +430,6 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     
     map<string, int> IOgeometries;
     
-    //    compaction cptY(CP_LP, "ILPy");
     compaction cpt(CP_LP, "ILPmodel");
     vector<Box*> geometries;
     
@@ -447,21 +446,6 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     cpt.insertConstraint("posNWell", "yPDiffa", CP_MIN, currentRules->getRule(E1WNDP));
     //central track position
     cpt.insertConstraint("ZERO", "yCentralTrack", CP_EQ, center);
-    
-    
-    
-    /*  	cpt.insertConstraint( "yNDiffb", "yPolTrack[1]a", CP_MIN,  currentRules->getRule(E1P1DF));
-     cpt.insertConstraint( "yPolTrack[1]a", "yPolTrack[1]b", CP_MIN,  currentRules->getRule(W2P1));
-     //  	cpt.insertConstraint( "yPolTrack[1]a", "yPolTrack[1]b", CP_MAX,  1.1*currentRules->getRule(W1P1));
-     cpt.insertConstraint( "yPolTrack[1]b", "yPDiffa", CP_MIN,  currentRules->getRule(E1P1DF));
-     
-     cpt.insertConstraint( "yPolCnt[1]a", "yPolTrack[1]a", CP_MIN,  0);
-     cpt.insertConstraint( "yPolTrack[1]b", "yPolCnt[1]b", CP_MIN,  currentRules->getRule(E2P1CT));
-     cpt.insertConstraint( "yPolMetCnt[1]a", "yPolMetCnt[1]b", CP_EQ,  currentRules->getRule(W2CT));
-     cpt.insertConstraint( "yPolMetCnt[1]b", "yPolCnt[1]b", CP_MIN,  currentRules->getRule(E2P1CT));
-     cpt.insertConstraint( "yPolyTrack[1]b", "yPDiffa", CP_MIN,  currentRules->getRule(E1P1DF));
-     */
-    
     
     list<Element>::iterator lastElements_it;
     vector<string> currentMetNode(trackPos.size(), ""), currentPolNode(trackPos.size(), "");
@@ -481,32 +465,39 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
         //create metals and polys for intra-cell routing
         for (x = 0; x < trackPos.size(); x++) {
             //conecta as trilhas de metal horizontalmente
-            if (rt->getNet(elements_it->met[x]) != -1) {
-                //creates each metal node, but the desconected supply ones
-                if(!((x==0 && !rt->areConnected(elements_it->met[x], elements_it->met[x+1])) ||
-                     (x==trackPos.size()-1 && !rt->areConnected(elements_it->met[x], elements_it->met[x-1]))))
+            //creates each metal node, but the disconected supply ones
+            if (rt->getNet(elements_it->met[x]) != -1 && 
+                !((x==0 && !rt->areConnected(elements_it->met[x], elements_it->met[x+1])) ||
+                  (x==trackPos.size()-1 && !rt->areConnected(elements_it->met[x], elements_it->met[x-1])))){
+                    
+                    //ZERAR o lastMetNode[x] SOBRE TRANSISTORES PQ A RESTRIÇÃO DO ORDENAMENTO ESTÁ DIMINUINDO A QUALIDADE DO ROTEAMENTO. VER FOTO
+                    
                     createNode(geometries, cpt, elements_it, x, currentMetNode, currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1);
-                
-                //insert space or a track between current and last H met node, if it exists
-                if (lastMetNode[x]!=""){
-                    if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
-                        cpt.insertConstraint("x" + lastMetNode[x] + "b", "x" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
-                    else{
-                        createTrack(geometries, cpt, lastMetNode[x], currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
+                    
+                    //insert space or a track between current and last H met node, if it exists
+                    if (lastMetNode[x]!=""){
+                        if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
+                            cpt.insertConstraint("x" + lastMetNode[x] + "b", "x" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
+                        else{
+                            createTrack(geometries, cpt, lastMetNode[x], currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
+                        }
                     }
-                }
-                
-                //insert space or a track between current and last V met node, if it exists
-                if (lastMetNodeV!=""){
-                    if(!rt->areConnected(elements_it->met[x], elements_it->met[x-1]))
-                        cpt.insertConstraint("y" + lastMetNodeV + "b", "y" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
-                    else{
-                        createTrack(geometries, cpt, lastMetNodeV, currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, V);                        
+                    if(x && lastMetNode[x-1]!="")
+                        insertDistanceRule(geometries, cpt, lastMetNode[x-1], currentMetNode[x], lastMetNode[x-1], currentMetNode[x], MET1);
+                    if(x < trackPos.size()-1 && lastMetNode[x+1]!="")
+                        insertDistanceRule(geometries, cpt, lastMetNode[x+1], currentMetNode[x], currentMetNode[x], lastMetNode[x+1], MET1);
+                    
+                    //insert space or a track between current and last V met node, if it exists
+                    if (lastMetNodeV!=""){
+                        if(!rt->areConnected(elements_it->met[x], elements_it->met[x-1]))
+                            cpt.insertConstraint("y" + lastMetNodeV + "b", "y" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
+                        else{
+                            createTrack(geometries, cpt, lastMetNodeV, currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, V);                        
+                        }
                     }
+                    
+                    lastMetNodeV = currentMetNode[x];
                 }
-                
-                lastMetNodeV = currentMetNode[x];
-            }
             //OBS: SEMPRE DEVE HAVER UMA INTERSECCAO DE UM QUADRADO COM LADO W2M1 ENTRE METAIS OU W2P1 ENTRE POLYS
             
             //conecta as trilhas de poly
@@ -522,6 +513,10 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                         createTrack(geometries, cpt, lastPolNode[x], currentPolNode[x], "", POLY, H);
                     }
                 }
+                if(x && lastPolNode[x-1]!="")
+                    insertDistanceRule(geometries, cpt, lastPolNode[x-1], currentPolNode[x], lastPolNode[x-1], currentPolNode[x], POLY);
+                if(x < trackPos.size()-1 && lastPolNode[x+1]!="")
+                    insertDistanceRule(geometries, cpt, lastPolNode[x+1], currentPolNode[x], currentPolNode[x], lastPolNode[x+1], POLY);
                 
                 //insert space or a track between current and last V poly node, if it exists
                 if (lastPolNodeV!=""){
@@ -534,7 +529,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                 
                 lastPolNodeV = currentPolNode[x];
             }
-                        
+            
             //conecta os polys com os metais das trilhas
             if (rt->areConnected(elements_it->met[x], elements_it->pol[x])) {
                 string tmpCnt = insertCnt(geometries, cpt, elements_it, currentMetNode, x);
@@ -935,8 +930,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
             cpt.insertConstraint( "y" + currentDiff + "a_int", "y" + currentDiff + "b_int", CP_EQ,  "y" + currentDiff + "a_int_min");
             cpt.insertLPMinVar("y" + currentDiff + "a_int_min",-4);
         }else{
-            //insert GAP between diffusions
-            cpt.insertConstraint("x" + lastDiff + "b", "x" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFDF));
+            //insert GAP between diffusions if it's not the first diff
+            if(lastDiff!="") cpt.insertConstraint("x" + lastDiff + "b", "x" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFDF));
         }
         
         //diffusion extension rules for next gate diffusion
@@ -1071,12 +1066,25 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
     cpt.insertConstraint("x" + track + "a", "x" + currentNode + "b", CP_MIN, minIntersection);
     cpt.insertConstraint("y" + currentNode + "a", "y" + track + "b", CP_MIN, minIntersection);
     cpt.insertConstraint("y" + track + "a", "y" + currentNode + "b", CP_MIN, minIntersection);
-
+    
     //set track width
     if(dir==H) 
         cpt.insertConstraint("y" + track + "a", "y" + track + "b", CP_EQ, minIntersection);
     else 
         cpt.insertConstraint("x" + track + "a", "x" + track + "b", CP_EQ, minIntersection);
+}
+
+void AutoCell::insertDistanceRule(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, layer_name l){
+    int minDist = (l==MET1 ? currentRules->getRule(S1M1M1) : currentRules->getRule(S1P1P1));
+    //select between different space possibilities
+    cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_1");
+    cpt.forceBinaryVar("b" + lastY + "_" + currentY+ "_2");
+    cpt.forceBinaryVar("b" + lastX + "_" + currentY+ "_3");
+    cpt.insertConstraint("ZERO", "b" + lastX + "_" + currentX + "_1" + " + " + "b" + lastY + "_" + currentY + "_2" + " + " + "b" + lastX + "_" + currentY + "_3", CP_EQ, 1);
+    cpt.insertConstraint("x" + lastX + "b + 1000", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_1", minDist + 1000);
+    cpt.insertConstraint("y" + lastY + "b + 1000", "y" + currentY + "a", CP_MIN, "b" + lastY + "_" + currentY + "_2", minDist + 1000);
+    cpt.insertConstraint("x" + lastX + "b + 1000", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentY + "_3", ceil(minDist/sqrt(2.0)) + 1000);
+    cpt.insertConstraint("y" + lastY + "b + 1000", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentY + "_3", ceil(minDist/sqrt(2.0)) + 1000);
 }
 
 void AutoCell::showIOCost() {

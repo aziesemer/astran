@@ -89,6 +89,7 @@ protected:
     string createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l);
     void createNode(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentMetNode, string netName, layer_name l);
     void createTrack(vector<Box*> &geometries, compaction &cpt, string lastMetNode, string currentMetNode, string netName, layer_name l, HorV dir);
+    void insertDistanceRule(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, layer_name l);
 
     public:
 	AutoCell();
