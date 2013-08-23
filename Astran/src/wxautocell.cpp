@@ -45,7 +45,7 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	currentFrmwork->readCommand(cmd.ToAscii().data());
 	
 	// Compact Layout
-	cmd=wxT("cellgen compact ") + cp_M->GetValue() + wxT(" ") + cp_P->GetValue() + wxT(" ") + cp_GS->GetValue() + wxT(" ") + cp_W->GetValue();
+	cmd=wxT("cellgen compact");
 	currentFrmwork->readCommand(cmd.ToAscii().data());
 	update();
 }
@@ -74,7 +74,7 @@ void WxAutoCell::route( wxCommandEvent& event ){
 }
 
 void WxAutoCell::compact( wxCommandEvent& event ){
-	wxString cmd=wxT("cellgen compact ") + cp_M->GetValue() + wxT(" ") + cp_P->GetValue() + wxT(" ") + cp_GS->GetValue() + wxT(" ") + cp_W->GetValue();
+	wxString cmd=wxT("cellgen compact");
 	currentFrmwork->readCommand(cmd.ToAscii().data());
 	update();
 }

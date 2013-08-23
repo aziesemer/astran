@@ -37,7 +37,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni) {
         
         tmp.pol[x] = rt->createNode();
         if (x) rt->addArc(tmp.pol[x], tmp.pol[x - 1], 5);
-        if ((x && x > nDiffIni && x < pDiffIni) || (false)) { //Correct to insert area outside the transistors
+        if ((x > nDiffIni && x < pDiffIni) || (false)) { //Correct to insert area outside the transistors
             rt->addArc(tmp.pol[x], tmp.met[x], 20);
             if (elements.size() && elements.back().pol[x] != -1)
                 rt->addArc(tmp.pol[x], elements.back().pol[x], 5); //if it's not the first, connect to the last element
@@ -414,7 +414,7 @@ bool AutoCell::route(int mCost, int pCost, int cCost, int ioCost) {
     return state == 5;
 }
 
-bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriority, string lpSolverFile) {
+bool AutoCell::compact(string lpSolverFile) {
     cout << "Compacting layout..." << endl;
     if (state < 5) return 0;
     state = 5;
@@ -469,9 +469,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
             if (rt->getNet(elements_it->met[x]) != -1 && 
                 !((x==0 && !rt->areConnected(elements_it->met[x], elements_it->met[x+1])) ||
                   (x==trackPos.size()-1 && !rt->areConnected(elements_it->met[x], elements_it->met[x-1])))){
-                    
-                    //ZERAR o lastMetNode[x] SOBRE TRANSISTORES PQ A RESTRIÇÃO DO ORDENAMENTO ESTÁ DIMINUINDO A QUALIDADE DO ROTEAMENTO. VER FOTO
-                    
+                        
                     createNode(geometries, cpt, elements_it, x, currentMetNode, currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1);
                     
                     //insert space or a track between current and last H met node, if it exists
@@ -541,27 +539,15 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                 //				if(x==nrTracks-1 && !rt->areConnected(elements_it->ativeCntN,elements_it->interPol[x])) nPolyCnt= tmpPol;
                 
             }
-            /*
+            
              //se for entrada/saida, alinha o metal1 com a grade
              if (rt->areConnected(elements_it->met[x], elements_it->inoutCnt)) {
-             geometries.push_back(&currentLayout.addPolygon(0, trackPos[x]-(currentRules->getRule(W2VI) / 2) - currentRules->getRule(E1M1VI), 0, trackPos[x]+(currentRules->getRule(W2VI) / 2) + currentRules->getRule(E1M1VI), MET1));
-             geometries.back()->setNet(currentNetList.getNetName(rt->getNet(elements_it->met[x])));
-             string tmp = intToStr(geometries.size() - 1);
-             cpt.insertConstraint("HGRID", "x" + tmp + "g", CP_EQ_VAR_VAL, "x" + tmp + "gpos", hGrid);
-             cpt.forceIntegerVar("x" + tmp + "gpos");
-             cpt.insertConstraint("x" + tmp + "a", "x" + tmp + "g", CP_EQ, currentRules->getRule(E1M1VI) + currentRules->getRule(W2VI) / 2);
-             cpt.insertConstraint("x" + tmp + "g", "x" + tmp + "b", CP_EQ, currentRules->getRule(E1M1VI) + currentRules->getRule(W2VI) / 2);
-             cpt.insertConstraint("x" + tmp + "g", "width", CP_MIN, hGrid / 2);
-             cpt.insertConstraint("ZERO", "x" + tmp + "g", CP_MIN, hGrid / 2);
-             
-             cpt.insertConstraint("x" + currentMetNode[x] + "a", "x" + tmp + "a", CP_MIN, 0);
-             cpt.insertConstraint("x" + tmp + "b", "x" + currentMetNode[x] + "b", CP_MIN, 0);
-             
-             IOgeometries[currentNetList.getNetName(rt->getNet(elements_it->inoutCnt))] = geometries.size() - 1;
-             //				if(lastIO!="") cpt.insertConstraint("x" + lastIO + "b", "x" + tmp + "a", CP_MIN, 0);
-             //				lastIO=tmp;
+                 insertVia(geometries, cpt, currentMetNode[x]);
+                 IOgeometries[currentNetList.getNetName(rt->getNet(elements_it->inoutCnt))] = geometries.size() - 1;
+                 //				if(lastIO!="") cpt.insertConstraint("x" + lastIO + "b", "x" + tmp + "a", CP_MIN, 0);
+                 //				lastIO=tmp;
              }
-             */
+             
         }
         if (elements_it->gapP) gapP = true;
         if (elements_it->gapN) gapN = true;
@@ -576,8 +562,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
                     if (rt->areConnected(elements_it->met[x], elements_it->diffN)) {
                         lastNContact = insertCnt(geometries, cpt, elements_it, currentMetNode, x);
                         list<Element>::iterator next = elements_it; next++;
-                        string currentDiff = insertCntDif(geometries, cpt, lastNContact, lastNGatePos, lastDiffN, NDIF, next->gapN==true || next->linkN.type==GAP);
-                        
+                        string currentDiff = insertCntDif(geometries, cpt, lastNContact, lastNGatePos, lastDiffN, NDIF, next->gapN==true || next->linkN.type==GAP);                        
                         if(gapN && lastNContactDiff!="") 
                             cpt.insertConstraint("x" + lastNContactDiff + "b", "x" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFDF));
                         lastNContactDiff = currentDiff;
@@ -623,7 +608,7 @@ bool AutoCell::compact(int mPriority, int pPriority, int gsPriority, int wPriori
     cpt.insertConstraint("ZERO", "width", CP_MIN, 0);
     cpt.insertConstraint("ZERO", "width", CP_EQ_VAR_VAL, "width_gpos", hGrid);
     cpt.forceIntegerVar("width_gpos");
-    cpt.insertLPMinVar("width", wPriority);
+    cpt.insertLPMinVar("width", 500);
     
     if (!cpt.solve(lpSolverFile)) {
         cout << "Unable to compact" << endl;
@@ -988,6 +973,52 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     
     return cntPos;
 }
+
+string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string metNode) {
+    geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, VIA1));
+    string viaPos = intToStr(geometries.size() - 1);
+    
+    cpt.insertConstraint("x" + viaPos + "a", "x" + viaPos + "b", CP_EQ, currentRules->getRule(W2VI));
+    cpt.insertConstraint("y" + viaPos + "a", "y" + viaPos + "b", CP_EQ, currentRules->getRule(W2VI));
+    
+    //choose a kind of metal enclosure of via
+    cpt.forceBinaryVar("b" + viaPos + "_1V");
+    cpt.forceBinaryVar("b" + viaPos + "_2V");
+    cpt.insertConstraint("ZERO", "b" + viaPos + "_1V" + " + " + "b" + viaPos + "_2V", CP_EQ, 1);
+    
+    cpt.insertConstraint("x" + metNode + "a", "x" + viaPos + "a", CP_MIN, "b" + viaPos + "_1V", currentRules->getRule(E2M1VI));
+    cpt.insertConstraint("x" + viaPos + "b", "x" + metNode + "b", CP_MIN, "b" + viaPos + "_1V", currentRules->getRule(E2M1VI));
+
+    cpt.insertConstraint("y" + metNode + "a", "y" + viaPos + "a", CP_MIN, "b" + viaPos + "_2V", currentRules->getRule(E2M1VI));
+    cpt.insertConstraint("y" + viaPos + "b", "y" + metNode + "b", CP_MIN, "b" + viaPos + "_2V", currentRules->getRule(E2M1VI));
+    
+    //choose a kind of metal area format
+    cpt.forceBinaryVar("b" + viaPos + "_1A");
+    cpt.forceBinaryVar("b" + viaPos + "_2A");
+    cpt.forceBinaryVar("b" + viaPos + "_2A");
+    
+    cpt.insertConstraint("ZERO", "b" + viaPos + "_1A" + " + " + "b" + viaPos + "_2A" + " + " + "b" + viaPos + "_3A", CP_EQ, 1);
+
+    cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + viaPos + "_1A", currentRules->getIntValue(float(currentRules->getRule(A1M1))/currentRules->getRule(W2VI)));    
+    cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + viaPos + "_2A", currentRules->getIntValue(float(currentRules->getRule(A1M1))/currentRules->getRule(W2VI)));
+    cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + viaPos + "_3A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+    cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + viaPos + "_3A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+    
+
+    //allign via to the routing grid
+    cpt.insertConstraint( "HGRID", "x" + viaPos + "g", CP_EQ_VAR_VAL,  "x" + viaPos + "gpos", hGrid);
+    cpt.forceIntegerVar("x" + viaPos + "gpos");
+    cpt.insertConstraint( "x" + viaPos + "a", "x" + viaPos + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "x" + viaPos + "g", "x" + viaPos + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+
+    cpt.insertConstraint( "ZERO", "y" + viaPos + "g", CP_EQ_VAR_VAL,  "y" + viaPos + "gpos", hGrid);
+    cpt.forceIntegerVar("y" + viaPos + "gpos");
+    cpt.insertConstraint( "y" + viaPos + "a", "y" + viaPos + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "y" + viaPos + "g", "y" + viaPos + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    
+    return viaPos;
+}
+
 
 void AutoCell::insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> currentPolNodes, int pos) {
     //poly enclosure of contact

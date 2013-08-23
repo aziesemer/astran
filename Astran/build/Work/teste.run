@@ -7,4 +7,4 @@ cellgen select INV0
 cellgen fold
 cellgen place 150 3 3 4 1 4 2
 cellgen route 0 0 0 0
-cellgen compact 2 3 5 10
+cellgen compact

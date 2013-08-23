@@ -84,6 +84,7 @@ protected:
 
     void insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> polTracks, int pos);
     string insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string &lastGatePos, string &lastDiff, layer_name l, bool endDiff);
+    string insertVia(vector<Box*> &geometries, compaction &cpt, string metNode);
     string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, int pos);
     string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string &lastContact, string lastContactDiff, string &lastGatePos, string currentDiff, layer_name l);
     string createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l);
@@ -100,7 +101,7 @@ protected:
 	bool placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
 	bool route(int mCost, int pCost, int cCost, int ioCost);
-	bool compact(int mPriority, int pPriority, int gsPriority, int wPriority, string lpSolverFile);	
+	bool compact(string lpSolverFile);	
 	bool selectCell(string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};
