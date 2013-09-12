@@ -568,11 +568,12 @@ bool AutoCell::compact(string lpSolverFile) {
             case DRAIN:
                 for (x = center; x >= 0; x--) { // desenha contatos na difusao
                     if (rt->areConnected(elements_it->met[x], elements_it->diffN)) {
-                        lastNContact = insertCnt(geometries, cpt, elements_it, currentMetNode, x);
+                        string currentCnt = insertCnt(geometries, cpt, elements_it, currentMetNode, x);
                         list<Element>::iterator next = elements_it; next++;
-                        string currentDiff = insertCntDif(geometries, cpt, lastNContact, lastNGatePos, currentDiffN, NDIF, next->gapN==true || next->linkN.type==GAP);                        
+                        string currentDiff = insertCntDif(geometries, cpt, currentCnt, lastNGatePos, lastNContact, currentDiffN, NDIF, next->gapN==true || next->linkN.type==GAP);                        
                         if(gapN && lastNContactDiff!="") 
                             cpt.insertConstraint("x" + lastNContactDiff + "b", "x" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFDF));
+                        lastNContact =currentCnt;
                         lastNContactDiff = currentDiff;
                     }
                 }
@@ -591,11 +592,12 @@ bool AutoCell::compact(string lpSolverFile) {
             case DRAIN:
                 for (x = center; x < elements_it->met.size(); ++x) { // desenha contatos na difusao
                     if (rt->areConnected(elements_it->met[x], elements_it->diffP)) {
-                        lastPContact = insertCnt(geometries, cpt, elements_it, currentMetNode, x);
+                        string currentCnt = insertCnt(geometries, cpt, elements_it, currentMetNode, x);
                         list<Element>::iterator next = elements_it; next++;
-                        string currentDiff = insertCntDif(geometries, cpt, lastPContact, lastPGatePos, currentDiffP, PDIF, next->gapP==true || next->linkP.type==GAP);
+                        string currentDiff = insertCntDif(geometries, cpt, currentCnt, lastPGatePos, lastPContact, currentDiffP, PDIF, next->gapP==true || next->linkP.type==GAP);
                         if(gapP && lastPContactDiff!="") 
                             cpt.insertConstraint("x" + lastPContactDiff + "b", "x" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFDF));
+                        lastPContact =currentCnt;
                         lastPContactDiff = currentDiff;
                     }
                 }
@@ -765,7 +767,7 @@ bool AutoCell::compact(string lpSolverFile) {
 }
 
 
-string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string &lastContact, string lastContactDiff, string &lastGatePos, string lastDiff, string currentDiff, layer_name l){
+string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string lastCnt, string lastCntDiff, string &lastGatePos, string lastDiff, string currentDiff, layer_name l){
     int transWidth = int(ceil((currentNetList.getTrans(transistor).width * currentRules->getScale()) / 2)*2);
     int transLength = int(ceil((currentNetList.getTrans(transistor).length * currentRules->getScale()) / 2)*2);
     if (transLength < currentRules->getRule(W2P1)) cout << "WARNING: Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
@@ -793,7 +795,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 cpt.insertConstraint("y" + gatePos + "b", "y" + currentPolTrack[x] + "a", CP_EQ, 0);   
             }
         }
-        cpt.insertConstraint("y" + lastContactDiff + "b", "y" + currentDiff + "b", CP_MIN, 0);
+        cpt.insertConstraint("y" + lastCntDiff + "b", "y" + currentDiff + "b", CP_MIN, 0);
     }else{
         cpt.insertConstraint("yPDiffa", "y" + currentDiff + "a", CP_MIN, 0);
         for (int x = center; x < elements_it->pol.size(); ++x){ // align gate to the internal tracks
@@ -804,13 +806,13 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 cpt.insertConstraint("y" + gatePos + "a", "y" + currentPolTrack[x] + "b", CP_EQ, 0);
             }
         }
-        cpt.insertConstraint("y" + currentDiff + "a", "y" + lastContactDiff + "a", CP_MIN, 0);
+        cpt.insertConstraint("y" + currentDiff + "a", "y" + lastCntDiff + "a", CP_MIN, 0);
     }
     
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
-    cpt.forceBinaryVar("b" + lastContactDiff + "_LshapeBeforeGate");
+    cpt.forceBinaryVar("b" + lastCntDiff + "_LshapeBeforeGate");
     cpt.forceBinaryVar("b" + gatePos + "_applyExtraExtBeforeGate");
-    cpt.insertConstraint("b" + lastContactDiff + "_applyS2BeforeGate", "b" + lastContactDiff + "_LshapeBeforeGate", CP_MAX, "b" + gatePos + "_applyExtraExtBeforeGate");
+    cpt.insertConstraint("b" + lastCntDiff + "_applyS2BeforeGate", "b" + lastCntDiff + "_LshapeBeforeGate", CP_MAX, "b" + gatePos + "_applyExtraExtBeforeGate");
     cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_MIN, currentRules->getRule(E1P1DF));
     cpt.insertConstraint("y" + gatePos + "a", "y" + currentDiff + "a", CP_MIN, "b" + gatePos + "_applyExtraExtBeforeGate", currentRules->getRule(E2P1DF));
     cpt.insertConstraint("y" + currentDiff + "b", "y" + gatePos + "b", CP_MIN, currentRules->getRule(E1P1DF));
@@ -821,16 +823,13 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     cpt.insertLPMinVar("y" + gatePos + "min");
     
     //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
-    cpt.insertConstraint("x" + lastContactDiff + "b", "x" + gatePos + "a", CP_MIN, "b" + lastContactDiff + "_LshapeBeforeGate", currentRules->getRule(S1DFP1));
-    cpt.insertConstraint("ZERO", "y" + lastContactDiff + "LdistBeforeGate", CP_MAX, "b" + lastContactDiff + "_LshapeBeforeGate", 100000);             
-    cpt.insertConstraint("UM", "b" + currentDiff + "_smallTransWidth" + " + " + "b" + lastContactDiff + "_LshapeBeforeGate", CP_MAX, "b" + lastContactDiff + "_applyS2BeforeGate");
-    cpt.insertConstraint("x" + lastContactDiff + "b", "x" + gatePos + "a", CP_MIN, "b" + lastContactDiff + "_applyS2BeforeGate", currentRules->getRule(S2DFP1));
+    cpt.insertConstraint("x" + lastCntDiff + "b", "x" + gatePos + "a", CP_MIN, "b" + lastCntDiff + "_LshapeBeforeGate", currentRules->getRule(S1DFP1));
+    cpt.insertConstraint("ZERO", "y" + lastCntDiff + "LdistBeforeGate", CP_MAX, "b" + lastCntDiff + "_LshapeBeforeGate", 100000);             
+    cpt.insertConstraint("UM", "b" + currentDiff + "_smallTransWidth" + " + " + "b" + lastCntDiff + "_LshapeBeforeGate", CP_MAX, "b" + lastCntDiff + "_applyS2BeforeGate");
+    cpt.insertConstraint("x" + lastCntDiff + "b", "x" + gatePos + "a", CP_MIN, "b" + lastCntDiff + "_applyS2BeforeGate", currentRules->getRule(S2DFP1));
     
     //contact to gate distance
-    cpt.insertConstraint("x" + lastContact + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1CTP1));
-    cpt.insertConstraint("x" + lastContact + "b", "x" + gatePos + "a", CP_EQ, "x" + gatePos + "min");
-    cpt.insertLPMinVar("x" + gatePos + "min");
-    lastContact = "";
+    cpt.insertConstraint("x" + lastCnt + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S1CTP1));
     
     /*                if (rt->areConnected(elements_it->diffN, elements_it->pol[trackPos.size() - 1])) {
      if (rt->getNrFinalArcs(elements_it->pol[trackPos.size() - 1]) > 1) {
@@ -849,7 +848,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     return gatePos;
 }
 
-string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string cntPos, string &lastGatePos, string &lastDiff, layer_name l, bool endDiff) {
+string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string currentCnt, string &lastGatePos, string &lastCnt, string &lastDiff, layer_name l, bool endDiff) {
     geometries.push_back(&currentLayout.addEnc(*geometries.back(), 0, l));
     string diffEnc = intToStr(geometries.size() - 1);
     
@@ -859,20 +858,25 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
     cpt.forceBinaryVar("b" + diffEnc + "_b");
     cpt.forceBinaryVar("b" + diffEnc + "_t");
     cpt.insertConstraint("ZERO", "b" + diffEnc + "_l + b" + diffEnc + "_r + b" + diffEnc + "_b + b" + diffEnc + "_t", CP_EQ, 3);
-    cpt.insertConstraint("x" + diffEnc + "a", "x" + cntPos + "a", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("x" + diffEnc + "a", "x" + cntPos + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("x" + cntPos + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("x" + cntPos + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("y" + diffEnc + "a", "y" + cntPos + "a", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("y" + diffEnc + "a", "y" + cntPos + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("y" + cntPos + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("y" + cntPos + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_t", currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_t", currentRules->getRule(E1DFCT));
     
+    //minimize contact to contact distance
+    cpt.insertConstraint("x" + lastCnt + "b", "x" + currentCnt + "a", CP_EQ, "x" + currentCnt + "min");
+    cpt.insertLPMinVar("x" + currentCnt + "min",2);
+    cpt.insertConstraint("y" + lastCnt + "b", "y" + currentCnt + "b", CP_EQ, "y" + currentCnt + "min");
+    cpt.insertLPMinVar("y" + currentCnt + "min",2);
+    lastCnt = "";
+
     //if there is a gate before
     if (lastGatePos != "") {
-        cpt.insertConstraint("x" + lastGatePos + "b", "x" + cntPos + "a", CP_MIN, currentRules->getRule(S1CTP1));
-        cpt.insertConstraint("x" + lastGatePos + "b", "x" + cntPos + "a", CP_EQ, "x" + cntPos + "min");
-        cpt.insertLPMinVar("x" + cntPos + "min");
+        cpt.insertConstraint("x" + lastGatePos + "b", "x" + currentCnt + "a", CP_MIN, currentRules->getRule(S1CTP1));
         cpt.insertConstraint("x" + diffEnc + "b", "width", CP_MIN, currentRules->getRule(S1DFDF) / 2);
         cpt.insertConstraint("x" + diffEnc + "a", "x" + lastDiff + "b", CP_MIN, 0);
         cpt.insertConstraint("x" + lastDiff + "b", "x" + diffEnc + "b", CP_EQ, "x" + lastDiff + "minR");
