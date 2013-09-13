@@ -47,7 +47,11 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni) {
     rt->addNodetoNet(vdd, tmp.met[trackPos.size() - 1]);
     
     tmp.inoutCnt = rt->createNode();
-    
+
+    //conecta aos pinos de entrada e saida
+    for (int x = 0; x < trackPos.size(); x++)
+        rt->addArc(tmp.inoutCnt, tmp.met[x], 500);            
+
     elements.push_back(tmp);
     return &elements.back();
 }
@@ -153,7 +157,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
         int COST_CNT_INSIDE_DIFF = 10;
         
         Element *tmp, *lastElement;
-        bool gapP, gapN, decCostIOP, decCostION;
+        bool gapP, gapN;
         
         clear();
         rt = new Pathfinder2();
@@ -176,14 +180,12 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
         
         //cria elemento para roteamento lateral
         tmp = createElement(20, center, center);
-        rt->addArc(tmp->inoutCnt, tmp->met[center], 550);
         
         //conecta sinais de entrada e saida com o nó inoutCnt do elemento
         map<string, int>::iterator inoutPins_it;
         for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
             rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
         
-        decCostIOP = decCostION = true;
         vector<t_net2>::iterator eulerPathP_it = currentNetList.getOrderingP().begin(), eulerPathN_it = currentNetList.getOrderingN().begin(), lastP_it, lastN_it;
         
         while (eulerPathP_it != currentNetList.getOrderingP().end() && eulerPathN_it != currentNetList.getOrderingN().end()) {
@@ -215,18 +217,10 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
                 lastElement = tmp;
                 tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()]);
-                
-                //conecta aos pinos de entrada e saida
-                rt->addArc(tmp->inoutCnt, tmp->met[center], 496);
-                
-                decCostIOP = decCostION = false;
-                
+                                                
                 //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-                inoutPins_it = inoutPins.begin();
-                while (inoutPins_it != inoutPins.end()) {
+                for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
                     rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-                    inoutPins_it++;
-                }
             }
             
             if (tmp->linkP.type == GAP && eulerPathP_it->link != -1) { // nao é GAP na difusao P
@@ -271,13 +265,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             //desenha gate do transistor se nao for GAP
             lastElement = tmp;
             tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()]);
-            
-            //conecta aos pinos de entrada e saida
-            for (int x = 0; x < trackPos.size(); x++) {
-                if ((!decCostIOP && x == 0) || (!decCostION && x == trackPos.size() - 1)) rt->addArc(tmp->inoutCnt, tmp->met[x], 500);
-                else rt->addArc(tmp->inoutCnt, tmp->met[x], 496);
-            }
-            
+                        
             if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
                 tmp->linkP = *eulerPathP_it;
                 tmp->linkP.type = GATE;
@@ -291,19 +279,15 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
                 //					rt->addArc(tmp->diffP,tmp->outPolP,5);
             } else tmp->linkP.type = GAP;
             
-            inoutPins_it = inoutPins.begin();
-            while (inoutPins_it != inoutPins.end()) {
+            for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
                 rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-                inoutPins_it++;
-            }
             
             if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
                 tmp->linkN = *eulerPathN_it;
                 tmp->linkN.type = GATE;
                 for (int pos = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]; pos>=0 && trackPos[diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]] - trackPos[pos] <= currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width); pos--)
                     rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).gate, tmp->pol[pos]);
-                
-                
+                                
                 
                 //   TEM UM BUG NA LINHA ANTERIOR QUE TA FAZENDO POS RECEBER -1 corrigido temporariamente com gambi pos>=0
                 
@@ -354,29 +338,21 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
                 } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
             } else tmp->linkN.type = GAP;
             
-            rt->addArc(tmp->inoutCnt, tmp->met[center], 500);
-            
             //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-            inoutPins_it = inoutPins.begin();
-            while (inoutPins_it != inoutPins.end()) {
+            for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
                 rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-                inoutPins_it++;
-            }
-            
+
             lastP_it = eulerPathP_it++;
             lastN_it = eulerPathN_it++;
         }
         
         //cria elemento lateral para roteamento
         tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()]); //MELHORAR!!!!!! max entre trans atual e próximo
-        rt->addArc(tmp->inoutCnt, tmp->met[center], 550);
-        
+
         //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-        inoutPins_it = inoutPins.begin();
-        while (inoutPins_it != inoutPins.end()) {
+        for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
             rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-            inoutPins_it++;
-        }
+
         state++;
         return true;
     } else
@@ -473,26 +449,29 @@ bool AutoCell::compact(string lpSolverFile) {
                     
                     createNode(geometries, cpt, elements_it, x, currentMetNode, currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1);
                     
-                    //insert space or a track between current and last H met node, if it exists
-                    if (lastMetNode[x]!=""){
-                        if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
-                            cpt.insertConstraint("x" + lastMetNode[x] + "b", "x" + currentMetNode[x] + "a", CP_MIN, currentRules->getRule(S1M1M1));
-                        else{
-                            createTrack(geometries, cpt, lastMetNode[x], currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
+                    //insert space or a track between current and lasts H met node, if it exists
+                    for (int y = 0; y < trackPos.size(); y++) {
+                        if(lastMetNode[y]!=""){
+                            if(y==x-1)
+                                insertDistanceRuleInteligent(geometries, cpt, lastMetNode[y], currentMetNode[x], lastMetNode[y], currentMetNode[x], MET1);
+                            else if(y==x+1)
+                                insertDistanceRuleInteligent(geometries, cpt, lastMetNode[y], currentMetNode[x], currentMetNode[x], lastMetNode[y], MET1);
+                            else if(y==x){
+                                if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
+                                    insertDistanceRuleDumb(geometries, cpt, lastMetNode[y], currentMetNode[x], MET1, H);
+                                else
+                                    createTrack(geometries, cpt, lastMetNode[x], currentMetNode[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
+                            }
+                            else if(y<x)
+                                insertDistanceRuleDumb(geometries, cpt, lastMetNode[y], currentMetNode[x], MET1, V);
+                            else if(y>x)
+                                insertDistanceRuleDumb(geometries, cpt, currentMetNode[x], lastMetNode[y], MET1, V);
                         }
                     }
-                    if(x && lastMetNode[x-1]!="")
-                        insertDistanceRuleInteligent(geometries, cpt, lastMetNode[x-1], currentMetNode[x], lastMetNode[x-1], currentMetNode[x], MET1);
-                    if(x < trackPos.size()-1 && lastMetNode[x+1]!="")
-                        insertDistanceRuleInteligent(geometries, cpt, lastMetNode[x+1], currentMetNode[x], currentMetNode[x], lastMetNode[x+1], MET1);
-                    if(x && beforeLastMetNode[x-1]!="")
-                        insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x-1], currentMetNode[x], MET1, H);
+                    if(x && beforeLastMetNode[x]!="")
+                        insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x], currentMetNode[x], MET1, H);
                     if(x < trackPos.size()-1 && beforeLastMetNode[x+1]!="")
                         insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x+1], currentMetNode[x], MET1, H);
-                    if(x>=2 && lastMetNode[x-2]!="")
-                        insertDistanceRuleDumb(geometries, cpt, lastMetNode[x-2], currentMetNode[x], MET1, V);
-                    if(x < trackPos.size()-2 && lastMetNode[x+2]!="")
-                        insertDistanceRuleDumb(geometries, cpt, currentMetNode[x], lastMetNode[x+2], MET1, V);                    
                     //insert space or a track between current and last V met node, if it exists
                     if (lastMetNodeV!=""){
                         if(!rt->areConnected(elements_it->met[x], elements_it->met[x-1]))
@@ -1132,13 +1111,14 @@ void AutoCell::insertDistanceRuleInteligent(vector<Box*> &geometries, compaction
     int minDist = (l==MET1 ? currentRules->getRule(S1M1M1) : currentRules->getRule(S1P1P1));
     //select between different space possibilities
     cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_1");
-    cpt.forceBinaryVar("b" + lastY + "_" + currentY+ "_2");
-    cpt.forceBinaryVar("b" + lastX + "_" + currentY+ "_3");
-    cpt.insertConstraint("ZERO", "b" + lastX + "_" + currentX + "_1" + " + " + "b" + lastY + "_" + currentY + "_2" + " + " + "b" + lastX + "_" + currentY + "_3", CP_EQ, 1);
+    cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_2");
+    cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_3");
+    cpt.insertConstraint("ZERO", "b" + lastX + "_" + currentX+ "_3", CP_EQ, 0);
+    cpt.insertConstraint("ZERO", "b" + lastX + "_" + currentX + "_1" + " + " + "b" + lastX + "_" + currentX + "_2" + " + " + "b" + lastX + "_" + currentX + "_3", CP_EQ, 1);
     cpt.insertConstraint("x" + lastX + "b + 1000", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_1", minDist + 1000);
-    cpt.insertConstraint("y" + lastY + "b + 1000", "y" + currentY + "a", CP_MIN, "b" + lastY + "_" + currentY + "_2", minDist + 1000);
-    cpt.insertConstraint("x" + lastX + "b + 1000", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentY + "_3", ceil(minDist/sqrt(2.0)) + 1000);
-    cpt.insertConstraint("y" + lastY + "b + 1000", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentY + "_3", ceil(minDist/sqrt(2.0)) + 1000);
+    cpt.insertConstraint("y" + lastY + "b + 1000", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_2", minDist + 1000);
+    cpt.insertConstraint("x" + lastX + "b + 1000", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + 1000);
+    cpt.insertConstraint("y" + lastY + "b + 1000", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + 1000);
 }
 
 void AutoCell::insertDistanceRuleDumb(vector<Box*> &geometries, compaction &cpt, string last, string next, layer_name l, HorV dir){
