@@ -537,10 +537,17 @@ int compaction::solve(string lpSolverFile) {
 		return 0;
 	}
 	
-    char str[150];
-	while (fgets(str, 150, x)) {
+	char line[150];
+	while (fgets(line, 150, x)) {
+		istringstream s(line);
+		string n;		
+		s >> n;
+		if(n=="Unable" || n=="Wrote" || n=="Optimal")
+			cout << line;
     }
-	_pclose(x);
+
+	
+    _pclose(x);
     
     FILE* stream = fopen("temp.sol", "r");
 
@@ -549,7 +556,6 @@ int compaction::solve(string lpSolverFile) {
 		return 0;
 	}
 
-	char line[150];
 	while (fgets(line, 150, stream)) {
 		
 		istringstream s(line);

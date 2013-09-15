@@ -67,6 +67,8 @@ protected:
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
 	vector<int> trackPos, diffPini, diffNini;
 	int state;
+    static const int relaxation = 10000;
+
 	
 	list<Element> elements;
 	map<string,int> inoutPins;
