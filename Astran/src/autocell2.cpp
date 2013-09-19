@@ -943,22 +943,22 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.insertConstraint("y" + cntPos + "a", "y" + cntPos + "b", CP_EQ, currentRules->getRule(W2CT));
     
     //metal head over contact
-    cpt.forceBinaryVar("b" + cntPos + "_1M");
-    cpt.forceBinaryVar("b" + cntPos + "_2M");
-    cpt.forceBinaryVar("b" + cntPos + "_3M");
+    cpt.forceBinaryVar("b" + cntPos + "_1M"); // horizontal stripe
+    cpt.forceBinaryVar("b" + cntPos + "_2M"); // vertical stripe
+    cpt.forceBinaryVar("b" + cntPos + "_3M"); // classic all around
     cpt.insertConstraint("ZERO", "b" + cntPos + "_1M" + " + " + "b" + cntPos + "_2M"  + " + " + "b" + cntPos + "_3M", CP_EQ, 1);
     
     cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E2M1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E3M1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_3M", currentRules->getRule(E1M1CT));
+    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E1M1CT));
+    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_3M", currentRules->getRule(E3M1CT));
     cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + cntPos + "a", CP_MIN, "x" + cntPos + "hM");
     cpt.insertConstraint("x" + cntPos + "b", "x" + metTracks[pos] + "b", CP_MIN, "x" + cntPos + "hM");
     cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + metTracks[pos] + "b", CP_EQ, "x" + cntPos + "hminM");
     cpt.insertLPMinVar("x" + cntPos + "hminM",3);
     
     cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E1M1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E3M1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_3M", currentRules->getRule(E2M1CT));
+    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E2M1CT));
+    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_3M", currentRules->getRule(E3M1CT));
     cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + cntPos + "a", CP_MIN, "y" + cntPos + "vM");
     cpt.insertConstraint("y" + cntPos + "b", "y" + metTracks[pos] + "b", CP_MIN, "y" + cntPos + "vM");
     cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + metTracks[pos] + "b", CP_EQ, "y" + cntPos + "vminM");
@@ -1027,19 +1027,20 @@ void AutoCell::insertCntPol(vector<Box*> &geometries, compaction &cpt, string cn
     cpt.forceBinaryVar("b" + cntPos + "_1P");
     cpt.forceBinaryVar("b" + cntPos + "_2P");
     cpt.forceBinaryVar("b" + cntPos + "_3P");
+
     cpt.insertConstraint("ZERO", "b" + cntPos + "_1P" + " + " + "b" + cntPos + "_2P"  + " + " + "b" + cntPos + "_3P", CP_EQ, 1);
     
     cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_1P", currentRules->getRule(E2P1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E3P1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_3P", currentRules->getRule(E1P1CT));
+    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E1P1CT));
+    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_3P", currentRules->getRule(E3P1CT));
     cpt.insertConstraint("x" + currentPolNodes[pos] + "a", "x" + cntPos + "a", CP_MIN, "x" + cntPos + "hP");
     cpt.insertConstraint("x" + cntPos + "b", "x" + currentPolNodes[pos] + "b", CP_MIN, "x" + cntPos + "hP");
     cpt.insertConstraint("x" + currentPolNodes[pos] + "a", "x" + currentPolNodes[pos] + "b", CP_EQ, "x" + cntPos + "hminP");
     cpt.insertLPMinVar("x" + cntPos + "hminP",2);
     
     cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_1P", currentRules->getRule(E1P1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E3P1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_3P", currentRules->getRule(E2P1CT));
+    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E2P1CT));
+    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_3P", currentRules->getRule(E3P1CT));
     cpt.insertConstraint("y" + currentPolNodes[pos] + "a", "y" + cntPos + "a", CP_MIN, "y" + cntPos + "vP");
     cpt.insertConstraint("y" + cntPos + "b", "y" + currentPolNodes[pos] + "b", CP_MIN, "y" + cntPos + "vP");
     cpt.insertConstraint("y" + currentPolNodes[pos] + "a", "y" + currentPolNodes[pos] + "b", CP_EQ, "y" + cntPos + "vminP");
