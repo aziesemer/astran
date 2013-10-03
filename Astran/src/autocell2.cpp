@@ -47,11 +47,11 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni) {
     rt->addNodetoNet(vdd, tmp.met[trackPos.size() - 1]);
     
     tmp.inoutCnt = rt->createNode();
-
+    
     //conecta aos pinos de entrada e saida
     for (int x = 0; x < trackPos.size(); x++)
         rt->addArc(tmp.inoutCnt, tmp.met[x], 500);            
-
+    
     elements.push_back(tmp);
     return &elements.back();
 }
@@ -144,14 +144,14 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             int p;
             for (p = center + 1; trackPos[p] < pDif_iniY; ++p) {
             }
-//            cout << p;
+            //            cout << p;
             diffPini.push_back(p);
         }
         for (int x = 0; x < currentNetList.getOrderingN().size(); x++) {
             int p;
             for (p = center - 1; trackPos[p] > nDif_iniY; --p) {
             }
-//            cout << p;
+            //            cout << p;
             diffNini.push_back(p);
         }
         
@@ -219,7 +219,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
                 lastElement = tmp;
                 tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()]);
-                                                
+                
                 //conecta sinais de entrada e saida com o nó inoutCnt do elemento
                 for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
                     rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
@@ -267,7 +267,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             //desenha gate do transistor se nao for GAP
             lastElement = tmp;
             tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()]);
-                        
+            
             if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
                 tmp->linkP = *eulerPathP_it;
                 tmp->linkP.type = GATE;
@@ -289,7 +289,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
                 tmp->linkN.type = GATE;
                 for (int pos = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]; pos>=0 && trackPos[diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()]] - trackPos[pos] <= currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width); pos--)
                     rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).gate, tmp->pol[pos]);
-                                
+                
                 
                 //   TEM UM BUG NA LINHA ANTERIOR QUE TA FAZENDO POS RECEBER -1 corrigido temporariamente com gambi pos>=0
                 
@@ -343,18 +343,18 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
             //conecta sinais de entrada e saida com o nó inoutCnt do elemento
             for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
                 rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-
+            
             lastP_it = eulerPathP_it++;
             lastN_it = eulerPathN_it++;
         }
         
         //cria elemento lateral para roteamento
         tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()]); //MELHORAR!!!!!! max entre trans atual e próximo
-
+        
         //conecta sinais de entrada e saida com o nó inoutCnt do elemento
         for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
             rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-
+        
         state++;
         return true;
     } else
@@ -468,10 +468,10 @@ bool AutoCell::compact(string lpSolverFile) {
                             }
                         }
                     }
-//                    if(x && beforeLastMetNode[x]!="")
-//                        insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x], currentMetNode[x], MET1, H);
-//                    if(x < trackPos.size()-1 && beforeLastMetNode[x+1]!="")
-//                        insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x+1], currentMetNode[x], MET1, H);
+                    //                    if(x && beforeLastMetNode[x]!="")
+                    //                        insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x], currentMetNode[x], MET1, H);
+                    //                    if(x < trackPos.size()-1 && beforeLastMetNode[x+1]!="")
+                    //                        insertDistanceRuleDumb(geometries, cpt, beforeLastMetNode[x+1], currentMetNode[x], MET1, H);
                     //insert space or a track between current and last V met node, if it exists
                     if (lastMetNodeV!=""){
                         if(!rt->areConnected(elements_it->met[x], elements_it->met[x-1]))
@@ -627,21 +627,22 @@ bool AutoCell::compact(string lpSolverFile) {
         
     }
     int width = cpt.getVariableVal("width");
-    /*
-     //Aqui duplica as camadas de M1 relacionadas aos pinos de I/O
-     list <Box>::iterator net_it;
-     for ( net_it = currentLayout.layers[MET1].begin(); net_it != currentLayout.layers[MET1].end(); net_it++ )
-     if(currentNetList.isIO(net_it->getNet())) currentLayout.addEnc(*net_it,  0 , MET1P); 
-	 
-     for (map<string,int>::iterator IOgeometries_it=IOgeometries.begin(); IOgeometries_it != IOgeometries.end(); IOgeometries_it++ ) {
-     Pin p;
-     p.setX(geometries[IOgeometries_it->second]->getX());
-     p.setY(geometries[IOgeometries_it->second]->getY());
-     p.setLayer(MET1P);
-     currentLayout.setPin(IOgeometries_it->first,p);
-     currentLayout.addLabel(IOgeometries_it->first,p);
-     }
-	 
+    
+    //Aqui duplica as camadas de M1 relacionadas aos pinos de I/O
+    list <Box>::iterator net_it;
+    for ( net_it = currentLayout.layers[MET1].begin(); net_it != currentLayout.layers[MET1].end(); net_it++ )
+        if(currentNetList.isIO(net_it->getNet())) currentLayout.addEnc(*net_it,  0 , MET1P); 
+    
+    /*for (map<string,int>::iterator IOgeometries_it=IOgeometries.begin(); IOgeometries_it != IOgeometries.end(); IOgeometries_it++ ) {
+        Pin p;
+        p.setX(geometries[IOgeometries_it->second]->getX());
+        p.setY(geometries[IOgeometries_it->second]->getY());
+        p.setLayer(MET1P);
+        currentLayout.setPin(IOgeometries_it->first,p);
+        currentLayout.addLabel(IOgeometries_it->first,p);
+    }
+    
+    
      list <Box>::iterator layer_it;
      for ( layer_it = currentLayout.layers[PDIF].begin(); layer_it != currentLayout.layers[PDIF].end(); layer_it++ )
      &currentLayout.addEnc(*layer_it,  currentRules->getRule(E1IPDF) , PSEL);
@@ -731,9 +732,9 @@ bool AutoCell::compact(string lpSolverFile) {
     currentLayout.addPolygon(0, currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF), width, cpt.getVariableVal("posNWell"), NSEL);
     currentLayout.addPolygon(0, height - (currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF)), width, cpt.getVariableVal("posNWell"), PSEL);
     
-    currentLayout.addPolygon(0, 0, width, supWidth, MET1).setNet(currentCircuit->getVddNet());
+    currentLayout.addPolygon(0, 0, width, supWidth, MET1).setNet(currentCircuit->getGndNet());
     currentLayout.addPolygon(0, 0, width, supWidth, MET1P);
-    currentLayout.addPolygon(0, height - supWidth, width, height, MET1).setNet(currentCircuit->getGndNet());
+    currentLayout.addPolygon(0, height - supWidth, width, height, MET1).setNet(currentCircuit->getVddNet());
     currentLayout.addPolygon(0, height - supWidth, width, height, MET1P);
     currentLayout.addPolygon(0, 0, width, height, CELLBOX);
     currentLayout.addPolygon(currentRules->getRule(S1DFDF) / 2 - currentRules->getRule(E1WNDP), height + currentRules->getRule(S1DNWN), width - currentRules->getRule(S1DFDF) / 2 + currentRules->getRule(E1WNDP), cpt.getVariableVal("posNWell"), NWEL);
@@ -876,7 +877,7 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
         cpt.insertConstraint("y" + currentCnt + "b", "y" + currentCnt + "_boundbx_b", CP_MIN, 0);
         cpt.insertConstraint("y" + currentCnt + "_boundbx_a", "y" + currentCnt + "_boundbx_b", CP_EQ, "y" + currentCnt + "_boundbx_min");
         cpt.insertLPMinVar("y" + currentCnt + "_boundbx_min",2);
-
+        
         cpt.insertConstraint("x" + lastGate + "b", "x" + currentCnt + "a", CP_MIN, currentRules->getRule(S1CTP1));
         cpt.insertConstraint("x" + diffEnc + "b", "width", CP_MIN, currentRules->getRule(S1DFDF) / 2);
         cpt.insertConstraint("x" + diffEnc + "a", "x" + lastDiff + "b", CP_MIN, 0);
@@ -966,7 +967,7 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
         }
         cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateOut",2);
         cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateIn",2);
-
+        
         // space diff from the poly internal tracks
         if (l==NDIF)
             cpt.insertConstraint("y" + currentDiff + "b", "y" + closestPolNodeN + "a", CP_MIN, currentRules->getRule(S1DFP1));
@@ -974,7 +975,7 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
             cpt.insertConstraint("y" + closestPolNodeP + "b", "y" + currentDiff + "a", CP_MIN, currentRules->getRule(S1DFP1));
         lastDiff = currentDiff;
     }
-                
+    
     lastGate = "";
     lastCnt = currentCnt;
     return diffEnc;
@@ -992,7 +993,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.forceBinaryVar("b" + cntPos + "_2M"); // vertical stripe
     cpt.forceBinaryVar("b" + cntPos + "_3M"); // classic all around
     cpt.insertConstraint("ZERO", "b" + cntPos + "_1M" + " + " + "b" + cntPos + "_2M"  + " + " + "b" + cntPos + "_3M", CP_EQ, 1);
-//    cpt.insertConstraint("ZERO", "b" + cntPos + "_3M", CP_EQ, 1);
+    //    cpt.insertConstraint("ZERO", "b" + cntPos + "_3M", CP_EQ, 1);
     
     cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E2M1CT));
     cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E1M1CT));
@@ -1073,9 +1074,9 @@ void AutoCell::insertCntPol(vector<Box*> &geometries, compaction &cpt, string cn
     cpt.forceBinaryVar("b" + cntPos + "_1P");
     cpt.forceBinaryVar("b" + cntPos + "_2P");
     cpt.forceBinaryVar("b" + cntPos + "_3P");
-
+    
     cpt.insertConstraint("ZERO", "b" + cntPos + "_1P" + " + " + "b" + cntPos + "_2P"  + " + " + "b" + cntPos + "_3P", CP_EQ, 1);
-//    cpt.insertConstraint("ZERO", "b" + cntPos + "_3P", CP_EQ, 1);
+    //    cpt.insertConstraint("ZERO", "b" + cntPos + "_3P", CP_EQ, 1);
     
     cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_1P", currentRules->getRule(E2P1CT));
     cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E1P1CT));

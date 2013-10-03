@@ -527,7 +527,7 @@ int compaction::solve(string lpSolverFile) {
     
     
 	f.close();
-    string cmd = "\"" + lpSolverFile + "\" ResultFile=temp.sol " + 	lp_filename + ".lp";
+    string cmd = "\"" + lpSolverFile + "\" TimeLimit=500 ResultFile=temp.sol " + 	lp_filename + ".lp";
 	cout << "Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
@@ -542,7 +542,7 @@ int compaction::solve(string lpSolverFile) {
 		istringstream s(line);
 		string n;		
 		s >> n;
-		if(n=="Unable" || n=="Wrote" || n=="Optimal")
+		if(n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
 			cout << line;
     }
 
