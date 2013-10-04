@@ -18,7 +18,6 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 	vector<string> tokens;
 	int a, b, instance=0;
 	CellNetlst cell;
-	nome="teste.v";
 	parserFile(nome, tokens);
 	int n=0;
 	string modName="";
