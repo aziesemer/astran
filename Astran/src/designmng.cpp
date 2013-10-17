@@ -693,6 +693,16 @@ int DesignMng::readCommand(string cmd){
 				circuit->setSupplyVSize(atof(words[2].c_str()));
 				ret=1;
 				break;
+
+			case SET_NWELLPOS:
+				circuit->setnWellPos(atof(words[2].c_str()));
+				ret=1;
+				break;
+				
+			case SET_TAPLESS:
+				circuit->setTapless(words[2].c_str()=="YES"?true:false);
+				ret=1;
+				break;
 				
 				/****  FLOORPLAN - 3  ****/
 			case SET_TOPCELL:

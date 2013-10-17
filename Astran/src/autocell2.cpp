@@ -68,7 +68,7 @@ bool AutoCell::calcArea(Circuit* c) {
     height = currentCircuit->getRowHeight() * vGrid;
     
     supWidth = max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2;
-    posNWell = height / 2; //Improve!!!
+    posNWell = currentRules->getIntValue(currentCircuit->getnWellPos());
     pDif_iniY = posNWell + currentRules->getRule(E1WNDP);
     nDif_iniY = posNWell - currentRules->getRule(S1DNWN);
     trackPos.clear();
@@ -82,7 +82,7 @@ bool AutoCell::calcArea(Circuit* c) {
     do {
         next = trackPos.front() - currentRules->getRule(S1M1M1) - currentRules->getRule(W1M1);
         trackPos.insert(trackPos.begin(), next);
-    } while (next >= supWidth / 2 + currentRules->getRule(S1M1M1));
+    } while (next >= supWidth / 2 + currentRules->getRule(S1M1M1) + currentRules->getRule(W1M1)/2);
     
     //tracks position above the central track
     do {
@@ -92,12 +92,18 @@ bool AutoCell::calcArea(Circuit* c) {
     
     for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
+    //MELHORAR PARA SER MAIS OTIMISTA
     nDif_iniY = min(nDif_iniY, center * vGrid - (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
     pDif_iniY = max(pDif_iniY, center * vGrid + (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
     
-    nDif_endY = max(currentRules->getRule(E1INDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
-    pDif_endY = height - max(currentRules->getRule(E1IPDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
-    
+    if(currentCircuit->isTapless()){
+        nDif_endY = currentRules->getRule(E1P1DF) + currentRules->getRule(S1P1P1) / 2 ;
+        pDif_endY = height - (currentRules->getRule(E1P1DF) + currentRules->getRule(S1P1P1) / 2);
+    }else{
+        //MELHORAR
+        nDif_endY = max(currentRules->getRule(E1INDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
+        pDif_endY = height - max(currentRules->getRule(E1IPDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
+    }
     nSize = nDif_iniY - nDif_endY;
     pSize = pDif_endY - pDif_iniY;
     
@@ -415,9 +421,7 @@ bool AutoCell::compact(string lpSolverFile) {
     cpt.insertConstraint("ZERO", "height", CP_EQ, height);
     cpt.insertConstraint("ZERO", "yGNDb", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
     cpt.insertConstraint("yVDDa", "height", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
-    cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(1.14f)); //Improve!!
-    cpt.insertConstraint("ZERO", "yNDiffa", CP_MIN, max(currentRules->getRule(E1INDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF)));
-    cpt.insertConstraint("yPDiffb", "height", CP_MIN, max(currentRules->getRule(E1IPDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF)));
+    cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(currentCircuit->getnWellPos()));
     cpt.insertConstraint("yNDiffb", "posNWell", CP_MIN, currentRules->getRule(E1WNDP));
     cpt.insertConstraint("posNWell", "yPDiffa", CP_MIN, currentRules->getRule(E1WNDP));
     //central track position
@@ -726,8 +730,8 @@ bool AutoCell::compact(string lpSolverFile) {
     currentLayout.setHeight(height);
     
     //Draw supply strips
-    currentLayout.addPolygon(0, currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF), width, cpt.getVariableVal("posNWell"), NSEL);
-    currentLayout.addPolygon(0, height - (currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF)), width, cpt.getVariableVal("posNWell"), PSEL);
+//    currentLayout.addPolygon(0, currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF), width, cpt.getVariableVal("posNWell"), NSEL);
+//    currentLayout.addPolygon(0, height - (currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF)), width, cpt.getVariableVal("posNWell"), PSEL);
     
     currentLayout.addPolygon(0, 0, width, supWidth, MET1).setNet(currentCircuit->getGndNet());
     currentLayout.addPolygon(0, 0, width, supWidth, MET1P);
@@ -759,6 +763,8 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     cpt.insertConstraint("x" + gatePos + "b", "x" + currentDiff + "b", CP_MIN, currentRules->getRule(E1DFP1));
     cpt.insertConstraint("ZERO", "b" + currentDiff + "_smallTransWidth", CP_EQ, (transWidth<currentRules->getRule(S3DFP1)?1:0));    
     cpt.insertConstraint("y" + currentDiff + "a", "y" + currentDiff + "b", CP_EQ, transWidth);
+    cpt.insertConstraint("ZERO", "y" + gatePos + "a", CP_MIN, currentRules->getRule(S1P1P1) / 2);
+    cpt.insertConstraint("y" + gatePos + "b", "height", CP_MIN, currentRules->getRule(S1P1P1) / 2);        
     
     if (lastGate != ""){
         cpt.insertConstraint("x" + lastGate + "b", "x" + gatePos + "a", CP_MIN, currentRules->getRule(S2P1P1));
@@ -906,8 +912,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
             cpt.insertConstraint("y" + diffEnc + "LdistAfterGateOut", "y" + diffEnc + "b", CP_MAX, "y" + lastDiff + "b");            
             cpt.insertConstraint("y" + diffEnc + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + diffEnc + "a");            
         }
-        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateOut");
-        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateIn");
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateOut",2);
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateIn",2);
     }
     
     //if there is not a gap after
@@ -1129,7 +1135,9 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
         
         if (pos == trackPos.size() - 1)
             cpt.insertConstraint("y" + currentGeo + "a", "yVDDa", CP_EQ, 0);
-    }else{
+    }else if(l==POLY){
+        cpt.insertConstraint("ZERO", "y" + currentGeo + "a", CP_MIN, minDist / 2);
+        cpt.insertConstraint("y" + currentGeo + "b", "height", CP_MIN, minDist / 2);        
     }
     currentNode[pos]=currentGeo;
 }

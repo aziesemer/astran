@@ -8,6 +8,8 @@ Circuit::Circuit(){
 	hGrid=0.26f;
 	vGrid=0.26f;
 	supplyVSize=0.8f;
+	nWellPos=1.14f;
+	tapless=true;
 	vddNet="VCC";
 	gndNet="GND";
 	cellsHeight=10;

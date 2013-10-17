@@ -40,7 +40,7 @@ struct trules {
 };
 
 static trules rules_lst[] = {
-	{"S1P1P1","Minimum Gate Spacing",0},
+	{"S1P1P1","Minimum POLY1 spacing in a dense region",0},
 	{"S1DFP1","Minimum POLY1 spacing to DIFF",0},
 	{"S2DFP1","Minimum POLY1 spacing to DIFF if W<S3DFP1",0},
 	{"S3DFP1","Transistor Width for rule S2DFP1",0},
