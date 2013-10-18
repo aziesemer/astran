@@ -895,10 +895,10 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
         //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
         cpt.forceBinaryVar("b" + diffEnc + "_LshapeAfterGate");
         cpt.insertConstraint("b" + diffEnc + "_applyS2AfterGate", "b" + diffEnc + "_LshapeAfterGate", CP_MAX, "b" + lastGate + "_applyExtraExtAfterGate");
-        cpt.insertConstraint("y" + lastGate + "a", "y" + diffEnc + "a", CP_MIN, currentRules->getRule(E1P1DF));
-        cpt.insertConstraint("y" + lastGate + "a", "y" + diffEnc + "a", CP_MIN, "b" + lastGate + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));
-        cpt.insertConstraint("y" + diffEnc + "b", "y" + lastGate + "b", CP_MIN, currentRules->getRule(E1P1DF));
-        cpt.insertConstraint("y" + diffEnc + "b", "y" + lastGate + "b", CP_MIN, "b" + lastGate + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));
+        cpt.insertConstraint("y" + lastGate + "a", "y" + lastDiff + "a", CP_MIN, currentRules->getRule(E1P1DF));
+        cpt.insertConstraint("y" + lastGate + "a", "y" + lastDiff + "a", CP_MIN, "b" + lastGate + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));
+        cpt.insertConstraint("y" + lastDiff + "b", "y" + lastGate + "b", CP_MIN, currentRules->getRule(E1P1DF));
+        cpt.insertConstraint("y" + lastDiff + "b", "y" + lastGate + "b", CP_MIN, "b" + lastGate + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));
         
         //insert conditional diff to gate rule in L shape transistors considering S3DFP1 (big transistor width)
         cpt.insertConstraint("x" + lastGate + "b", "x" + diffEnc + "a", CP_MIN, "b" + diffEnc + "_LshapeAfterGate", currentRules->getRule(S1DFP1));
@@ -1006,7 +1006,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
         geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
         string cnt2 = intToStr(geometries.size() - 1);    
         cpt.forceBinaryVar("b" + cnt2); // 2nd contact
-        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*80);
+        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*70);
 //        cpt.insertConstraint("ZERO", "b" + cnt2, CP_EQ, 1);
         cpt.insertConstraint("y" + cnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
         cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
