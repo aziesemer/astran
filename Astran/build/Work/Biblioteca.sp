@@ -1,3 +1,18 @@
+.subckt CSYN2 RA RB RQ GND VCC
+  MN0 R2 RA R3 GND nmos L=65n W=480n
+  MN1 R3 RB GND GND nmos L=65n W=480n
+  MN2 R3 RQ R4 GND nmos L=65n W=480n
+  MN3 R2 RB R4 GND nmos L=65n W=480n
+  MN4 R4 RA GND GND nmos L=65n W=480n
+  MN5 RQ R2 GND GND nmos L=65n W=480n
+  MP0 R0 RA VCC VCC pmos L=65n W=1040n
+  MP1 R0 RB R2 VCC pmos L=65n W=1040n
+  MP2 R0 RQ R1 VCC pmos L=65n W=1040n
+  MP3 R1 RB VCC VCC pmos L=65n W=1040n
+  MP4 R1 RA R2 VCC pmos L=65n W=1040n
+  MP5 RQ R2 VCC VCC pmos L=65n W=1040n
+.ends
+
 .subckt INV2 A Q GND VCC
   MN Q A GND GND nmos L=65n W=480n
   MP Q A VCC VCC pmos L=65n W=1040n

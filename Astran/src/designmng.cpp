@@ -754,7 +754,8 @@ int DesignMng::readCommand(string cmd){
 				break;
 				
 			case CELLGEN_COMPACT:
-				ret=autocell->compact(lpSolverFile);
+				ret=autocell->compact(lpSolverFile, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()));
+
 				break;
 				
 				/****  HELP - 2  ****/

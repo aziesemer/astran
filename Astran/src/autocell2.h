@@ -65,6 +65,8 @@ protected:
 	int nSize,pSize;
 	int  center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
+    int diffStretching, griddedPolly, ddCntsCost, alignDiffConts;
+    
 	vector<int> trackPos, diffPini, diffNini;
 	int state;
     static const int relaxation = 10000;
@@ -87,7 +89,7 @@ protected:
     void insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> polTracks, int pos);
     string insertCntDif(vector<Box*> &geometries, compaction &cpt, string currentCnt, string &lastGatePos, string &lastCnt, string &lastDiff, string &closestPolNodeP, string &closestPolNodeN, layer_name l, bool endDiff);
     string insertVia(vector<Box*> &geometries, compaction &cpt, string metNode);
-    string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, int pos);
+    string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, int pos, bool isDiff);
     string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string lastContact, string lastContactDiff, string &lastGatePos, string lastDiff, string currentDiff, string &closestPolNodeP, string &closestPolNodeN, layer_name l);
     string createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l);
     void createNode(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentMetNode, string netName, layer_name l);
@@ -104,7 +106,7 @@ protected:
 	bool placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
 	bool route(int mCost, int pCost, int cCost, int ioCost);
-	bool compact(string lpSolverFile);	
+    bool compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts);
 	bool selectCell(string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};

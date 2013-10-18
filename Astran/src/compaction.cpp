@@ -424,10 +424,14 @@ int compaction::solve(string lpSolverFile) {
 	
 	f << "Minimize" << endl; 
 	for ( unsigned int i = 0; i < lp_min_var.size(); i++ ) {    
-		if ( i != 0 )
-			f << " + ";
+		if ( i != 0 ){
+			if(lp_min_val[i]>=0)
+                f << " + ";
+            else
+                f << " - ";                
+        }
 		if ( lp_min_val[i] != 1 )
-			f << lp_min_val[i] << " ";
+			f << abs(lp_min_val[i]) << " ";
 		
 		f << lp_min_var[i];
 	}

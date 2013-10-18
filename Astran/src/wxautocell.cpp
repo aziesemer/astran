@@ -45,7 +45,14 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	currentFrmwork->readCommand(cmd.ToAscii().data());
 	
 	// Compact Layout
-	cmd=wxT("cellgen compact");
+    cmd=wxT("cellgen compact ");
+    cmd+= diffStretching->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= griddedPolly->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= wxString::Format(_T("%d"), ddCntsCost->GetValue());
+    cmd+= wxT(" ");
+    cmd+= alignDiffCnts->GetValue()==true?wxT("1"):wxT("0");
 	currentFrmwork->readCommand(cmd.ToAscii().data());
 	update();
 }
@@ -74,7 +81,14 @@ void WxAutoCell::route( wxCommandEvent& event ){
 }
 
 void WxAutoCell::compact( wxCommandEvent& event ){
-	wxString cmd=wxT("cellgen compact");
+	wxString cmd=wxT("cellgen compact ");
+    cmd+= diffStretching->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= griddedPolly->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= wxString::Format(_T("%d"), ddCntsCost->GetValue());
+    cmd+= wxT(" ");
+    cmd+= alignDiffCnts->GetValue()==true?wxT("1"):wxT("0");
 	currentFrmwork->readCommand(cmd.ToAscii().data());
 	update();
 }
