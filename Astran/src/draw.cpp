@@ -24,7 +24,7 @@ Box& Draw::addBox(int ptx, int pty, int width, int height, layer_name l){
 }
 
 Box& Draw::addBox(Point& pt, int width, int height, layer_name l){
-	Box tmp(pt.getX()+round(float(width)/2), pt.getY()+round(float(height)/2), abs(width), abs(height));
+	Box tmp((pt.getX()+width)/2,(pt.getY()+height)/2, abs(width), abs(height));
 	return addLayer(tmp,l);
 }
 
@@ -35,8 +35,8 @@ Box& Draw::addPolygon(int ptx_ini, int pty_ini, int ptx_end, int pty_end, layer_
 
 Box& Draw::addPolygon(Point& pt1, Point& pt2, layer_name& l){
 	Box tmp;
-	tmp.setX(round(float(pt1.getX()+pt2.getX())/2));
-	tmp.setY(round(float(pt1.getY()+pt2.getY())/2));
+	tmp.setX((pt1.getX()+pt2.getX())/2);
+	tmp.setY((pt1.getY()+pt2.getY())/2);
 	tmp.setWidth(abs(pt2.getX()-pt1.getX()));
 	tmp.setHeight(abs(pt2.getY()-pt1.getY()));
 	return addLayer(tmp,l);

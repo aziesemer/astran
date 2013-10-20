@@ -277,5 +277,5 @@ void Rules::listLayersLabels() {
 }
 
 int Rules::getIntValue(float f){
-	return round(f*resolution);
+	return ceil(f*resolution);
 }

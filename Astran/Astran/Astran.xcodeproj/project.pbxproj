@@ -34,6 +34,33 @@
 		BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
 		BC97A54E178F2BBE0002254A /* wxPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A531178F2BBE0002254A /* wxPreferences.cpp */; };
 		BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
+		BCC8FE851811F0AF00A322C9 /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
+		BCC8FE861811F0AF00A322C9 /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
+		BCC8FE871811F0AF00A322C9 /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
+		BCC8FE881811F0AF00A322C9 /* circuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A503178F2BBE0002254A /* circuit.cpp */; };
+		BCC8FE891811F0AF00A322C9 /* clayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A505178F2BBE0002254A /* clayout.cpp */; };
+		BCC8FE8A1811F0AF00A322C9 /* compaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A507178F2BBE0002254A /* compaction.cpp */; };
+		BCC8FE8B1811F0AF00A322C9 /* designmng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A509178F2BBE0002254A /* designmng.cpp */; };
+		BCC8FE8C1811F0AF00A322C9 /* draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A50B178F2BBE0002254A /* draw.cpp */; };
+		BCC8FE8D1811F0AF00A322C9 /* gds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A50D178F2BBE0002254A /* gds.cpp */; };
+		BCC8FE8E1811F0AF00A322C9 /* icpdApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A510178F2BBE0002254A /* icpdApp.cpp */; };
+		BCC8FE8F1811F0AF00A322C9 /* icpdfrm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A512178F2BBE0002254A /* icpdfrm.cpp */; };
+		BCC8FE901811F0AF00A322C9 /* lef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A514178F2BBE0002254A /* lef.cpp */; };
+		BCC8FE911811F0AF00A322C9 /* pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A516178F2BBE0002254A /* pathfinder.cpp */; };
+		BCC8FE921811F0AF00A322C9 /* pathfinder2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A518178F2BBE0002254A /* pathfinder2.cpp */; };
+		BCC8FE931811F0AF00A322C9 /* placer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51A178F2BBE0002254A /* placer.cpp */; };
+		BCC8FE941811F0AF00A322C9 /* router.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51C178F2BBE0002254A /* router.cpp */; };
+		BCC8FE951811F0AF00A322C9 /* rules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51E178F2BBE0002254A /* rules.cpp */; };
+		BCC8FE961811F0AF00A322C9 /* spice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A521178F2BBE0002254A /* spice.cpp */; };
+		BCC8FE971811F0AF00A322C9 /* verilog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A525178F2BBE0002254A /* verilog.cpp */; };
+		BCC8FE981811F0AF00A322C9 /* wxabout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A527178F2BBE0002254A /* wxabout.cpp */; };
+		BCC8FE991811F0AF00A322C9 /* wxautocell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A529178F2BBE0002254A /* wxautocell.cpp */; };
+		BCC8FE9A1811F0AF00A322C9 /* wxcircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52B178F2BBE0002254A /* wxcircuit.cpp */; };
+		BCC8FE9B1811F0AF00A322C9 /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
+		BCC8FE9C1811F0AF00A322C9 /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
+		BCC8FE9D1811F0AF00A322C9 /* wxPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A531178F2BBE0002254A /* wxPreferences.cpp */; };
+		BCC8FE9E1811F0AF00A322C9 /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
+		BCC8FEA11811F0AF00A322C9 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BC97A50F178F2BBE0002254A /* icon.icns */; };
 		E6828ACE17BEB82A002E35C0 /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
 		E6828ACF17BEB82A002E35C0 /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
 		E6828AD017BEB82A002E35C0 /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
@@ -123,11 +150,20 @@
 		BC97A532178F2BBE0002254A /* wxPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxPreferences.h; sourceTree = "<group>"; };
 		BC97A533178F2BBE0002254A /* wxrules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxrules.cpp; sourceTree = "<group>"; };
 		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
+		BCC8FEA51811F0AF00A322C9 /* Astran copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Astran copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCC8FEA71811F0AF00A322C9 /* Astran copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Astran copy2-Info.plist"; path = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/Astran/Astran copy2-Info.plist"; sourceTree = "<absolute>"; };
 		E6828AEE17BEB82B002E35C0 /* Astran copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Astran copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BC97A4D8178F2B1E0002254A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCC8FE9F1811F0AF00A322C9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -150,6 +186,7 @@
 				BC97A4FC178F2BBE0002254A /* src */,
 				BC97A4E5178F2B1E0002254A /* Astran */,
 				BC97A4DC178F2B1E0002254A /* Products */,
+				BCC8FEA71811F0AF00A322C9 /* Astran copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,6 +195,7 @@
 			children = (
 				BC97A4DB178F2B1E0002254A /* Astran.app */,
 				E6828AEE17BEB82B002E35C0 /* Astran copy.app */,
+				BCC8FEA51811F0AF00A322C9 /* Astran copy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +301,23 @@
 			productReference = BC97A4DB178F2B1E0002254A /* Astran.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BCC8FE831811F0AF00A322C9 /* Astran Debug */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCC8FEA21811F0AF00A322C9 /* Build configuration list for PBXNativeTarget "Astran Debug" */;
+			buildPhases = (
+				BCC8FE841811F0AF00A322C9 /* Sources */,
+				BCC8FE9F1811F0AF00A322C9 /* Frameworks */,
+				BCC8FEA01811F0AF00A322C9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Astran Debug";
+			productName = Astran;
+			productReference = BCC8FEA51811F0AF00A322C9 /* Astran copy.app */;
+			productType = "com.apple.product-type.application";
+		};
 		E6828ACC17BEB82A002E35C0 /* Astran Lion */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E6828AEB17BEB82A002E35C0 /* Build configuration list for PBXNativeTarget "Astran Lion" */;
@@ -302,6 +357,7 @@
 			targets = (
 				BC97A4DA178F2B1E0002254A /* Astran */,
 				E6828ACC17BEB82A002E35C0 /* Astran Lion */,
+				BCC8FE831811F0AF00A322C9 /* Astran Debug */,
 			);
 		};
 /* End PBXProject section */
@@ -312,6 +368,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC97A53E178F2BBE0002254A /* icon.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCC8FEA01811F0AF00A322C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCC8FEA11811F0AF00A322C9 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +420,39 @@
 				BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */,
 				BC97A54E178F2BBE0002254A /* wxPreferences.cpp in Sources */,
 				BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCC8FE841811F0AF00A322C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCC8FE851811F0AF00A322C9 /* autocell2.cpp in Sources */,
+				BCC8FE861811F0AF00A322C9 /* cellnetlst.cpp in Sources */,
+				BCC8FE871811F0AF00A322C9 /* cif.cpp in Sources */,
+				BCC8FE881811F0AF00A322C9 /* circuit.cpp in Sources */,
+				BCC8FE891811F0AF00A322C9 /* clayout.cpp in Sources */,
+				BCC8FE8A1811F0AF00A322C9 /* compaction.cpp in Sources */,
+				BCC8FE8B1811F0AF00A322C9 /* designmng.cpp in Sources */,
+				BCC8FE8C1811F0AF00A322C9 /* draw.cpp in Sources */,
+				BCC8FE8D1811F0AF00A322C9 /* gds.cpp in Sources */,
+				BCC8FE8E1811F0AF00A322C9 /* icpdApp.cpp in Sources */,
+				BCC8FE8F1811F0AF00A322C9 /* icpdfrm.cpp in Sources */,
+				BCC8FE901811F0AF00A322C9 /* lef.cpp in Sources */,
+				BCC8FE911811F0AF00A322C9 /* pathfinder.cpp in Sources */,
+				BCC8FE921811F0AF00A322C9 /* pathfinder2.cpp in Sources */,
+				BCC8FE931811F0AF00A322C9 /* placer.cpp in Sources */,
+				BCC8FE941811F0AF00A322C9 /* router.cpp in Sources */,
+				BCC8FE951811F0AF00A322C9 /* rules.cpp in Sources */,
+				BCC8FE961811F0AF00A322C9 /* spice.cpp in Sources */,
+				BCC8FE971811F0AF00A322C9 /* verilog.cpp in Sources */,
+				BCC8FE981811F0AF00A322C9 /* wxabout.cpp in Sources */,
+				BCC8FE991811F0AF00A322C9 /* wxautocell.cpp in Sources */,
+				BCC8FE9A1811F0AF00A322C9 /* wxcircuit.cpp in Sources */,
+				BCC8FE9B1811F0AF00A322C9 /* wxfp.cpp in Sources */,
+				BCC8FE9C1811F0AF00A322C9 /* wxinterface.cpp in Sources */,
+				BCC8FE9D1811F0AF00A322C9 /* wxPreferences.cpp in Sources */,
+				BCC8FE9E1811F0AF00A322C9 /* wxrules.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,10 +542,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Astran/Astran-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Astran/Astran-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
 					"-I/usr/include/wx-2.8",
@@ -485,10 +585,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Astran/Astran-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "Astran/Astran-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
 					"-I/usr/include/wx-2.8",
@@ -515,6 +618,86 @@
 					"-lwx_macud-2.8",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYMROOT = ../build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		BCC8FEA31811F0AF00A322C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Astran/Astran-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "Astran copy2-Info.plist";
+				OTHER_CFLAGS = (
+					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
+					"-I/usr/include/wx-2.8",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXDEBUG__",
+					"-D__WXMAC__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-framework",
+					QuickTime,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
+					"-lwx_macud-2.8",
+				);
+				PRODUCT_NAME = "Astran copy";
+				SYMROOT = ../build;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BCC8FEA41811F0AF00A322C9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Astran/Astran-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				INFOPLIST_FILE = "Astran copy2-Info.plist";
+				OTHER_CFLAGS = (
+					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
+					"-I/usr/include/wx-2.8",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D_LARGE_FILES",
+					"-D__WXDEBUG__",
+					"-D__WXMAC__",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					System,
+					"-framework",
+					QuickTime,
+					"-framework",
+					OpenGL,
+					"-framework",
+					AGL,
+					"-lwx_macud-2.8",
+				);
+				PRODUCT_NAME = "Astran copy";
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = app;
 			};
@@ -635,6 +818,15 @@
 			buildConfigurations = (
 				BC97A4FA178F2B1E0002254A /* Debug */,
 				BC97A4FB178F2B1E0002254A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCC8FEA21811F0AF00A322C9 /* Build configuration list for PBXNativeTarget "Astran Debug" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCC8FEA31811F0AF00A322C9 /* Debug */,
+				BCC8FEA41811F0AF00A322C9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

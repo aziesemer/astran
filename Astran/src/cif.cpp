@@ -59,10 +59,10 @@ bool Cif::cellCif(map<string, CLayout>& layouts, string top) {
 			file << "L " << rules->getCIFVal(layers_it->first) << ";\n";
 			for ( layer_it = layers_it->second.begin(); layer_it != layers_it->second.end(); layer_it++ )
 				if ( layer_it->getHeight() > 0 && layer_it->getWidth() > 0 )
-				file << "B " <<  layer_it->getWidth()  << " " <<
-				layer_it->getHeight() << " " <<
-				layer_it->getX()  << " " <<
-				layer_it->getY()  << ";\n";
+				file << "B " <<  2*layer_it->getWidth()  << " " <<
+				2*layer_it->getHeight() << " " <<
+                    2*layer_it->getX()+(layer_it->getWidth()%2?1:0) << " " <<
+				2*layer_it->getY()+(layer_it->getHeight()%2?1:0) << ";\n";
 			
 		}
 	}
@@ -86,7 +86,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	c2cfile << "    'libName                \"" << designName << "\"" << endl;
 	c2cfile << "    'dataDump               \"\"" << endl;
 	c2cfile << "    'techfileName           \"tech.lib\"" << endl;
-	c2cfile << "    'scale                  " << float(1)/rules->getScale() << endl;
+	c2cfile << "    'scale                  " << 0.5/rules->getScale() << endl;
 	c2cfile << "    'units                  \"micron\""   << endl;
 	c2cfile << "    'errFile                \"PIPO.LOG\"" << endl;
 	c2cfile << "    'cellMapTable           \"\"" << endl;
@@ -110,7 +110,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	c2cfile << "    )" << endl;
 	c2cfile.close();
 	cout << "ATTENTION:" << endl;
-	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl;
+	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl << "After that, execute Tools->Technology File Manager->Attach, select your Design Library (usually new_design) and the target Technology Library to Attach (e.g. cmos130), you only need to do it once. Now you are ready to use Cadence Virtuoso." << endl;
 	return true;
 }
 

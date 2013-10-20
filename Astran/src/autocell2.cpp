@@ -1006,7 +1006,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
         geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
         string cnt2 = intToStr(geometries.size() - 1);    
         cpt.forceBinaryVar("b" + cnt2); // 2nd contact
-        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*70);
+        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*67);
 //        cpt.insertConstraint("ZERO", "b" + cnt2, CP_EQ, 1);
         cpt.insertConstraint("y" + cnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
         cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
@@ -1061,8 +1061,8 @@ string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string met
     cpt.insertConstraint("y" + viaPos + "b", "y" + metNode + "b", CP_MIN, "b" + viaPos + "_2V", currentRules->getRule(E2M1VI));
     
     //choose a kind of metal area format
-    cpt.forceBinaryVar("b" + viaPos + "_1A");
-    cpt.forceBinaryVar("b" + viaPos + "_2A");
+    cpt.forceBinaryVar("b" + viaPos + "_1A"); // linear
+    cpt.forceBinaryVar("b" + viaPos + "_2A"); //square
     
     cpt.insertConstraint("ZERO", "b" + viaPos + "_1A" + " + " + "b" + viaPos + "_2A", CP_EQ, 1);
     
