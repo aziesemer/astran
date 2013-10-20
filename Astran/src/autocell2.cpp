@@ -755,8 +755,8 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
 
 
 string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, string lastCnt, string lastCntDiff, string &lastGate, string lastDiff, string currentDiff, string &closestPolNodeP, string &closestPolNodeN, layer_name l){
-    int transWidth = int(ceil((currentNetList.getTrans(transistor).width * currentRules->getScale()) / 2)*2);
-    int transLength = int(ceil((currentNetList.getTrans(transistor).length * currentRules->getScale()) / 2)*2);
+    int transWidth = round(currentNetList.getTrans(transistor).width * currentRules->getScale());
+    int transLength = round(currentNetList.getTrans(transistor).length * currentRules->getScale());
     if (transLength < currentRules->getRule(W2P1)) cout << "WARNING: Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
     
     //draw gate
