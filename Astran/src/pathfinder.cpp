@@ -92,6 +92,7 @@ bool Pathfinder::aStar(map<int,t_nets>::iterator& net, list<int>& targetNodes){
 	actualNode.father=-1;
 	for(list<int>::iterator nodes_it = net->second.netTree.begin(); nodes_it !=  net->second.netTree.end(); ++nodes_it){
 		actualNode.aStarCost=getClosestNodeDistance(*nodes_it, targetNodes);
+//		actualNode.costAccumulated=calcDistance(*nodes_it, net->second.nodes.front() )/arbFactor ;
 		actualNode.node=*nodes_it;
 		pq.push(actualNode);
 		graph[*nodes_it].setFather(trace_id, -1);

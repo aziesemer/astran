@@ -303,6 +303,7 @@ int Pathfinder2::bfsRoute(list<unsigned int>& sourceNodes, const unsigned int ta
 	tmp.father=-1;
 	for(list<unsigned int>::iterator nodes_it = sourceNodes.begin(); nodes_it != sourceNodes.end(); nodes_it++){
 		tmp.node=*nodes_it;
+//		tmp.costAccumulated=calcDistance(*nodes_it, net->second.nodes.front() )/arbFactor ;
 		pq.push(tmp);
 		trace[*nodes_it].visited=true;
 	}

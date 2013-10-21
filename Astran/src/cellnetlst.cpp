@@ -550,7 +550,7 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	
 	for(int at=1; at<=nrattempts ; at++){
 		custo_atual=custo_anterior=GetCost();
-		cout << "- Running Simulated Annealing (" << at << "): " << endl;
+		cout << "- Running Threshold Accept algorithm (" << at << "): " << endl;
 //		*this = SimulatedAnnealing<CellNetlst>(*this,saquality,false,true,!ep || at!=1);
 		*this = ThresholdAccept<CellNetlst>(*this,saquality,false,true,!ep || at!=1);
 		cout << endl;

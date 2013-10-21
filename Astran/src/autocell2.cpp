@@ -31,7 +31,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni) {
     
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
-        if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], 5);
+        if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], 4);
         if (elements.size())
             rt->addArc(tmp.met[x], elements.back().met[x], 4); //if it's not the first, connect to the last element
         
@@ -82,13 +82,13 @@ bool AutoCell::calcArea(Circuit* c) {
     do {
         next = trackPos.front() - currentRules->getRule(S1M1M1) - currentRules->getRule(W1M1);
         trackPos.insert(trackPos.begin(), next);
-    } while (next >= supWidth / 2 + currentRules->getRule(S1M1M1) + currentRules->getRule(W1M1)/2);
+    } while (next >= supWidth); //stop when it touchs gnd
     
     //tracks position above the central track
     do {
-        next = trackPos.back() + currentRules->getRule(S1M1M1) + currentRules->getRule(W1M1); //IMPROVE!!!
+        next = trackPos.back() + currentRules->getRule(S1M1M1) + currentRules->getRule(W1M1);
         trackPos.push_back(next);
-    } while (next <= height - supWidth / 2 - currentRules->getRule(S1M1M1));
+    } while (next + currentRules->getRule(S1M1M1) <= height - supWidth); //stop when it touchs vdd
     
     for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
@@ -107,7 +107,7 @@ bool AutoCell::calcArea(Circuit* c) {
     nSize = nDif_iniY - nDif_endY;
     pSize = pDif_endY - pDif_iniY;
     
-    cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << " " << pSize << endl;
+ //   cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
     return state++;
 }
 
@@ -170,7 +170,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
         clear();
         rt = new Pathfinder2();
         
-        currentCell->print();
+//        currentCell->print();
         vector<int>::iterator inouts_it = currentNetList.getInouts().begin();
         while (inouts_it != currentNetList.getInouts().end()) {
             //		cerr << currentCircuit->getGndNet()  << " - " <<  currentCircuit->getVddNet() << " - " << currentNetList.getNetName(*inouts_it) << endl;
@@ -370,23 +370,7 @@ bool AutoCell::route(int mCost, int pCost, int cCost, int ioCost) {
     state = 4;
     
     if (rt->routeNets(8000) && rt->optimize() && rt->optimize()) {
-        /*		compaction cpt(CP_LP);
-         cpt.setLPFilename("temp");
-         list<Element>::iterator lastelements_it;
-         int el=0;
-         for(list<Element>::iterator elements_it=elements.begin(); elements_it!=elements.end(); elements_it++){
-         if(elements_it!=elements.begin()){
-         for(int x=0; x<trackPos.size();x++){
-         cpt.insertUpperBound("E"+(el-1)+"_"+x+" + "+"E"+el+"_"+x,"M"+el);
-         }
-         cpt.insertLPMinVar("M"+el);
-         }
-         ++el;
-         lastelements_it=elements_it;
-         }
-         */
-        //        	rt->showResult();
-        //		eletricalOtimization(currentCell,rt);
+        rt->showResult();
         state = 5;
     } else {
         cout << "Unable to route this circuit" << endl;
@@ -445,7 +429,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     
     //Compact the routing tracks
     for (list<Element>::iterator elements_it = elements.begin(); elements_it != elements.end(); ++elements_it) {
-        elements_it->print();
+//        elements_it->print();
         string lastPolNodeV = "", lastMetNodeV = "";
         lastMetNode[0]=""; lastMetNode[trackPos.size() - 1]="";
         //create metals and polys for intra-cell routing
@@ -608,7 +592,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     cpt.insertConstraint("ZERO", "width", CP_MIN, 0);
     cpt.insertConstraint("ZERO", "width", CP_EQ_VAR_VAL, "width_gpos", hGrid);
     cpt.forceIntegerVar("width_gpos");
-    cpt.insertLPMinVar("width", 500);
+    cpt.insertLPMinVar("width", 5000);
     
     if (!cpt.solve(lpSolverFile)) {
         cout << "Unable to compact" << endl;
@@ -1006,7 +990,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
         geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
         string cnt2 = intToStr(geometries.size() - 1);    
         cpt.forceBinaryVar("b" + cnt2); // 2nd contact
-        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*67);
+        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*8);
 //        cpt.insertConstraint("ZERO", "b" + cnt2, CP_EQ, 1);
         cpt.insertConstraint("y" + cnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
         cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
