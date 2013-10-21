@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/108/trunk/wxSightGL/src/sight/file%20formats
+END
+gds.h
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/108/trunk/wxSightGL/src/sight/file%20formats/gds.h
+END
+BinaryFileReader.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/95/trunk/wxSightGL/src/sight/file%20formats/BinaryFileReader.cpp
+END
+Types.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/95/trunk/wxSightGL/src/sight/file%20formats/Types.h
+END
+BinaryFileReader.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/95/trunk/wxSightGL/src/sight/file%20formats/BinaryFileReader.h
+END
+gds.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/95/trunk/wxSightGL/src/sight/file%20formats/gds.cpp
+END

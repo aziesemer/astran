@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wxSightGL", "wxSightGL.vcproj", "{262AF2B6-00ED-41C9-AC99-904012F56BFD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{262AF2B6-00ED-41C9-AC99-904012F56BFD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{262AF2B6-00ED-41C9-AC99-904012F56BFD}.Debug|Win32.Build.0 = Debug|Win32
+		{262AF2B6-00ED-41C9-AC99-904012F56BFD}.Release|Win32.ActiveCfg = Release|Win32
+		{262AF2B6-00ED-41C9-AC99-904012F56BFD}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
