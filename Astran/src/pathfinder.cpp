@@ -3,7 +3,7 @@
  *   amziesemerj[at]inf.ufrgs.br                                           *
  **************************************************************************/
 
-#include "Pathfinder.h"
+#include "pathfinder.h"
 
 //Clear data structures
 void Pathfinder::clear(){

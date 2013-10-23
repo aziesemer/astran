@@ -20,7 +20,6 @@
 #include <sstream>
 #include "math.h"
 #include "thresholdaccept.h"
-#include "SimulatedAnnealing.h"
 #include "util.h"
 
 using namespace std;

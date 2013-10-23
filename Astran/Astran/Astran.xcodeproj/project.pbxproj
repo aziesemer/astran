@@ -126,7 +126,6 @@
 		BC97A51D178F2BBE0002254A /* router.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = router.h; sourceTree = "<group>"; };
 		BC97A51E178F2BBE0002254A /* rules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rules.cpp; sourceTree = "<group>"; };
 		BC97A51F178F2BBE0002254A /* rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rules.h; sourceTree = "<group>"; };
-		BC97A520178F2BBE0002254A /* SimulatedAnnealing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimulatedAnnealing.h; sourceTree = "<group>"; };
 		BC97A521178F2BBE0002254A /* spice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spice.cpp; sourceTree = "<group>"; };
 		BC97A522178F2BBE0002254A /* spice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spice.h; sourceTree = "<group>"; };
 		BC97A523178F2BBE0002254A /* thresholdaccept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thresholdaccept.h; sourceTree = "<group>"; };
@@ -253,7 +252,6 @@
 				BC97A51D178F2BBE0002254A /* router.h */,
 				BC97A51E178F2BBE0002254A /* rules.cpp */,
 				BC97A51F178F2BBE0002254A /* rules.h */,
-				BC97A520178F2BBE0002254A /* SimulatedAnnealing.h */,
 				BC97A521178F2BBE0002254A /* spice.cpp */,
 				BC97A522178F2BBE0002254A /* spice.h */,
 				BC97A523178F2BBE0002254A /* thresholdaccept.h */,
