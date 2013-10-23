@@ -31,7 +31,6 @@
 		BC97A54B178F2BBE0002254A /* wxcircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52B178F2BBE0002254A /* wxcircuit.cpp */; };
 		BC97A54C178F2BBE0002254A /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
 		BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
-		BC97A54E178F2BBE0002254A /* wxPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A531178F2BBE0002254A /* wxPreferences.cpp */; };
 		BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
 		BCBBF217181454EB00139922 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCBBF216181454EB00139922 /* icon.icns */; };
 		BCC8FE851811F0AF00A322C9 /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
@@ -58,8 +57,8 @@
 		BCC8FE9A1811F0AF00A322C9 /* wxcircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52B178F2BBE0002254A /* wxcircuit.cpp */; };
 		BCC8FE9B1811F0AF00A322C9 /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
 		BCC8FE9C1811F0AF00A322C9 /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
-		BCC8FE9D1811F0AF00A322C9 /* wxPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A531178F2BBE0002254A /* wxPreferences.cpp */; };
 		BCC8FE9E1811F0AF00A322C9 /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
+		BCF19DA418183D10000FA8CA /* wxpreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCF19DA218183D10000FA8CA /* wxpreferences.cpp */; };
 		E6828ACE17BEB82A002E35C0 /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
 		E6828ACF17BEB82A002E35C0 /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
 		E6828AD017BEB82A002E35C0 /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
@@ -84,7 +83,6 @@
 		E6828AE317BEB82A002E35C0 /* wxcircuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52B178F2BBE0002254A /* wxcircuit.cpp */; };
 		E6828AE417BEB82A002E35C0 /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
 		E6828AE517BEB82A002E35C0 /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
-		E6828AE617BEB82A002E35C0 /* wxPreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A531178F2BBE0002254A /* wxPreferences.cpp */; };
 		E6828AE717BEB82A002E35C0 /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
 /* End PBXBuildFile section */
 
@@ -142,13 +140,13 @@
 		BC97A52E178F2BBE0002254A /* wxfp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxfp.h; sourceTree = "<group>"; };
 		BC97A52F178F2BBE0002254A /* wxinterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxinterface.cpp; sourceTree = "<group>"; };
 		BC97A530178F2BBE0002254A /* wxinterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxinterface.h; sourceTree = "<group>"; };
-		BC97A531178F2BBE0002254A /* wxPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxPreferences.cpp; sourceTree = "<group>"; };
-		BC97A532178F2BBE0002254A /* wxPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxPreferences.h; sourceTree = "<group>"; };
 		BC97A533178F2BBE0002254A /* wxrules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxrules.cpp; sourceTree = "<group>"; };
 		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
 		BCBBF216181454EB00139922 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		BCC8FEA51811F0AF00A322C9 /* Astran copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Astran copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCC8FEA71811F0AF00A322C9 /* Astran copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Astran copy2-Info.plist"; path = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/Astran/Astran copy2-Info.plist"; sourceTree = "<absolute>"; };
+		BCF19DA218183D10000FA8CA /* wxpreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxpreferences.cpp; sourceTree = "<group>"; };
+		BCF19DA318183D10000FA8CA /* wxpreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxpreferences.h; sourceTree = "<group>"; };
 		E6828AEE17BEB82B002E35C0 /* Astran copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Astran copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -218,6 +216,8 @@
 		BC97A4FC178F2BBE0002254A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				BCF19DA218183D10000FA8CA /* wxpreferences.cpp */,
+				BCF19DA318183D10000FA8CA /* wxpreferences.h */,
 				BC97A4FD178F2BBE0002254A /* autocell2.cpp */,
 				BC97A4FE178F2BBE0002254A /* autocell2.h */,
 				BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */,
@@ -268,8 +268,6 @@
 				BC97A52E178F2BBE0002254A /* wxfp.h */,
 				BC97A52F178F2BBE0002254A /* wxinterface.cpp */,
 				BC97A530178F2BBE0002254A /* wxinterface.h */,
-				BC97A531178F2BBE0002254A /* wxPreferences.cpp */,
-				BC97A532178F2BBE0002254A /* wxPreferences.h */,
 				BC97A533178F2BBE0002254A /* wxrules.cpp */,
 				BC97A534178F2BBE0002254A /* wxrules.h */,
 			);
@@ -412,8 +410,8 @@
 				BC97A54B178F2BBE0002254A /* wxcircuit.cpp in Sources */,
 				BC97A54C178F2BBE0002254A /* wxfp.cpp in Sources */,
 				BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */,
-				BC97A54E178F2BBE0002254A /* wxPreferences.cpp in Sources */,
 				BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */,
+				BCF19DA418183D10000FA8CA /* wxpreferences.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,7 +443,6 @@
 				BCC8FE9A1811F0AF00A322C9 /* wxcircuit.cpp in Sources */,
 				BCC8FE9B1811F0AF00A322C9 /* wxfp.cpp in Sources */,
 				BCC8FE9C1811F0AF00A322C9 /* wxinterface.cpp in Sources */,
-				BCC8FE9D1811F0AF00A322C9 /* wxPreferences.cpp in Sources */,
 				BCC8FE9E1811F0AF00A322C9 /* wxrules.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,7 +475,6 @@
 				E6828AE317BEB82A002E35C0 /* wxcircuit.cpp in Sources */,
 				E6828AE417BEB82A002E35C0 /* wxfp.cpp in Sources */,
 				E6828AE517BEB82A002E35C0 /* wxinterface.cpp in Sources */,
-				E6828AE617BEB82A002E35C0 /* wxPreferences.cpp in Sources */,
 				E6828AE717BEB82A002E35C0 /* wxrules.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
