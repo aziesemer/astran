@@ -1,0 +1,45 @@
+THANK YOU FOR YOUR INTEREST IN ASTRAN
+
+COMPILING SOURCE CODE 
+- LINUX:
+1- sudo apt-get install libwxgtk2.8-dev
+2- sudo apt-get install g++
+3- g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
+
+- MAC:
+1- Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 you'r done, otherwise, continue on step 2)
+2- Run in the terminal:  wx-config --libs
+   Paste the output in Project -> Build Settings -> "Other Linker Flags"
+3- Run in the terminal:  wx-config --cppflags
+   Paste the output in Project -> Build Settings -> "Other C++ Flags"
+
+INSTALL INSTRUCTIONS:
+
+1. Download Astran from the google code repository. If you compiled Astran from source code, jump to step 3.
+https://code.google.com/p/gme-ufrgs/downloads/list
+
+2. Unzip
+unzip Astran.zip
+
+3. Download Gurobi Optimizer from:
+http://www.gurobi.com/download/gurobi-optimizer
+
+    You need to register first. After that, install the latest version supported by your SO (e.g. 5.0.2 for Mac OS X 10.6). You gonna need to acquire a valid license to use Gurobi, it's free for academic use:
+http://www.gurobi.com/download/licenses/free-academic
+
+   Follow the instructions to install the license, they will ask you to to run a command to validate the license.
+
+4. Run the file Astran/bin/Astran
+
+5. You need to setup the tool in order to use it. Open View->Preferences and set the path to gurobi_cl:
+    MAC OS: It's usually in /Library/gurobi502/mac64/bin/gurobi_cl
+
+OPTIONAL: It's also hightly recomended you set the CIF Viewer path. E.g.: /Applications/wxSightGL.app/Contents/MacOS/wxSightGL
+
+    You can download wxSightGL from:
+    https://code.google.com/p/gme-ufrgs/downloads/list
+    MAC OS: Install it in your Applications folder.
+    WINDOWS: Download the opengl dll (glut32.dll) to your c:\windows\system32 directory:
+    http://www.dll-files.com/dllindex/dll-files.shtml?glut32
+
+IMPORTANT TIP: Edit astran.cfg  and save the configuration so you don't have to set it again when you run the tool again.

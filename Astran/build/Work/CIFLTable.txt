@@ -1,0 +1,24 @@
+#Cadence layer  Cadence layer   CIF layer
+#name           purpose         name
+# 
+CO		drawing		CCG
+PO		drawing		CPG
+OD		drawing		CAN
+OD		drawing		CAP
+NP		drawing		CSN
+PP		drawing		CSP
+NW		drawing		CWN
+PTUB		drawing		CWP
+VIA1		drawing		CVA
+VIA2		drawing		CVS
+VIA3		drawing		CVT
+VIA4		drawing		CVQ
+M1		drawing		CMF
+M2		drawing		CMS
+M3		drawing		CMT
+M4		drawing		CMQ
+M5		drawing		CMP
+CELBOX		drawing		CBX
+MET1P		pin		CPF
+MET2P		pin		CPS
+MET3P		pin		CPT
