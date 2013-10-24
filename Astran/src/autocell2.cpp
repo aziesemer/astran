@@ -845,20 +845,20 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
     geometries.push_back(&currentLayout.addEnc(*geometries.back(), 0, l));
     string diffEnc = intToStr(geometries.size() - 1);
     
-    //diffusion enclosure of contact - 3 sides E1DFCT, one side E2DFCT  (comentar que ele coloca o lado menor em cima ou embaixo tbm)
+    //diffusion enclosure of contact - 3 sides E2DFCT, one side E1DFCT  (comentar que ele coloca o lado menor em cima ou embaixo tbm)
     cpt.forceBinaryVar("b" + diffEnc + "_l");
     cpt.forceBinaryVar("b" + diffEnc + "_r");
     cpt.forceBinaryVar("b" + diffEnc + "_b");
     cpt.forceBinaryVar("b" + diffEnc + "_t");
     cpt.insertConstraint("ZERO", "b" + diffEnc + "_l + b" + diffEnc + "_r + b" + diffEnc + "_b + b" + diffEnc + "_t", CP_EQ, 3);
-    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E2DFCT));
-    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_t", currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
+    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_t", currentRules->getRule(E2DFCT));
     
     //if there is a gate before
     if (lastGate != "") {

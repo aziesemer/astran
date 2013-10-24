@@ -59,6 +59,9 @@
 		BCC8FE9C1811F0AF00A322C9 /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
 		BCC8FE9E1811F0AF00A322C9 /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
 		BCF19DA418183D10000FA8CA /* wxpreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCF19DA218183D10000FA8CA /* wxpreferences.cpp */; };
+		BCF19DA81819BA57000FA8CA /* HOWTO.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DA51819BA57000FA8CA /* HOWTO.txt */; };
+		BCF19DA91819BA57000FA8CA /* INSTALL.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DA61819BA57000FA8CA /* INSTALL.txt */; };
+		BCF19DAA1819BA57000FA8CA /* RULES.png in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DA71819BA57000FA8CA /* RULES.png */; };
 		E6828ACE17BEB82A002E35C0 /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
 		E6828ACF17BEB82A002E35C0 /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
 		E6828AD017BEB82A002E35C0 /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
@@ -147,6 +150,9 @@
 		BCC8FEA71811F0AF00A322C9 /* Astran copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Astran copy2-Info.plist"; path = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/Astran/Astran copy2-Info.plist"; sourceTree = "<absolute>"; };
 		BCF19DA218183D10000FA8CA /* wxpreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxpreferences.cpp; sourceTree = "<group>"; };
 		BCF19DA318183D10000FA8CA /* wxpreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxpreferences.h; sourceTree = "<group>"; };
+		BCF19DA51819BA57000FA8CA /* HOWTO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = HOWTO.txt; path = ../build/HOWTO.txt; sourceTree = "<group>"; };
+		BCF19DA61819BA57000FA8CA /* INSTALL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = INSTALL.txt; path = ../build/INSTALL.txt; sourceTree = "<group>"; };
+		BCF19DA71819BA57000FA8CA /* RULES.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RULES.png; path = ../build/RULES.png; sourceTree = "<group>"; };
 		E6828AEE17BEB82B002E35C0 /* Astran copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Astran copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -178,6 +184,9 @@
 		BC97A4D0178F2B1E0002254A = {
 			isa = PBXGroup;
 			children = (
+				BCF19DA51819BA57000FA8CA /* HOWTO.txt */,
+				BCF19DA61819BA57000FA8CA /* INSTALL.txt */,
+				BCF19DA71819BA57000FA8CA /* RULES.png */,
 				BCBBF216181454EB00139922 /* icon.icns */,
 				BC97A4FC178F2BBE0002254A /* src */,
 				BC97A4E5178F2B1E0002254A /* Astran */,
@@ -362,6 +371,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCBBF217181454EB00139922 /* icon.icns in Resources */,
+				BCF19DA81819BA57000FA8CA /* HOWTO.txt in Resources */,
+				BCF19DA91819BA57000FA8CA /* INSTALL.txt in Resources */,
+				BCF19DAA1819BA57000FA8CA /* RULES.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
