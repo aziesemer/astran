@@ -26,7 +26,7 @@
 #include "vertex.h"
 #include "model.h"
 #include "label.h"
-#include "file formats/gds.h"
+#include "fileformats/gds.h"
 #define printme( e ) { cout << #e << " = " << ( e ) << "\n"; } 
 
 // -----------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-
+#include <cstdio>
 #include "ruler.h"
 
 //all the ruler methods are very complex, and crazy and.. oh my god... 
@@ -34,7 +34,7 @@ void Ruler::divideV(const int z, const int scale, void * font, const float trace
 		glVertex3f( clsFirst.x - trace, clsLast.y, z );	
 	glEnd();//end lines
 		
-	sprintf(delta, "%s%.0f", base, 0);
+	sprintf(delta, "%s%.0f", base, 0.0);
 	DesenhaTexto(delta, clsFirst.x + trace, clsFirst.y- 1.25f , font);
 	
 	sprintf(delta, "%s%.1f", base, (float)abs(clsFirst.y - clsLast.y)/scale*k);		
@@ -86,7 +86,7 @@ void Ruler::divideH( const int z, const int scale, void * font, const float trac
 		glVertex3f( clsLast.x, clsFirst.y - trace, z );		
 	glEnd();
 	
-	sprintf(delta, "%s%.0f", base, 0);//first digit
+	sprintf(delta, "%s%.0f", base, 0.0);//first digit
 	DesenhaTexto(delta, clsFirst.x - 1.25f, clsFirst.y + trace, font);	
 	
 	sprintf(delta, "%s%.1f", base, (float)abs(clsFirst.x - clsLast.x)/scale*k);

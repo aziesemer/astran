@@ -29,7 +29,7 @@
 #include "io_files.h"
 #include "opengl.h"
 
-#include "file formats/gds.h"
+#include "fileformats/gds.h"
 
 void openFile( const string fileName );
 void zoomL(const bool down, const int xScreen, const int yScreen);

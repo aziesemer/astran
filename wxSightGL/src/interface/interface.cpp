@@ -6,6 +6,28 @@
 #include <wx/stdpaths.h>
 #include <wx/file.h>
 #include <wx/artprov.h>
+#include <wx/mstream.h>
+#include <wx/image.h>
+
+#include "../art/cif-png.h"
+#include "../art/drag-png.h"
+#include "../art/label-png.h"
+#include "../art/line-png.h"
+#include "../art/minus-png.h"
+#include "../art/plus-png.h"
+#include "../art/select-png.h"
+#include "../art/rectangle-png.h"
+#include "../art/ruler-png.h"
+#include "../art/select-png.h"
+#include "../art/sight-png.h"
+#include "../art/wire-png.h"
+#include "../art/zoom-png.h"
+
+#define wxGetImageFromMemory(name) _wxGetImageFromMemory(name ## _img, sizeof(name ## _img))
+inline wxImage _wxGetImageFromMemory(const unsigned char *data, int length) {
+	wxMemoryInputStream is(data, length);
+	return wxImage(is, wxBITMAP_TYPE_PNG);
+} // end method
 
 #include "interface.h"
 
@@ -122,32 +144,23 @@ void wxSightFrame::Initialize() {
 
 void wxSightFrame::CreateToolbar() {	
 	wxString resourcePath = wxStandardPaths::Get().GetResourcesDir() + _T("/"); // [TODO] How do get the correct slash on each plataform?
-
-	// Load toolbar icons.
-	wxArrayString imgNames;
-	imgNames.Add( wxT( "./ImagesGL/select.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/rectangle.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/wire.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/line.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/ruler.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/drag.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/label.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/zoom.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/plus.png" ) );
-	imgNames.Add( wxT( "./ImagesGL/minus.png" ) );
-
-	const int numBitmaps = 10;
+	
+	wxBitmap bitmaps[] = {
+		wxGetImageFromMemory(select),
+		wxGetImageFromMemory(rectangle),
+		wxGetImageFromMemory(wire),
+		wxGetImageFromMemory(line),
+		wxGetImageFromMemory(ruler),
+		wxGetImageFromMemory(drag),
+		wxGetImageFromMemory(label),
+		wxGetImageFromMemory(zoom),
+		wxGetImageFromMemory(plus),
+		wxGetImageFromMemory(minus)
+	
+	};
+	
 	const wxSize bitmapSize( 32, 32 );
-
-	wxBitmap bitmaps[ numBitmaps ];
-	for ( int i = 0; i < numBitmaps; i++ ) {
-		wxImage img;
-		if ( img.LoadFile( resourcePath + imgNames[ i ], wxBITMAP_TYPE_PNG ) )
-			bitmaps[ i ] = wxBitmap( img.Rescale( bitmapSize.x, bitmapSize.y, wxIMAGE_QUALITY_HIGH ) );
-		else
-			bitmaps[ i ] = wxArtProvider::GetBitmap( wxART_MISSING_IMAGE, wxART_OTHER, bitmapSize );
-	} // end method
-
+		
 	// Create tool bar
 	stateToolBar = new wxToolBar(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_FLAT | wxTB_NODIVIDER);
 	stateToolBar->SetToolBitmapSize( bitmapSize );
@@ -323,7 +336,11 @@ void wxSightFrame::CreateDebugPane() {
 // -----------------------------------------------------------------------------
 
 void wxSightFrame::CreateSightPane() {
-	int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, WX_GL_LEVEL, 1, 0};
+#ifndef __linux__
+        int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, WX_GL_LEVEL, 1, 0};
+#else                
+        int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
+#endif
 	basic = new BasicGLPane( this, args );		
 	// Add panes.
 	clsAuiManager->AddPane( basic, wxAuiPaneInfo().Name( wxT( "Sight") ).CenterPane() );
@@ -604,17 +621,17 @@ void wxSightFrame::setCompletTitle(wxString filename){
 	SetTitle(title);
 	*/
 
-	SetTitle("SightGL");
+	SetTitle(_("SightGL"));
 
 }//end method
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 void wxSightFrame::openFile( const char * const filename ) {
 		sight.loadCIF( filename );
-		setCompletTitle( filename );
+		setCompletTitle( wxString::FromAscii(filename) );
 		sight.render();	
 		CreateModelList();
-		clsFilename = filename;
+		clsFilename = wxString::FromAscii(filename);
 /*
 	sight.loadCIF( filename );	
 	sight.render();	 //*/	 
@@ -623,13 +640,13 @@ void wxSightFrame::openFile( const char * const filename ) {
 
 void wxSightFrame::OnModelChoice(wxCommandEvent& event){
 	if( !sight.dirtyModel() ){//if no changes
-		sight.setCurrentModel( event.GetString().c_str());
+		sight.setCurrentModel( string(event.GetString().mb_str()) );
 	} else {//save?
 		int what = wxMessageBox(_(""), _("Save Changes?"), wxYES_NO, this);	
 		if(what == wxYES){
 			sight.saveModel();
 		}
-		sight.setCurrentModel( event.GetString().c_str());
+		sight.setCurrentModel( string(event.GetString().mb_str()));
 	}//end else
 }
 
@@ -704,7 +721,7 @@ void wxSightFrame::Ask(wxCommandEvent& WXUNUSED(event)){
 	
 	glGetBooleanv( GL_DOUBLEBUFFER, params);
 	
-	if(params[0])     wxMessageBox(_T("DoubleBuffer Supported"), _T("Yupeee \o/"), wxOK | wxICON_INFORMATION, this);
+	if(params[0])     wxMessageBox(_T("DoubleBuffer Supported"), _T("Yupeee \\o/"), wxOK | wxICON_INFORMATION, this);
 	else			wxMessageBox(_T("DoubleBuffer Not Supported"), _T("HELL"), wxOK | wxICON_INFORMATION, this);
 	
 }//end method

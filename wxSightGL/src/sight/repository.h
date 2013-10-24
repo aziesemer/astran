@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <climits>
 
 #include "object.h"
 #include "ruler.h"

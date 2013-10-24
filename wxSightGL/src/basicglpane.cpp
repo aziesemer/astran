@@ -61,8 +61,8 @@ void BasicGLPane::createSubMenuConnect(){
 
 // ----------------------------------------------------------------------------- 
 void BasicGLPane::createPopUp(){
-	clsPopUp = new wxMenu("SightGL", 0);
-	//clsPopUp->Append(popCONNECTION, _("Connection"), _("encontra conex›es"));
+	clsPopUp = new wxMenu(wxT("SightGL"), 0);
+	//clsPopUp->Append(popCONNECTION, _("Connection"), _("encontra conexï¿½es"));
 	createSubMenuConnect();
 	clsPopUp->AppendSubMenu(clsConnect, _("Connection"));
 	clsPopUp->AppendSeparator( );

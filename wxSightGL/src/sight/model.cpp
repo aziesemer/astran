@@ -1,6 +1,7 @@
-
-
 #include "model.h"
+
+#include <climits>
+
 //------------------------------------------------------------------------------
 
 bool Model::addContent( Object *newObject, int layer )	{

@@ -1,4 +1,4 @@
-
+#include <cstring>
 #include "io_files.h"
 
 
@@ -125,7 +125,7 @@ void File::parseModelCIF( istringstream &input ){
 	char buffer[5];
 
 	sprintf(buffer,"%i", ID);
-	char* str2  = "untitle ";
+	const char* str2  = "untitle ";
 	char* str3;	
 	str3 = (char *)calloc(strlen(str2) +7, sizeof(char));	
 	strcat(str3, str2);
