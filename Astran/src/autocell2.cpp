@@ -718,9 +718,10 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     currentLayout.setWidth(width);
     currentLayout.setHeight(height);
     
-    //Draw supply strips
-    //    currentLayout.addPolygon(0, currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF), width, cpt.getVariableVal("posNWell"), NSEL);
-    //    currentLayout.addPolygon(0, height - (currentRules->getRule(S1CTCT) / 2 + currentRules->getRule(W2CT) + currentRules->getRule(E1DFCT) + currentRules->getRule(S1DFDF) - currentRules->getRule(E1INDF)), width, cpt.getVariableVal("posNWell"), PSEL);
+    //Draw sel Borders
+    int selBorder=currentRules->getRule(W1M1)/2;  //IMPROVE!!!!!
+    currentLayout.addPolygon(-selBorder, -selBorder, width+selBorder, cpt.getVariableVal("posNWell"), NSEL);
+    currentLayout.addPolygon(-selBorder, height+selBorder, width+selBorder, cpt.getVariableVal("posNWell"), PSEL);
     
     currentLayout.addPolygon(0, 0, width, supWidth, MET1).setNet(currentCircuit->getGndNet());
     currentLayout.addPolygon(0, 0, width, supWidth, MET1P);
@@ -1028,7 +1029,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
 }
 
 string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string metNode) {
-    geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, VIA1));
+    geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, MET1P));
     string viaPos = intToStr(geometries.size() - 1);
     
     cpt.insertConstraint("x" + viaPos + "a", "x" + viaPos + "b", CP_EQ, currentRules->getRule(W2VI));
@@ -1146,7 +1147,7 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     int minDif = (l==MET1 ? currentRules->getRule(S3M1M1)-currentRules->getRule(S1M1M1) : currentRules->getRule(S3P1P1)-currentRules->getRule(S1P1P1));
     cpt.forceBinaryVar("b" + currentGeo+ "_endline_v"); 
     cpt.forceBinaryVar("b" + currentGeo+ "_endline_h");
-    cpt.insertConstraint("ZERO", "b" + currentGeo+ "_endline_v" + " + " "b" + currentGeo+ "_endline_h", CP_MIN, 1);
+    cpt.insertConstraint("ZERO", "b" + currentGeo+ "_endline_v" + " + " "b" + currentGeo+ "_endline_h", CP_EQ, 1);
     cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_EQ, "b" + currentGeo+ "_endline_h", minDif);
     cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_EQ, "b" + currentGeo+ "_endline_h", minDif);
     cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_EQ, "b" + currentGeo+ "_endline_v", minDif);
