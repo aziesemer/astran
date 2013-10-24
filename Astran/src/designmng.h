@@ -65,7 +65,7 @@ enum command_name {
 	SET_TECH_NAME,SET_TECH_MLAYERS,SET_TECH_SOI,SET_TECH_RESOLUTION,SET_TECH_RULE,SET_TECH_CIF,SET_TECH_GDSII,SET_TECH_VALTECH,
 	
 	// Circuit - 8
-	SET_DESIGNNAME,SET_GRID,SET_HGRID,SET_VGRID,SET_VDDNET,SET_GNDNET,SET_ROWHEIGHT,SET_SUPPLYSIZE, SET_NWELLPOS, SET_TAPLESS,
+	SET_DESIGNNAME,SET_GRID,SET_HGRID,SET_VGRID,SET_HGRID_OFFSET,SET_VGRID_OFFSET,SET_VDDNET,SET_GNDNET,SET_ROWHEIGHT,SET_SUPPLYSIZE, SET_NWELLPOS, SET_TAPLESS,
 	
 	// Floorplan - 3
 	SET_TOPCELL,SET_AREA,SET_MARGINS,
@@ -166,6 +166,8 @@ static commands commands_lst[] = {
 	{"SET GRID <float_HPitch> <float_VPitch>", "Set new values to the grid (horizontal and vertical pitchs)"},
 	{"SET HGRID <float_Value>", "Set a new value to the horizontal pitch grid"},
 	{"SET VGRID <float_value>", "Set a new value to the vertical pitch grid"},
+	{"SET HGRID_OFFSET <str_YES/NO>", "Set the horizontal grid offset"},
+	{"SET VGRID_OFFSET <str_YES/NO>", "Set the vertical grid offset"},
 	{"SET VDDNET <str_Name>", "Set a new name to the VDD Net"},
 	{"SET GNDNET <str_Name>", "Set a new name to the GND Net"},
 	{"SET ROWHEIGHT <int_Value>", "Set a new value to the circuit's row height"},

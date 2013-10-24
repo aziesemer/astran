@@ -39,7 +39,7 @@ class Circuit {
 	int cellsHeight, c2lMargin, c2rMargin, c2tMargin, c2bMargin;
 	float hGrid, vGrid, supplyVSize, nWellPos;
 	string topCell,vddNet, gndNet;
-    bool tapless;
+    bool tapless, hGridOffset, vGridOffset;
     
 	public:
 	Circuit();
@@ -54,6 +54,10 @@ class Circuit {
 	string getGndNet(){return gndNet;};
 	void setRules(Rules* r){currentRules=r;};
 	Rules* getRules(){return currentRules;};
+	void setHGridOffset(bool x){hGridOffset=x;};
+	bool getHGridOffset(){return hGridOffset;};
+	void setVGridOffset(bool x){vGridOffset=x;};
+	bool getVGridOffset(){return vGridOffset;};
 	void setHPitch(float x){hGrid=x;};
 	float getHPitch(){return hGrid;};
 	void setVPitch(float x){vGrid=x;};

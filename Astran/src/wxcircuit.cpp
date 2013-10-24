@@ -37,13 +37,33 @@ void WxCircuit::ok(){
 		cmd = wxT("set hgrid ") + horizontalgrid->GetValue();
 		currentFrmwork->readCommand(cmd.ToAscii().data());
 	}
-
+    
 	// compare if current vertical grid is different from textbox value
 	if(verticalgrid->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getVPitch())){
 		cmd = wxT("set vgrid ") + verticalgrid->GetValue();
 		currentFrmwork->readCommand(cmd.ToAscii().data());
 	}
-
+    
+	// compare if current horizontal grid offset is different from textbox value
+	if(hGridOffset->GetValue() != currentFrmwork->getDesign()->getCircuit()->getHGridOffset()){
+		wxString cmd;
+        if(hGridOffset->GetValue()==true)
+            cmd=wxT("set hgrid_offset YES");
+        else
+            cmd=wxT("set hgrid_offset NO");
+        currentFrmwork->readCommand(cmd.ToAscii().data());
+	}
+    
+	// compare if current vertical grid offset is different from textbox value
+	if(vGridOffset->GetValue() != currentFrmwork->getDesign()->getCircuit()->getVGridOffset()){
+		wxString cmd;
+        if(vGridOffset->GetValue()==true)
+            cmd=wxT("set vgrid_offset YES");
+        else
+            cmd=wxT("set vgrid_offset NO");
+        currentFrmwork->readCommand(cmd.ToAscii().data());
+	}
+    
 	// compare if current Vdd Net Name is different from textbox value
 	if(vddnetname->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getCircuit()->getVddNet().c_str()){
 		wxString cmd=wxT("set vddnet ") + vddnetname->GetValue();
@@ -97,6 +117,8 @@ void WxCircuit::refresh(){
 	design_name->SetValue(wxString::From8BitData(currentFrmwork->getDesign()->getName().c_str()));
 	horizontalgrid->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getHPitch()));
 	verticalgrid->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getVPitch()));
+	hGridOffset->SetValue(currentFrmwork->getDesign()->getCircuit()->getHGridOffset());
+	vGridOffset->SetValue(currentFrmwork->getDesign()->getCircuit()->getVGridOffset());
 	vddnetname->SetValue(wxString::From8BitData(currentFrmwork->getDesign()->getCircuit()->getVddNet().c_str()));
 	gndnetname->SetValue(wxString::From8BitData(currentFrmwork->getDesign()->getCircuit()->getGndNet().c_str()));
 	rowheight->SetValue(wxString::Format(_T("%d"), currentFrmwork->getDesign()->getCircuit()->getRowHeight()));

@@ -674,6 +674,16 @@ int DesignMng::readCommand(string cmd){
 				ret=1;
 				break;
 				
+			case SET_HGRID_OFFSET:
+				circuit->setHGridOffset(upcase(words[2].c_str())=="YES"?true:false);
+				ret=1;
+				break;
+				
+			case SET_VGRID_OFFSET:
+				circuit->setVGridOffset(upcase(words[2].c_str())=="YES"?true:false);
+				ret=1;
+				break;
+				
 			case SET_VDDNET:
 				circuit->setVddNet(upcase(words[2].c_str()));
 				ret=1;
@@ -700,7 +710,7 @@ int DesignMng::readCommand(string cmd){
 				break;
 				
 			case SET_TAPLESS:
-				circuit->setTapless(words[2].c_str()=="YES"?true:false);
+				circuit->setTapless(upcase(words[2].c_str())=="YES"?true:false);
 				ret=1;
 				break;
 				

@@ -7,6 +7,8 @@
 Circuit::Circuit(){
 	hGrid=0.20f;
 	vGrid=0.20f;
+    hGridOffset=false;
+    vGridOffset=false;
 	supplyVSize=0.72f;
 	nWellPos=1.14f;
 	tapless=true;

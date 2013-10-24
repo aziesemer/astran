@@ -405,7 +405,8 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     cpt.insertConstraint("ZERO", "UM", CP_EQ, 1);
     int relaxation = 10000;
     cpt.insertConstraint("ZERO", "RELAXATION", CP_EQ, relaxation);
-    cpt.insertConstraint("ZERO", "HGRID", CP_EQ, hGrid / 2);
+    cpt.insertConstraint("ZERO", "HGRID_OFFSET", CP_EQ, (currentCircuit->getHGridOffset()?hGrid / 2:0));
+    cpt.insertConstraint("ZERO", "VGRID_OFFSET", CP_EQ, (currentCircuit->getVGridOffset()?vGrid / 2:0));
     
     cpt.insertConstraint("ZERO", "height", CP_EQ, height);
     cpt.insertConstraint("ZERO", "yGNDb", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
@@ -1006,7 +1007,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.forceBinaryVar("b" + cntPos + "_2M"); // vertical stripe
     cpt.forceBinaryVar("b" + cntPos + "_3M"); // classic all around
     cpt.insertConstraint("ZERO", "b" + cntPos + "_1M" + " + " + "b" + cntPos + "_2M"  + " + " + "b" + cntPos + "_3M", CP_EQ, 1);
-    //    cpt.insertConstraint("ZERO", "b" + cntPos + "_3M", CP_EQ, 1);
+    cpt.insertConstraint("ZERO", "b" + cntPos + "_1M", CP_EQ, 0);
     
     cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E2M1CT));
     cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E1M1CT));
@@ -1061,12 +1062,12 @@ string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string met
     
     
     //allign via to the routing grid
-    cpt.insertConstraint( "HGRID", "x" + viaPos + "g", CP_EQ_VAR_VAL,  "x" + viaPos + "gpos", hGrid);
+    cpt.insertConstraint( "HGRID_OFFSET", "x" + viaPos + "g", CP_EQ_VAR_VAL,  "x" + viaPos + "gpos", hGrid);
     cpt.forceIntegerVar("x" + viaPos + "gpos");
     cpt.insertConstraint( "x" + viaPos + "a", "x" + viaPos + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
     cpt.insertConstraint( "x" + viaPos + "g", "x" + viaPos + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
     
-    cpt.insertConstraint( "ZERO", "y" + viaPos + "g", CP_EQ_VAR_VAL,  "y" + viaPos + "gpos", hGrid);
+    cpt.insertConstraint( "VGRID_OFFSET", "y" + viaPos + "g", CP_EQ_VAR_VAL,  "y" + viaPos + "gpos", hGrid);
     cpt.forceIntegerVar("y" + viaPos + "gpos");
     cpt.insertConstraint( "y" + viaPos + "a", "y" + viaPos + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
     cpt.insertConstraint( "y" + viaPos + "g", "y" + viaPos + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
