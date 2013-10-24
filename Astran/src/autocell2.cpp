@@ -1117,7 +1117,7 @@ string AutoCell::createGeometry(vector<Box*> &geometries, compaction &cpt, strin
 }
 
 void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentNode, string netName, layer_name l){
-    string currentGeo = createGeometry(geometries, cpt, netName, 3, l);
+    string currentGeo = createGeometry(geometries, cpt, netName, 5, l);
     
     //apply minimum distance rules to cell borders
     int minDist = (l==MET1 ? currentRules->getRule(S1M1M1) : currentRules->getRule(S1P1P1));
@@ -1157,7 +1157,7 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
 }
 
 void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string lastNode, string currentNode, string netName, layer_name l, HorV dir){
-    int min = l==MET1 ? 1 : 2;
+    int min = l==MET1 ? 1 : 4;
     string track = createGeometry(geometries, cpt, netName, min, l);
     
     int minIntersection = (l==MET1 ? currentRules->getRule(W1M1) : currentRules->getRule(W2P1));
