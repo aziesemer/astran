@@ -23,7 +23,7 @@
 using namespace std;
 
 #define printme( e ) { cerr << #e << " = " << ( e ) << "\n"; };
-#define VERSION "3.1"
+#define VERSION "3.2"
 
 enum IOType {IOTYPE_INPUT, IOTYPE_OUTPUT, IOTYPE_INOUT};
 enum HorV {V, H};
@@ -32,14 +32,14 @@ inline void printHeader (ostream& target, string begin, string end) {
 	time_t timer = time(NULL);
 	string date_time = asctime(localtime(&timer));
 	date_time=date_time.substr(0,date_time.size()-1);
-	target << begin << "I C P D - IC Physical Design Tool v" << VERSION << " - " << date_time << end << endl;
+	target << begin << "ASTRAN - IC Physical Design Tool v" << VERSION << " - " << date_time << end << endl;
 	target << begin << "--------------------------------------------------------" << end << endl;
 	target << begin << "UFRGS - Universidade Federal do Rio Grande do Sul" << end << endl;
 	target << begin << "GME - Microelectronics Group" << end << endl;
-	target << begin << "WEBPAGE - http://www.inf.ufrgs.br/~amziesemerj/icpd" << endl << endl;
+	target << begin << "WEBPAGE - https://code.google.com/p/gme-ufrgs/" << endl << endl;
 	target << begin << "Project Advisor" << end << endl;
 	target << begin << " - Ricardo Reis <reis[at]inf.ufrgs.br>" << end << endl;	
-	target << begin << "Creator" << end << endl;
+	target << begin << "Main Developer" << end << endl;
 	target << begin << " - Adriel Ziesemer <amziesemerj[at]inf.ufrgs.br>" << end << endl;
 	target << begin << "Co-Developers" << end << endl;
 	target << begin << " - Charles Capella Leonhardt <ccleonhardt[at]inf.ufrgs.br>" << end << endl;
