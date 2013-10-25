@@ -773,10 +773,9 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
         }
         for (int x = center; x > 0; --x){ // align gate to the poly internal tracks
             if (rt->isSource(elements_it->pol[x])) {
-                closestPolNodeP = currentPolTrack[x + 1];
                 cpt.insertConstraint("x" + currentPolTrack[x] + "a", "x" + gatePos + "a", CP_EQ, 0);
                 cpt.insertConstraint("x" + currentPolTrack[x] + "b", "x" + gatePos + "b", CP_EQ, 0);
-                cpt.insertConstraint("y" + gatePos + "b", "y" + currentPolTrack[x] + "a", CP_EQ, 0);   
+                cpt.insertConstraint("y" + gatePos + "b", "y" + currentPolTrack[x] + "b", CP_EQ, 0);  //VERIFICAR!!!! 
             }
         }
         cpt.insertConstraint("y" + lastCntDiff + "b", "y" + currentDiff + "b", CP_MIN, 0);
@@ -795,7 +794,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
             if (rt->isSource(elements_it->pol[x])) {
                 cpt.insertConstraint("x" + currentPolTrack[x] + "a", "x" + gatePos + "a", CP_EQ, 0);
                 cpt.insertConstraint("x" + currentPolTrack[x] + "b", "x" + gatePos + "b", CP_EQ, 0);
-                cpt.insertConstraint("y" + gatePos + "a", "y" + currentPolTrack[x] + "b", CP_EQ, 0);
+                cpt.insertConstraint("y" + gatePos + "a", "y" + currentPolTrack[x] + "a", CP_EQ, 0);
             }
         }
         cpt.insertConstraint("y" + currentDiff + "a", "y" + lastCntDiff + "a", CP_MIN, 0);
@@ -903,8 +902,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
             cpt.insertConstraint("y" + diffEnc + "LdistAfterGateOut", "y" + diffEnc + "b", CP_MAX, "y" + lastDiff + "b");            
             cpt.insertConstraint("y" + diffEnc + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + diffEnc + "a");            
         }
-        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateOut",(diffStretching?2:40));
-        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateIn",(diffStretching?2:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateOut",(diffStretching?3:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateIn",(diffStretching?3:40));
     }
     
     //if there is not a gap after
@@ -959,8 +958,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
                 cpt.insertConstraint("y" + diffEnc + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + currentDiff + "a");            
             }
         }
-        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateOut",(diffStretching?2:40));
-        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateIn",(diffStretching?2:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateOut",(diffStretching?3:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateIn",(diffStretching?3:40));
         
         // space diff from the poly internal tracks
         if (l==NDIF && closestPolNodeN!="")   //IMPROVE!!
@@ -1110,7 +1109,7 @@ string AutoCell::createGeometry(vector<Box*> &geometries, compaction &cpt, strin
     int minWidth = (l==MET1 ? currentRules->getRule(W1M1) : currentRules->getRule(W2P1));
     cpt.insertConstraint("x" + currentGeo + "a", "x" + currentGeo + "b", CP_MIN, minWidth);
     cpt.insertConstraint("x" + currentGeo + "a", "x" + currentGeo + "b", CP_EQ, "x" + currentGeo + "min");
-    cpt.insertLPMinVar("x" + currentGeo + "min", priority);
+    cpt.insertLPMinVar("x" + currentGeo + "min", (l==POLY && griddedPolly?100:priority));     //MUCH TO IMPROVE!!!!
     cpt.insertConstraint("y" + currentGeo + "a", "y" + currentGeo + "b", CP_MIN, minWidth);
     cpt.insertConstraint("y" + currentGeo + "a", "y" + currentGeo + "b", CP_EQ, "y" + currentGeo + "min");
     cpt.insertLPMinVar("y" + currentGeo + "min", priority);
@@ -1191,7 +1190,6 @@ void AutoCell::insertDistanceRuleInteligent(vector<Box*> &geometries, compaction
     cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a2", CP_MIN, "b" + lastX + "_" + currentX + "_2", minDist + relaxation);
     cpt.insertConstraint("x" + lastX + "b + RELAXATION", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + relaxation);
     cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + relaxation);
-    
 }
 
 void AutoCell::insertDistanceRuleDumb(vector<Box*> &geometries, compaction &cpt, string last, string next, layer_name l, HorV dir){
