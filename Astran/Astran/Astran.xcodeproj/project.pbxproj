@@ -225,8 +225,6 @@
 		BC97A4FC178F2BBE0002254A /* src */ = {
 			isa = PBXGroup;
 			children = (
-				BCF19DA218183D10000FA8CA /* wxpreferences.cpp */,
-				BCF19DA318183D10000FA8CA /* wxpreferences.h */,
 				BC97A4FD178F2BBE0002254A /* autocell2.cpp */,
 				BC97A4FE178F2BBE0002254A /* autocell2.h */,
 				BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */,
@@ -277,6 +275,8 @@
 				BC97A52E178F2BBE0002254A /* wxfp.h */,
 				BC97A52F178F2BBE0002254A /* wxinterface.cpp */,
 				BC97A530178F2BBE0002254A /* wxinterface.h */,
+				BCF19DA218183D10000FA8CA /* wxpreferences.cpp */,
+				BCF19DA318183D10000FA8CA /* wxpreferences.h */,
 				BC97A533178F2BBE0002254A /* wxrules.cpp */,
 				BC97A534178F2BBE0002254A /* wxrules.h */,
 			);

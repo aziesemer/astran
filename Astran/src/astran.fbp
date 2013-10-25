@@ -86,7 +86,7 @@
             <event name="OnSetFocus"></event>
             <event name="OnSize"></event>
             <event name="OnUpdateUI"></event>
-            <object class="wxMenuBar" expanded="0">
+            <object class="wxMenuBar" expanded="1">
                 <property name="bg"></property>
                 <property name="context_help"></property>
                 <property name="context_menu">1</property>
@@ -131,11 +131,11 @@
                 <event name="OnSetFocus"></event>
                 <event name="OnSize"></event>
                 <event name="OnUpdateUI"></event>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">File</property>
                     <property name="name">menu_file</property>
                     <property name="permission">protected</property>
-                    <object class="submenu" expanded="0">
+                    <object class="submenu" expanded="1">
                         <property name="label">New</property>
                         <property name="name">file_new</property>
                         <property name="permission">protected</property>
@@ -200,7 +200,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                     </object>
-                    <object class="submenu" expanded="0">
+                    <object class="submenu" expanded="1">
                         <property name="label">Load</property>
                         <property name="name">file_load</property>
                         <property name="permission">protected</property>
@@ -224,7 +224,7 @@
                             <property name="permission">none</property>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/load_tec.png</property>
+                            <property name="bitmap">Load From File; ../Images/load_tec.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -239,7 +239,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/load_net.png</property>
+                            <property name="bitmap">Load From File; ../Images/load_net.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -254,7 +254,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/load_lay.png</property>
+                            <property name="bitmap">Load From File; ../Images/load_lay.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -269,7 +269,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/load_pl.png</property>
+                            <property name="bitmap">Load From File; ../Images/load_pl.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -299,7 +299,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                     </object>
-                    <object class="submenu" expanded="0">
+                    <object class="submenu" expanded="1">
                         <property name="label">Save</property>
                         <property name="name">file_save</property>
                         <property name="permission">protected</property>
@@ -338,7 +338,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/save_net.png</property>
+                            <property name="bitmap">Load From File; ../Images/save_net.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -353,7 +353,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/save_lay.png</property>
+                            <property name="bitmap">Load From File; ../Images/save_lay.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -368,7 +368,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                         <object class="wxMenuItem" expanded="1">
-                            <property name="bitmap">Load From File; ../../Images/save_pl.png</property>
+                            <property name="bitmap">Load From File; ../Images/save_pl.png</property>
                             <property name="checked">0</property>
                             <property name="enabled">1</property>
                             <property name="help"></property>
@@ -398,7 +398,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                     </object>
-                    <object class="submenu" expanded="0">
+                    <object class="submenu" expanded="1">
                         <property name="label">Import</property>
                         <property name="name">file_import</property>
                         <property name="permission">protected</property>
@@ -433,7 +433,7 @@
                             <event name="OnUpdateUI"></event>
                         </object>
                     </object>
-                    <object class="submenu" expanded="0">
+                    <object class="submenu" expanded="1">
                         <property name="label">Export</property>
                         <property name="name">file_export</property>
                         <property name="permission">protected</property>
@@ -488,7 +488,7 @@
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/read_script.png</property>
+                        <property name="bitmap">Load From File; ../Images/read_script.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -522,7 +522,7 @@
                         <property name="permission">none</property>
                     </object>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/close.png</property>
+                        <property name="bitmap">Load From File; ../Images/close.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -537,12 +537,12 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">View</property>
                     <property name="name">menu_view</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/view_rules.png</property>
+                        <property name="bitmap">Load From File; ../Images/view_rules.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -557,7 +557,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/view_cir.png</property>
+                        <property name="bitmap">Load From File; ../Images/view_cir.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -572,7 +572,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/view_pref.png</property>
+                        <property name="bitmap">Load From File; ../Images/view_pref.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -587,12 +587,12 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">Cells</property>
                     <property name="name">menu_cells</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/view_cellgen.png</property>
+                        <property name="bitmap">Load From File; ../Images/view_cellgen.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -622,7 +622,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">Place</property>
                     <property name="name">menu_place</property>
                     <property name="permission">protected</property>
@@ -732,7 +732,7 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">Route</property>
                     <property name="name">menu_route</property>
                     <property name="permission">protected</property>
@@ -812,12 +812,12 @@
                         <event name="OnUpdateUI"></event>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">Help</property>
                     <property name="name">menu_help</property>
                     <property name="permission">protected</property>
                     <object class="wxMenuItem" expanded="1">
-                        <property name="bitmap">Load From File; ../../Images/help.png</property>
+                        <property name="bitmap">Load From File; ../Images/help.png</property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
                         <property name="help"></property>
@@ -927,7 +927,7 @@
                 <event name="OnSetFocus"></event>
                 <event name="OnSize"></event>
                 <event name="OnUpdateUI"></event>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/read_script.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_readscript</property>
@@ -948,10 +948,10 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="toolSeparator" expanded="1">
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/load_tec.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_opentech</property>
@@ -972,7 +972,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/load_net.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_opennetlist</property>
@@ -993,7 +993,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/load_lay.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_openlibrary</property>
@@ -1014,7 +1014,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/load_pl.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_openplacement</property>
@@ -1035,10 +1035,10 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="toolSeparator" expanded="1">
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/save_net.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_savenetlist</property>
@@ -1059,7 +1059,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/save_lay.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_savelayout</property>
@@ -1080,7 +1080,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/save_pl.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_savepl</property>
@@ -1101,10 +1101,10 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="toolSeparator" expanded="1">
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/view_rules.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_rules</property>
@@ -1125,7 +1125,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/view_cir.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_circuit</property>
@@ -1146,7 +1146,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/view_cellgen.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_cellgen</property>
@@ -1167,7 +1167,7 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/view_pref.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_preferences</property>
@@ -1188,10 +1188,10 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="toolSeparator" expanded="1">
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/refresh.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_refresh</property>
@@ -1212,10 +1212,10 @@
                     <event name="OnToolRClicked"></event>
                     <event name="OnUpdateUI"></event>
                 </object>
-                <object class="toolSeparator" expanded="1">
+                <object class="toolSeparator" expanded="0">
                     <property name="permission">protected</property>
                 </object>
-                <object class="tool" expanded="1">
+                <object class="tool" expanded="0">
                     <property name="bitmap">Load From File; ../Images/help.png</property>
                     <property name="context_menu">0</property>
                     <property name="id">ID_help</property>
