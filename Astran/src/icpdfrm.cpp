@@ -272,29 +272,44 @@ void IcpdFrm::OnFileExit( wxCommandEvent& event ){
 
 // View
 void IcpdFrm::showTech( wxCommandEvent& event ){
-	wxrules->Show();
+	wxrules->Show(true);
+    wxrules->Iconize(false);
+    wxrules->SetFocus();
+    wxrules->Raise();
 }
 
 void IcpdFrm::showCircuit( wxCommandEvent& event ){
-	wxcircuit->Show();
+	wxcircuit->Show(true);
+    wxcircuit->Iconize(false);
+    wxcircuit->SetFocus();
+    wxcircuit->Raise();
 }
 
 void IcpdFrm::showPreferences( wxCommandEvent& event ){
-	wxpreferences->Show();
+	wxpreferences->Show(true);
+    wxpreferences->Iconize(false);
+    wxpreferences->SetFocus();
+    wxpreferences->Raise();
 }
 
 // Cells
 void IcpdFrm::showCellgen( wxCommandEvent& event ){
-	wxautocell->Show();
-}
-
-void IcpdFrm::calcPinsPos( wxCommandEvent& event ){
-	readCommand("calcPinsPos");
+	wxautocell->Show(true);
+    wxautocell->Iconize(false);
+    wxautocell->SetFocus();
+    wxautocell->Raise();
 }
 
 // Place
 void IcpdFrm::showFP( wxCommandEvent& event ){
-	wxfp->Show();
+	wxfp->Show(true);
+    wxfp->Iconize(false);
+    wxfp->SetFocus();
+    wxfp->Raise();
+}
+
+void IcpdFrm::calcPinsPos( wxCommandEvent& event ){
+	readCommand("calcPinsPos");
 }
 
 void IcpdFrm::plTerminals( wxCommandEvent& event ){
