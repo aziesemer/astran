@@ -192,10 +192,7 @@ int Rules::getRule(rule_name name) {
 }
 
 float Rules::getRulef(rule_name name) {
-	if (resolution)
-		return float(getRule(name))/resolution;
-	else
-		return 0;
+		return rules_lst[name].val;
 }
 
 string Rules::getRuleDesc(rule_name name) {
