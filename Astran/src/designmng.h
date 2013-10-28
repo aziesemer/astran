@@ -65,7 +65,7 @@ enum command_name {
 	SET_TECH_NAME,SET_TECH_MLAYERS,SET_TECH_SOI,SET_TECH_RESOLUTION,SET_TECH_RULE,SET_TECH_CIF,SET_TECH_GDSII,SET_TECH_VALTECH,
 	
 	// Circuit - 8
-	SET_DESIGNNAME,SET_GRID,SET_HGRID,SET_VGRID,SET_HGRID_OFFSET,SET_VGRID_OFFSET,SET_VDDNET,SET_GNDNET,SET_ROWHEIGHT,SET_SUPPLYSIZE, SET_NWELLPOS, SET_TAPLESS,
+	SET_DESIGNNAME,SET_GRID,SET_HGRID,SET_VGRID,SET_HGRID_OFFSET,SET_VGRID_OFFSET,SET_VDDNET,SET_GNDNET,SET_ROWHEIGHT,SET_SUPPLYSIZE, SET_NWELLPOS, SET_NWELLBORDER, SET_PNSELBORDER, SET_TAPLESS,
 	
 	// Floorplan - 3
 	SET_TOPCELL,SET_AREA,SET_MARGINS,
@@ -173,6 +173,8 @@ static commands commands_lst[] = {
 	{"SET ROWHEIGHT <int_Value>", "Set a new value to the circuit's row height"},
 	{"SET SUPPLYSIZE <float_Value>", "Set a new value to the circuit's supply size"},
 	{"SET NWELLPOS <float_Value>", "Set a new value to the nWell position"},
+	{"SET NWELLBORDER <float_Value>", "Set a new value to the nWell cell border"},
+	{"SET PNSELBORDER <float_Value>", "Set a new value to the P/N Sel/Plus cell border"},
 	{"SET TAPLESS <str_YES/NO>", "Set if current technology is tapless. Parameter must be \"YES\" or \"NO\""},
 	
 	// Floorplan - 3

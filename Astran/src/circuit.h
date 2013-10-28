@@ -37,7 +37,7 @@ class Circuit {
 
 	Rules* currentRules;
 	int cellsHeight, c2lMargin, c2rMargin, c2tMargin, c2bMargin;
-	float hGrid, vGrid, supplyVSize, nWellPos;
+	float hGrid, vGrid, supplyVSize, nWellPos, nWellBorder, pnSelBorder;
 	string topCell,vddNet, gndNet;
     bool tapless, hGridOffset, vGridOffset;
     
@@ -66,6 +66,10 @@ class Circuit {
 	float getSupplyVSize(){return supplyVSize;};
 	void setnWellPos(float x){nWellPos=x;};
 	float getnWellPos(){return nWellPos;};
+	void setnWellBorder(float x){nWellBorder=x;};
+	float getnWellBorder(){return nWellBorder;};
+	void setpnSelBorder(float x){pnSelBorder=x;};
+	float getpnSelBorder(){return pnSelBorder;};
 	void setTapless(bool x){tapless=x;};
 	bool isTapless(){return tapless;};
 	void setRowHeight(int h){cellsHeight=h;};

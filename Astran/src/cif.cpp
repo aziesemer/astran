@@ -50,8 +50,8 @@ bool Cif::cellCif(map<string, CLayout>& layouts, string top) {
 	map <layer_name , list<Box> >::iterator layers_it; // iterador das camadas
 	list<Label>::iterator labels_it;
 	for (labels_it = currentLayout.labels.begin(); labels_it != currentLayout.labels.end(); labels_it++)
-		file << "94 " << labels_it->text << " " << labels_it->pt.getX() << " "
-		<< labels_it->pt.getY() << " " << rules->getCIFVal(MET1) << ";\n";
+		file << "94 " << labels_it->text << " " << 2*labels_it->pt.getX() << " "
+		<< 2*labels_it->pt.getY() << " " << rules->getCIFVal(MET1) << ";\n";
 	
 	list <Box>::iterator layer_it;
 	for (layers_it = currentLayout.layers.begin(); layers_it != currentLayout.layers.end(); layers_it++) {
@@ -110,7 +110,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	c2cfile << "    )" << endl;
 	c2cfile.close();
 	cout << "ATTENTION:" << endl;
-	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl << "After that, execute Tools->Technology File Manager->Attach, select your Design Library (usually new_design) and the target Technology Library to Attach (e.g. cmos130), you only need to do it once. Now you are ready to use Cadence Virtuoso." << endl;
+	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump - select all) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl << "If you have any problem loading your layout, execute Tools->Technology File Manager->Attach, select your Design Library (usually new_design) and the target Technology Library to Attach (e.g. cmos130), you only need to do it once. Now you are ready to use Cadence Virtuoso." << endl;
 	return true;
 }
 

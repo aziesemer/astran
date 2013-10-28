@@ -10,6 +10,8 @@ Circuit::Circuit(){
     hGridOffset=false;
     vGridOffset=false;
 	supplyVSize=0.72f;
+	nWellBorder=0.235f;
+	pnSelBorder=0.09f;
 	nWellPos=1.14f;
 	tapless=true;
 	vddNet="VCC";

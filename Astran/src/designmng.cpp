@@ -151,7 +151,7 @@ int DesignMng::readCommand(string cmd){
 	int ret=5;
 	
 	if(verboseMode){
-		cout << "[" << name << "]> " << cmd << endl;
+		cout << "[" << name << "]$ " << cmd << endl;
 		ret = history(cmd);
 		if (cmd.size()){
 			commandlog.push_back(cmd);
@@ -706,6 +706,16 @@ int DesignMng::readCommand(string cmd){
 
 			case SET_NWELLPOS:
 				circuit->setnWellPos(atof(words[2].c_str()));
+				ret=1;
+				break;
+				
+			case SET_NWELLBORDER:
+				circuit->setnWellBorder(atof(words[2].c_str()));
+				ret=1;
+				break;
+				
+			case SET_PNSELBORDER:
+				circuit->setpnSelBorder(atof(words[2].c_str()));
 				ret=1;
 				break;
 				

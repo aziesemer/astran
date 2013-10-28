@@ -62,6 +62,7 @@
 		BCF19DA81819BA57000FA8CA /* HOWTO.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DA51819BA57000FA8CA /* HOWTO.txt */; };
 		BCF19DA91819BA57000FA8CA /* INSTALL.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DA61819BA57000FA8CA /* INSTALL.txt */; };
 		BCF19DAA1819BA57000FA8CA /* RULES.png in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DA71819BA57000FA8CA /* RULES.png */; };
+		BCF19DAC181C493A000FA8CA /* tech_0065.rul in Resources */ = {isa = PBXBuildFile; fileRef = BCF19DAB181C493A000FA8CA /* tech_0065.rul */; };
 		E6828ACE17BEB82A002E35C0 /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
 		E6828ACF17BEB82A002E35C0 /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
 		E6828AD017BEB82A002E35C0 /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
@@ -153,6 +154,7 @@
 		BCF19DA51819BA57000FA8CA /* HOWTO.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = HOWTO.txt; path = ../build/HOWTO.txt; sourceTree = "<group>"; };
 		BCF19DA61819BA57000FA8CA /* INSTALL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = INSTALL.txt; path = ../build/INSTALL.txt; sourceTree = "<group>"; };
 		BCF19DA71819BA57000FA8CA /* RULES.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RULES.png; path = ../build/RULES.png; sourceTree = "<group>"; };
+		BCF19DAB181C493A000FA8CA /* tech_0065.rul */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = tech_0065.rul; path = ../build/Work/tech_0065.rul; sourceTree = "<group>"; };
 		E6828AEE17BEB82B002E35C0 /* Astran copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Astran copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -184,6 +186,7 @@
 		BC97A4D0178F2B1E0002254A = {
 			isa = PBXGroup;
 			children = (
+				BCF19DAB181C493A000FA8CA /* tech_0065.rul */,
 				BCF19DA51819BA57000FA8CA /* HOWTO.txt */,
 				BCF19DA61819BA57000FA8CA /* INSTALL.txt */,
 				BCF19DA71819BA57000FA8CA /* RULES.png */,
@@ -374,6 +377,7 @@
 				BCF19DA81819BA57000FA8CA /* HOWTO.txt in Resources */,
 				BCF19DA91819BA57000FA8CA /* INSTALL.txt in Resources */,
 				BCF19DAA1819BA57000FA8CA /* RULES.png in Resources */,
+				BCF19DAC181C493A000FA8CA /* tech_0065.rul in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

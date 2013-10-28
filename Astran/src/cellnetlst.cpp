@@ -183,11 +183,11 @@ bool CellNetlst::eulerpath(){
 	int cntDifs=0;
 	bool ok=false;
 	do{
-		cout << "Trying to find a transistors distribution with "<< cntDifs << " gap(s)... ";
+		cout << "-> Trying to find a transistors distribution with "<< cntDifs << " gap(s)... ";
 		cntDifs++;
 		ok=visit(cntDifs);
-		if(!ok) cout << "Euler Path not found" << endl;
-		else cout << "DONE" << endl;
+		if(!ok) cout << "-> Euler Path not found" << endl;
+		else cout << "-> DONE" << endl;
 	}while(!ok && cntDifs<=trans.size()/2);
 	return ok;
 }
@@ -239,11 +239,11 @@ bool CellNetlst::check(){
 	int c=0;
 	while(c<nets.size()){
 		if((nets[c].name=="VDD" || nets[c].name=="VCC" || nets[c].name=="GND" || nets[c].name=="0") && find(inouts.begin(), inouts.end(), c)==inouts.end()){
-			cout << "\t\t\tWarning: Net " << nets[c].name << " seems to be a supply signal but is not declared as input/output." << endl;
+			cout << "-> Net " << nets[c].name << " seems to be a supply signal but is not declared as input/output." << endl;
 			inouts.push_back(c);
 		}
 		if(nets[c].trans.size()<2 && find(inouts.begin(), inouts.end(), c)==inouts.end()){
-			cout << "\t\t\tError: Net " << nets[c].name << " is connected just to a single node." << endl;
+			cout << "** Net " << nets[c].name << " is connected just to a single node." << endl;
 			return false;
 		}
 		c++;
@@ -317,7 +317,7 @@ void CellNetlst::insertInstance(string instName, string subCircuit, vector<strin
 }
 
 void CellNetlst::print(){
-	cout << "Ports: ";
+	cout << "-> Ports: ";
 	for(int c=0; c<inouts.size(); c++){
 		cout << "(" << nets[inouts[c]].name << ",";
 		switch(inouts_type[c]){
@@ -565,22 +565,22 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	orderingP=tmpP;
 	orderingN=tmpN;
 	GetCost();
-	cout << "- Final cost: 	Width=" << posPN << "(*" << wCost << "); Gate Miss Match="<<  missMatchGate << "(*" << gmCost << "); Routing="<< wRouting << "(*" << rCost << "); Rt Density=" << maxCong << "(*" << congCost << "); wGaps=" << wGaps << "(*" << ngCost << ")"<< endl;
-	cout << "- Transistor Ordering (" << best << "): " << endl;
-	cout << "- PMOS: ";
+	cout << "-> Final cost: 	Width=" << posPN << "(*" << wCost << "); Gate Miss Match="<<  missMatchGate << "(*" << gmCost << "); Routing="<< wRouting << "(*" << rCost << "); Rt Density=" << maxCong << "(*" << congCost << "); wGaps=" << wGaps << "(*" << ngCost << ")"<< endl;
+	cout << "-> Transistor Ordering (" << best << "): " << endl;
+	cout << "-> PMOS: ";
 	for(i=0;i<orderingP.size();i++){ 
 		if(orderingP[i].link==-1) cout << "GAP";
 		else cout << trans[orderingP[i].link].name;
 		cout << "-";
 	}
 	cout << endl;
-	cout << "- NMOS: ";
+	cout << "-> NMOS: ";
 	for(i=0;i<orderingN.size();i++){
 		if(orderingN[i].link==-1) cout << "GAP";
 		else cout << trans[orderingN[i].link].name;
 		cout << "-";
 	}	
-	cout << endl << "--" << endl;
+	cout << endl;
 	return true;
 }
 

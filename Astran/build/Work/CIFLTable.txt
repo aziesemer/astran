@@ -18,7 +18,7 @@ M2		drawing		CMS
 M3		drawing		CMT
 M4		drawing		CMQ
 M5		drawing		CMP
-CELBOX		drawing		CBX
-MET1P		pin		CPF
-MET2P		pin		CPS
-MET3P		pin		CPT
+prBoundary		drawing		CBX
+M1		pin		CPF
+M2		pin		CPS
+M3		pin		CPT

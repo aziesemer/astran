@@ -65,13 +65,13 @@ void WxCircuit::ok(){
 	}
     
 	// compare if current Vdd Net Name is different from textbox value
-	if(vddnetname->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getCircuit()->getVddNet().c_str()){
+	if(vddnetname->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getCircuit()->getVddNet()){
 		wxString cmd=wxT("set vddnet ") + vddnetname->GetValue();
 		currentFrmwork->readCommand(cmd.ToAscii().data());
 	}
 
 	// compare if current Gnd Net Name is different from textbox value
-	if(gndnetname->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getCircuit()->getGndNet().c_str()){
+	if(gndnetname->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getCircuit()->getGndNet()){
 		wxString cmd=wxT("set gndnet ") + gndnetname->GetValue();
 		currentFrmwork->readCommand(cmd.ToAscii().data());
 	}
@@ -93,7 +93,19 @@ void WxCircuit::ok(){
 		wxString cmd=wxT("set nWellPos ") + nWellPos->GetValue();
 		currentFrmwork->readCommand(cmd.ToAscii().data());
 	}
-
+    
+    // compare if current nWell position is  different from textbox value
+	if(nWellBorder->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getnWellBorder())){
+		wxString cmd=wxT("set nWellBorder ") + nWellBorder->GetValue();
+		currentFrmwork->readCommand(cmd.ToAscii().data());
+	}
+    
+    // compare if current nWell position is  different from textbox value
+	if(pnSelBorder->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getpnSelBorder())){
+		wxString cmd=wxT("set pnSelBorder ") + pnSelBorder->GetValue();
+		currentFrmwork->readCommand(cmd.ToAscii().data());
+	}
+    
     // compare if current tapless setting is  different from checked value
 	if(tapless->GetValue() != currentFrmwork->getDesign()->getCircuit()->isTapless()){
 		wxString cmd;
@@ -124,5 +136,7 @@ void WxCircuit::refresh(){
 	rowheight->SetValue(wxString::Format(_T("%d"), currentFrmwork->getDesign()->getCircuit()->getRowHeight()));
 	supplysize->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getSupplyVSize()));
 	nWellPos->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getnWellPos()));
+	nWellBorder->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getnWellBorder()));
+	pnSelBorder->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getpnSelBorder()));
 	tapless->SetValue(currentFrmwork->getDesign()->getCircuit()->isTapless());
 }

@@ -23,7 +23,7 @@ void WxAutoCell::hide( wxCloseEvent& event ){
  }*/
 
 void WxAutoCell::generateCell( wxCommandEvent& event ){
-	cout << "CellGen: Auto generating cell " << cellnet_choice->GetStringSelection() << endl;	
+	cout << "CellGen: Auto generating cell " << cellnet_choice->GetStringSelection().ToAscii().data() << endl;	
 	
 	// Select cell
 	wxString cmd=wxT("cellgen set pos_tracks ") + s_TP->GetValue();
@@ -110,7 +110,6 @@ void WxAutoCell::update(){
 	int state=0;
 	if(currentFrmwork->getDesign()->getAutoCell())
 		state=currentFrmwork->getDesign()->getAutoCell()->getState();
-	cout << state;
 	fold_button->Enable(state>=2);
 	place_button->Enable(state>=3);
 	route_button->Enable(state>=4);
