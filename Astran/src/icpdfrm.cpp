@@ -65,7 +65,7 @@ void IcpdFrm::newDesign( wxCommandEvent& event ){
 	wxString cmd = wxGetTextFromUser(wxT("Enter the name: "),wxT("New Design"),wxT(""));
 	if(cmd!=wxT("")){
 		cmd=wxT("new design \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 
 		instanceLevel.clear();
 		refresh();
@@ -76,7 +76,7 @@ void IcpdFrm::newCell( wxCommandEvent& event ){
 	wxString cmd = wxGetTextFromUser(wxT("Enter the cell name: "),wxT("Add a new cell netlist"),wxT(""));
 	if(cmd!=wxT("")){
 		cmd=wxT("new cell ") + cmd;
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -87,7 +87,7 @@ void IcpdFrm::loadProject( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("load project \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
     }
 }
@@ -97,7 +97,7 @@ void IcpdFrm::loadTech( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("load technology \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
     }
 }
 
@@ -106,7 +106,7 @@ void IcpdFrm::loadSpiceNetlist( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("load netlist \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -116,7 +116,7 @@ void IcpdFrm::loadLayouts( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("load layouts \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -126,7 +126,7 @@ void IcpdFrm::loadPlacement( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("load placement \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -136,7 +136,7 @@ void IcpdFrm::loadRouting( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("load routing \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -147,7 +147,7 @@ void IcpdFrm::saveProject( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save project \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -156,7 +156,7 @@ void IcpdFrm::saveTech( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save technology \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -165,7 +165,7 @@ void IcpdFrm::saveSpiceNetlist( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save netlist \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -174,7 +174,7 @@ void IcpdFrm::saveLayouts( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save layouts \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -183,7 +183,7 @@ void IcpdFrm::savePlacement( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save placement \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -192,7 +192,7 @@ void IcpdFrm::saveRouting( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save routing \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -202,7 +202,7 @@ void IcpdFrm::importSpiceNetlist( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("import netlist \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -212,7 +212,7 @@ void IcpdFrm::importLEF( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("import lef \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -223,7 +223,7 @@ void IcpdFrm::exportLayout( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("export layout ") + wx_layouts->GetStringSelection() + wxT(" \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -232,7 +232,7 @@ void IcpdFrm::exportCellSizes( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("export cellsizes \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -241,7 +241,7 @@ void IcpdFrm::exportPlacement( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("export placement \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -251,7 +251,7 @@ void IcpdFrm::flReadScript( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("read \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -261,7 +261,7 @@ void IcpdFrm::saveHistory( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
 		cmd = wxT("save history \"") + cmd + wxT("\"");
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -346,7 +346,7 @@ void IcpdFrm::pfinder( wxCommandEvent& event ){
 	wxString cmd = wxGetTextFromUser(wxT("Enter the number of iterations (ex. 1000): "),wxT("Negociation Based Router"),wxT(""));
 	if(cmd!=wxT("")){
 		cmd=wxT("route pfinder ") + cmd;
-		readCommand(cmd.ToAscii().data());
+		readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -382,14 +382,14 @@ void IcpdFrm::refreshIcon( wxCommandEvent& event ){
 
 // List Boxes
 void IcpdFrm::layoutListEvent( wxCommandEvent& event ){
-	string selectedLayout=wx_layouts->GetStringSelection().ToAscii().data();
+	string selectedLayout=string(wx_layouts->GetStringSelection().mb_str());
 	instanceLevel.clear();
 	instanceLevel.push_back(designmng.getCircuit()->getLayout(selectedLayout));
 	refreshInstanceList();
 }
 
 void IcpdFrm::viewLayout( wxCommandEvent& event ){
-	viewLayout(wx_layouts->GetStringSelection().ToAscii().data());
+	viewLayout(string(wx_layouts->GetStringSelection().mb_str()));
 }
 
 void IcpdFrm::viewLayout( string cellName ){
@@ -414,9 +414,9 @@ void IcpdFrm::printInstance( wxCommandEvent& event ){
 	}else{
 		string cmd = "print instance ";
 		cmd += instanceLevel.back()->getName();
-		cmd += " " + string(wx_instances->GetStringSelection().ToAscii().data());
+		cmd += " " + string(wx_instances->GetStringSelection().mb_str());
 		readCommand(cmd);
-		CLayout *tmp=designmng.getCircuit()->getLayout(instanceLevel.back()->getInstance(wx_instances->GetStringSelection().ToAscii().data())->getTargetCell());
+		CLayout *tmp=designmng.getCircuit()->getLayout(instanceLevel.back()->getInstance(string(wx_instances->GetStringSelection().mb_str()))->getTargetCell());
 		if(tmp){
 			instanceLevel.push_back(tmp);
 			refreshInstanceList();
@@ -428,22 +428,22 @@ void IcpdFrm::printInstance( wxCommandEvent& event ){
 
 void IcpdFrm::printCell( wxCommandEvent& event ){
 	wxString cmd = wxT("print cell ") + wx_cells->GetStringSelection(); 
-	readCommand(cmd.ToAscii().data());
+	readCommand(string(cmd.mb_str()));
 }
 
 void IcpdFrm::printNet( wxCommandEvent& event ){
 	wxString cmd = wxT("print net ") + wx_nets->GetStringSelection();
-	readCommand(cmd.ToAscii().data());
+	readCommand(string(cmd.mb_str()));
 }
 
 void IcpdFrm::printInterface( wxCommandEvent& event ){
 	wxString cmd = wxT("print interface ") + wx_interfaces->GetStringSelection();
-	readCommand(cmd.ToAscii().data());
+	readCommand(string(cmd.mb_str()));
 }
 
 // Shell
 void IcpdFrm::command( wxCommandEvent& event ){
-	string cmd=wxCommand->GetValue().ToAscii().data();
+	string cmd=string(wxCommand->GetValue().mb_str());
 	wxCommand->SetValue(_T(""));
 	readCommand(cmd.c_str());
 }

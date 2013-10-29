@@ -1052,11 +1052,11 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.insertConstraint("x" + cnt + "a", "x" + cnt + "b", CP_EQ, currentRules->getRule(W2CT));
     cpt.insertConstraint("y" + cnt + "a", "y" + cnt + "b", CP_EQ, currentRules->getRule(W2CT));
     
-    string cntPos=cnt+"_BoundBx_";
-    cpt.insertConstraint("x" + cntPos + "a", "x" + cnt + "a", CP_MIN, 0);
-    cpt.insertConstraint("x" + cnt + "b", "x" + cntPos + "b", CP_MIN, 0);
-    cpt.insertConstraint("y" + cntPos + "a", "y" + cnt + "a", CP_MIN, 0);
-    cpt.insertConstraint("y" + cnt + "b", "y" + cntPos + "b", CP_MIN, 0);
+    string cntBndBox=cnt+"_BoundBx_";
+    cpt.insertConstraint("x" + cntBndBox + "a", "x" + cnt + "a", CP_MIN, 0);
+    cpt.insertConstraint("x" + cnt + "b", "x" + cntBndBox + "b", CP_MIN, 0);
+    cpt.insertConstraint("y" + cntBndBox + "a", "y" + cnt + "a", CP_MIN, 0);
+    cpt.insertConstraint("y" + cnt + "b", "y" + cntBndBox + "b", CP_MIN, 0);
     
     if(isDiff && ddCntsCost){
         geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
@@ -1067,108 +1067,108 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
         cpt.insertConstraint("y" + cnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
         cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
         cpt.insertConstraint("y" + cnt2 + "a", "y" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
-        cpt.insertConstraint("x" + cntPos + "a", "x" + cnt2 + "a", CP_MIN, 0);
-        cpt.insertConstraint("x" + cnt2 + "b", "x" + cntPos + "b", CP_MIN, 0);
-        cpt.insertConstraint("y" + cnt2 + "b", "y" + cntPos + "b", CP_MIN, 0);
+        cpt.insertConstraint("x" + cntBndBox + "a", "x" + cnt2 + "a", CP_MIN, 0);
+        cpt.insertConstraint("x" + cnt2 + "b", "x" + cntBndBox + "b", CP_MIN, 0);
+        cpt.insertConstraint("y" + cnt2 + "b", "y" + cntBndBox + "b", CP_MIN, 0);
     }
     
     //metal head over contact
-    cpt.forceBinaryVar("b" + cntPos + "_1M"); // horizontal stripe
-    cpt.forceBinaryVar("b" + cntPos + "_2M"); // vertical stripe
-    cpt.forceBinaryVar("b" + cntPos + "_3M"); // classic all around
-    cpt.insertConstraint("ZERO", "b" + cntPos + "_1M" + " + " + "b" + cntPos + "_2M"  + " + " + "b" + cntPos + "_3M", CP_EQ, 1);
-    cpt.insertConstraint("ZERO", "b" + cntPos + "_1M", CP_EQ, 0);
+    cpt.forceBinaryVar("b" + cntBndBox + "_1M"); // horizontal stripe
+    cpt.forceBinaryVar("b" + cntBndBox + "_2M"); // vertical stripe
+    cpt.forceBinaryVar("b" + cntBndBox + "_3M"); // classic all around
+    cpt.insertConstraint("ZERO", "b" + cntBndBox + "_1M" + " + " + "b" + cntBndBox + "_2M"  + " + " + "b" + cntBndBox + "_3M", CP_EQ, 1);
+    cpt.insertConstraint("ZERO", "b" + cntBndBox + "_1M", CP_EQ, 0);
     
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E2M1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E1M1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hM", CP_MIN, "b" + cntPos + "_3M", currentRules->getRule(E3M1CT));
-    cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + cntPos + "a", CP_MIN, "x" + cntPos + "hM");
-    cpt.insertConstraint("x" + cntPos + "b", "x" + metTracks[pos] + "b", CP_MIN, "x" + cntPos + "hM");
-    cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + metTracks[pos] + "b", CP_EQ, "x" + cntPos + "hminM");
-    cpt.insertLPMinVar("x" + cntPos + "hminM",3);
+    cpt.insertConstraint("ZERO", "x" + cntBndBox + "hM", CP_MIN, "b" + cntBndBox + "_1M", currentRules->getRule(E2M1CT));
+    cpt.insertConstraint("ZERO", "x" + cntBndBox + "hM", CP_MIN, "b" + cntBndBox + "_2M", currentRules->getRule(E1M1CT));
+    cpt.insertConstraint("ZERO", "x" + cntBndBox + "hM", CP_MIN, "b" + cntBndBox + "_3M", currentRules->getRule(E3M1CT));
+    cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + cntBndBox + "a", CP_MIN, "x" + cntBndBox + "hM");
+    cpt.insertConstraint("x" + cntBndBox + "b", "x" + metTracks[pos] + "b", CP_MIN, "x" + cntBndBox + "hM");
+    cpt.insertConstraint("x" + metTracks[pos] + "a", "x" + metTracks[pos] + "b", CP_EQ, "x" + cntBndBox + "hminM");
+    cpt.insertLPMinVar("x" + cntBndBox + "hminM",3);
     
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_1M", currentRules->getRule(E1M1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_2M", currentRules->getRule(E2M1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vM", CP_MIN, "b" + cntPos + "_3M", currentRules->getRule(E3M1CT));
-    cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + cntPos + "a", CP_MIN, "y" + cntPos + "vM");
-    cpt.insertConstraint("y" + cntPos + "b", "y" + metTracks[pos] + "b", CP_MIN, "y" + cntPos + "vM");
-    cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + metTracks[pos] + "b", CP_EQ, "y" + cntPos + "vminM");
-    cpt.insertLPMinVar("y" + cntPos + "vminM",3);
+    cpt.insertConstraint("ZERO", "y" + cntBndBox + "vM", CP_MIN, "b" + cntBndBox + "_1M", currentRules->getRule(E1M1CT));
+    cpt.insertConstraint("ZERO", "y" + cntBndBox + "vM", CP_MIN, "b" + cntBndBox + "_2M", currentRules->getRule(E2M1CT));
+    cpt.insertConstraint("ZERO", "y" + cntBndBox + "vM", CP_MIN, "b" + cntBndBox + "_3M", currentRules->getRule(E3M1CT));
+    cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + cntBndBox + "a", CP_MIN, "y" + cntBndBox + "vM");
+    cpt.insertConstraint("y" + cntBndBox + "b", "y" + metTracks[pos] + "b", CP_MIN, "y" + cntBndBox + "vM");
+    cpt.insertConstraint("y" + metTracks[pos] + "a", "y" + metTracks[pos] + "b", CP_EQ, "y" + cntBndBox + "vminM");
+    cpt.insertLPMinVar("y" + cntBndBox + "vminM",3);
     
-    return cntPos;
+    return cntBndBox;
 }
 
 string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string metNode) {
     geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, MET1P));
-    string viaPos = intToStr(geometries.size() - 1);
+    string via = intToStr(geometries.size() - 1);
     
-    cpt.insertConstraint("x" + viaPos + "a", "x" + viaPos + "b", CP_EQ, currentRules->getRule(W2VI));
-    cpt.insertConstraint("y" + viaPos + "a", "y" + viaPos + "b", CP_EQ, currentRules->getRule(W2VI));
+    cpt.insertConstraint("x" + via + "a", "x" + via + "b", CP_EQ, currentRules->getRule(W2VI));
+    cpt.insertConstraint("y" + via + "a", "y" + via + "b", CP_EQ, currentRules->getRule(W2VI));
     
     //choose a kind of metal enclosure of via
-    cpt.forceBinaryVar("b" + viaPos + "_1V");
-    cpt.forceBinaryVar("b" + viaPos + "_2V");
-    cpt.insertConstraint("ZERO", "b" + viaPos + "_1V" + " + " + "b" + viaPos + "_2V", CP_EQ, 1);
+    cpt.forceBinaryVar("b" + via + "_1V");
+    cpt.forceBinaryVar("b" + via + "_2V");
+    cpt.insertConstraint("ZERO", "b" + via + "_1V" + " + " + "b" + via + "_2V", CP_EQ, 1);
     
-    cpt.insertConstraint("x" + metNode + "a", "x" + viaPos + "a", CP_MIN, "b" + viaPos + "_1V", currentRules->getRule(E2M1VI));
-    cpt.insertConstraint("x" + viaPos + "b", "x" + metNode + "b", CP_MIN, "b" + viaPos + "_1V", currentRules->getRule(E2M1VI));
+    cpt.insertConstraint("x" + metNode + "a", "x" + via + "a", CP_MIN, "b" + via + "_1V", currentRules->getRule(E2M1VI));
+    cpt.insertConstraint("x" + via + "b", "x" + metNode + "b", CP_MIN, "b" + via + "_1V", currentRules->getRule(E2M1VI));
     
-    cpt.insertConstraint("y" + metNode + "a", "y" + viaPos + "a", CP_MIN, "b" + viaPos + "_2V", currentRules->getRule(E2M1VI));
-    cpt.insertConstraint("y" + viaPos + "b", "y" + metNode + "b", CP_MIN, "b" + viaPos + "_2V", currentRules->getRule(E2M1VI));
+    cpt.insertConstraint("y" + metNode + "a", "y" + via + "a", CP_MIN, "b" + via + "_2V", currentRules->getRule(E2M1VI));
+    cpt.insertConstraint("y" + via + "b", "y" + metNode + "b", CP_MIN, "b" + via + "_2V", currentRules->getRule(E2M1VI));
     
     //choose a kind of metal area format
-    cpt.forceBinaryVar("b" + viaPos + "_1A"); // linear
-    cpt.forceBinaryVar("b" + viaPos + "_2A"); //square
+    cpt.forceBinaryVar("b" + via + "_1A"); // linear
+    cpt.forceBinaryVar("b" + via + "_2A"); //square
     
-    cpt.insertConstraint("ZERO", "b" + viaPos + "_1A" + " + " + "b" + viaPos + "_2A", CP_EQ, 1);
+    cpt.insertConstraint("ZERO", "b" + via + "_1A" + " + " + "b" + via + "_2A", CP_EQ, 1);
     
-    cpt.insertConstraint("ZERO", "x" + metNode +  "_width" + " + " + "y" + metNode +  "_width", CP_MIN, "b" + viaPos + "_1A", currentRules->getIntValue(currentRules->getRulef(A1M1)/currentRules->getRulef(W2VI)+currentRules->getRulef(W2VI)));    
+    cpt.insertConstraint("ZERO", "x" + metNode +  "_width" + " + " + "y" + metNode +  "_width", CP_MIN, "b" + via + "_1A", currentRules->getIntValue(currentRules->getRulef(A1M1)/currentRules->getRulef(W2VI)+currentRules->getRulef(W2VI)));    
     cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN,  "x" + metNode +  "_width");
     cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "y" + metNode +  "_width");
     
-    cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + viaPos + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
-    cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + viaPos + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+    cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+    cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
     
     
     //allign via to the routing grid
-    cpt.insertConstraint( "HGRID_OFFSET", "x" + viaPos + "g", CP_EQ_VAR_VAL,  "x" + viaPos + "gpos", hGrid);
-    cpt.forceIntegerVar("x" + viaPos + "gpos");
-    cpt.insertConstraint( "x" + viaPos + "a", "x" + viaPos + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
-    cpt.insertConstraint( "x" + viaPos + "g", "x" + viaPos + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "HGRID_OFFSET", "x" + via + "g", CP_EQ_VAR_VAL,  "x" + via + "gpos", hGrid);
+    cpt.forceIntegerVar("x" + via + "gpos");
+    cpt.insertConstraint( "x" + via + "a", "x" + via + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "x" + via + "g", "x" + via + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
     
-    cpt.insertConstraint( "VGRID_OFFSET", "y" + viaPos + "g", CP_EQ_VAR_VAL,  "y" + viaPos + "gpos", hGrid);
-    cpt.forceIntegerVar("y" + viaPos + "gpos");
-    cpt.insertConstraint( "y" + viaPos + "a", "y" + viaPos + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
-    cpt.insertConstraint( "y" + viaPos + "g", "y" + viaPos + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "VGRID_OFFSET", "y" + via + "g", CP_EQ_VAR_VAL,  "y" + via + "gpos", hGrid);
+    cpt.forceIntegerVar("y" + via + "gpos");
+    cpt.insertConstraint( "y" + via + "a", "y" + via + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "y" + via + "g", "y" + via + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
     
-    return viaPos;
+    return via;
 }
 
 
-void AutoCell::insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> currentPolNodes, int pos) {
+void AutoCell::insertCntPol(vector<Box*> &geometries, compaction &cpt, string cnt, vector<string> currentPolNodes, int pos) {
     //poly enclosure of contact
-    cpt.forceBinaryVar("b" + cntPos + "_1P");
-    cpt.forceBinaryVar("b" + cntPos + "_2P");
-    cpt.forceBinaryVar("b" + cntPos + "_3P");
+    cpt.forceBinaryVar("b" + cnt + "_1P");
+    cpt.forceBinaryVar("b" + cnt + "_2P");
+    cpt.forceBinaryVar("b" + cnt + "_3P");
     
-    cpt.insertConstraint("ZERO", "b" + cntPos + "_1P" + " + " + "b" + cntPos + "_2P"  + " + " + "b" + cntPos + "_3P", CP_EQ, 1);
-    //    cpt.insertConstraint("ZERO", "b" + cntPos + "_3P", CP_EQ, 1);
+    cpt.insertConstraint("ZERO", "b" + cnt + "_1P" + " + " + "b" + cnt + "_2P"  + " + " + "b" + cnt + "_3P", CP_EQ, 1);
+    //    cpt.insertConstraint("ZERO", "b" + cnt + "_3P", CP_EQ, 1);
     
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_1P", currentRules->getRule(E2P1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E1P1CT));
-    cpt.insertConstraint("ZERO", "x" + cntPos + "hP", CP_MIN, "b" + cntPos + "_3P", currentRules->getRule(E3P1CT));
-    cpt.insertConstraint("x" + currentPolNodes[pos] + "a", "x" + cntPos + "a", CP_MIN, "x" + cntPos + "hP");
-    cpt.insertConstraint("x" + cntPos + "b", "x" + currentPolNodes[pos] + "b", CP_MIN, "x" + cntPos + "hP");
-    cpt.insertConstraint("x" + currentPolNodes[pos] + "a", "x" + currentPolNodes[pos] + "b", CP_EQ, "x" + cntPos + "hminP");
-    cpt.insertLPMinVar("x" + cntPos + "hminP",2);
+    cpt.insertConstraint("ZERO", "x" + cnt + "hP", CP_MIN, "b" + cnt + "_1P", currentRules->getRule(E2P1CT));
+    cpt.insertConstraint("ZERO", "x" + cnt + "hP", CP_MIN, "b" + cnt + "_2P", currentRules->getRule(E1P1CT));
+    cpt.insertConstraint("ZERO", "x" + cnt + "hP", CP_MIN, "b" + cnt + "_3P", currentRules->getRule(E3P1CT));
+    cpt.insertConstraint("x" + currentPolNodes[pos] + "a", "x" + cnt + "a", CP_MIN, "x" + cnt + "hP");
+    cpt.insertConstraint("x" + cnt + "b", "x" + currentPolNodes[pos] + "b", CP_MIN, "x" + cnt + "hP");
+    cpt.insertConstraint("x" + currentPolNodes[pos] + "a", "x" + currentPolNodes[pos] + "b", CP_EQ, "x" + cnt + "hminP");
+    cpt.insertLPMinVar("x" + cnt + "hminP",2);
     
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_1P", currentRules->getRule(E1P1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_2P", currentRules->getRule(E2P1CT));
-    cpt.insertConstraint("ZERO", "y" + cntPos + "vP", CP_MIN, "b" + cntPos + "_3P", currentRules->getRule(E3P1CT));
-    cpt.insertConstraint("y" + currentPolNodes[pos] + "a", "y" + cntPos + "a", CP_MIN, "y" + cntPos + "vP");
-    cpt.insertConstraint("y" + cntPos + "b", "y" + currentPolNodes[pos] + "b", CP_MIN, "y" + cntPos + "vP");
-    cpt.insertConstraint("y" + currentPolNodes[pos] + "a", "y" + currentPolNodes[pos] + "b", CP_EQ, "y" + cntPos + "vminP");
-    cpt.insertLPMinVar("y" + cntPos + "vminP",2);
+    cpt.insertConstraint("ZERO", "y" + cnt + "vP", CP_MIN, "b" + cnt + "_1P", currentRules->getRule(E1P1CT));
+    cpt.insertConstraint("ZERO", "y" + cnt + "vP", CP_MIN, "b" + cnt + "_2P", currentRules->getRule(E2P1CT));
+    cpt.insertConstraint("ZERO", "y" + cnt + "vP", CP_MIN, "b" + cnt + "_3P", currentRules->getRule(E3P1CT));
+    cpt.insertConstraint("y" + currentPolNodes[pos] + "a", "y" + cnt + "a", CP_MIN, "y" + cnt + "vP");
+    cpt.insertConstraint("y" + cnt + "b", "y" + currentPolNodes[pos] + "b", CP_MIN, "y" + cnt + "vP");
+    cpt.insertConstraint("y" + currentPolNodes[pos] + "a", "y" + currentPolNodes[pos] + "b", CP_EQ, "y" + cnt + "vminP");
+    cpt.insertLPMinVar("y" + cnt + "vminP",2);
 }
 
 string AutoCell::createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l){

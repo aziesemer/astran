@@ -46,7 +46,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "0"
@@ -461,6 +461,20 @@
          startingLineNumber = "440"
          endingLineNumber = "440"
          landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/pathfinder2.cpp"
+         timestampString = "404776279.288053"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "429"
+         endingLineNumber = "429"
+         landmarkName = "Pathfinder2::bfsRoute2(list&lt;unsigned int&gt;&amp; sourceNodes, const unsigned int targetNet, const unsigned int label, const bool checkConflict, const unsigned int maxCost, unsigned int actualAttempt, bool definitive )"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

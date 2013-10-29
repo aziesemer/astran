@@ -27,7 +27,8 @@ bool icpdFrmApp::OnInit(){
 	//frame->SetIcon(wxIcon(help_xpm));
 	if (argc == 2){
 		DesignMng designmng;
-		string cmd = string("read ") + wxString(argv[1]).ToAscii().data();
+		string cmd;
+        cmd= string("read ") + string(wxString(argv[1]).mb_str());
 		designmng.readCommand(cmd);
 		designmng.readCommand("exit");
 	} else{

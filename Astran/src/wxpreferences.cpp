@@ -68,38 +68,38 @@ void WxPreferences::ok(){
 	wxString cmd, path;
 
 	// compare if current placer path is different from textbox value
-	if(string(plPath->GetValue().ToAscii().data())!=currentFrmwork->getDesign()->getPlacerFile()){
+	if(string(plPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getPlacerFile()){
 		path = wxT("\"") + plPath->GetValue() + wxT("\"");
 		cmd=wxT("set placer ") + path;
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current rotdl path is different from textbox value
-	if(string(rotdlPath->GetValue().ToAscii().data())!=currentFrmwork->getDesign()->getRotDL()){
+	if(string(rotdlPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getRotDL()){
 		path = wxT("\"") + rotdlPath->GetValue() + wxT("\"");
 		cmd=wxT("set rotdl ") + path;
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current viewer path is different from textbox value
-	if(string(viewerPath->GetValue().ToAscii().data())!=currentFrmwork->getDesign()->getViewer()){
+	if(string(viewerPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getViewer()){
 		path = wxT("\"") + viewerPath->GetValue() + wxT("\"");
 		cmd=wxT("set viewer ") + path;
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current lpsolver path is different from textbox value
-	if(string(lpsolverPath->GetValue().ToAscii().data())!=currentFrmwork->getDesign()->getlpSolver()){
+	if(string(lpsolverPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getlpSolver()){
 		path = wxT("\"") + lpsolverPath->GetValue() + wxT("\"");
 		cmd=wxT("set lpsolve ") + path;
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current log path is different from textbox value
-	if(string(logPath->GetValue().ToAscii().data())!=currentFrmwork->getDesign()->getLog()){
+	if(string(logPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getLog()){
 		path = wxT("\"") + logPath->GetValue() + wxT("\"");
 		cmd=wxT("set log ") + path;
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
     Show(false);

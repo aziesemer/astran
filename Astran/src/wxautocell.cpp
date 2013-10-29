@@ -23,26 +23,26 @@ void WxAutoCell::hide( wxCloseEvent& event ){
  }*/
 
 void WxAutoCell::generateCell( wxCommandEvent& event ){
-	cout << "CellGen: Auto generating cell " << cellnet_choice->GetStringSelection().ToAscii().data() << endl;	
+	cout << "CellGen: Auto generating cell " << cellnet_choice->GetStringSelection().mb_str() << endl;	
 	
 	// Select cell
 	wxString cmd=wxT("cellgen set pos_tracks ") + s_TP->GetValue();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	cmd=wxT("cellgen set nr_tracks ") + s_RN->GetValue();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Fold Transistors
 	currentFrmwork->readCommand("cellgen fold");
 	
 	// Place
 	cmd=wxT("cellgen place ") + p_TAQ->GetValue() + wxT(" ") + p_NRA->GetValue() + wxT(" ") + p_WC->GetValue() + wxT(" ") + p_GMC->GetValue() + wxT(" ") + p_RC->GetValue() + wxT(" ") + p_RTDC->GetValue() + wxT(" ") + p_NGC->GetValue();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Route
 	cmd=wxT("cellgen route ") + rc_M->GetValue() + wxT(" ") + rc_P->GetValue() + wxT(" ") + rc_C->GetValue() + wxT(" ") + rc_IOP->GetValue();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Compact Layout
     cmd=wxT("cellgen compact ");
@@ -53,13 +53,13 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
     cmd+= wxString::Format(_T("%d"), ddCntsCost->GetValue());
     cmd+= wxT(" ");
     cmd+= alignDiffCnts->GetValue()==true?wxT("1"):wxT("0");
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
 
 void WxAutoCell::select( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
 
@@ -70,13 +70,13 @@ void WxAutoCell::fold( wxCommandEvent& event ){
 
 void WxAutoCell::place( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen place ") + p_TAQ->GetValue() + wxT(" ") + p_NRA->GetValue() + wxT(" ") + p_WC->GetValue() + wxT(" ") + p_GMC->GetValue() + wxT(" ") + p_RC->GetValue() + wxT(" ") + p_RTDC->GetValue() + wxT(" ") + p_NGC->GetValue();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
 
 void WxAutoCell::route( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen route ") + rc_M->GetValue() + wxT(" ") + rc_P->GetValue() + wxT(" ") + rc_C->GetValue() + wxT(" ") + rc_IOP->GetValue();
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
 
@@ -89,12 +89,12 @@ void WxAutoCell::compact( wxCommandEvent& event ){
     cmd+= wxString::Format(_T("%d"), ddCntsCost->GetValue());
     cmd+= wxT(" ");
     cmd+= alignDiffCnts->GetValue()==true?wxT("1"):wxT("0");
-	currentFrmwork->readCommand(cmd.ToAscii().data());
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
 
 void WxAutoCell::view( wxCommandEvent& event ){
-	currentFrmwork->viewLayout(cellnet_choice->GetStringSelection().ToAscii().data());
+	currentFrmwork->viewLayout(string(cellnet_choice->GetStringSelection().mb_str()));
 }
 
 void WxAutoCell::refresh(){

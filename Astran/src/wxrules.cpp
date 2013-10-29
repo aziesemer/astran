@@ -43,54 +43,54 @@ void WxRules::save(){
 	wxString cmd;
 
 	// compare if current technology name is different from textbox value
-	if(wxTechName->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)TECHNAME).c_str()){
+	if(wxTechName->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)TECHNAME).c_str()){
 		cmd=wxT("set technology name ") + wxTechName->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current number of metal layers is different from textbox value
-	if(wxMLayers->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)MLAYERS).c_str()){
+	if(wxMLayers->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)MLAYERS).c_str()){
 		cmd=wxT("set technology MLayers ") + wxMLayers->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if SOI value changed to YES
 	if(wxSOI->GetValue() && currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)SOI) != "YES"){
 		cmd=wxT("set technology SOI YES");
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if SOI value changed to NO
 	if(!wxSOI->GetValue() && currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)SOI) == "YES"){
 		cmd=wxT("set technology SOI NO");
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current resolution is different from textbox value
 	if(wxResolution->GetValue() != wxString::Format(_T("%d"), currentFrmwork->getDesign()->getRules()->getScale())){
 		cmd=wxT("set technology resolution ") + wxResolution->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 		refresh();
 	}
 
 	// compare if current rule value is different from textbox value
 	if(wxRule_Value->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getRules()->getRulef((rule_name)wxSelect_Rule->GetSelection()))){
 		cmd=wxT("set technology rule ") +  wxSelect_Rule->GetStringSelection() + wxT(" ") + wxRule_Value->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current layers values are different from textboxes values
-	if(wxCIF->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
+	if(wxCIF->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
 		cmd=wxT("set technology CIF ") +  wxSelect_Layer->GetStringSelection() + wxT(" ") + wxCIF->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
-	if(wxGDSII->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getRules()->getGDSIIVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
+	if(wxGDSII->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getGDSIIVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
 		cmd=wxT("set technology GDSII ") +  wxSelect_Layer->GetStringSelection() + wxT(" ") + wxGDSII->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
-	if(wxTechVal->GetValue().ToAscii().data() != currentFrmwork->getDesign()->getRules()->getTechVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
+	if(wxTechVal->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getTechVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
 		cmd=wxT("set technology val_tech ") +  wxSelect_Layer->GetStringSelection() + wxT(" ") + wxTechVal->GetValue();
-		currentFrmwork->readCommand(cmd.ToAscii().data());
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 }
 
