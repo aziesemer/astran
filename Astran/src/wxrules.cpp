@@ -43,13 +43,13 @@ void WxRules::save(){
 	wxString cmd;
 
 	// compare if current technology name is different from textbox value
-	if(wxTechName->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)TECHNAME).c_str()){
+	if(string(wxTechName->GetValue().mb_str()) != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)TECHNAME)){
 		cmd=wxT("set technology name ") + wxTechName->GetValue();
 		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current number of metal layers is different from textbox value
-	if(wxMLayers->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)MLAYERS).c_str()){
+	if(string(wxMLayers->GetValue().mb_str()) != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)MLAYERS)){
 		cmd=wxT("set technology MLayers ") + wxMLayers->GetValue();
 		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
@@ -80,15 +80,15 @@ void WxRules::save(){
 	}
 
 	// compare if current layers values are different from textboxes values
-	if(wxCIF->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
+	if(string(wxCIF->GetValue().mb_str()) != currentFrmwork->getDesign()->getRules()->getCIFVal((layer_name)wxSelect_Layer->GetSelection())){
 		cmd=wxT("set technology CIF ") +  wxSelect_Layer->GetStringSelection() + wxT(" ") + wxCIF->GetValue();
 		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
-	if(wxGDSII->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getGDSIIVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
+	if(string(wxGDSII->GetValue().mb_str()) != currentFrmwork->getDesign()->getRules()->getGDSIIVal((layer_name)wxSelect_Layer->GetSelection())){
 		cmd=wxT("set technology GDSII ") +  wxSelect_Layer->GetStringSelection() + wxT(" ") + wxGDSII->GetValue();
 		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
-	if(wxTechVal->GetValue().mb_str() != currentFrmwork->getDesign()->getRules()->getTechVal((layer_name)wxSelect_Layer->GetSelection()).c_str()){
+	if(string(wxTechVal->GetValue().mb_str()) != currentFrmwork->getDesign()->getRules()->getTechVal((layer_name)wxSelect_Layer->GetSelection())){
 		cmd=wxT("set technology val_tech ") +  wxSelect_Layer->GetStringSelection() + wxT(" ") + wxTechVal->GetValue();
 		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
