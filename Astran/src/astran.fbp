@@ -586,6 +586,56 @@
                         <event name="OnMenuSelection">showPreferences</event>
                         <event name="OnUpdateUI"></event>
                     </object>
+                    <object class="submenu" expanded="1">
+                        <property name="label">Size</property>
+                        <property name="name">menu_size</property>
+                        <property name="permission">protected</property>
+                        <object class="wxMenuItem" expanded="1">
+                            <property name="bitmap" />
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help" />
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">FO4 Method</property>
+                            <property name="name">size_fo4</property>
+                            <property name="permission">none</property>
+                            <property name="shortcut" />
+                            <property name="unchecked_bitmap" />
+                            <event name="OnMenuSelection">sizeFO4</event>
+                            <event name="OnUpdateUI" />
+                        </object>
+                        <object class="wxMenuItem" expanded="1">
+                            <property name="bitmap" />
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help" />
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">GP Method</property>
+                            <property name="name">size_gp</property>
+                            <property name="permission">none</property>
+                            <property name="shortcut" />
+                            <property name="unchecked_bitmap" />
+                            <event name="OnMenuSelection">sizeGP</event>
+                            <event name="OnUpdateUI" />
+                        </object>
+                        <object class="wxMenuItem" expanded="1">
+                            <property name="bitmap" />
+                            <property name="checked">0</property>
+                            <property name="enabled">1</property>
+                            <property name="help" />
+                            <property name="id">wxID_ANY</property>
+                            <property name="kind">wxITEM_NORMAL</property>
+                            <property name="label">Elmore Delay</property>
+                            <property name="name">m_menuItem47</property>
+                            <property name="permission">none</property>
+                            <property name="shortcut" />
+                            <property name="unchecked_bitmap" />
+                            <event name="OnMenuSelection">elmoreDelay</event>
+                            <event name="OnUpdateUI" />
+                        </object>
+                    </object>
                 </object>
                 <object class="wxMenu" expanded="0">
                     <property name="label">Cells</property>
