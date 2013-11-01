@@ -43,7 +43,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
         if (x) rt->addArc(tmp.pol[x], tmp.pol[x - 1], 6);
         if ((x<=nEnd) || (x > nDiffIni && x < pDiffIni) || (x>=pEnd)) { //CHECK IF THERE IS ENOUGHT SPACE IN THE EXTERNAL AREA 
             rt->addArc(tmp.pol[x], tmp.met[x], 20);
-            if (elements.size() && elements.back().pol[x] != -1)
+            if (hPoly && elements.size() && elements.back().pol[x] != -1)
                 rt->addArc(tmp.pol[x], elements.back().pol[x], 6); //if it's not the first, connect to the last element
         }
     }
@@ -149,234 +149,236 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
     if (state < 3) return 0;
     state = 3;
     if (currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) {
-        // CALCULATE THE NR OF INTERNAL TRACKS
-        diffPini.clear();
-        diffNini.clear();
-        for (int x = 0; x < currentNetList.getOrderingP().size(); x++) {
-            int p;
-            for (p = center + 1; trackPos[p] < pDif_iniY; ++p) {
-            }
-            //            cout << p;
-            diffPini.push_back(p);
-        }
-        for (int x = 0; x < currentNetList.getOrderingN().size(); x++) {
-            int p;
-            for (p = center - 1; trackPos[p] > nDif_iniY; --p) {
-            }
-            //            cout << p;
-            diffNini.push_back(p);
-        }
-        
-        // CONSTRUCT THE ROUTING GRAPH
-        int COST_CNT_INSIDE_DIFF = 10;
-        
-        Element *tmp, *lastElement;
-        bool gapP, gapN;
-        
-        clear();
-        rt = new Pathfinder2();
-        
-        //        currentCell->print();
-        vector<int>::iterator inouts_it = currentNetList.getInouts().begin();
-        while (inouts_it != currentNetList.getInouts().end()) {
-            //		cerr << currentCircuit->getGndNet()  << " - " <<  currentCircuit->getVddNet() << " - " << currentNetList.getNetName(*inouts_it) << endl;
-            if (currentNetList.getNetName(*inouts_it) == currentCircuit->getVddNet()) {
-                vdd = *inouts_it;
-            } else if (currentNetList.getNetName(*inouts_it) == currentCircuit->getGndNet()) {
-                gnd = *inouts_it;
-            } else {
-                inoutPins[currentNetList.getNetName(*inouts_it)] = rt->createNode();
-                rt->addNodetoNet(*inouts_it, inoutPins[currentNetList.getNetName(*inouts_it)]);
-            }
-            inouts_it++;
-        }
-        //cout << currentNetList.getNetName(0);
-        
-        //cria elemento para roteamento lateral
-        tmp = createElement(20, center, center,center,center);
-        
-        //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-        map<string, int>::iterator inoutPins_it;
-        for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
-            rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-        
-        vector<t_net2>::iterator eulerPathP_it = currentNetList.getOrderingP().begin(), eulerPathN_it = currentNetList.getOrderingN().begin(), lastP_it, lastN_it;
-        int nDiffTop,pDiffTop;
-        
-        while (eulerPathP_it != currentNetList.getOrderingP().end() && eulerPathN_it != currentNetList.getOrderingN().end()) {
-            gapP = false;
-            gapN = false;
-            
-            if (eulerPathP_it != currentNetList.getOrderingP().begin() && eulerPathP_it->link != -1 && tmp->linkP.type != GAP) {
-                if ((lastP_it->type == SOURCE && (
-                                                  (eulerPathP_it->type == SOURCE && currentNetList.getTrans(lastP_it->link).drain != currentNetList.getTrans(eulerPathP_it->link).source) ||
-                                                  (eulerPathP_it->type == DRAIN && currentNetList.getTrans(lastP_it->link).drain != currentNetList.getTrans(eulerPathP_it->link).drain))) ||
-                    (lastP_it->type == DRAIN && (
-                                                 (eulerPathP_it->type == SOURCE && currentNetList.getTrans(lastP_it->link).source != currentNetList.getTrans(eulerPathP_it->link).source) ||
-                                                 (eulerPathP_it->type == DRAIN && currentNetList.getTrans(lastP_it->link).source != currentNetList.getTrans(eulerPathP_it->link).drain))) ||
-                    eulerPathP_it->link == -1)
-                    gapP = true;
-            }
-            if (eulerPathN_it != currentNetList.getOrderingN().begin() && eulerPathN_it->link != -1 && tmp->linkN.type != GAP) {
-                if ((lastN_it->type == SOURCE && (
-                                                  (eulerPathN_it->type == SOURCE && currentNetList.getTrans(lastN_it->link).drain != currentNetList.getTrans(eulerPathN_it->link).source) ||
-                                                  (eulerPathN_it->type == DRAIN && currentNetList.getTrans(lastN_it->link).drain != currentNetList.getTrans(eulerPathN_it->link).drain))) ||
-                    (lastN_it->type == DRAIN && (
-                                                 (eulerPathN_it->type == SOURCE && currentNetList.getTrans(lastN_it->link).source != currentNetList.getTrans(eulerPathN_it->link).source) ||
-                                                 (eulerPathN_it->type == DRAIN && currentNetList.getTrans(lastN_it->link).source != currentNetList.getTrans(eulerPathN_it->link).drain))) ||
-                    eulerPathN_it->link == -1)
-                    gapN = true;
-            }
-            
-            // DIFF
-            if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
-                lastElement = tmp;
-                //serch for first track above the transistor
-                nDiffTop=center;
-                pDiffTop=center;
-                while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-                while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-                tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
-                
-                //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-                for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
-                    rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-            }
-            
-            if (tmp->linkP.type == GAP && eulerPathP_it->link != -1) { // nao é GAP na difusao P
-                tmp->linkP = *eulerPathP_it;
-                if (gapP) tmp->gapP = true;
-                if (eulerPathP_it->type == SOURCE) {
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).source, tmp->diffP);
-                    if (lastElement->linkP.type != GAP && rt->getNet(lastElement->diffP) == rt->getNet(tmp->diffP) && currentNetList.getNet(currentNetList.getTrans(eulerPathP_it->link).source).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
-                        rt->addArc(tmp->diffP, lastElement->diffP, 0); //tira a ponte entre a difusao atual e ela mesma 
-                } else {
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).drain, tmp->diffP);
-                    if (lastElement->linkP.type != GAP && rt->getNet(lastElement->diffP) == rt->getNet(tmp->diffP) && currentNetList.getNet(currentNetList.getTrans(eulerPathP_it->link).drain).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
-                        rt->addArc(tmp->diffP, lastElement->diffP, 0); //tira a ponte entre a difusao atual e ela mesma 
-                }
-                int x = diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
-                do {
-                    if (trackPos[x] >= pDif_iniY) rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
-                } while (trackPos[++x] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-            }
-            
-            if (tmp->linkN.type == GAP && eulerPathN_it->link != -1) { // nao é GAP na difusao N
-                tmp->linkN = *eulerPathN_it;
-                if (gapN) tmp->gapN = true;
-                if (eulerPathN_it->type == SOURCE) {
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).source, tmp->diffN);
-                    if (lastElement->linkN.type != GAP && rt->getNet(lastElement->diffN) == rt->getNet(tmp->diffN) && currentNetList.getNet(currentNetList.getTrans(eulerPathN_it->link).source).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
-                        rt->addArc(tmp->diffN, lastElement->diffN, 0); //tira a ponte entre a difusao atual e ela mesma
-                } else {
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).drain, tmp->diffN);
-                    if (lastElement->linkN.type != GAP && rt->getNet(lastElement->diffN) == rt->getNet(tmp->diffN) && currentNetList.getNet(currentNetList.getTrans(eulerPathN_it->link).drain).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
-                        rt->addArc(tmp->diffN, lastElement->diffN, 0); //tira a ponte entre a difusao atual e ela mesma 
-                }
-                int x = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
-                do {
-                    if (trackPos[x] <= nDif_iniY) rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
-                } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-            }
-            
-            //GATE
-            //desenha gate do transistor se nao for GAP
-            lastElement = tmp;
-            nDiffTop=center;
-            pDiffTop=center;    //CONSIDERAR W DO PROXIMO TRANSISTOR
-            while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-            while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-            
-            tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
-            
-            if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
-                tmp->linkP = *eulerPathP_it;
-                tmp->linkP.type = GATE;
-                for (int pos = tmp->diffPIni; pos<pDiffTop; pos++)
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).gate, tmp->pol[pos]);
-            } else tmp->linkP.type = GAP;
-            
-            for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
-                rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-            
-            if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
-                tmp->linkN = *eulerPathN_it;
-                tmp->linkN.type = GATE;
-                for (int pos = tmp->diffNIni; pos>nDiffTop; pos--)
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).gate, tmp->pol[pos]);
-                
-            } else tmp->linkN.type = GAP;
-            
-            // DIFF
-            lastElement = tmp;
-            nDiffTop=center;
-            pDiffTop=center;   //CONSIDERAR W DO  TRANSISTOR ANTERIOR
-            while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-            while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-            tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
-            
-            if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
-                tmp->linkP = *eulerPathP_it;
-                if (eulerPathP_it->type == DRAIN) {
-                    tmp->linkP.type = SOURCE;
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).source, tmp->diffP);
-                } else {
-                    tmp->linkP.type = DRAIN;
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).drain, tmp->diffP);
-                }
-                int x = diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
-                do {
-                    if (trackPos[x] >= pDif_iniY) rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
-                    //cout << "aquip " << x << endl;
-                } while (trackPos[++x] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-            } else
-                tmp->linkP.type = GAP;
-            
-            
-            if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
-                tmp->linkN = *eulerPathN_it;
-                if (eulerPathN_it->type == SOURCE) {
-                    tmp->linkN.type = DRAIN;
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).drain, tmp->diffN);
-                } else {
-                    tmp->linkN.type = SOURCE;
-                    rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).source, tmp->diffN);
-                }
-                int x = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
-                do {
-                    if (trackPos[x] <= nDif_iniY) rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
-                    //cout << "aquin " << x << endl;
-                } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-            } else tmp->linkN.type = GAP;
-            
-            //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-            for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
-                rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-            
-            lastP_it = eulerPathP_it++;
-            lastN_it = eulerPathN_it++;
-        }
-        
-        //cria elemento lateral para roteamento
-        tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], center, center); //MELHORAR!!!!!! max entre trans atual e próximo
-        
-        //conecta sinais de entrada e saida com o nó inoutCnt do elemento
-        for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
-            rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
-        
         state++;
         return true;
-    } else
-        return false;
+    }
+    return false;
 }
 
-bool AutoCell::route(int mCost, int pCost, int cCost, int ioCost) {
+bool AutoCell::route(bool hPoly) {
     cout << "-> Routing cell..." << endl;
     showIOCost();
     if (state < 4) return 0;
     state = 4;
     
-    if (rt->routeNets(8000) && rt->optimize() && rt->optimize()) {
+    this->hPoly=hPoly;
+    // CALCULATE THE NR OF INTERNAL TRACKS
+    diffPini.clear();
+    diffNini.clear();
+    for (int x = 0; x < currentNetList.getOrderingP().size(); x++) {
+        int p;
+        for (p = center + 1; trackPos[p] < pDif_iniY; ++p) {
+        }
+        //            cout << p;
+        diffPini.push_back(p);
+    }
+    for (int x = 0; x < currentNetList.getOrderingN().size(); x++) {
+        int p;
+        for (p = center - 1; trackPos[p] > nDif_iniY; --p) {
+        }
+        //            cout << p;
+        diffNini.push_back(p);
+    }
+    
+    // CONSTRUCT THE ROUTING GRAPH
+    int COST_CNT_INSIDE_DIFF = 10;
+    
+    Element *tmp, *lastElement;
+    bool gapP, gapN;
+    
+    clear();
+    rt = new Pathfinder2();
+    
+    //        currentCell->print();
+    vector<int>::iterator inouts_it = currentNetList.getInouts().begin();
+    while (inouts_it != currentNetList.getInouts().end()) {
+        //		cerr << currentCircuit->getGndNet()  << " - " <<  currentCircuit->getVddNet() << " - " << currentNetList.getNetName(*inouts_it) << endl;
+        if (currentNetList.getNetName(*inouts_it) == currentCircuit->getVddNet()) {
+            vdd = *inouts_it;
+        } else if (currentNetList.getNetName(*inouts_it) == currentCircuit->getGndNet()) {
+            gnd = *inouts_it;
+        } else {
+            inoutPins[currentNetList.getNetName(*inouts_it)] = rt->createNode();
+            rt->addNodetoNet(*inouts_it, inoutPins[currentNetList.getNetName(*inouts_it)]);
+        }
+        inouts_it++;
+    }
+    //cout << currentNetList.getNetName(0);
+    
+    //cria elemento para roteamento lateral
+    tmp = createElement(20, center, center,center,center);
+    
+    //conecta sinais de entrada e saida com o nó inoutCnt do elemento
+    map<string, int>::iterator inoutPins_it;
+    for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
+        rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
+    
+    vector<t_net2>::iterator eulerPathP_it = currentNetList.getOrderingP().begin(), eulerPathN_it = currentNetList.getOrderingN().begin(), lastP_it, lastN_it;
+    int nDiffTop,pDiffTop;
+    
+    while (eulerPathP_it != currentNetList.getOrderingP().end() && eulerPathN_it != currentNetList.getOrderingN().end()) {
+        gapP = false;
+        gapN = false;
+        
+        if (eulerPathP_it != currentNetList.getOrderingP().begin() && eulerPathP_it->link != -1 && tmp->linkP.type != GAP) {
+            if ((lastP_it->type == SOURCE && (
+                                              (eulerPathP_it->type == SOURCE && currentNetList.getTrans(lastP_it->link).drain != currentNetList.getTrans(eulerPathP_it->link).source) ||
+                                              (eulerPathP_it->type == DRAIN && currentNetList.getTrans(lastP_it->link).drain != currentNetList.getTrans(eulerPathP_it->link).drain))) ||
+                (lastP_it->type == DRAIN && (
+                                             (eulerPathP_it->type == SOURCE && currentNetList.getTrans(lastP_it->link).source != currentNetList.getTrans(eulerPathP_it->link).source) ||
+                                             (eulerPathP_it->type == DRAIN && currentNetList.getTrans(lastP_it->link).source != currentNetList.getTrans(eulerPathP_it->link).drain))) ||
+                eulerPathP_it->link == -1)
+                gapP = true;
+        }
+        if (eulerPathN_it != currentNetList.getOrderingN().begin() && eulerPathN_it->link != -1 && tmp->linkN.type != GAP) {
+            if ((lastN_it->type == SOURCE && (
+                                              (eulerPathN_it->type == SOURCE && currentNetList.getTrans(lastN_it->link).drain != currentNetList.getTrans(eulerPathN_it->link).source) ||
+                                              (eulerPathN_it->type == DRAIN && currentNetList.getTrans(lastN_it->link).drain != currentNetList.getTrans(eulerPathN_it->link).drain))) ||
+                (lastN_it->type == DRAIN && (
+                                             (eulerPathN_it->type == SOURCE && currentNetList.getTrans(lastN_it->link).source != currentNetList.getTrans(eulerPathN_it->link).source) ||
+                                             (eulerPathN_it->type == DRAIN && currentNetList.getTrans(lastN_it->link).source != currentNetList.getTrans(eulerPathN_it->link).drain))) ||
+                eulerPathN_it->link == -1)
+                gapN = true;
+        }
+        
+        // DIFF
+        if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
+            lastElement = tmp;
+            //serch for first track above the transistor
+            nDiffTop=center;
+            pDiffTop=center;
+            while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+            while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+            tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+            
+            //conecta sinais de entrada e saida com o nó inoutCnt do elemento
+            for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
+                rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
+        }
+        
+        if (tmp->linkP.type == GAP && eulerPathP_it->link != -1) { // nao é GAP na difusao P
+            tmp->linkP = *eulerPathP_it;
+            if (gapP) tmp->gapP = true;
+            if (eulerPathP_it->type == SOURCE) {
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).source, tmp->diffP);
+                if (lastElement->linkP.type != GAP && rt->getNet(lastElement->diffP) == rt->getNet(tmp->diffP) && currentNetList.getNet(currentNetList.getTrans(eulerPathP_it->link).source).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
+                    rt->addArc(tmp->diffP, lastElement->diffP, 0); //tira a ponte entre a difusao atual e ela mesma 
+            } else {
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).drain, tmp->diffP);
+                if (lastElement->linkP.type != GAP && rt->getNet(lastElement->diffP) == rt->getNet(tmp->diffP) && currentNetList.getNet(currentNetList.getTrans(eulerPathP_it->link).drain).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
+                    rt->addArc(tmp->diffP, lastElement->diffP, 0); //tira a ponte entre a difusao atual e ela mesma 
+            }
+            int x = diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
+            do {
+                if (trackPos[x] >= pDif_iniY) rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
+            } while (trackPos[++x] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+        }
+        
+        if (tmp->linkN.type == GAP && eulerPathN_it->link != -1) { // nao é GAP na difusao N
+            tmp->linkN = *eulerPathN_it;
+            if (gapN) tmp->gapN = true;
+            if (eulerPathN_it->type == SOURCE) {
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).source, tmp->diffN);
+                if (lastElement->linkN.type != GAP && rt->getNet(lastElement->diffN) == rt->getNet(tmp->diffN) && currentNetList.getNet(currentNetList.getTrans(eulerPathN_it->link).source).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
+                    rt->addArc(tmp->diffN, lastElement->diffN, 0); //tira a ponte entre a difusao atual e ela mesma
+            } else {
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).drain, tmp->diffN);
+                if (lastElement->linkN.type != GAP && rt->getNet(lastElement->diffN) == rt->getNet(tmp->diffN) && currentNetList.getNet(currentNetList.getTrans(eulerPathN_it->link).drain).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
+                    rt->addArc(tmp->diffN, lastElement->diffN, 0); //tira a ponte entre a difusao atual e ela mesma 
+            }
+            int x = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
+            do {
+                if (trackPos[x] <= nDif_iniY) rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
+            } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+        }
+        
+        //GATE
+        //desenha gate do transistor se nao for GAP
+        lastElement = tmp;
+        nDiffTop=center;
+        pDiffTop=center;    //CONSIDERAR W DO PROXIMO TRANSISTOR
+        while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+        while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+        
+        tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+        
+        if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
+            tmp->linkP = *eulerPathP_it;
+            tmp->linkP.type = GATE;
+            for (int pos = tmp->diffPIni; pos<pDiffTop; pos++)
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).gate, tmp->pol[pos]);
+        } else tmp->linkP.type = GAP;
+        
+        for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
+            rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
+        
+        if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
+            tmp->linkN = *eulerPathN_it;
+            tmp->linkN.type = GATE;
+            for (int pos = tmp->diffNIni; pos>nDiffTop; pos--)
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).gate, tmp->pol[pos]);
+            
+        } else tmp->linkN.type = GAP;
+        
+        // DIFF
+        lastElement = tmp;
+        nDiffTop=center;
+        pDiffTop=center;   //CONSIDERAR W DO  TRANSISTOR ANTERIOR
+        while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+        while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+        tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+        
+        if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
+            tmp->linkP = *eulerPathP_it;
+            if (eulerPathP_it->type == DRAIN) {
+                tmp->linkP.type = SOURCE;
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).source, tmp->diffP);
+            } else {
+                tmp->linkP.type = DRAIN;
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).drain, tmp->diffP);
+            }
+            int x = diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
+            do {
+                if (trackPos[x] >= pDif_iniY) rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
+                //cout << "aquip " << x << endl;
+            } while (trackPos[++x] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+        } else
+            tmp->linkP.type = GAP;
+        
+        
+        if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
+            tmp->linkN = *eulerPathN_it;
+            if (eulerPathN_it->type == SOURCE) {
+                tmp->linkN.type = DRAIN;
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).drain, tmp->diffN);
+            } else {
+                tmp->linkN.type = SOURCE;
+                rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).source, tmp->diffN);
+            }
+            int x = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
+            do {
+                if (trackPos[x] <= nDif_iniY) rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
+                //cout << "aquin " << x << endl;
+            } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+        } else tmp->linkN.type = GAP;
+        
+        //conecta sinais de entrada e saida com o nó inoutCnt do elemento
+        for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
+            rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
+        
+        lastP_it = eulerPathP_it++;
+        lastN_it = eulerPathN_it++;
+    }
+    
+    //cria elemento lateral para roteamento
+    tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], center, center); //MELHORAR!!!!!! max entre trans atual e próximo
+    
+    //conecta sinais de entrada e saida com o nó inoutCnt do elemento
+    for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
+        rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
+    
+
+    if (rt->routeNets(8000) && rt->optimize()) {
         rt->showResult();
         state = 5;
     } else {
@@ -385,14 +387,15 @@ bool AutoCell::route(int mCost, int pCost, int cCost, int ioCost) {
     return state == 5;
 }
 
-bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts) {
+bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
     cout << "-> Compacting layout..." << endl;
     if (state < 5) return 0;
     state = 5;
     
     this->diffStretching=diffStretching;
     this->griddedPolly=griddedPolly;
-    this->ddCntsCost=ddCntsCost;
+    this->rdCntsCost=rdCntsCost;
+    this->maxDiffCnts=maxDiffCnts;
     this->alignDiffConts=alignDiffConts;
     
     currentRules = currentCircuit->getRules();
@@ -414,10 +417,15 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     cpt.insertConstraint("ZERO", "HGRID_OFFSET", CP_EQ, (currentCircuit->getHGridOffset()?hGrid / 2:0));
     cpt.insertConstraint("ZERO", "VGRID_OFFSET", CP_EQ, (currentCircuit->getVGridOffset()?vGrid / 2:0));
     
-    cpt.insertConstraint("ZERO", "height", CP_EQ, height);
+    if(test){
+        cpt.insertConstraint("ZERO", "height", CP_MIN, height);
+        cpt.insertLPMinVar("height", 1000);   
+    }else{
+        cpt.insertConstraint("ZERO", "height", CP_EQ, height);
+        cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(currentCircuit->getnWellPos()));
+    }
     cpt.insertConstraint("ZERO", "yGNDb", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
     cpt.insertConstraint("yVDDa", "height", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
-    cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(currentCircuit->getnWellPos()));
     cpt.insertConstraint("yNDiffb", "posNWell", CP_MIN, currentRules->getRule(S1DNWN));
     cpt.insertConstraint("posNWell", "yPDiffa", CP_MIN, currentRules->getRule(E1WNDP));
     
@@ -1018,18 +1026,22 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.insertConstraint("y" + cntBndBox + "a", "y" + cnt + "a", CP_MIN, 0);
     cpt.insertConstraint("y" + cnt + "b", "y" + cntBndBox + "b", CP_MIN, 0);
     
-    if(isDiff && ddCntsCost){
-        geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
-        string cnt2 = intToStr(geometries.size() - 1);    
-        cpt.forceBinaryVar("b" + cnt2); // 2nd contact
-        cpt.insertLPMinVar("b" + cnt2, -ddCntsCost*8);
-        //        cpt.insertConstraint("ZERO", "b" + cnt2, CP_EQ, 1);
-        cpt.insertConstraint("y" + cnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
-        cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
-        cpt.insertConstraint("y" + cnt2 + "a", "y" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
-        cpt.insertConstraint("x" + cntBndBox + "a", "x" + cnt2 + "a", CP_MIN, 0);
-        cpt.insertConstraint("x" + cnt2 + "b", "x" + cntBndBox + "b", CP_MIN, 0);
-        cpt.insertConstraint("y" + cnt2 + "b", "y" + cntBndBox + "b", CP_MIN, 0);
+    if(isDiff && rdCntsCost){
+        string lastCnt=cnt;
+        for(int c=1;c<maxDiffCnts; ++c){
+            geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
+            string cnt2 = intToStr(geometries.size() - 1);    
+            cpt.forceBinaryVar("b" + cnt2); // 2nd contact
+            cpt.insertLPMinVar("b" + cnt2, -rdCntsCost*8);
+            cpt.insertConstraint("y" + lastCnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
+            cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
+            cpt.insertConstraint("y" + cnt2 + "a", "y" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
+            cpt.insertConstraint("x" + cntBndBox + "a", "x" + cnt2 + "a", CP_MIN, 0);
+            cpt.insertConstraint("x" + cnt2 + "b", "x" + cntBndBox + "b", CP_MIN, 0);
+            cpt.insertConstraint("y" + cntBndBox + "a", "y" + cnt2 + "a", CP_MIN, 0);
+            cpt.insertConstraint("y" + cnt2 + "b", "y" + cntBndBox + "b", CP_MIN, 0);
+            lastCnt=cnt2;
+        }
     }
     
     //metal head over contact
@@ -1139,7 +1151,7 @@ string AutoCell::createGeometry(vector<Box*> &geometries, compaction &cpt, strin
     int minWidth = (l==MET1 ? currentRules->getRule(W1M1) : currentRules->getRule(W2P1));
     cpt.insertConstraint("x" + currentGeo + "a", "x" + currentGeo + "b", CP_MIN, minWidth);
     cpt.insertConstraint("x" + currentGeo + "a", "x" + currentGeo + "b", CP_EQ, "x" + currentGeo + "min");
-    cpt.insertLPMinVar("x" + currentGeo + "min", (l==POLY && griddedPolly?100:priority));     //MUCH TO IMPROVE!!!!
+    cpt.insertLPMinVar("x" + currentGeo + "min", priority);    
     cpt.insertConstraint("y" + currentGeo + "a", "y" + currentGeo + "b", CP_MIN, minWidth);
     cpt.insertConstraint("y" + currentGeo + "a", "y" + currentGeo + "b", CP_EQ, "y" + currentGeo + "min");
     cpt.insertLPMinVar("y" + currentGeo + "min", priority);
@@ -1208,7 +1220,9 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + lastNode + "b", "x" + currentNode + "b", CP_MIN, 0);
         cpt.insertConstraint("y" + track + "a", "y" + track + "b", CP_EQ, minIntersection);
         cpt.insertConstraint("x" + lastNode + "a", "x" + track + "a", CP_MIN, 0);        
-        cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);        
+        cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);
+        if (l==POLY && griddedPolly)
+            cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_EQ, 0);
     }
     else {
         cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_MIN, 0);
@@ -1216,6 +1230,8 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + track + "a", "x" + track + "b", CP_EQ, minIntersection);
         cpt.insertConstraint("y" + lastNode + "a", "y" + track + "a", CP_MIN, 0);        
         cpt.insertConstraint("y" + track + "b", "y" + currentNode + "b", CP_MIN, 0);        
+        if (l==POLY && griddedPolly)
+            cpt.insertConstraint("x" + lastNode + "a", "x" + currentNode + "a", CP_EQ, 0);
     }
 }
 

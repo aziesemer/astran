@@ -67,7 +67,8 @@ protected:
 	int nSize,pSize;
 	int  center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
-    int diffStretching, griddedPolly, ddCntsCost, alignDiffConts;
+    int diffStretching, griddedPolly, rdCntsCost, alignDiffConts, maxDiffCnts;
+    bool hPoly;
     
 	vector<int> trackPos, diffPini, diffNini;
 	int state;
@@ -108,8 +109,8 @@ protected:
 	bool foldTrans();
 	bool placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
-	bool route(int mCost, int pCost, int cCost, int ioCost);
-    bool compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts);
+	bool route(bool hPoly);
+    bool compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool test);
 	bool selectCell(string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};

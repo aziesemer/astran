@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "933"
-         endingLineNumber = "933"
+         startingLineNumber = "941"
+         endingLineNumber = "941"
          landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int pos, string currentCnt, string &amp;lastGate, string &amp;lastCnt, string &amp;lastDiff, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, layer_name l, bool endDiff)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "937"
-         endingLineNumber = "937"
+         startingLineNumber = "945"
+         endingLineNumber = "945"
          landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int pos, string currentCnt, string &amp;lastGate, string &amp;lastCnt, string &amp;lastDiff, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, layer_name l, bool endDiff)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405027982.323954"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1167"
-         endingLineNumber = "1167"
+         startingLineNumber = "1179"
+         endingLineNumber = "1179"
          landmarkName = "AutoCell::createNode(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, list&lt;Element&gt;::iterator elements_it, int pos, vector&lt;string&gt; &amp;currentNode, string netName, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -51,12 +51,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "439"
-         endingLineNumber = "439"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "447"
+         endingLineNumber = "447"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -65,11 +65,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "901"
-         endingLineNumber = "901"
+         startingLineNumber = "909"
+         endingLineNumber = "909"
          landmarkName = "AutoCell::insertCntDif(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int pos, string currentCnt, string &amp;lastGate, string &amp;lastCnt, string &amp;lastDiff, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, layer_name l, bool endDiff)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -79,12 +79,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "438"
-         endingLineNumber = "438"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "446"
+         endingLineNumber = "446"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -121,11 +121,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1022"
-         endingLineNumber = "1022"
+         startingLineNumber = "1032"
+         endingLineNumber = "1032"
          landmarkName = "AutoCell::insertCnt(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt;&amp; metTracks, int pos, bool isDiff)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -177,11 +177,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405027982.323954"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1190"
-         endingLineNumber = "1190"
+         startingLineNumber = "1202"
+         endingLineNumber = "1202"
          landmarkName = "AutoCell::createTrack(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string lastNode, string currentNode, string netName, layer_name l, HorV dir)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -245,12 +245,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "510"
-         endingLineNumber = "510"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "518"
+         endingLineNumber = "518"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -259,12 +259,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "480"
-         endingLineNumber = "480"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "488"
+         endingLineNumber = "488"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -273,12 +273,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "482"
-         endingLineNumber = "482"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "490"
+         endingLineNumber = "490"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -287,12 +287,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "485"
-         endingLineNumber = "485"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "493"
+         endingLineNumber = "493"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -301,26 +301,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "506"
-         endingLineNumber = "506"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "0"
-         filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "155"
-         endingLineNumber = "155"
-         landmarkName = "AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC)"
+         startingLineNumber = "514"
+         endingLineNumber = "514"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -357,11 +343,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405027982.323954"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1089"
-         endingLineNumber = "1089"
+         startingLineNumber = "1101"
+         endingLineNumber = "1101"
          landmarkName = "AutoCell::insertVia(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string metNode)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -371,11 +357,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "810"
-         endingLineNumber = "810"
+         startingLineNumber = "818"
+         endingLineNumber = "818"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, string lastCnt, string lastDiffCnt, string &amp;lastGate, string lastDiff, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -385,11 +371,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "803"
-         endingLineNumber = "803"
+         startingLineNumber = "811"
+         endingLineNumber = "811"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, string lastCnt, string lastDiffCnt, string &amp;lastGate, string lastDiff, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -399,11 +385,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "805"
-         endingLineNumber = "805"
+         startingLineNumber = "813"
+         endingLineNumber = "813"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, string lastCnt, string lastDiffCnt, string &amp;lastGate, string lastDiff, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -413,11 +399,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "812"
-         endingLineNumber = "812"
+         startingLineNumber = "820"
+         endingLineNumber = "820"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, string lastCnt, string lastDiffCnt, string &amp;lastGate, string lastDiff, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -427,11 +413,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "801"
-         endingLineNumber = "801"
+         startingLineNumber = "809"
+         endingLineNumber = "809"
          landmarkName = "AutoCell::insertGate(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, int transistor, list&lt;Element&gt;::iterator elements_it, vector&lt;string&gt; &amp;currentPolTrack, vector&lt;string&gt; &amp;lastPolTrack, string lastCnt, string lastDiffCnt, string &amp;lastGate, string lastDiff, string currentDiff, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -441,11 +427,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405029131.816291"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1243"
-         endingLineNumber = "1243"
+         startingLineNumber = "1259"
+         endingLineNumber = "1259"
          landmarkName = "AutoCell::insertDistanceRuleInteligent2(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string lastX, string currentX, string lastY, string currentY, int minDist, string booleanFlag)"
          landmarkType = "5">
       </FileBreakpoint>
@@ -455,12 +441,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "441"
-         endingLineNumber = "441"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "449"
+         endingLineNumber = "449"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -483,12 +469,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404934706.948636"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "590"
-         endingLineNumber = "590"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "598"
+         endingLineNumber = "598"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -511,12 +497,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "660"
-         endingLineNumber = "660"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "668"
+         endingLineNumber = "668"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -525,12 +511,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "404962735.485924"
+         timestampString = "405025990.609831"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "664"
-         endingLineNumber = "664"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int ddCntsCost, int alignDiffConts)"
+         startingLineNumber = "672"
+         endingLineNumber = "672"
+         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
