@@ -822,7 +822,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[c], currentDiff, currentPolTrack[c], currentDiff, currentRules->getRule(S1DFP1),"");
             }
             if(lastPolTrack[c]!=""){
-//                insertDistanceRuleDumb(geometries, cpt, lastPolTrack[c], currentDiff, currentRules->getRule(S1DFP1), H, PDIF);
+                insertDistanceRuleInteligent2(geometries, cpt, lastPolTrack[c], currentDiff, lastPolTrack[c], currentDiff, currentRules->getRule(S1DFP1),"");
             }
         }
     // space diff from the tracks above
@@ -832,7 +832,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[c], currentDiff, currentDiff, currentPolTrack[c], currentRules->getRule(S1DFP1),"");
             }
             if(lastPolTrack[c]!=""){
-//                insertDistanceRuleDumb(geometries, cpt, lastPolTrack[c], currentDiff, currentRules->getRule(S1DFP1), H, PDIF);
+                insertDistanceRuleInteligent2(geometries, cpt, lastPolTrack[c], currentDiff, currentDiff, lastPolTrack[c], currentRules->getRule(S1DFP1),"");
             }
         }
     
