@@ -387,13 +387,13 @@ bool AutoCell::route(bool hPoly) {
     return state == 5;
 }
 
-bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
+bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedpoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
     cout << "-> Compacting layout..." << endl;
     if (state < 5) return 0;
     state = 5;
     
     this->diffStretching=diffStretching;
-    this->griddedPolly=griddedPolly;
+    this->griddedpoly=griddedpoly;
     this->rdCntsCost=rdCntsCost;
     this->maxDiffCnts=maxDiffCnts;
     this->alignDiffConts=alignDiffConts;
@@ -1221,7 +1221,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("y" + track + "a", "y" + track + "b", CP_EQ, minIntersection);
         cpt.insertConstraint("x" + lastNode + "a", "x" + track + "a", CP_MIN, 0);        
         cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);
-        if (l==POLY && griddedPolly)
+        if (l==POLY && griddedpoly)
             cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_EQ, 0);
     }
     else {
@@ -1230,7 +1230,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + track + "a", "x" + track + "b", CP_EQ, minIntersection);
         cpt.insertConstraint("y" + lastNode + "a", "y" + track + "a", CP_MIN, 0);        
         cpt.insertConstraint("y" + track + "b", "y" + currentNode + "b", CP_MIN, 0);        
-        if (l==POLY && griddedPolly)
+        if (l==POLY && griddedpoly)
             cpt.insertConstraint("x" + lastNode + "a", "x" + currentNode + "a", CP_EQ, 0);
     }
 }
