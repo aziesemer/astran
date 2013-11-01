@@ -504,7 +504,7 @@ bool Pathfinder2::connect(int net, unsigned int n1, unsigned n2){
 }
 
 bool Pathfinder2::isSource(unsigned int x){
-	return graph[x].source;
+	return graph[x].source==1;
 }
 
 int Pathfinder2::getArcCost(int n1, int n2){
