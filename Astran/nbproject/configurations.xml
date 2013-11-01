@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="84">
+<configurationDescriptor version="90">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -10,7 +10,6 @@
                    projectFiles="true">
     </logicalFolder>
     <logicalFolder name="src" displayName="src" projectFiles="true">
-      <itemPath>src/SimulatedAnnealing.h</itemPath>
       <itemPath>src/autocell2.cpp</itemPath>
       <itemPath>src/autocell2.h</itemPath>
       <itemPath>src/cellnetlst.cpp</itemPath>
@@ -29,7 +28,6 @@
       <itemPath>src/draw.h</itemPath>
       <itemPath>src/gds.cpp</itemPath>
       <itemPath>src/gds.h</itemPath>
-      <itemPath>src/icon.icns</itemPath>
       <itemPath>src/icpdApp.cpp</itemPath>
       <itemPath>src/icpdApp.h</itemPath>
       <itemPath>src/icpdfrm.cpp</itemPath>
@@ -52,8 +50,6 @@
       <itemPath>src/util.h</itemPath>
       <itemPath>src/verilog.cpp</itemPath>
       <itemPath>src/verilog.h</itemPath>
-      <itemPath>src/wxPreferences.cpp</itemPath>
-      <itemPath>src/wxPreferences.h</itemPath>
       <itemPath>src/wxabout.cpp</itemPath>
       <itemPath>src/wxabout.h</itemPath>
       <itemPath>src/wxautocell.cpp</itemPath>
@@ -64,6 +60,8 @@
       <itemPath>src/wxfp.h</itemPath>
       <itemPath>src/wxinterface.cpp</itemPath>
       <itemPath>src/wxinterface.h</itemPath>
+      <itemPath>src/wxpreferences.cpp</itemPath>
+      <itemPath>src/wxpreferences.h</itemPath>
       <itemPath>src/wxrules.cpp</itemPath>
       <itemPath>src/wxrules.h</itemPath>
     </logicalFolder>
@@ -86,24 +84,133 @@
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
-          <architecture>1</architecture>
-          <commandLine>`wx-config --cppflags`</commandLine>
+          <commandLine>`wx-config --cppflags` -Wno-deprecated</commandLine>
         </ccTool>
         <linkerTool>
           <output>build/bin/Astran.app/Contents/MacOS/Astran</output>
           <commandLine>`wx-config --libs`</commandLine>
         </linkerTool>
       </compileType>
+      <item path="src/autocell2.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/autocell2.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/cellnetlst.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/cellnetlst.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/cif.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/cif.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/circuit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/circuit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/clayout.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/clayout.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/compaction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/compaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/designmng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/designmng.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/draw.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/draw.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/gds.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gds.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/icpdApp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/icpdApp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/icpdfrm.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/icpdfrm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/lef.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/lef.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pathfinder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pathfinder.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pathfinder2.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pathfinder2.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/placer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/placer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/router.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/router.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/rules.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/rules.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/spice.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/spice.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/thresholdaccept.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/verilog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/verilog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxabout.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxabout.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxautocell.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxautocell.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxcircuit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxcircuit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxfp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxfp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxinterface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxinterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxpreferences.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxpreferences.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxrules.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxrules.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
-        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -111,8 +218,7 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <architecture>1</architecture>
-          <commandLine>`wx-config --cppflags`</commandLine>
+          <commandLine>`wx-config --debug=no --cppflags` -Wno-deprecated</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -125,6 +231,114 @@
           <commandLine>`wx-config --libs`</commandLine>
         </linkerTool>
       </compileType>
+      <item path="src/autocell2.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/autocell2.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/cellnetlst.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/cellnetlst.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/cif.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/cif.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/circuit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/circuit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/clayout.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/clayout.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/compaction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/compaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/designmng.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/designmng.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/draw.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/draw.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/gds.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/gds.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/icpdApp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/icpdApp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/icpdfrm.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/icpdfrm.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/lef.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/lef.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pathfinder.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pathfinder.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/pathfinder2.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/pathfinder2.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/placer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/placer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/router.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/router.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/rules.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/rules.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/spice.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/spice.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/thresholdaccept.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/util.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/verilog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/verilog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxabout.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxabout.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxautocell.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxautocell.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxcircuit.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxcircuit.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxfp.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxfp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxinterface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxinterface.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxpreferences.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxpreferences.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/wxrules.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/wxrules.h" ex="false" tool="3" flavor2="0">
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

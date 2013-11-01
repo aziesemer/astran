@@ -15,14 +15,14 @@ NM=nm
 CCADMIN=CCadmin
 RANLIB=ranlib
 CC=gcc
-CCC=llvm-g++
-CXX=llvm-g++
+CCC=g++
+CXX=g++
 FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-MacOSX
-CND_DLIB_EXT=dylib
+CND_PLATFORM=GNU-Linux-x86
+CND_DLIB_EXT=so
 CND_CONF=Debug
 CND_DISTDIR=dist
 CND_BUILDDIR=build
@@ -35,40 +35,40 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/src/icpdfrm.o \
-	${OBJECTDIR}/src/wxfp.o \
-	${OBJECTDIR}/src/pathfinder2.o \
 	${OBJECTDIR}/src/autocell2.o \
-	${OBJECTDIR}/src/designmng.o \
 	${OBJECTDIR}/src/cellnetlst.o \
-	${OBJECTDIR}/src/spice.o \
-	${OBJECTDIR}/src/wxrules.o \
-	${OBJECTDIR}/src/draw.o \
-	${OBJECTDIR}/src/wxabout.o \
-	${OBJECTDIR}/src/icpdApp.o \
-	${OBJECTDIR}/src/wxautocell.o \
-	${OBJECTDIR}/src/wxPreferences.o \
-	${OBJECTDIR}/src/pathfinder.o \
-	${OBJECTDIR}/src/placer.o \
-	${OBJECTDIR}/src/rules.o \
-	${OBJECTDIR}/src/gds.o \
-	${OBJECTDIR}/src/lef.o \
-	${OBJECTDIR}/src/router.o \
+	${OBJECTDIR}/src/cif.o \
 	${OBJECTDIR}/src/circuit.o \
 	${OBJECTDIR}/src/clayout.o \
 	${OBJECTDIR}/src/compaction.o \
-	${OBJECTDIR}/src/wxinterface.o \
-	${OBJECTDIR}/src/cif.o \
+	${OBJECTDIR}/src/designmng.o \
+	${OBJECTDIR}/src/draw.o \
+	${OBJECTDIR}/src/gds.o \
+	${OBJECTDIR}/src/icpdApp.o \
+	${OBJECTDIR}/src/icpdfrm.o \
+	${OBJECTDIR}/src/lef.o \
+	${OBJECTDIR}/src/pathfinder.o \
+	${OBJECTDIR}/src/pathfinder2.o \
+	${OBJECTDIR}/src/placer.o \
+	${OBJECTDIR}/src/router.o \
+	${OBJECTDIR}/src/rules.o \
+	${OBJECTDIR}/src/spice.o \
+	${OBJECTDIR}/src/verilog.o \
+	${OBJECTDIR}/src/wxabout.o \
+	${OBJECTDIR}/src/wxautocell.o \
 	${OBJECTDIR}/src/wxcircuit.o \
-	${OBJECTDIR}/src/verilog.o
+	${OBJECTDIR}/src/wxfp.o \
+	${OBJECTDIR}/src/wxinterface.o \
+	${OBJECTDIR}/src/wxpreferences.o \
+	${OBJECTDIR}/src/wxrules.o
 
 
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-m32 `wx-config --cppflags` 
-CXXFLAGS=-m32 `wx-config --cppflags` 
+CCFLAGS=`wx-config --cppflags` -Wno-deprecated 
+CXXFLAGS=`wx-config --cppflags` -Wno-deprecated 
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -85,102 +85,22 @@ LDLIBSOPTIONS=
 
 build/bin/Astran.app/Contents/MacOS/Astran: ${OBJECTFILES}
 	${MKDIR} -p build/bin/Astran.app/Contents/MacOS
-	${LINK.cc} `wx-config --libs` -o build/bin/Astran.app/Contents/MacOS/Astran  ${OBJECTFILES} ${LDLIBSOPTIONS} 
-
-${OBJECTDIR}/src/icpdfrm.o: src/icpdfrm.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/icpdfrm.o src/icpdfrm.cpp
-
-${OBJECTDIR}/src/wxfp.o: src/wxfp.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxfp.o src/wxfp.cpp
-
-${OBJECTDIR}/src/pathfinder2.o: src/pathfinder2.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/pathfinder2.o src/pathfinder2.cpp
+	${LINK.cc} -o build/bin/Astran.app/Contents/MacOS/Astran ${OBJECTFILES} ${LDLIBSOPTIONS} `wx-config --libs`
 
 ${OBJECTDIR}/src/autocell2.o: src/autocell2.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/autocell2.o src/autocell2.cpp
 
-${OBJECTDIR}/src/designmng.o: src/designmng.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/designmng.o src/designmng.cpp
-
 ${OBJECTDIR}/src/cellnetlst.o: src/cellnetlst.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/cellnetlst.o src/cellnetlst.cpp
 
-${OBJECTDIR}/src/spice.o: src/spice.cpp 
+${OBJECTDIR}/src/cif.o: src/cif.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/spice.o src/spice.cpp
-
-${OBJECTDIR}/src/wxrules.o: src/wxrules.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxrules.o src/wxrules.cpp
-
-${OBJECTDIR}/src/draw.o: src/draw.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/draw.o src/draw.cpp
-
-${OBJECTDIR}/src/wxabout.o: src/wxabout.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxabout.o src/wxabout.cpp
-
-${OBJECTDIR}/src/icpdApp.o: src/icpdApp.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/icpdApp.o src/icpdApp.cpp
-
-${OBJECTDIR}/src/wxautocell.o: src/wxautocell.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxautocell.o src/wxautocell.cpp
-
-${OBJECTDIR}/src/wxPreferences.o: src/wxPreferences.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxPreferences.o src/wxPreferences.cpp
-
-${OBJECTDIR}/src/pathfinder.o: src/pathfinder.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/pathfinder.o src/pathfinder.cpp
-
-${OBJECTDIR}/src/placer.o: src/placer.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/placer.o src/placer.cpp
-
-${OBJECTDIR}/src/rules.o: src/rules.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/rules.o src/rules.cpp
-
-${OBJECTDIR}/src/gds.o: src/gds.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gds.o src/gds.cpp
-
-${OBJECTDIR}/src/lef.o: src/lef.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/lef.o src/lef.cpp
-
-${OBJECTDIR}/src/router.o: src/router.cpp 
-	${MKDIR} -p ${OBJECTDIR}/src
-	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/router.o src/router.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/cif.o src/cif.cpp
 
 ${OBJECTDIR}/src/circuit.o: src/circuit.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -197,25 +117,105 @@ ${OBJECTDIR}/src/compaction.o: src/compaction.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/compaction.o src/compaction.cpp
 
-${OBJECTDIR}/src/wxinterface.o: src/wxinterface.cpp 
+${OBJECTDIR}/src/designmng.o: src/designmng.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxinterface.o src/wxinterface.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/designmng.o src/designmng.cpp
 
-${OBJECTDIR}/src/cif.o: src/cif.cpp 
+${OBJECTDIR}/src/draw.o: src/draw.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/cif.o src/cif.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/draw.o src/draw.cpp
+
+${OBJECTDIR}/src/gds.o: src/gds.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gds.o src/gds.cpp
+
+${OBJECTDIR}/src/icpdApp.o: src/icpdApp.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/icpdApp.o src/icpdApp.cpp
+
+${OBJECTDIR}/src/icpdfrm.o: src/icpdfrm.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/icpdfrm.o src/icpdfrm.cpp
+
+${OBJECTDIR}/src/lef.o: src/lef.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/lef.o src/lef.cpp
+
+${OBJECTDIR}/src/pathfinder.o: src/pathfinder.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/pathfinder.o src/pathfinder.cpp
+
+${OBJECTDIR}/src/pathfinder2.o: src/pathfinder2.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/pathfinder2.o src/pathfinder2.cpp
+
+${OBJECTDIR}/src/placer.o: src/placer.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/placer.o src/placer.cpp
+
+${OBJECTDIR}/src/router.o: src/router.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/router.o src/router.cpp
+
+${OBJECTDIR}/src/rules.o: src/rules.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/rules.o src/rules.cpp
+
+${OBJECTDIR}/src/spice.o: src/spice.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/spice.o src/spice.cpp
+
+${OBJECTDIR}/src/verilog.o: src/verilog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/verilog.o src/verilog.cpp
+
+${OBJECTDIR}/src/wxabout.o: src/wxabout.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxabout.o src/wxabout.cpp
+
+${OBJECTDIR}/src/wxautocell.o: src/wxautocell.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxautocell.o src/wxautocell.cpp
 
 ${OBJECTDIR}/src/wxcircuit.o: src/wxcircuit.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxcircuit.o src/wxcircuit.cpp
 
-${OBJECTDIR}/src/verilog.o: src/verilog.cpp 
+${OBJECTDIR}/src/wxfp.o: src/wxfp.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
 	${RM} $@.d
-	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/verilog.o src/verilog.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxfp.o src/wxfp.cpp
+
+${OBJECTDIR}/src/wxinterface.o: src/wxinterface.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxinterface.o src/wxinterface.cpp
+
+${OBJECTDIR}/src/wxpreferences.o: src/wxpreferences.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxpreferences.o src/wxpreferences.cpp
+
+${OBJECTDIR}/src/wxrules.o: src/wxrules.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxrules.o src/wxrules.cpp
 
 # Subprojects
 .build-subprojects:
