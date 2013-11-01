@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr.                         *
+ *   Copyright (C) 2013 by Adriel Mota Ziesemer Jr.                         *
  *   amziesemerj[at]inf.ufrgs.br                                            *
  ****************************************************************************/
 #include "circuit.h"
@@ -13,12 +13,20 @@ Circuit::Circuit(){
 	nWellBorder=0.235f;
 	pnSelBorder=0.09f;
 	nWellPos=1.14f;
-	tapless=true;
+	cellTemplate="Tapless";
 	vddNet="VCC";
 	gndNet="GND";
 	cellsHeight=13;
 	c2lMargin=c2rMargin=c2tMargin=c2bMargin=0;
 	topCell="";
+}
+
+vector<string> Circuit::getCellTemplatesList(){
+    vector<string> list;
+    list.push_back("Tapless");
+    list.push_back("Taps close to the boundary");
+    list.push_back("Taps w/ continuous diff");
+    return list;
 }
 
 bool Circuit::setMargins(float l, float r, float t, float b){

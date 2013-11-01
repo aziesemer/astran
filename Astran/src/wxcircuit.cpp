@@ -106,14 +106,10 @@ void WxCircuit::ok(){
 		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
     
-    // compare if current tapless setting is  different from checked value
-	if(tapless->GetValue() != currentFrmwork->getDesign()->getCircuit()->isTapless()){
-		wxString cmd;
-        if(tapless->GetValue()==true)
-            cmd=wxT("set tapless YES");
-        else
-            cmd=wxT("set tapless NO");
-        currentFrmwork->readCommand(string(cmd.mb_str()));
+    // compare if current cell template  is  different from textbox value
+	if(string(cellTemplate->GetString(cellTemplate->GetSelection()).mb_str()) != currentFrmwork->getDesign()->getCircuit()->getCellTemplate()){
+		wxString cmd=wxT("set celltemplate \"") + cellTemplate->GetString(cellTemplate->GetSelection())+wxT("\"");
+		currentFrmwork->readCommand(string(cmd.mb_str()));
 	}
 
     Show(false);
@@ -138,5 +134,12 @@ void WxCircuit::refresh(){
 	nWellPos->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getnWellPos()));
 	nWellBorder->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getnWellBorder()));
 	pnSelBorder->SetValue(wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getpnSelBorder()));
-	tapless->SetValue(currentFrmwork->getDesign()->getCircuit()->isTapless());
+    
+    cellTemplate->Clear();
+    vector<string> lista = currentFrmwork->getDesign()->getCircuit()->getCellTemplatesList();
+    for(vector<string>::iterator atual=lista.begin(); atual!=lista.end(); atual++)
+        cellTemplate->Append(wxString::From8BitData((*atual).c_str()));
+
+    cellTemplate->SetSelection(cellTemplate->FindString(wxString::From8BitData(currentFrmwork->getDesign()->getCircuit()->getCellTemplate().c_str()),TRUE));
 }
+

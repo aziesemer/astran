@@ -719,8 +719,8 @@ int DesignMng::readCommand(string cmd){
 				ret=1;
 				break;
 				
-			case SET_TAPLESS:
-				circuit->setTapless(upcase(words[2].c_str())=="YES"?true:false);
+			case SET_CELLTEMPLATE:
+				circuit->setCellTemplate(words[2].c_str());
 				ret=1;
 				break;
 				

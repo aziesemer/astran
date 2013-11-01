@@ -95,18 +95,21 @@ bool AutoCell::calcArea(Circuit* c) {
     
     //    for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
-    //MELHORAR PARA SER MAIS OTIMISTA
+    //IMPROVE
     nDif_iniY = min(nDif_iniY, center * vGrid - (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
     pDif_iniY = max(pDif_iniY, center * vGrid + (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
     
-    if(currentCircuit->isTapless()){
-        nDif_endY = currentRules->getRule(E1P1DF) + currentRules->getRule(S1P1P1) / 2 ;
-        pDif_endY = height - (currentRules->getRule(E1P1DF) + currentRules->getRule(S1P1P1) / 2);
-    }else{
-        //MELHORAR
+    if(currentCircuit->getCellTemplate()=="Taps close to the boundary"){
         nDif_endY = max(currentRules->getRule(E1INDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
-        pDif_endY = height - max(currentRules->getRule(E1IPDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
+        pDif_endY = height - nDif_endY;
+    }else if(currentCircuit->getCellTemplate()=="Taps w/ continuous diff"){
+        nDif_endY = currentRules->getRule(W2DF)/2 + currentRules->getRule(E1IPDF) + currentRules->getRule(E1P1DF);
+        pDif_endY = height - nDif_endY;
+    }else{
+        nDif_endY = currentRules->getRule(E1P1DF) + currentRules->getRule(S1P1P1) / 2 ;
+        pDif_endY = height - nDif_endY;
     }
+    
     nSize = nDif_iniY - nDif_endY;
     pSize = pDif_endY - pDif_iniY;
     
@@ -417,8 +420,6 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(currentCircuit->getnWellPos()));
     cpt.insertConstraint("yNDiffb", "posNWell", CP_MIN, currentRules->getRule(S1DNWN));
     cpt.insertConstraint("posNWell", "yPDiffa", CP_MIN, currentRules->getRule(E1WNDP));
-    //central track position
-    cpt.insertConstraint("ZERO", "yCentralTrack", CP_EQ, center);
     
     list<Element>::iterator lastElements_it;
     vector<string> currentMetNode(trackPos.size(), ""), currentPolNode(trackPos.size(), ""), currentContacts(trackPos.size(), "");
@@ -587,16 +588,16 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
                 if(elements_it->linkN.type!=GAP)
                     if(c<elements_it->diffNEnd)
                         insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentContacts[c], currentDiffN, currentRules->getRule(S1CTDF),"");
-                else if(c>elements_it->diffNIni)
-                    insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentDiffN, currentContacts[c], currentRules->getRule(S1CTDF),"");
+                    else if(c>elements_it->diffNIni)
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentDiffN, currentContacts[c], currentRules->getRule(S1CTDF),"");
                 if(elements_it->linkP.type!=GAP)
-                if(c<elements_it->diffPIni)
-                    insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentContacts[c], currentDiffP, currentRules->getRule(S1CTDF),"");
-                else if(c>elements_it->diffPEnd)
-                    insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentDiffP, currentContacts[c], currentRules->getRule(S1CTDF),"");
+                    if(c<elements_it->diffPIni)
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentContacts[c], currentDiffP, currentRules->getRule(S1CTDF),"");
+                    else if(c>elements_it->diffPEnd)
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentDiffP, currentContacts[c], currentRules->getRule(S1CTDF),"");
             }
         }        
-
+        
         
         lastDiffN=currentDiffN;
         lastDiffP=currentDiffP;
@@ -640,7 +641,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
     }
     int width = cpt.getVariableVal("width");
     
-    //Aqui duplica as camadas de M1 relacionadas aos pinos de I/O
+    //Create M1P Layers
     list <Box>::iterator net_it;
     for ( net_it = currentLayout.layers[MET1].begin(); net_it != currentLayout.layers[MET1].end(); net_it++ )
         if(currentNetList.isIO(net_it->getNet())) currentLayout.addEnc(*net_it,  0 , MET1P); 
@@ -654,89 +655,97 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
         currentLayout.addLabel(IOgeometries_it->first,p);
     }
     
-    /*
-     list <Box>::iterator layer_it;
-     for ( layer_it = currentLayout.layers[PDIF].begin(); layer_it != currentLayout.layers[PDIF].end(); layer_it++ )
-     &currentLayout.addEnc(*layer_it,  currentRules->getRule(E1IPDF) , PSEL);
-     for ( layer_it = currentLayout.layers[NDIF].begin(); layer_it != currentLayout.layers[NDIF].end(); layer_it++ )
-     &currentLayout.addEnc(*layer_it,  currentRules->getRule(E1INDF) , NSEL);
-	 
-     bool btP=false, btN=false;
-     list<int> btIntervalsP,btIntervalsN;
-     btIntervalsP.push_back(currentRules->getIntValue(0.45));
-     btIntervalsP.push_back(width-currentRules->getIntValue(0.45));
-     btIntervalsN=btIntervalsP;
-     for ( layer_it = currentLayout.layers[PDIF].begin(); layer_it != currentLayout.layers[PDIF].end(); layer_it++ ){
-     if(layer_it->getY1() < currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E1DFCT)+currentRules->getRule(S1DFDF)){
-     for(list<int>::iterator btIntervals_it=btIntervalsP.begin(); btIntervals_it!=btIntervalsP.end(); ++btIntervals_it){
-     list<int>::iterator ini, end;
-     ini=btIntervals_it;
-     end=++btIntervals_it;
-     if(layer_it->getX1()>*ini && layer_it->getX2()<*end){
-     btIntervalsP.insert(end, layer_it->getX1());
-     btIntervalsP.insert(end, layer_it->getX2());
-     }
-     else if(layer_it->getX1()<*ini && layer_it->getX2()>*end){
-     btIntervalsP.erase(ini);
-     btIntervalsP.erase(end);
-     }				
-     else if(layer_it->getX1()<*ini && layer_it->getX2()>*ini) 
-     *ini=layer_it->getX2();
-     else if(layer_it->getX1()<*end && layer_it->getX2()>*end) 
-     *end=layer_it->getX1();
-     }
-     }
-     }
-     for(list<int>::iterator btIntervals_it=btIntervalsP.begin(); btIntervals_it!=btIntervalsP.end(); ++btIntervals_it){
-     list<int>::iterator ini, end;
-     ini=btIntervals_it;
-     end=++btIntervals_it;
-     if(*ini+currentRules->getRule(W2CT)+2*currentRules->getRule(E1DFCT)+2*currentRules->getRule(S1DFDF)<=*end){
-     btP=true;
-     currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF)-currentRules->getRule(E1INDF), 0, *end-currentRules->getRule(S1DFDF)+currentRules->getRule(E1INDF), currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E1DFCT)+currentRules->getRule(E1INDF), NSEL);
-     currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF), 0, *end-currentRules->getRule(S1DFDF), currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E1DFCT), NDIF);
-     for(int cnt=*ini+currentRules->getRule(S1DFDF)+currentRules->getRule(E1DFCT); cnt<=*end-currentRules->getRule(S1DFDF)-currentRules->getRule(E1DFCT)-currentRules->getRule(W2CT); cnt+=currentRules->getRule(W2CT)+currentRules->getRule(S1CTCT))
-     currentLayout.addPolygon(cnt, currentRules->getRule(S1CTCT)/2, cnt+currentRules->getRule(W2CT), currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT), CONT);				
-     }
-     }
-	 
-     for ( layer_it = currentLayout.layers[NDIF].begin(); layer_it != currentLayout.layers[NDIF].end(); layer_it++ ){
-     if(layer_it->getY2() > height-(currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E1DFCT)+currentRules->getRule(S1DFDF))){
-     for(list<int>::iterator btIntervals_it=btIntervalsN.begin(); btIntervals_it!=btIntervalsN.end(); ++btIntervals_it){
-     list<int>::iterator ini, end;
-     ini=btIntervals_it;
-     end=++btIntervals_it;
-     if(layer_it->getX1()>*ini && layer_it->getX2()<*end){
-     btIntervalsN.insert(end, layer_it->getX1());
-     btIntervalsN.insert(end, layer_it->getX2());
-     }
-     else if(layer_it->getX1()<*ini && layer_it->getX2()>*end){
-     btIntervalsN.erase(ini);
-     btIntervalsN.erase(end);
-     }				
-     else if(layer_it->getX1()<*ini && layer_it->getX2()>*ini) 
-     *ini=layer_it->getX2();
-     else if(layer_it->getX1()<*end && layer_it->getX2()>*end) 
-     *end=layer_it->getX1();
-     }
-     }
-     }
-     for(list<int>::iterator btIntervals_it=btIntervalsN.begin(); btIntervals_it!=btIntervalsN.end(); ++btIntervals_it){
-     list<int>::iterator ini, end;
-     ini=btIntervals_it;
-     end=++btIntervals_it;
-     if(*ini+currentRules->getRule(W2CT)+2*currentRules->getRule(E1DFCT)+2*currentRules->getRule(S1DFDF)<=*end){
-     btN=true;
-     currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF)-currentRules->getRule(E1INDF), height-(currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E1DFCT)+currentRules->getRule(E1INDF)), *end-currentRules->getRule(S1DFDF)+currentRules->getRule(E1INDF), height, PSEL);
-     currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF), height-(currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E1DFCT)), *end-currentRules->getRule(S1DFDF), height, PDIF);
-     for(int cnt=*ini+currentRules->getRule(S1DFDF)+currentRules->getRule(E1DFCT); cnt<=*end-currentRules->getRule(S1DFDF)-currentRules->getRule(E1DFCT)-currentRules->getRule(W2CT); cnt+=currentRules->getRule(W2CT)+currentRules->getRule(S1CTCT))
-     currentLayout.addPolygon(cnt, height-(currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)), cnt+currentRules->getRule(W2CT), height-currentRules->getRule(S1CTCT)/2, CONT);				
-     }
-     }
-	 
-     if(!btP) cout << "** Could not insert bodye ties to the P transistors" << endl;
-     if(!btN) cout << "** Could not insert bodye ties to the N transistors" << endl;
-     */
+    list <Box>::iterator layer_it;
+    //Insert TAPs
+    if(currentCircuit->getCellTemplate()!="Tapless"){
+        bool btP=false, btN=false;
+        int minDiffDist=0, cntPos=0;
+        list<int> btIntervalsP,btIntervalsN;
+        if(currentCircuit->getCellTemplate()=="Taps close to the boundary"){
+            btIntervalsP.push_back(0); //IMPROVE
+            btIntervalsP.push_back(width);
+            cntPos= currentRules->getRule(S1CTCT)/2;
+            minDiffDist= cntPos+currentRules->getRule(W2CT)+currentRules->getRule(E2DFCT)+currentRules->getRule(S1DFDF);
+        }else if(currentCircuit->getCellTemplate()=="Taps w/ continuous diff"){ 
+            cntPos= currentRules->getRule(W2DF)/2+currentRules->getRule(E2DFCT);
+            minDiffDist= cntPos+currentRules->getRule(W2CT)+currentRules->getRule(E2DFCT)+currentRules->getRule(S1DFDF);
+            currentLayout.addPolygon(0, -currentRules->getRule(W2DF)/2, width, currentRules->getRule(W2DF)/2, PDIF);            
+            currentLayout.addPolygon(0, -currentRules->getRule(W2DF)/2-currentRules->getRule(E1IPDF), width, currentRules->getRule(W2DF)/2+currentRules->getRule(E1IPDF), PSEL);            
+            currentLayout.addPolygon(0, height+currentRules->getRule(W2DF)/2, width, height-currentRules->getRule(W2DF)/2, NDIF);            
+            currentLayout.addPolygon(0, height+currentRules->getRule(W2DF)/2+currentRules->getRule(E1INDF), width, height-currentRules->getRule(W2DF)/2-currentRules->getRule(E1IPDF), NSEL);            
+        }
+        btIntervalsN=btIntervalsP;
+        for ( layer_it = currentLayout.layers[NDIF].begin(); layer_it != currentLayout.layers[NDIF].end(); layer_it++ ){
+            if(layer_it->getY1() < minDiffDist){
+                for(list<int>::iterator btIntervals_it=btIntervalsN.begin(); btIntervals_it!=btIntervalsN.end(); ++btIntervals_it){
+                    list<int>::iterator ini, end;
+                    ini=btIntervals_it;
+                    end=++btIntervals_it;
+                    if(layer_it->getX1()>*ini && layer_it->getX2()<*end){
+                        btIntervalsN.insert(end, layer_it->getX1());
+                        btIntervalsN.insert(end, layer_it->getX2());
+                    }
+                    else if(layer_it->getX1()<*ini && layer_it->getX2()>*end){
+                        btIntervalsN.erase(ini);
+                        btIntervalsN.erase(end);
+                    }				
+                    else if(layer_it->getX1()<*ini && layer_it->getX2()>*ini) 
+                        *ini=layer_it->getX2();
+                    else if(layer_it->getX1()<*end && layer_it->getX2()>*end) 
+                        *end=layer_it->getX1();
+                }
+            }
+        }
+        for(list<int>::iterator btIntervals_it=btIntervalsN.begin(); btIntervals_it!=btIntervalsN.end(); ++btIntervals_it){
+            list<int>::iterator ini, end;
+            ini=btIntervals_it;
+            end=++btIntervals_it;
+            if(*ini+currentRules->getRule(W2CT)+2*currentRules->getRule(E2DFCT)+2*currentRules->getRule(S1DFDF)<=*end){
+                btP=true;
+                currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF)-currentRules->getRule(E1IPDF), 0, *end-currentRules->getRule(S1DFDF)+currentRules->getRule(E1IPDF), currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E2DFCT)+currentRules->getRule(E1IPDF), PSEL);
+                currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF), 0, *end-currentRules->getRule(S1DFDF), currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E2DFCT), PDIF);
+                for(int cnt=*ini+currentRules->getRule(S1DFDF)+currentRules->getRule(E2DFCT); cnt<=*end-currentRules->getRule(S1DFDF)-currentRules->getRule(E2DFCT)-currentRules->getRule(W2CT); cnt+=currentRules->getRule(W2CT)+currentRules->getRule(S1CTCT))
+                    currentLayout.addPolygon(cnt, cntPos, cnt+currentRules->getRule(W2CT), cntPos+currentRules->getRule(W2CT), CONT);				
+            }
+        }
+        
+        for ( layer_it = currentLayout.layers[PDIF].begin(); layer_it != currentLayout.layers[PDIF].end(); layer_it++ ){
+            if(layer_it->getY2() > height-minDiffDist){
+                for(list<int>::iterator btIntervals_it=btIntervalsP.begin(); btIntervals_it!=btIntervalsP.end(); ++btIntervals_it){
+                    list<int>::iterator ini, end;
+                    ini=btIntervals_it;
+                    end=++btIntervals_it;
+                    if(layer_it->getX1()>*ini && layer_it->getX2()<*end){
+                        btIntervalsP.insert(end, layer_it->getX1());
+                        btIntervalsP.insert(end, layer_it->getX2());
+                    }
+                    else if(layer_it->getX1()<*ini && layer_it->getX2()>*end){
+                        btIntervalsP.erase(ini);
+                        btIntervalsP.erase(end);
+                    }				
+                    else if(layer_it->getX1()<*ini && layer_it->getX2()>*ini) 
+                        *ini=layer_it->getX2();
+                    else if(layer_it->getX1()<*end && layer_it->getX2()>*end) 
+                        *end=layer_it->getX1();
+                }
+            }
+        }
+        for(list<int>::iterator btIntervals_it=btIntervalsP.begin(); btIntervals_it!=btIntervalsP.end(); ++btIntervals_it){
+            list<int>::iterator ini, end;
+            ini=btIntervals_it;
+            end=++btIntervals_it;
+            if(*ini+currentRules->getRule(W2CT)+2*currentRules->getRule(E2DFCT)+2*currentRules->getRule(S1DFDF)<=*end){
+                btN=true;
+                currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF)-currentRules->getRule(E1INDF), height-(currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E2DFCT)+currentRules->getRule(E1INDF)), *end-currentRules->getRule(S1DFDF)+currentRules->getRule(E1INDF), height, NSEL);
+                currentLayout.addPolygon(*ini+currentRules->getRule(S1DFDF), height-(currentRules->getRule(S1CTCT)/2+currentRules->getRule(W2CT)+currentRules->getRule(E2DFCT)), *end-currentRules->getRule(S1DFDF), height, NDIF);
+                for(int cnt=*ini+currentRules->getRule(S1DFDF)+currentRules->getRule(E2DFCT); cnt<=*end-currentRules->getRule(S1DFDF)-currentRules->getRule(E2DFCT)-currentRules->getRule(W2CT); cnt+=currentRules->getRule(W2CT)+currentRules->getRule(S1CTCT))
+                    currentLayout.addPolygon(cnt, height-(cntPos+currentRules->getRule(W2CT)), cnt+currentRules->getRule(W2CT), height-cntPos, CONT);				
+            }
+        }
+        
+        if(!btP) cout << "** WARNING: Could not insert bodye ties to the P transistors" << endl;
+        if(!btN) cout << "** WARNING: Could not insert bodye ties to the N transistors" << endl;
+    }
     currentLayout.setWidth(width);
     currentLayout.setHeight(height);
     
@@ -764,7 +773,6 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPolly
 
 string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &lastPolTrack, string lastCnt, string lastDiffCnt, string &lastGate, string lastDiff, string currentDiff, layer_name l){
     int gateIni, gateEnd;
-    int x;
     int transWidth = round(currentNetList.getTrans(transistor).width * currentRules->getScale());
     int transLength = round(currentNetList.getTrans(transistor).length * currentRules->getScale());
     if (transLength < currentRules->getRule(W2P1)) cout << "** Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
@@ -801,12 +809,12 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
         if(gateIni && currentPolTrack[gateIni-1]!="")
             insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[gateIni-1], currentPolTrack[gateIni], currentPolTrack[gateIni-1], currentDiff, currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
         if(gateEnd+1 < currentPolTrack.size() && currentPolTrack[gateEnd+1]!="")
-                insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[gateEnd+1], currentPolTrack[gateEnd], currentDiff, currentPolTrack[gateEnd+1], currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
+            insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[gateEnd+1], currentPolTrack[gateEnd], currentDiff, currentPolTrack[gateEnd+1], currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
         cpt.insertConstraint("yPDiffa", "y" + currentDiff + "a", CP_MIN, 0);
     }
     
     int c;
-
+    
     // space diff from the tracks below
     for (c=gateIni; c >= 0; --c) 
         if(currentPolTrack[gateIni]!=currentPolTrack[c]){
@@ -814,6 +822,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[c], currentDiff, currentPolTrack[c], currentDiff, currentRules->getRule(S1DFP1),"");
             }
             if(lastPolTrack[c]!=""){
+//                insertDistanceRuleDumb(geometries, cpt, lastPolTrack[c], currentDiff, currentRules->getRule(S1DFP1), H, PDIF);
             }
         }
     // space diff from the tracks above
@@ -823,9 +832,10 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
                 insertDistanceRuleInteligent2(geometries, cpt, currentPolTrack[c], currentDiff, currentDiff, currentPolTrack[c], currentRules->getRule(S1DFP1),"");
             }
             if(lastPolTrack[c]!=""){
+//                insertDistanceRuleDumb(geometries, cpt, lastPolTrack[c], currentDiff, currentRules->getRule(S1DFP1), H, PDIF);
             }
         }
-     
+    
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
     cpt.forceBinaryVar("b" + lastDiffCnt + "_LshapeBeforeGate");
     cpt.forceBinaryVar("b" + currentPolTrack[gateIni] + "_applyExtraExtBeforeGate");

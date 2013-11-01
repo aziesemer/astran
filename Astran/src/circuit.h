@@ -38,14 +38,15 @@ class Circuit {
 	Rules* currentRules;
 	int cellsHeight, c2lMargin, c2rMargin, c2tMargin, c2bMargin;
 	float hGrid, vGrid, supplyVSize, nWellPos, nWellBorder, pnSelBorder;
-	string topCell,vddNet, gndNet;
-    bool tapless, hGridOffset, vGridOffset;
+	string topCell,vddNet, gndNet, cellTemplate;
+    bool hGridOffset, vGridOffset;
     
 	public:
 	Circuit();
 	~Circuit(){};
 
 	void clear();
+    vector<string> getCellTemplatesList();
 	void setTopCell(string cellName){topCell=cellName;};
 	string getTopCell(){return topCell;};
 	void setVddNet(string s){vddNet=s;};
@@ -70,8 +71,8 @@ class Circuit {
 	float getnWellBorder(){return nWellBorder;};
 	void setpnSelBorder(float x){pnSelBorder=x;};
 	float getpnSelBorder(){return pnSelBorder;};
-	void setTapless(bool x){tapless=x;};
-	bool isTapless(){return tapless;};
+	void setCellTemplate(string x){cellTemplate=x;};
+	string getCellTemplate(){return cellTemplate;};
 	void setRowHeight(int h){cellsHeight=h;};
 	int getRowHeight(){return cellsHeight;};
 	bool setMargins(float l, float r, float t, float b);
