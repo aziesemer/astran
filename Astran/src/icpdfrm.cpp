@@ -474,6 +474,7 @@ void IcpdFrm::refresh(){
 	for(cells_it=designmng.getCircuit()->getCellNetlsts()->begin(); cells_it!=designmng.getCircuit()->getCellNetlsts()->end(); cells_it++)
 		wx_cells->Append(wxString::From8BitData(cells_it->first.c_str()));
 		
+    instanceLevel.clear();
 	refreshInstanceList();
 
 /*	wx_nets->Clear();
