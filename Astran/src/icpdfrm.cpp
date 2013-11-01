@@ -85,7 +85,7 @@ void IcpdFrm::newCell( wxCommandEvent& event ){
 void IcpdFrm::loadProject( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Open Project"), wxT(""), wxT(""), wxT("ICPD Project File (*.icp)|*.icp|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("load project \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -95,7 +95,7 @@ void IcpdFrm::loadProject( wxCommandEvent& event ){
 void IcpdFrm::loadTech( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Open Technology"), wxT(""), wxT(""), wxT("Rules File (*.rul)|*.rul|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("load technology \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
     }
@@ -104,7 +104,7 @@ void IcpdFrm::loadTech( wxCommandEvent& event ){
 void IcpdFrm::loadSpiceNetlist( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Open Netlist"), wxT(""), wxT(""), wxT("Spice (*.sp)|*.sp|Structural Verilog (*.v)|*.v|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("load netlist \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -114,7 +114,7 @@ void IcpdFrm::loadSpiceNetlist( wxCommandEvent& event ){
 void IcpdFrm::loadLayouts( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Open Layouts"), wxT(""), wxT(""), wxT("ICPD Layouts Format (*.lay)|*.lay|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("load layouts \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -124,7 +124,7 @@ void IcpdFrm::loadLayouts( wxCommandEvent& event ){
 void IcpdFrm::loadPlacement( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Open Placement"), wxT(""), wxT(""), wxT("Book Shelf (*.pl)|*.pl|Mango Parrot (*.mpp)|*.mpp|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("load placement \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -134,7 +134,7 @@ void IcpdFrm::loadPlacement( wxCommandEvent& event ){
 void IcpdFrm::loadRouting( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Open Routing"), wxT(""), wxT(""), wxT("Rotdl Routing Format (*.rot)|*.rot|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("load routing \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -145,7 +145,7 @@ void IcpdFrm::loadRouting( wxCommandEvent& event ){
 void IcpdFrm::saveProject( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Project"), wxT(""), wxT(""), wxT("ICPD Project File (*.icp)|*.icp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save project \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -154,7 +154,7 @@ void IcpdFrm::saveProject( wxCommandEvent& event ){
 void IcpdFrm::saveTech( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Rules"), wxT(""), wxT(""), wxT("Rules File (*.rul)|*.rul"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save technology \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -163,7 +163,7 @@ void IcpdFrm::saveTech( wxCommandEvent& event ){
 void IcpdFrm::saveSpiceNetlist( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Netlist"), wxT(""), wxT(""), wxT("Spice (*.sp)|*.sp"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save netlist \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -172,7 +172,7 @@ void IcpdFrm::saveSpiceNetlist( wxCommandEvent& event ){
 void IcpdFrm::saveLayouts( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Layouts"), wxT(""), wxT("project.lay"), wxT("ICPD Layouts File (*.lay)|*.lay"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save layouts \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -181,7 +181,7 @@ void IcpdFrm::saveLayouts( wxCommandEvent& event ){
 void IcpdFrm::savePlacement( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Placement"), wxT(""), wxT(""), wxT("Book Shelf (*.pl)|*.pl"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save placement \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -190,7 +190,7 @@ void IcpdFrm::savePlacement( wxCommandEvent& event ){
 void IcpdFrm::saveRouting( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Routing"), wxT(""), wxT(""), wxT("Rotdl Routing Format (*.rot)|*.rot"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save routing \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -200,7 +200,7 @@ void IcpdFrm::saveRouting( wxCommandEvent& event ){
 void IcpdFrm::importSpiceNetlist( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Import Netlist"), wxT(""), wxT(""), wxT("All Files (*.*)|*.*|Spice (*.sp)|*.sp"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("import netlist \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -210,7 +210,7 @@ void IcpdFrm::importSpiceNetlist( wxCommandEvent& event ){
 void IcpdFrm::importLEF( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Import Cell Library"), wxT(""), wxT(""), wxT("Library Exchange Format (*.lef)|*.lef|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("import lef \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -221,7 +221,7 @@ void IcpdFrm::importLEF( wxCommandEvent& event ){
 void IcpdFrm::exportLayout( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Layout"), wxT(""), wx_layouts->GetStringSelection()+wxT(".cif"), wxT("Calltech Intermediate Format (*.cif)|*.cif|Graphic Data System II(*.gds)|*.gds|CIF2Cadende Convertion File (*.c2c)|*.c2c"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("export layout ") + wx_layouts->GetStringSelection() + wxT(" \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -230,7 +230,7 @@ void IcpdFrm::exportLayout( wxCommandEvent& event ){
 void IcpdFrm::exportCellSizes( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Library Dimensions"), wxT(""), wxT(""), wxT("Mango Parrot Cell estimative File (*.est)|*.est"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("export cellsizes \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -239,7 +239,7 @@ void IcpdFrm::exportCellSizes( wxCommandEvent& event ){
 void IcpdFrm::exportPlacement( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save Placement"), wxT(""), wxT(""), wxT("Cadence Placement File (*.place)|*.place"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("export placement \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}
@@ -249,7 +249,7 @@ void IcpdFrm::exportPlacement( wxCommandEvent& event ){
 void IcpdFrm::flReadScript( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Read Script"), wxT(""), wxT(""), wxT("Script File (*.run)|*.run|All Files (*.*)|*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("read \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 		refresh();
@@ -259,7 +259,7 @@ void IcpdFrm::flReadScript( wxCommandEvent& event ){
 void IcpdFrm::saveHistory( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Save History"), wxT(""), wxT(""), wxT("Script File (*.run)|*.run"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString cmd = tmp->GetDirectory()+wxT("/")+tmp->GetFilename();
+		wxString cmd = tmp->GetPath();
 		cmd = wxT("save history \"") + cmd + wxT("\"");
 		readCommand(string(cmd.mb_str()));
 	}

@@ -67,8 +67,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=`wx-config --debug=yes --cppflags` -Wno-deprecated 
-CXXFLAGS=`wx-config --debug=yes --cppflags` -Wno-deprecated 
+CCFLAGS=`wx-config --cppflags` -Wno-deprecated 
+CXXFLAGS=`wx-config --cppflags` -Wno-deprecated 
 
 # Fortran Compiler Flags
 FFLAGS=

@@ -90,7 +90,7 @@
       </toolsSet>
       <compileType>
         <ccTool>
-          <commandLine>`wx-config --debug=yes --cppflags` -Wno-deprecated</commandLine>
+          <commandLine>`wx-config --cppflags` -Wno-deprecated</commandLine>
         </ccTool>
         <linkerTool>
           <output>build/bin/Astran.app/Contents/MacOS/Astran</output>

@@ -27,7 +27,7 @@ void WxPreferences::cancelButtonEvt( wxCommandEvent& event ){
 void WxPreferences::plButton( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Set Path"), wxT(""), wxT(""), wxT("*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString path=tmp->GetDirectory() + wxT("/") + tmp->GetFilename();
+		wxString path=tmp->GetPath();
 		plPath->SetValue(path);
 	}
 }
@@ -35,7 +35,7 @@ void WxPreferences::plButton( wxCommandEvent& event ){
 void WxPreferences::rotdlButton( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Set Path"), wxT(""), wxT(""), wxT("*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString path=tmp->GetDirectory() + wxT("/") + tmp->GetFilename();
+		wxString path=tmp->GetPath();
 		rotdlPath->SetValue(path);
 	}
 }
@@ -43,7 +43,7 @@ void WxPreferences::rotdlButton( wxCommandEvent& event ){
 void WxPreferences::viewerButton( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Set Path"), wxT(""), wxT(""), wxT("*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString path=tmp->GetDirectory() + wxT("/") + tmp->GetFilename();
+		wxString path=tmp->GetPath();
 		viewerPath->SetValue(path);
 	}
 }
@@ -51,7 +51,7 @@ void WxPreferences::viewerButton( wxCommandEvent& event ){
 void WxPreferences::lpsolverButton( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Set Path"), wxT(""), wxT(""), wxT("*.*"), wxFD_OPEN);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString path=tmp->GetDirectory() + wxT("/") + tmp->GetFilename();
+		wxString path=tmp->GetPath();
 		lpsolverPath->SetValue(path);
 	}
 }
@@ -59,7 +59,7 @@ void WxPreferences::lpsolverButton( wxCommandEvent& event ){
 void WxPreferences::logButton( wxCommandEvent& event ){
 	wxFileDialog* tmp =  new wxFileDialog(this, wxT("Set Path"), wxT(""), wxT(""), wxT("*.*"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT);
 	if ( tmp->ShowModal() == wxID_OK ){
-		wxString path=tmp->GetDirectory() + wxT("/") + tmp->GetFilename();
+		wxString path=tmp->GetPath();
 		logPath->SetValue(path);
 	}
 }
