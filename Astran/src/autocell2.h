@@ -67,7 +67,7 @@ protected:
 	int nSize,pSize;
 	int  center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
-    int diffStretching, griddedPolly, rdCntsCost, alignDiffConts, maxDiffCnts;
+    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts, maxDiffCnts;
     bool hPoly;
     
 	vector<int> trackPos, diffPini, diffNini;
