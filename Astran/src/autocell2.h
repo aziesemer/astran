@@ -65,9 +65,9 @@ protected:
 	
 	int supWidth,btDifWidth, posNWell;
 	int nSize,pSize;
-	int  center;
+	int center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
-    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts, maxDiffCnts;
+    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts, maxDiffCnts, enableDFM;
     bool hPoly;
     
 	vector<int> trackPos, diffPini, diffNini;
@@ -111,7 +111,7 @@ protected:
 	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
 	void route(bool hPoly);
-    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool test);
+    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool enableDFM, bool test);
 	void selectCell(string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};

@@ -694,7 +694,7 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case CELLGEN_COMPACT:
-                    autocell->compact(lpSolverFile, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()));
+                    autocell->compact(lpSolverFile, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()));
                     break;
                     
                     /****  HELP - 2  ****/

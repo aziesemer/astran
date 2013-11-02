@@ -373,7 +373,7 @@ void AutoCell::route(bool hPoly) {
     state = 5;
 }
 
-void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
+void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool enableDFM, bool test) {
     checkState(5);
     cout << "-> Compacting layout..." << endl;
     this->diffStretching=diffStretching;
@@ -381,6 +381,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     this->rdCntsCost=rdCntsCost;
     this->maxDiffCnts=maxDiffCnts;
     this->alignDiffConts=alignDiffConts;
+    this->enableDFM=enableDFM;
     
     currentRules = currentCircuit->getRules();
     
