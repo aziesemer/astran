@@ -439,6 +439,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     bool gapP=false, gapN=false;
     string lastDiffP, lastDiffN, currentDiffP="", currentDiffN="", outPolP, outPolN, lastNGatePos, lastPGatePos;
     string lastNContact="", lastPContact="", lastNContactDiff="", lastPContactDiff="";
+    int lastPGateLength=0, lastNGateLength=0;
     
     //Compact the routing tracks
     for (list<Element>::iterator elements_it = elements.begin(); elements_it != elements.end(); ++elements_it) {
@@ -562,7 +563,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 break;
                 
             case GATE:
-                lastNGatePos = insertGate(geometries, cpt,elements_it->linkN.link, elements_it, currentPolNode, lastPolNode, lastNContact, lastNContactDiff, lastNGatePos, lastDiffN, currentDiffN, NDIF);
+                lastNGatePos = insertGate(geometries, cpt,elements_it->linkN.link, elements_it, currentPolNode, lastPolNode, lastNContact, lastNContactDiff, lastNGatePos, lastNGateLength, lastDiffN, currentDiffN, NDIF);
                 break;
         }
         switch (elements_it->linkP.type) {
@@ -586,7 +587,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 break;
                 
             case GATE:
-                lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNode, lastPolNode, lastPContact, lastPContactDiff, lastPGatePos, lastDiffP, currentDiffP, PDIF);                
+                lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNode, lastPolNode, lastPContact, lastPContactDiff, lastPGatePos, lastPGateLength, lastDiffP, currentDiffP, PDIF);                
                 break;
         }
         
@@ -779,7 +780,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
 }
 
 
-string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &lastPolTrack, string lastCnt, string lastDiffCnt, string &lastGate, string lastDiff, string currentDiff, layer_name l){
+string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &lastPolTrack, string lastCnt, string lastDiffCnt, string &lastGate, int &lastGateLength, string lastDiff, string currentDiff, layer_name l){
     int gateIni, gateEnd;
     int transWidth = round(currentNetList.getTrans(transistor).width * currentRules->getScale());
     int transLength = round(currentNetList.getTrans(transistor).length * currentRules->getScale());
@@ -803,6 +804,8 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     
     if (lastGate != ""){
         cpt.insertConstraint("x" + lastGate + "b", "x" + currentPolTrack[gateIni] + "a", CP_MIN, currentRules->getRule(S2P1P1));
+        if(transLength > currentRules->getRule(S2P1P1_1) || lastGateLength > currentRules->getRule(S2P1P1_1))
+           cpt.insertConstraint("x" + lastGate + "b", "x" + currentPolTrack[gateIni] + "a", CP_MIN, currentRules->getRule(S2P1P1_2));
     }
     
     //poly distance to active region
@@ -881,6 +884,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
      }
      */
     lastGate = currentPolTrack[gateIni];
+    lastGateLength = transLength;
     return currentPolTrack[gateIni];
 }
 
