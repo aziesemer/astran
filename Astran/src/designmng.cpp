@@ -486,9 +486,6 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case PRINT_CELL:
-                    if(!circuit->getCellNetlst(upcase(words[2])))
-                        throw AstranError("Could not find netlist: " + upcase(words[2]));
-                    
                     circuit->getCellNetlst(upcase(words[2]))->print();
                     break;
                     

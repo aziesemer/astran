@@ -36,14 +36,20 @@ bool Circuit::setMargins(float l, float r, float t, float b){
 	c2bMargin=round(b/getVPitch());
 	cout << "Margins: L=" << c2lMargin*getHPitch() << "um  R=" << c2rMargin*getHPitch() << "um  T=" << c2tMargin*getVPitch() << "um  B=" << c2bMargin*getVPitch() << "um"  << endl;
 	return true;
-};
+}
 
 CellNetlst* Circuit::getCellNetlst(string n){
+    CellNetlst* tmp=findCellNetlst(n);
+	if(!tmp)
+        throw AstranError("Could not find cell netlist: " + n);
+    return tmp;
+}
+
+CellNetlst* Circuit::findCellNetlst(string n){
 	map<string,CellNetlst>::iterator tmp=cellNetlsts.find(n);
-	if(tmp!=cellNetlsts.end())
-		return &tmp->second;
-	else
-		return NULL;
+	if(tmp==cellNetlsts.end())
+        return NULL;
+    return &tmp->second;
 }
 
 string* Circuit::getEquation(string n){
@@ -109,7 +115,6 @@ bool Circuit::insertInterface(string name, direction orient, IOType type, int po
  insertLayout(instances);
  
  CellNetlst* cell=getCellNetlst(cellName);
- if(cell){
  for(int c=0; c<cell->getInouts().size(); ++c)
  insertInterface(cell->getNetName(cell->getInouts()[c]), N, cell->getIOType(c), 0, 0);
  for(map<string,Inst>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
@@ -119,9 +124,6 @@ bool Circuit::insertInterface(string name, direction orient, IOType type, int po
  insertInstance(currentCircuit->getTopCell() + "_PL", inst_it->first, inst_it->second.subCircuit, inouts);
  }
  return true;
- }
- return false;
- }
  */
 
 /*

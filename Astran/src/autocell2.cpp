@@ -119,10 +119,7 @@ void AutoCell::calcArea(Circuit* c) {
 
 void AutoCell::selectCell(string c) {
     checkState(1);
-    currentCell = currentCircuit->getCellNetlst(c);
-    if (!currentCell)
-        throw AstranError("Could not find cell netlist: " + c);
-    
+    currentCell = currentCircuit->getCellNetlst(c);    
     cout << "-> Selecting cell netlist: " << currentCell->getName() << endl;
     currentNetList.clear();
     currentNetList = currentCircuit->getFlattenCell(c);
@@ -1273,7 +1270,7 @@ void AutoCell::checkState(int nextState){
     if(state<nextState){
         switch(state){
             case 0: throw AstranError("Select the cell first");
-            case 1: throw AstranError("Calculate area first");
+            case 1: throw AstranError("Calculate cell area first");
             case 2: throw AstranError("Fold the transistors first");
             case 3: throw AstranError("Place the transistors first");
             case 4: throw AstranError("Route the cell first");

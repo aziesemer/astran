@@ -88,6 +88,7 @@ class Circuit {
 	bool insertInterface(string name, direction orient, IOType type, int posx, int posy);
 	unsigned int nrCells();
 	CellNetlst* getCellNetlst(string n);
+    CellNetlst* findCellNetlst(string n);
 	string* getEquation(string n);
 	Interface* getInterface(string n);
 	CellNetlst getFlattenCell(string name);

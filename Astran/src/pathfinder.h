@@ -49,7 +49,7 @@ protected:
 		int father;
 		int aStarCost;
 		int costAccumulated;
-		bool operator< (const t_tmp& x) const { return (x.aStarCost < aStarCost) | (x.aStarCost == aStarCost & x.aStarCost-x.costAccumulated < aStarCost-costAccumulated) ;};
+		bool operator< (const t_tmp& x) const { return (x.aStarCost < aStarCost) | ((x.aStarCost == aStarCost) & (x.aStarCost-x.costAccumulated < aStarCost-costAccumulated)) ;};
 		//		bool operator< (const t_tmp& x) const { return x.aStarCost < aStarCost;};
 	};	
 	

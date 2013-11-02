@@ -197,22 +197,19 @@ void Placer::autoFlip(){
 					currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
 					if(currentLayout){
 						currentCell=currentCircuit->getCellNetlst(currentInstance->getTargetCell());
-						if(currentCell){
-							pin_it=currentLayout->getPins().find(currentCell->getInout(nodes_it->targetPin));
-							if(pin_it!=currentLayout->getPins().end()){
-								x=currentInstance->getMY() ? -pin_it->second.getX() : pin_it->second.getX();
-								y=currentInstance->getMX() ? -pin_it->second.getY() : pin_it->second.getY();
-								x=(currentInstance->getX()+x)/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale());
-								y=(currentInstance->getY()+y)/(currentCircuit->getVPitch()*currentCircuit->getRules()->getScale());
-								if(nodes_it==nets_it->insts.begin()){
-									minX=x;  maxX=x; minY=y; maxY=y;
-								}else{
-									minX=min(minX,x);  maxX=max(maxX,x); minY=min(minY,y); maxY=max(maxY,y);
-								}
-							}else 
-                                throw AstranError("Pin " + currentCell->getInout(nodes_it->targetPin) + " in cell " + currentInstance->getTargetCell() + " not found" );
-						}else 
-                            throw AstranError("Cell netlist " + currentInstance->getTargetCell() + " in net " + nets_it->name + " not found");
+                        pin_it=currentLayout->getPins().find(currentCell->getInout(nodes_it->targetPin));
+                        if(pin_it!=currentLayout->getPins().end()){
+                            x=currentInstance->getMY() ? -pin_it->second.getX() : pin_it->second.getX();
+                            y=currentInstance->getMX() ? -pin_it->second.getY() : pin_it->second.getY();
+                            x=(currentInstance->getX()+x)/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale());
+                            y=(currentInstance->getY()+y)/(currentCircuit->getVPitch()*currentCircuit->getRules()->getScale());
+                            if(nodes_it==nets_it->insts.begin()){
+                                minX=x;  maxX=x; minY=y; maxY=y;
+                            }else{
+                                minX=min(minX,x);  maxX=max(maxX,x); minY=min(minY,y); maxY=max(maxY,y);
+                            }
+                        }else 
+                            throw AstranError("Pin " + currentCell->getInout(nodes_it->targetPin) + " in cell " + currentInstance->getTargetCell() + " not found" );
 					}else 
                         throw AstranError("Cell layout " + currentInstance->getTargetCell() + " not found");
 				}else 
@@ -363,7 +360,7 @@ void Placer::setArea(int n, float u){
 	currentCircuit->getLayout(currentCircuit->getTopCell())->addInstance("PLACEMENT", currentCircuit->getTopCell() + "_PL");
 	currentCircuit->getLayout(currentCircuit->getTopCell())->placeCell("PLACEMENT", 0, 0, false, false);
     
-	CellNetlst* cell=currentCircuit->getCellNetlst(currentCircuit->getTopCell());
+	CellNetlst* cell=currentCircuit->findCellNetlst(currentCircuit->getTopCell());
 	if(!cell)
         throw AstranError("Top cell netlist " + currentCircuit->getTopCell() + " not found");
     

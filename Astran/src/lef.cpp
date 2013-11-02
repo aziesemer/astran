@@ -91,7 +91,7 @@ void Lef::saveFile(string nome, Circuit& c){
 	outfile << "MANUFACTURINGGRID " << float(1)/c.getRules()->getScale() << "\n\n";
 	
 	for(map<string,CLayout>::iterator cells_it=c.getLayouts()->begin(); cells_it!=c.getLayouts()->end(); cells_it++){
-		if(c.getCellNetlst(cells_it->first)){
+		if(c.findCellNetlst(cells_it->first)){
 			outfile << "MACRO " << cells_it->first << "\n";
 			outfile << " CLASS CORE\n";
 			outfile << " ORIGIN 0.000 0.000\n";
@@ -162,7 +162,7 @@ void Lef::readFile(string nome, Circuit& c, bool rTech){
 	
 	while(readLine(words)){
 		if(words[0]=="MACRO"){
-			if(!c.getCellNetlst(words[1])){
+			if(!c.findCellNetlst(words[1])){
 				CellNetlst tmp;
 				tmp.setName(words[1]);
 				c.insertCell(tmp);
