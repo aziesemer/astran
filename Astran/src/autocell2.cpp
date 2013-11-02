@@ -443,10 +443,10 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     //insert space or a track between current and lasts H met node, if it exists
                     for (int c = 0; c < trackPos.size(); c++) {
                         if(lastMetNode[c]!=""){
-                            if(c<x){
+                            if(c<x && rt->getNet(lastElements_it->met[c])!=rt->getNet(elements_it->met[x])){
                                 insertDistanceRuleInteligent(geometries, cpt, lastMetNode[c], currentMetNode[x], lastMetNode[c], currentMetNode[x], MET1);
                             }
-                            else if(c>x)
+                            else if(c>x && rt->getNet(lastElements_it->met[c])!=rt->getNet(elements_it->met[x]))
                                 insertDistanceRuleInteligent(geometries, cpt, lastMetNode[c], currentMetNode[x], currentMetNode[x], lastMetNode[c], MET1);
                             else if(c==x){
                                 if(!rt->areConnected(elements_it->met[x], lastElements_it->met[x]))
@@ -1170,6 +1170,21 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_EQ, "b" + currentGeo+ "_endline_h", minExt);
     cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_EQ, "b" + currentGeo+ "_endline_v", minExt);
     cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_EQ, "b" + currentGeo+ "_endline_v", minExt);    
+    if(enableDFM){
+        cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "L");
+        cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "R");
+        cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "B");
+        cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "T");    
+        minDist = (l==MET1 ? currentRules->getRule(S1M1M1) : currentRules->getRule(S1P1P1));
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "L", CP_MAX, minDist*1.10);
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "R", CP_MAX, minDist*1.10);
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "B", CP_MAX, minDist*1.10);
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "T", CP_MAX, minDist*1.10);
+        cpt.insertLPMinVar("max" + currentGeo+ "L", -5);
+        cpt.insertLPMinVar("max" + currentGeo+ "R", -5);
+        cpt.insertLPMinVar("max" + currentGeo+ "B", -5);
+        cpt.insertLPMinVar("max" + currentGeo+ "T", -5);
+    }
     
     currentNode[pos]=currentGeo;
 }
@@ -1217,15 +1232,15 @@ void AutoCell::insertDistanceRuleInteligent(vector<Box*> &geometries, compaction
     cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_1"); //left
     cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_2"); //up
     cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_3"); //diagonal
+    
     cpt.insertConstraint("ZERO", "b" + lastX + "_" + currentX + "_1" + " + " + "b" + lastX + "_" + currentX + "_2" + " + " + "b" + lastX + "_" + currentX + "_3", CP_EQ, 1);
     cpt.insertConstraint("x" + lastX + "b + RELAXATION", "x" + currentX + "a2", CP_MIN, "b" + lastX + "_" + currentX + "_1", minDist + relaxation);
     cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a2", CP_MIN, "b" + lastX + "_" + currentX + "_2", minDist + relaxation);
-    cpt.insertConstraint("x" + lastX + "b + RELAXATION", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + relaxation);
-    cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + relaxation);
+    cpt.insertConstraint("ZERO", "x" + currentX +  "a2" + " - " + "x" + lastX +  "b" + " + "+ "y" + currentY +  "a2" + " - " + "y" + lastY +  "b + RELAXATION", CP_MIN, "b" + lastX + "_" + currentX+ "_3", ceil(2*(minDist/sqrt(2.0))) + relaxation);    
+    
     cpt.insertConstraint("x" + lastX + "b2 + RELAXATION", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_1", minDist + relaxation);
     cpt.insertConstraint("y" + lastY + "b2 + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_2", minDist + relaxation);
-    cpt.insertConstraint("x" + lastX + "b2 + RELAXATION", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + relaxation);
-    cpt.insertConstraint("y" + lastY + "b2 + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3", ceil(minDist/sqrt(2.0)) + relaxation);
+    cpt.insertConstraint("ZERO", "x" + currentX +  "a" + " - " + "x" + lastX +  "b2" + " + "+ "y" + currentY +  "a" + " - " + "y" + lastY +  "b2 + RELAXATION", CP_MIN, "b" + lastX + "_" + currentX+ "_3", ceil(2*(minDist/sqrt(2.0))) + relaxation);    
 }
 
 void AutoCell::insertDistanceRuleInteligent2(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, int minDist, string booleanFlag){
