@@ -544,8 +544,12 @@ int compaction::solve(string lpSolverFile) {
 	char line[150];
 	while (fgets(line, 150, x)) {
 		istringstream s(line);
+        printf("%s",line);
 		string n;		
 		s >> n;
+        if(n=="H" || n=="*")
+			cerr << n;
+            
 		if(n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
 			cout << line;
     }

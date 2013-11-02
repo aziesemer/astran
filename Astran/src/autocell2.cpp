@@ -419,15 +419,17 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     
     if(test){
         cpt.insertConstraint("ZERO", "height", CP_MIN, height);
-        cpt.insertLPMinVar("height", 1000);   
+        cpt.insertLPMinVar("height", 1000);
     }else{
         cpt.insertConstraint("ZERO", "height", CP_EQ, height);
         cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(currentCircuit->getnWellPos()));
+        cpt.insertConstraint("ZERO", "yNDiffa", CP_EQ, nDif_endY);
+        cpt.insertConstraint("yNDiffb", "posNWell", CP_EQ, currentRules->getRule(S1DNWN));
+        cpt.insertConstraint("posNWell", "yPDiffa", CP_EQ, currentRules->getRule(E1WNDP));
+        cpt.insertConstraint("ZERO", "yPDiffb", CP_EQ, pDif_endY);
     }
     cpt.insertConstraint("ZERO", "yGNDb", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
     cpt.insertConstraint("yVDDa", "height", CP_EQ, max(currentRules->getIntValue(currentCircuit->getSupplyVSize()), currentRules->getRule(W1M1)) / 2);
-    cpt.insertConstraint("yNDiffb", "posNWell", CP_MIN, currentRules->getRule(S1DNWN));
-    cpt.insertConstraint("posNWell", "yPDiffa", CP_MIN, currentRules->getRule(E1WNDP));
     
     list<Element>::iterator lastElements_it;
     vector<string> currentMetNode(trackPos.size(), ""), currentPolNode(trackPos.size(), ""), currentContacts(trackPos.size(), "");
@@ -902,6 +904,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, int pos
     cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
     cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint( "yNDiffa", "y" + diffEnc + "a", CP_MIN, 0);
+    cpt.insertConstraint("y" + diffEnc + "b", "yPDiffb", CP_MIN, 0);
     cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, currentRules->getRule(E1DFCT));
     cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
