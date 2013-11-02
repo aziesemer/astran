@@ -43,7 +43,7 @@ CellNetlst* Circuit::getCellNetlst(string n){
 	if(tmp!=cellNetlsts.end())
 		return &tmp->second;
 	else
-		return 0;
+		return NULL;
 }
 
 string* Circuit::getEquation(string n){
@@ -51,7 +51,7 @@ string* Circuit::getEquation(string n){
 	if(tmp!=equations.end())
 		return &tmp->second;
 	else
-		return 0;
+		return NULL;
 }
 
 Interface* Circuit::getInterface(string n){
@@ -59,7 +59,7 @@ Interface* Circuit::getInterface(string n){
 	if(tmp!=interfaces.end())
 		return &tmp->second;
 	else
-		return 0;
+		return NULL;
 }
 
 bool Circuit::insertLayout(CLayout& tmp){
@@ -75,7 +75,7 @@ CLayout* Circuit::getLayout(string n){
 	if(tmp!=layouts.end())
 		return &tmp->second;
 	else
-		return 0;
+		return NULL;
 }
 
 bool Circuit::insertCell(CellNetlst& tmp){

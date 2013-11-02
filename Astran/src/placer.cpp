@@ -33,7 +33,7 @@ CLayout* Placer::getLayoutFromInstance(string instanceName){
 			return currentLayout; 
 		}else cout << "Instance " << instanceName << " has no cell layout " << currentInstance->getTargetCell() << endl;
 	}else cout << "Instance " << instanceName << " not found" << endl;
-	return false;
+	return NULL;
 }
 
 bool Placer::incrementalPlacement(Router* rt, string lpSolverFile){

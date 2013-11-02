@@ -532,6 +532,7 @@ int compaction::solve(string lpSolverFile) {
     
 	f.close();
     string cmd = "\"" + lpSolverFile + "\" TimeLimit=5000 ResultFile=temp.sol " + 	lp_filename + ".lp";
+//    string cmd = "\"" + lpSolverFile + "\" TimeLimit=5000  MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
 	cout << "Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
@@ -550,7 +551,7 @@ int compaction::solve(string lpSolverFile) {
         if(n=="H" || n=="*")
 			cerr << n;
             
-		if(n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
+		if(n=="Time" || n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
 			cout << line;
     }
 
@@ -587,21 +588,8 @@ int compaction::solve(string lpSolverFile) {
 		}
 	}
     fclose(stream);
-
-	
     
-	/*
-     char buffer = NULL;
-     ifstream file;
-     string filename = lp_filename + ".log";
-     file.open(filename.c_str());
-     while (!file.eof()){
-     file.get(buffer);
-     cout << buffer;
-     }
-     file.close();
-     */
-	return 1;
+    return 1;
 }
 
 

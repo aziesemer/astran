@@ -222,6 +222,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 			
 		}
 	}
+    return true;
 }
 
 int Verilog::findNet(string v){

@@ -126,7 +126,7 @@ protected:
 	CellNetlst* getTmpNetlist(){return &currentNetList;};
 	CLayout getLayout(){return currentLayout;};
 	Pathfinder2* getRouting(){return rt;};
-	void showIOCost();
+	void printGraph();
 	
 };
 

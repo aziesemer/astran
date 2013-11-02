@@ -163,6 +163,7 @@ string Rules::getLayerPurposeText(layerPurpose l){
 		case L_PIN:	return("pin");
 		case L_NET:	return("net");
 	}
+    return "";
 }
 
 bool Rules::saveCIFLayerTable(string filename) {

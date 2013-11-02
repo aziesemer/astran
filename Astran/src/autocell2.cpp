@@ -157,7 +157,7 @@ bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
 
 bool AutoCell::route(bool hPoly) {
     cout << "-> Routing cell..." << endl;
-    showIOCost();
+    printGraph();
     if (state < 4) return 0;
     state = 4;
     
@@ -872,19 +872,6 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     //contact to gate distance
     cpt.insertConstraint("x" + lastCnt + "b", "x" + currentPolTrack[gateIni] + "a", CP_MIN, currentRules->getRule(S1CTP1));
     
-    /*                if (rt->areConnected(elements_it->diffN, elements_it->pol[trackPos.size() - 1])) {
-     if (rt->getNrFinalArcs(elements_it->pol[trackPos.size() - 1]) > 1) {
-     geometries.push_back(&currentLayout.addPolygon(0, nDif_iniY, 0, trackPos[trackPos.size() - 1], POLY));
-     string ponte = intToStr(geometries.size() - 1);
-     
-     cpt.insertConstraint("x" + ponte + "a", "x" + ponte + "b", CP_EQ, currentRules->getRule(W2P1));
-     cpt.insertConstraint("x" + currentPolTrack[gateIni] + "a", "x" + ponte + "a", CP_MIN, 0);
-     cpt.insertConstraint("x" + ponte + "b", "x" + currentPolTrack[gateIni] + "b", CP_MIN, 0);
-     cpt.insertConstraint("x" + currentPolTrack[trackPos.size() - 1] + "a", "x" + ponte + "a", CP_MIN, 0);
-     cpt.insertConstraint("x" + ponte + "b", "x" + currentPolTrack[trackPos.size() - 1] + "b", CP_MIN, 0);
-     }
-     }
-     */
     lastGate = currentPolTrack[gateIni];
     lastGateLength = transLength;
     return currentPolTrack[gateIni];
@@ -1291,7 +1278,7 @@ void AutoCell::insertDistanceRuleDumb(vector<Box*> &geometries, compaction &cpt,
     }
 }
 
-void AutoCell::showIOCost() {
+void AutoCell::printGraph() {
     for (list<Element>::iterator elements_it = elements.begin(); elements_it != elements.end(); elements_it++) {
         elements_it->print();
     }
