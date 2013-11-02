@@ -214,17 +214,17 @@ private:
 	
 	string historyFile, placerFile, rotdlFile, viewerProgram, lpSolverFile;
 	vector<string> commandlog;
-	bool history(string cmd);
-	bool saveHistory(string filename);
-	bool saveProjectConfig(string filename, string project_name);
+	void addToHistoryLog(string cmd);
+	void saveHistory(string filename);
+	void saveProjectConfig(string filename, string project_name);
 	
-	bool run(string filename);
+	void run(string filename);
 	
 public:
 	DesignMng();
 	~DesignMng();
 	
-	int readCommand(string cmd);
+	bool readCommand(string cmd);
 	
 	int getPosCmdLog(){return poscmdlog;};
 	void setPosCmdLog(int pos){poscmdlog = pos;};

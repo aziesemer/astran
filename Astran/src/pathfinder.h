@@ -49,7 +49,7 @@ protected:
 		int father;
 		int aStarCost;
 		int costAccumulated;
-		bool operator< (const t_tmp& x) const { return x.aStarCost < aStarCost | (x.aStarCost == aStarCost & x.aStarCost-x.costAccumulated < aStarCost-costAccumulated) ;};
+		bool operator< (const t_tmp& x) const { return (x.aStarCost < aStarCost) | (x.aStarCost == aStarCost & x.aStarCost-x.costAccumulated < aStarCost-costAccumulated) ;};
 		//		bool operator< (const t_tmp& x) const { return x.aStarCost < aStarCost;};
 	};	
 	
@@ -83,9 +83,9 @@ public:
 	int getNrNets(int node){return graph[node].nrNets;};
 	vector<int>* getNetNodes(int net){return &netlist[net].nodes;};
 	void setLayerCosts(int layer, int hCost, int vCost, int upCost);
-	bool routeNets(int nrAttempts);
+	void routeNets(int nrAttempts);
 	bool isSource(int x){ return graph[x].net<0;};
-	bool optimize();
+	void optimize();
 	bool aStar(map<int,t_nets>::iterator& net, list<int>& targetNodes);
 	void showResult();
 	bool areConnected(int node1, rt_dir dir);

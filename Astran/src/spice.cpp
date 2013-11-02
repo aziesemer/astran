@@ -5,17 +5,13 @@
 
 #include "spice.h"
 
-bool Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
+void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 {
-	bool ok=true;
-	
 	ifstream arq (nome.c_str());
 	string linha;
 	
-	if (!arq.is_open()){
-		cout << "\t-> File " << nome << " could not be opened." << endl;
-		return false;
-	}
+	if (!arq.is_open())
+        throw AstranError("Could not open Spice file: " + nome );
 	
 	vector<string> palavras;
 	string palavra;
@@ -48,20 +44,20 @@ bool Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 					case 'E': orient=E; break;
 					case 'W': orient=W; break;
 					default: 
-						cout << "Error on line" << lineNr << " - Interface orientation unknown." << endl;
+                        throw AstranError("Line" + intToStr(lineNr) + ": Interface orientation unknown.");
 
 				}
 				switch(palavras[3][0]){
 					case 'I': type=IOTYPE_INPUT; break;
 					case 'O': type=IOTYPE_OUTPUT; break;
 					default: 
-						cout << "Error on line" << lineNr << " - Interface type unknown. Use INPUT or OUTPUT." << endl;
+                        throw AstranError("Line" + intToStr(lineNr) + ": Interface type unknown. Use INPUT or OUTPUT");
 				}
 				topCell.insertInOut(palavras[1]);
 				netlist.insertInterface(palavras[1], orient, type, 0, 0);
 			}
 			else
-				cout << "Error on line" << lineNr << " - Number of parameters for *interface is incorrect." << endl;
+                throw AstranError("Line" + intToStr(lineNr) + ": Number of parameters for *interface is not correct");
 				
 			continue;
 		}
@@ -93,7 +89,8 @@ bool Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 
 		}
 		else if (palavras[0] == string(".INCLUDE")){
-			if(!readFile(getPath(nome)+palavras[1],netlist,reading_cadence)) return false;
+			readFile(getPath(nome)+palavras[1],netlist,reading_cadence);
+//                throw AstranError("Could not read included file in line: " + intToStr(lineNr));
 		}
 
 		// declaring transistor in subcircuit read from Cadence
@@ -113,10 +110,8 @@ bool Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 				type=PMOS;
 			else if(palavras[5]=="NMOS" || palavras[5]=="CMOSN" || palavras[5]=="MODN")
 				type=NMOS;
-			else {
-				cout << "Error on line" << lineNr << " - Parameter " << palavras[5] << " incorrect. Use NMOS or PMOS" << endl;
-				ok=false;
-			}
+			else 
+                throw AstranError("Line" + intToStr(lineNr) + ": Parameter " + palavras[5] + " is incorrect. Use NMOS or PMOS");
 
 			// get parameters' values
 			float length=0, width=0;
@@ -128,15 +123,12 @@ bool Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 					length=tam;
 				else if(parm=="W")
 					width=tam;
-				else if(parm!="AD" && parm!="PD" && parm!="AS" && parm!="PS" && parm!="NRD" && parm!="NRS" && parm!="M"){
-					cout << "Error on line" << lineNr << " - Parameter " << parm << " not supported." << endl;
-					ok=false;
-				}
+				else if(parm!="AD" && parm!="PD" && parm!="AS" && parm!="PS" && parm!="NRD" && parm!="NRS" && parm!="M")
+                    throw AstranError("Line" + intToStr(lineNr) + ": Parameter " + parm + " not supported");
 			}
 
 			// insert transistor in cell
-			if(ok)
-				currentCell->insertTrans(palavras[0], palavras[1], palavras[2], palavras[3], type, length, width);
+            currentCell->insertTrans(palavras[0], palavras[1], palavras[2], palavras[3], type, length, width);
 		}
 
 		else if (palavras[0][0] == 'X' && !reading_cadence){
@@ -152,25 +144,19 @@ bool Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 			netlist.insertCell(*currentCell);
 			currentCell=&topCell;
 		}
-		else {
-			cout << "Parser error on line " << lineNr << endl;
-			return false;
-		}
+		else
+            throw AstranError("Line" + intToStr(lineNr));
 	}
-
-	arq.close();
 
 	if(topCell.getNets().size() != 0)
 		netlist.insertCell(topCell);
-
-	return ok;
 }
 
-bool Spice::saveFile(string filename, Circuit& netList){
+void Spice::saveFile(string filename, Circuit& netList){
 	ofstream file;
 	file.open(filename.c_str()); // Write
 	if (!file)
-		return 0;
+        throw AstranError("Could not save file: " + filename);
 
 	printHeader (file, "* ", "");
 	
@@ -199,7 +185,6 @@ bool Spice::saveFile(string filename, Circuit& netList){
 		}
 		file << ".ENDS " << cells_it->first << endl << endl;
 	}
-	return true;
 }
 
 float Spice::getFactor(char s){

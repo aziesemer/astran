@@ -65,7 +65,7 @@ class CLayout: public Draw, public Box {
 	Instance* getInstance(string n);
 	map<string, Instance>* getInstances(){return &instances;};
 	void clear();
-	bool placeCell(string instanceName, int posX, int posY, bool mx, bool my);
+	void placeCell(string instanceName, int posX, int posY, bool mx, bool my);
 	bool addInstance(string instName, string cellName);
 };
 

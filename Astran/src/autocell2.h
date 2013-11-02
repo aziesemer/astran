@@ -105,13 +105,13 @@ protected:
 	AutoCell();
 	~AutoCell();
 	void clear();
-	bool calcArea(Circuit* c);
-	bool foldTrans();
-	bool placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
+	void calcArea(Circuit* c);
+	void foldTrans();
+	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
-	bool route(bool hPoly);
-    bool compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool test);
-	bool selectCell(string c);
+	void route(bool hPoly);
+    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool test);
+	void selectCell(string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};
 	void setPolPriority(int x) {poly_priority=x;};

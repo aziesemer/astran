@@ -45,7 +45,7 @@ void Router::test(string r){
 	}	
 }
 
-bool Router::setup(int sX, int sY, int sZ){
+void Router::setup(int sX, int sY, int sZ){
 	teste=false;
 	sizeX=sX;
 	sizeY=sY;
@@ -87,34 +87,28 @@ bool Router::setup(int sX, int sY, int sZ){
 							else
 								posx+=tmp_inst->getX();								
 							rt.addNodetoNet(netIndex[nets_it->name], rt.getPos(round(float(posx)/pitchH)+currentCircuit->getLMargin() ,round(float(posy)/pitchV)+currentCircuit->getBMargin(),0));
-						}else{
-							cout << "Pin " << nodes_it->targetPin << " not found in cell instance " << nodes_it->targetCellInst << endl;
-							return false;
 						}
-					}else{
-						cout << "Cell " << tmp_inst->getTargetCell() << " not found" << endl;
-						return false;
-					}
-				}else{
-					cout << "Cell instance " << nodes_it->targetCellInst << " not found" << endl;
-					return false;
-				}
+                        else
+                            throw AstranError("Pin " + currentCircuit->getCellNetlst(tmp_inst->getTargetCell())->getInout(nodes_it->targetPin) + " not found in cell instance " + nodes_it->targetCellInst);
+					}else
+                        throw AstranError("Cell " + tmp_inst->getTargetCell() + " not found");
+                }else
+                    throw AstranError("Cell instance " + nodes_it->targetCellInst + " not found");
 			}
 		}
 	}
 //	if(netIndex.find("bl")!=netIndex.end()) rt.setBlockageNet(netIndex["bl"]);
-	return true;
 }
 
-bool Router::route(int effort){
-	return rt.routeNets(effort);
+void Router::route(int effort){
+	rt.routeNets(effort);
 }
 
-bool Router::optimize(){
-	return rt.optimize(); 
+void Router::optimize(){
+	rt.optimize(); 
 }
 
-bool Router::compactLayout(string lpSolverFile){
+void Router::compactLayout(string lpSolverFile){
 	vector<layer_name> rtLayers(5);
 	rtLayers[0]=MET1;
 	rtLayers[1]=VIA1;
@@ -396,35 +390,30 @@ bool Router::compactLayout(string lpSolverFile){
 	}
 	currentCircuit->getLayout(currentCircuit->getTopCell())->addInstance("ROUTING", currentCircuit->getTopCell() + "_RT");
 	currentCircuit->getLayout(currentCircuit->getTopCell())->placeCell("ROUTING", -(pitchH+currentCircuit->getHPitch()), -(pitchV+currentCircuit->getVPitch()), false, false);
-	return true;
 }
 
 //Save routing result in Rotdl format
-int Router::saveRoutingRotdl(string fileName){
+void Router::saveRoutingRotdl(string fileName){
 	int net;
 	ofstream froute(fileName.c_str());
 
-	if (!froute.is_open()){
-		cout << "Could not save routing to file: " << fileName << endl;
-		return 0;
-	}
+	if (!froute.is_open())
+        throw AstranError("Could not save routing to file: " + fileName);
 
 	for(net=1;net<=rt.netlistSize();net++){
 		rt.pathTree(net,froute);
 	}
 	froute.close();
-	return 1;
 }
 
 //Read routing result file in Rotdl format
-bool Router::readRoutingRotdl(string fileName){
+void Router::readRoutingRotdl(string fileName){
     rt.clear();
 
 	ifstream file(fileName.c_str());
-	if ((!file.is_open())){
-		cout << "Could not open routing file: " << fileName <<  endl;
-		return false;
-	}
+	if (!file.is_open())
+        throw AstranError("Could not open routing to file: " + fileName);
+    
 	int fileline=0, pxini, pyini, pzini, nrMov, net;
 	string str_tmp, str, typeMove, netName;
 	while(getline(file,str_tmp)) {
@@ -462,25 +451,28 @@ bool Router::readRoutingRotdl(string fileName){
 						}
 					}
 					line >> str; // ]
-				}else return false;
+				}else
+                    throw AstranError("Expected ( or [ in line: " + fileline);
 			}
 			
 		}else if(upcase(str)=="ERROR:"){
 			line >> str;
 			line >> netName;
-			cout << "Unable to route net: " << str << netName << endl;
-		}else return false;
+            throw AstranError("Unable to route net: " + netName + " in line: " + intToStr(fileline));
+		}else 
+            throw AstranError("Parser error in line: " + fileline);
 	}
 	rt.showResult();
-	file.close();
-	return true;
 }
 
-bool Router::rotdl(string path){
+void Router::rotdl(string path){
 	int pitchH=currentCircuit->getHPitch()*currentCircuit->getRules()->getScale();
 	int pitchV=currentCircuit->getVPitch()*currentCircuit->getRules()->getScale();
 	
 	ofstream frot("temp.rot");
+	if (!frot.is_open())
+        throw AstranError("Could not save routing to file: " + path);
+    
 	frot << sizeX << " " << sizeY << " " << sizeZ-1+teste << endl;
 	frot << "0 0" << endl;
 	frot <<  pitchH << " " << pitchV << endl;
@@ -512,71 +504,15 @@ bool Router::rotdl(string path){
 	
 	FILE *x = _popen(cmd.c_str(), "r");
 	
-	if(x==NULL) {
-		cout << "\t\tERROR: Failed to execute rotdl!" << endl;
-		return false;
-	}
+	if(x==NULL)
+        throw AstranError("Failed to execute rotdl!");
 	
 	_pclose(x);
 
 	time(&end); 
 	cout << "Runtime = " << difftime(end, start) << "s" << endl;
 	
-	ifstream file("temp.rot.connections"); // Read
-	if(!file){
-		cout << "Could not open rounting file: temp.rot.connections" << endl;
-		return false;
-	}
-	
-	//Parse the file
-	int fileline=0, pxini, pyini, pzini, nrMov, net;
-	string str_tmp, str, typeMove, netName;
-	while(getline(file,str_tmp)) {
-		fileline++;
-		if(!str_tmp.size()) continue;
-		istrstream line(str_tmp.c_str());
-		line >> str;
-		if(upcase(str)=="NET"){
-			line >> netName;
-			while(line >> str){
-				net=netIndex[netName];
-				if(str=="("){
-					line >> pxini;
-					line >> pyini;				
-					line >> pzini;
-					line >> str;
-					pzini+=!teste;
-				}
-				else if(str=="["){
-					line >> nrMov;
-					line >> typeMove;
-					for(int x=0; x<nrMov; x++){
-						if(typeMove=="UP"){
-							rt.connect(net, rt.getPos(pxini, pyini, pzini), rt.getPos(pxini, pyini, pzini+1)); ++pzini;
-						}else if(typeMove=="DOWN"){
-							rt.connect(net, rt.getPos(pxini, pyini, pzini), rt.getPos(pxini, pyini, pzini-1)); --pzini;
-						}else if(typeMove=="EAST"){
-							rt.connect(net, rt.getPos(pxini, pyini, pzini), rt.getPos(pxini+1, pyini, pzini)); ++pxini;
-						}else if(typeMove=="WEST"){
-							rt.connect(net, rt.getPos(pxini, pyini, pzini), rt.getPos(pxini-1, pyini, pzini)); --pxini;
-						}else if(typeMove=="NORTH"){
-							rt.connect(net, rt.getPos(pxini, pyini, pzini), rt.getPos(pxini, pyini+1, pzini)); ++pyini;
-						}else if(typeMove=="SOUTH"){
-							rt.connect(net, rt.getPos(pxini, pyini, pzini), rt.getPos(pxini, pyini-1, pzini)); --pyini;
-						}
-					}
-					line >> str; // ]
-				}else return false;
-			}
-			
-		}else if(upcase(str)=="ERROR:"){
-			line >> str;
-			line >> netName;
-			cout << "Unable to route net: " << str << netName << endl;
-		}else return false;
-	}
-	rt.showResult();
-	return true;
+    readRoutingRotdl("temp.rot.connections");
 }
 
 int Router::getNrNets(int x, int y, int z){

@@ -24,7 +24,7 @@
 
 using namespace std;
 
-enum transType {PMOS, NMOS, NONE};
+enum transType {PMOS, NMOS};
 
 enum t_DGorS {DRAIN, GATE, SOURCE, GAP};
 
@@ -95,7 +95,7 @@ public:
 	void insertInstance(string instName, string subCircuit, vector<string> &ports);
 	map<string,Inst>& getInstances(){return instances;};
 	bool check();
-	bool folding(float pSize, float nSize);
+	void folding(float pSize, float nSize);
 	void insertTrans(string name, string d, string g, string s, transType t, float l, float w);
 	int size(){return trans.size();};
 	int pSize();

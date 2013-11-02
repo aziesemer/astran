@@ -466,7 +466,7 @@ void Pathfinder2::showResult(){
 bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if((*arc_it)->label==finalNet){
-			if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || (*arc_it)->node1==n2 && (*arc_it)->node2==n1)
+			if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
 				return true;
 		}
 	}
@@ -476,7 +476,7 @@ bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){
 int Pathfinder2::areConnected2(unsigned int n1, unsigned n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if((*arc_it)->label==finalNet){
-			if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || (*arc_it)->node1==n2 && (*arc_it)->node2==n1)
+			if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
 				return graph[n1].net;
 		}
 	}
@@ -485,7 +485,7 @@ int Pathfinder2::areConnected2(unsigned int n1, unsigned n2){
 
 bool Pathfinder2::connect(int net, unsigned int n1, unsigned n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
-		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || (*arc_it)->node1==n2 && (*arc_it)->node2==n1){
+		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1)){
 			(*arc_it)->label=finalNet;
 			if(graph[n1].net!=net){
 				graph[n1].net=net;
@@ -509,7 +509,7 @@ bool Pathfinder2::isSource(unsigned int x){
 
 int Pathfinder2::getArcCost(int n1, int n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
-		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || (*arc_it)->node1==n2 && (*arc_it)->node2==n1)
+		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
 			return (*arc_it)->cost;
 	}
 	return -1;
@@ -517,7 +517,7 @@ int Pathfinder2::getArcCost(int n1, int n2){
 
 int Pathfinder2::setArcCost(int n1, int n2, int cost){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
-		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || (*arc_it)->node1==n2 && (*arc_it)->node2==n1)
+		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
 			return (*arc_it)->cost=cost;
 	}
 	return -1;
@@ -526,7 +526,7 @@ int Pathfinder2::setArcCost(int n1, int n2, int cost){
 //Lock arc for specified net
 bool Pathfinder2::lockArc(int n1, int n2, int net){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
-		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || (*arc_it)->node1==n2 && (*arc_it)->node2==n1){
+		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1)){
 			(*arc_it)->lockNet=net;
 			return true;
 		}	

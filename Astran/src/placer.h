@@ -39,20 +39,20 @@ class Placer{
 	bool checkPlacement();
 
 	void setCircuit(Circuit* c){currentCircuit=c;};
-	bool checkWL();
-	bool incrementalPlacement(Router* rt, string lpSolverFile);
-	bool autoFlip();
-	bool setArea(int nrrows, float utilization);
+	void checkWL();
+	void incrementalPlacement(Router* rt, string lpSolverFile);
+	void autoFlip();
+	void setArea(int nrrows, float utilization);
 	int getNrRows(){return rows.size();};
 	float getNrSites(){return nrSites;};
 	float getUtilization();
 	int getVSize();
 	int getHSize();
-	bool placeInterfaceTerminals();
-	bool writeBookshelfFiles(string fileName, bool dotPLOnly);
-	bool writeCadende(string fileName);
-	bool readMangoParrotPlacement(string fileName);
-	bool readBookshelfPlacement(string fileName);
+	void placeInterfaceTerminals();
+	void writeBookshelfFiles(string fileName, bool dotPLOnly);
+	void writeCadende(string fileName);
+	void readMangoParrotPlacement(string fileName);
+	void readBookshelfPlacement(string fileName);
 };
 
 #endif

@@ -146,27 +146,38 @@ public:
 	} // end overloaed method
 }; // end class
 
+class AstranError{
+    string message;
+public:
+    AstranError(string msg){
+        this->message=msg;
+    }
+    string what(){
+        return message;
+    }
+};
+
 #if defined(_MSC_VER)
-	inline float round( const float f ) {
-		return floor( f + 0.5f );
-	} // end function
+inline float round( const float f ) {
+    return floor( f + 0.5f );
+} // end function
 
-	#if _MSC_VER == 1200
-		template< typename T > inline T min( const T &a, const T &b )
-		{ return ( a < b ) ? a : b; }
+#if _MSC_VER == 1200
+template< typename T > inline T min( const T &a, const T &b )
+{ return ( a < b ) ? a : b; }
 
-		template< typename T > inline T max( const T &a, const T &b )
-		{ return ( a > b ) ? a : b; }
+template< typename T > inline T max( const T &a, const T &b )
+{ return ( a > b ) ? a : b; }
 
-		#define for if( false ); else for // solves the variable redifinition problem on VC6
-	#else
-		#include <algorithm>
-		  using std::max;
-		  using std::min;
-	#endif
+#define for if( false ); else for // solves the variable redifinition problem on VC6
 #else
-	#define _popen popen
-	#define _pclose pclose
+#include <algorithm>
+using std::max;
+using std::min;
+#endif
+#else
+#define _popen popen
+#define _pclose pclose
 #endif
 
 #endif

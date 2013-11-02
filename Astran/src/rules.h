@@ -202,8 +202,8 @@ public:
 	void setResolution(int r) {resolution=r;};
 	unsigned int getScale() {return resolution;};
 
-	bool readRules(string filename);
-	bool saveRules (string filename);
+	void readRules(string filename);
+	void saveRules (string filename);
 	bool saveCIFLayerTable(string filename);
 	bool saveGDSIILayerTable(string filename);
 	

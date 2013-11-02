@@ -44,14 +44,14 @@ class Router{
 	void addNodetoNet(string net, unsigned int p);
 	void addNodetoNet(int net, unsigned int node);	
 	unsigned int searchNet(string net);
-	bool setup(int sX, int sY, int sZ);
-	bool route(int effort);
-	bool optimize();
-	bool rotdl(string path);
-	bool compactLayout(string lpSolverFile);
+	void setup(int sX, int sY, int sZ);
+	void route(int effort);
+	void optimize();
+	void rotdl(string path);
+	void compactLayout(string lpSolverFile);
 	int getNrNets(int x, int y, int z);
-	int saveRoutingRotdl(string fileName);
-	bool readRoutingRotdl(string fileName);
+	void saveRoutingRotdl(string fileName);
+	void readRoutingRotdl(string fileName);
 };
 
 #endif

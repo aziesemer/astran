@@ -82,7 +82,7 @@ class Circuit {
 	int getBMargin(){return c2bMargin;};
 	CLayout* getLayout(string n);
 	map<string, CLayout>* getLayouts(){return &layouts;};
-	bool insertCell(CellNetlst& tmp);
+	void insertCell(CellNetlst& tmp);
 	bool insertLayout(CLayout& tmp);
 	bool insertEquation(string cellName, string& tmp);
 	bool insertInterface(string name, direction orient, IOType type, int posx, int posy);
@@ -97,10 +97,10 @@ class Circuit {
 	map<string, string>* getEquations(){return &equations;};
 	void setCellsHeight(unsigned int h) { cellsHeight=h;};
 
-	bool writeCellSizesFile(string filename);
-	bool printInterface(string net);
-	bool printNet(string net);
-	bool printInstance(CLayout* l, string instance);
+	void writeCellSizesFile(string filename);
+	void printInterface(string net);
+	void printNet(string net);
+	void printInstance(CLayout* l, string instance);
 	void calculateCellsPins();
 
 //	void printCells();

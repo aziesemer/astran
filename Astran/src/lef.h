@@ -45,8 +45,8 @@ class Lef{
 	void readPin(CellNetlst& c, string name, CLayout& layout);
 	void readMacro(CellNetlst& c, CLayout& tmp);
 	void readUnits();
-	bool readFile(string nome, Circuit& c, bool rTech);
-	bool saveFile(string nome, Circuit& c);
+	void readFile(string nome, Circuit& c, bool rTech);
+	void saveFile(string nome, Circuit& c);
 };
 
 #endif

@@ -78,12 +78,11 @@ CLayout* Circuit::getLayout(string n){
 		return NULL;
 }
 
-bool Circuit::insertCell(CellNetlst& tmp){
+void Circuit::insertCell(CellNetlst& tmp){
 	map<string,CellNetlst>::iterator cells_it=cellNetlsts.find(tmp.getName());
-	//	if(cells_it!=cellNetlsts.end())
-	//		cout << "Cell netlist " << tmp.getName() << " already exists. Overwriting..." << endl;
+    if(cells_it!=cellNetlsts.end())
+		cout << "Overwriting cell netlist: " << tmp.getName() << endl;
 	cellNetlsts[tmp.getName()]=tmp;
-	return true;
 }
 
 bool Circuit::insertEquation(string cellName, string& tmp){
@@ -104,28 +103,26 @@ bool Circuit::insertInterface(string name, direction orient, IOType type, int po
 	return true;
 }
 
-void clear(){
-}
 /*
-bool Circuit::promoteCell2Top(string cellName){
-	CLayout instances(currentCircuit->getTopCell() + "_PL");
-	insertLayout(instances);
-	
-	CellNetlst* cell=getCellNetlst(cellName);
-	if(cell){
-		for(int c=0; c<cell->getInouts().size(); ++c)
-			insertInterface(cell->getNetName(cell->getInouts()[c]), N, cell->getIOType(c), 0, 0);
-		for(map<string,Inst>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
-			list<string> inouts;
-			for(int c=0; c<inst_it->second.ports.size(); ++c)
-				inouts.push_back(cell->getNetName(inst_it->second.ports[c]));
-			insertInstance(currentCircuit->getTopCell() + "_PL", inst_it->first, inst_it->second.subCircuit, inouts);
-		}
-		return true;
-	}
-	return false;
-}
-*/
+ bool Circuit::promoteCell2Top(string cellName){
+ CLayout instances(currentCircuit->getTopCell() + "_PL");
+ insertLayout(instances);
+ 
+ CellNetlst* cell=getCellNetlst(cellName);
+ if(cell){
+ for(int c=0; c<cell->getInouts().size(); ++c)
+ insertInterface(cell->getNetName(cell->getInouts()[c]), N, cell->getIOType(c), 0, 0);
+ for(map<string,Inst>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
+ list<string> inouts;
+ for(int c=0; c<inst_it->second.ports.size(); ++c)
+ inouts.push_back(cell->getNetName(inst_it->second.ports[c]));
+ insertInstance(currentCircuit->getTopCell() + "_PL", inst_it->first, inst_it->second.subCircuit, inouts);
+ }
+ return true;
+ }
+ return false;
+ }
+ */
 
 /*
  void Circuit::printCells(){
@@ -163,87 +160,78 @@ CellNetlst Circuit::getFlattenCell(string name){
 	return tmp;
 }
 
-bool Circuit::printInterface(string net){
+void Circuit::printInterface(string net){
 	map<string, Interface>::iterator interface_it=interfaces.find(net);
-	if(interface_it!=interfaces.end()){
-		cout << "Interface: " <<  net << " => Orientation: ";
-		switch(interface_it->second.orient){
-			case N: cout << "N"; break;
-			case S: cout << "S"; break;
-			case W: cout << "W"; break;
-			case E: cout << "E"; break;
-		}
-		cout << "; Type: ";
-		switch(interface_it->second.ioType){
-			case IOTYPE_INPUT: cout << "INPUT"; break;
-			case IOTYPE_OUTPUT: cout << "OUTPUT"; break;
-			case IOTYPE_INOUT: cout << "INOUT"; break;
-		}
-		cout << "; Position: (" << interface_it->second.pos.getX() << "," <<  interface_it->second.pos.getY() << ")";
-		cout << endl;
-		return true;
-	}
-	else
-		return false;
+	if(interface_it==interfaces.end())
+        throw AstranError("Could not find interface: " + net);
+    
+    cout << "Interface: " <<  net << " => Orientation: ";
+    switch(interface_it->second.orient){
+        case N: cout << "N"; break;
+        case S: cout << "S"; break;
+        case W: cout << "W"; break;
+        case E: cout << "E"; break;
+    }
+    cout << "; Type: ";
+    switch(interface_it->second.ioType){
+        case IOTYPE_INPUT: cout << "INPUT"; break;
+        case IOTYPE_OUTPUT: cout << "OUTPUT"; break;
+        case IOTYPE_INOUT: cout << "INOUT"; break;
+    }
+    cout << "; Position: (" << interface_it->second.pos.getX() << "," <<  interface_it->second.pos.getY() << ")";
+    cout << endl;
 }
 
-bool Circuit::printInstance(CLayout* l, string instance){
+void Circuit::printInstance(CLayout* l, string instance){
 	Instance *currentInstance = l->getInstance(instance);
-	if(currentInstance){
-		cout << "Instance: " <<  instance << " => " << currentInstance->getTargetCell() << endl;
-		currentInstance->print();
-		cout << "Pins Assignment (Global Net->Pin): ";
-/*		map<string, list<Net> >::iterator netList_it;
-		for(netList_it=netList.begin(); netList_it!=netList.end(); netList_it++)
-			for(tmp_it=netList_it->second.begin(); tmp_it!=netList_it->second.end(); tmp_it++)
-				if(tmp_it->targetCellInst==instance)
-					cout << " (" << netList_it->first << "->" << tmp_it->targetPin << ") ";
-		cout << endl;
-*/		return true;
-	}
-	else cout << "Instance " << instance << " not found";
-	return false;
+	if(!currentInstance)
+        throw AstranError("Instance " + instance + " not found");
+    
+    cout << "Instance: " <<  instance << " => " << currentInstance->getTargetCell() << endl;
+    currentInstance->print();
+    cout << "Pins Assignment (Global Net->Pin): ";
+    /*		map<string, list<Net> >::iterator netList_it;
+     for(netList_it=netList.begin(); netList_it!=netList.end(); netList_it++)
+     for(tmp_it=netList_it->second.begin(); tmp_it!=netList_it->second.end(); tmp_it++)
+     if(tmp_it->targetCellInst==instance)
+     cout << " (" << netList_it->first << "->" << tmp_it->targetPin << ") ";
+     cout << endl;
+     */
 }
 
-bool Circuit::printNet(string net){
-/*	map<string, list<Net> >::iterator netList_it=netList.find(net);
-	list<Net>::iterator tmp_it;
-	if(netList_it!=netList.end()){
-		cout << "Net: " <<  netList_it->first << " -> ";
-		for(tmp_it=netList_it->second.begin(); tmp_it!=netList_it->second.end(); tmp_it++)
-			cout << "(" << tmp_it->targetCellInst << "," << tmp_it->targetPin << ") ";
-		cout << endl;
-		return true;
-	}
-	else
-*/		return false;
+void Circuit::printNet(string net){
+    /*	map<string, list<Net> >::iterator netList_it=netList.find(net);
+     list<Net>::iterator tmp_it;
+     if(netList_it!=netList.end()){
+     cout << "Net: " <<  netList_it->first << " -> ";
+     for(tmp_it=netList_it->second.begin(); tmp_it!=netList_it->second.end(); tmp_it++)
+     cout << "(" << tmp_it->targetCellInst << "," << tmp_it->targetPin << ") ";
+     cout << endl;
+     return true;
+     }
+     else
+     */
 }
 
-bool Circuit::writeCellSizesFile(string filename){
-	bool ok=true;
+void Circuit::writeCellSizesFile(string filename){
 	ofstream file;
 	file.open(filename.c_str()); // Write
 	
-	if ((!file)){
-		cout << "ERROR:File <" << filename << "> could not be created" << endl;
-		ok=false;
-	}else{
-		map<string,CellNetlst>::iterator cells_it;
-		for(cells_it=cellNetlsts.begin(); cells_it!=cellNetlsts.end(); cells_it++){
-			CLayout* l=getLayout(cells_it->first);
-			if(l){
-				file << cells_it->first << endl;
-				file << l->getWidth()/currentRules->getIntValue(getHPitch()) << endl;
-				file << l->getHeight()/currentRules->getIntValue(getVPitch()) << endl;
-			}else{
-				cout << "Cell Layout " << cells_it->first << " not found"<< endl;
-				ok=false;
-			}
-		}
-	}
-	file.close();
-	return ok;
+	if ((!file))
+        throw AstranError("Could not save file: " + filename);
+    
+    map<string,CellNetlst>::iterator cells_it;
+    for(cells_it=cellNetlsts.begin(); cells_it!=cellNetlsts.end(); cells_it++){
+        CLayout* l=getLayout(cells_it->first);
+        if(!l)
+            throw AstranError("Cell Layout " + cells_it->first + " not found");
+        
+        file << cells_it->first << endl;
+        file << l->getWidth()/currentRules->getIntValue(getHPitch()) << endl;
+        file << l->getHeight()/currentRules->getIntValue(getVPitch()) << endl;
+    }
 }
+
 
 /*
  bool Circuit::checkCells(){
@@ -301,7 +289,7 @@ void Circuit::calculateCellsPins(){
 						layouts_it->second.addLabel(connectedNet, Point(x, y));
 					} else if(!(connectedNet=="none" && aroundNet=="none")){
 						layouts_it->second.getPins().insert(make_pair("bl",p));
-//						layouts_it->second.addLabel("bl", Point(x, y));
+                        //						layouts_it->second.addLabel("bl", Point(x, y));
 					}
 				} 
 			}

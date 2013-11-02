@@ -48,7 +48,7 @@ void Pathfinder::setSize(int sX, int sY, int sZ){
 
 //Add a new node to the net
 bool Pathfinder::addNodetoNet(int net, int node){
-	if(net>0 & !graph[node].net){
+	if((net>0) & !graph[node].net){
 		netlist[net].nodes.push_back(node);
 		netlist[net].netTree.push_back(node);
 		netlist[net].conflict=false;
@@ -155,7 +155,7 @@ bool Pathfinder::aStar(map<int,t_nets>::iterator& net, list<int>& targetNodes){
 	return false;
 }
 
-bool Pathfinder::routeNets(int nrAttempts){
+void Pathfinder::routeNets(int nrAttempts){
 	list<int> targetNodes;
 	map<int,t_nets>::iterator nets_it;
 	list<int>::iterator netTree_it;
@@ -245,7 +245,8 @@ bool Pathfinder::routeNets(int nrAttempts){
 		cout << actualAttempt << " attempts."<< endl;
 		showResult();
 	}
-	return(targetNodes.empty() && !conflicts);
+	if(!targetNodes.empty() || conflicts)
+        throw AstranError("Could not finish routing");
 }
 
 
@@ -267,8 +268,7 @@ rt_dir Pathfinder::dirFromPos(int antPos, int pos){
 	return dirR;
 }
 
-bool Pathfinder::optimize(){
-	return true;
+void Pathfinder::optimize(){
 }
 
 void Pathfinder::pqAddto(t_tmp& actualNode, priority_queue<t_tmp>& pq, const int& targetNet, list<int>& targetNodes, rt_dir direction){

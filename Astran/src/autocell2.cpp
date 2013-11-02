@@ -60,7 +60,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
     return &elements.back();
 }
 
-bool AutoCell::calcArea(Circuit* c) {
+void AutoCell::calcArea(Circuit* c) {
     currentCircuit = c;
     currentRules = currentCircuit->getRules();
     
@@ -114,51 +114,54 @@ bool AutoCell::calcArea(Circuit* c) {
     pSize = pDif_endY - pDif_iniY;
     
     //   cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
-    return state++;
+    state++;
 }
 
-bool AutoCell::selectCell(string c) {
-    if (state < 1) return 0;
+void AutoCell::selectCell(string c) {
+    if (state < 1)
+        throw AstranError("Calculate area first");
+    
     state = 1;
     
-    if ((currentCell = currentCircuit->getCellNetlst(c))) {
-        cout << "-> Selecting cell netlist: " << currentCell->getName() << endl;
-        currentNetList.clear();
-        currentNetList = currentCircuit->getFlattenCell(c);
-        state = 2;
-    }
-    return state == 2;
+    currentCell = currentCircuit->getCellNetlst(c);
+    if (!currentCell)
+        throw AstranError("Could not find cell netlist: " + c);
+    
+    cout << "-> Selecting cell netlist: " << currentCell->getName() << endl;
+    currentNetList.clear();
+    currentNetList = currentCircuit->getFlattenCell(c);
+    state++;
 }
 
-bool AutoCell::foldTrans() {
+void AutoCell::foldTrans() {
     cout << "-> Applying folding..." << endl;
-    if (state < 2) return 0;
+    if (state < 2)         
+        throw AstranError("Select the cell first");
+    
     state = 2;
     cout << "-> Number of transistors before folding: " << currentCell->size() << " -> P(" << currentCell->pSize() << ") N(" << currentCell->nSize() << ")" << endl;
-    if (currentNetList.folding(float(pSize) / currentRules->getScale(), float(nSize) / currentRules->getScale())) {
-        cout << "-> Number of transistors after folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
-        state = 3;
-    }
-    
-    
-    return state == 3;
+    currentNetList.folding(float(pSize) / currentRules->getScale(), float(nSize) / currentRules->getScale());
+    cout << "-> Number of transistors after folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
+    state++;
 }
 
-bool AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
+void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
     cout << "-> Placing transistors..." << endl;
-    if (state < 3) return 0;
+    if (state < 3)
+        throw AstranError("Fold the transistors first");
     state = 3;
-    if (currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) {
-        state++;
-        return true;
-    }
-    return false;
+    
+    if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) 
+        throw AstranError("Could not place the transistors");
+    
+    state++;
 }
 
-bool AutoCell::route(bool hPoly) {
+void AutoCell::route(bool hPoly) {
     cout << "-> Routing cell..." << endl;
     printGraph();
-    if (state < 4) return 0;
+    if (state < 4)
+        throw AstranError("Place the transistors first");
     state = 4;
     
     this->hPoly=hPoly;
@@ -377,19 +380,18 @@ bool AutoCell::route(bool hPoly) {
     for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
         rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
     
-
-    if (rt->routeNets(8000) && rt->optimize()) {
-        rt->showResult();
-        state = 5;
-    } else {
-        cout << "** Unable to route this circuit" << endl;
-    }
-    return state == 5;
+    
+    if (!rt->routeNets(8000) || !rt->optimize())
+        throw AstranError("Unable to route this circuit");
+    
+    rt->showResult();
+    state = 5;
 }
 
-bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
+void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
     cout << "-> Compacting layout..." << endl;
-    if (state < 5) return 0;
+    if (state < 5) 
+        throw AstranError("Route the cell first");
     state = 5;
     
     this->diffStretching=diffStretching;
@@ -628,10 +630,8 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     cpt.forceIntegerVar("width_gpos");
     cpt.insertLPMinVar("width", 5000);
     
-    if (!cpt.solve(lpSolverFile)) {
-        cout << "** Unable to compact" << endl;
-        return false;
-    }
+    if (!cpt.solve(lpSolverFile))
+        throw AstranError("Unable to execute ILP solver");
     
     for (int i = 0; i < geometries.size(); i++) {
         
@@ -777,8 +777,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     //	currentLayout.merge();
     currentCircuit->insertLayout(currentLayout);
     cout << "** Cell Size (W x H): " << float(currentLayout.getWidth()) / currentRules->getScale() << " x " << float(currentLayout.getHeight()) / currentRules->getScale() << endl;
-    state = 6;
-    return state == 6;
+    state++;
 }
 
 
@@ -807,7 +806,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     if (lastGate != ""){
         cpt.insertConstraint("x" + lastGate + "b", "x" + currentPolTrack[gateIni] + "a", CP_MIN, currentRules->getRule(S2P1P1));
         if(transLength > currentRules->getRule(S2P1P1_1) || lastGateLength > currentRules->getRule(S2P1P1_1))
-           cpt.insertConstraint("x" + lastGate + "b", "x" + currentPolTrack[gateIni] + "a", CP_MIN, currentRules->getRule(S2P1P1_2));
+            cpt.insertConstraint("x" + lastGate + "b", "x" + currentPolTrack[gateIni] + "a", CP_MIN, currentRules->getRule(S2P1P1_2));
     }
     
     //poly distance to active region

@@ -251,7 +251,7 @@ bool CellNetlst::check(){
 	return true;
 }
 
-bool CellNetlst::folding(float pSize, float nSize){
+void CellNetlst::folding(float pSize, float nSize){
 	orderingP.clear();
 	orderingN.clear();
 	for(int c=0; c<trans.size(); c++){
@@ -278,7 +278,6 @@ bool CellNetlst::folding(float pSize, float nSize){
 				break;
 		}
 	}
-	return true;
 }
 
 void CellNetlst::insertTrans(string name, string d, string g, string s, transType t, float l, float w){

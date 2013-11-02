@@ -74,13 +74,11 @@ void Lef::readUnits(){ // corrigir
 	//	}
 }
 
-bool Lef::saveFile(string nome, Circuit& c){
+void Lef::saveFile(string nome, Circuit& c){
 	ofstream outfile;
 	outfile.open(nome.c_str());
-	if(!outfile.is_open()){
-		cout << "\tLEF file could not be opened" << endl;
-		return false;
-	}
+	if(!outfile.is_open())
+        throw AstranError("Could not save LEF file: " + nome);
 	
 	outfile << setiosflags(ios::fixed) << setprecision(3);
 	outfile << "VERSION 5.4 ;\n";
@@ -150,17 +148,14 @@ bool Lef::saveFile(string nome, Circuit& c){
 			outfile << "END " << cells_it->first << "\n";
 		}
 	}
-	return true;
 }
 
-bool Lef::readFile(string nome, Circuit& c, bool rTech){
+void Lef::readFile(string nome, Circuit& c, bool rTech){
 	readTech=rTech;
 	currentRules=c.getRules() ;
 	arq.open(nome.c_str());
-	if(!arq.is_open()){
-		cout << "\tLEF file could not be opened" << endl;
-		return false;
-	}
+	if(!arq.is_open())
+        throw AstranError("Could not open LEF file: " + nome);
 	
 	string str_tmp;
 	vector<string> words;
@@ -183,9 +178,6 @@ bool Lef::readFile(string nome, Circuit& c, bool rTech){
 		else if(words[0]=="UNITS") readUnits();
 		else if(words[0]=="MANUFACTURINGGRID") manufGrid=int(1/atof(words[1].c_str()));
 	}
-	arq.close();
-	
-	return true;
 }
 
 int Lef::readLine(vector<string>& words){

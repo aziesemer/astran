@@ -37,12 +37,10 @@ void Rules::setSOI(string newSOI){
 	layer_labels_lst[SOI].valCIF = newSOI;
 }
 
-bool Rules::readRules(string filename) {
+void Rules::readRules(string filename) {
 	ifstream file(filename.c_str()); // Read
-	if ((!file)){
-		cout << "\t-> Rules file " << filename << " could not be opened" << endl;
-		return(false);
-	}
+	if ((!file))
+		throw AstranError("Rules file " + filename + " could not be opened");
 	
 	//Search for the rules
 	int i=0, fileline=0;
@@ -85,21 +83,16 @@ bool Rules::readRules(string filename) {
 		}
 	}
 	
-	if(resolution==0){
-		cout << "\t-> Rule MINSTEP (Define the resolution of the technology) or CIFMET were not found" << endl;
-		return false;
-	}
-	return true;
+	if(resolution==0)
+		throw AstranError("Mandatory rule MINSTEP (Defines the technology resolution) was not set");
 }
 
-bool Rules::saveRules(string filename) {
+void Rules::saveRules(string filename) {
 	ofstream file_out;
 	file_out.open(filename.c_str());
 
-	if (file_out.fail()){
-		cerr << "Cannot save rules to file\n";
-		return false;
-	}
+	if (file_out.fail())
+        throw AstranError("Could not save rules to file: " + filename);
 
 	printHeader(file_out, "* ", "");
 
@@ -132,8 +125,6 @@ bool Rules::saveRules(string filename) {
 	}
 
 	file_out.close();
-
-	return true;
 }
 
 bool Rules::saveGDSIILayerTable(string filename) {

@@ -26,8 +26,8 @@ private:
 	float getFactor(char s);
 
 public:
-	bool readFile(string nome, Circuit& netlist, bool reading_cadence);
-	bool saveFile(string filename, Circuit& netList);
+	void readFile(string nome, Circuit& netlist, bool reading_cadence);
+	void saveFile(string filename, Circuit& netList);
 };
 
 #endif

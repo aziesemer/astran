@@ -26,15 +26,14 @@ void CLayout::setPin(string name, Pin p){
 	pins.insert(make_pair(name,p));
 }
 
-bool CLayout::placeCell(string instanceName, int posX, int posY, bool mx, bool my){
+void CLayout::placeCell(string instanceName, int posX, int posY, bool mx, bool my){
 	Instance *currentInstance=getInstance(instanceName);
-	if(currentInstance){
-			currentInstance->setPos(posX, posY);
-			currentInstance->setMX(mx);
-			currentInstance->setMY(my);
-			return true;
-	}else cout << "Error placing instance " << instanceName << ". Instance not found!";	
-	return false;
+	if(!currentInstance)
+        throw AstranError("Instance not found: " + instanceName);
+    
+    currentInstance->setPos(posX, posY);
+    currentInstance->setMX(mx);
+    currentInstance->setMY(my);
 }
 
 
