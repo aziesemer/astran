@@ -61,11 +61,11 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
 }
 
 void AutoCell::calcArea(Circuit* c) {
+    state = 0;
     currentCircuit = c;
     currentRules = currentCircuit->getRules();
     
     cout << "-> Calculating cell area..." << endl;
-    state = 0;
     
     vGrid = currentRules->getIntValue(currentCircuit->getVPitch());
     hGrid = currentRules->getIntValue(currentCircuit->getHPitch());
@@ -118,11 +118,7 @@ void AutoCell::calcArea(Circuit* c) {
 }
 
 void AutoCell::selectCell(string c) {
-    if (state < 1)
-        throw AstranError("Calculate area first");
-    
-    state = 1;
-    
+    checkState(1);
     currentCell = currentCircuit->getCellNetlst(c);
     if (!currentCell)
         throw AstranError("Could not find cell netlist: " + c);
@@ -134,11 +130,8 @@ void AutoCell::selectCell(string c) {
 }
 
 void AutoCell::foldTrans() {
+    checkState(2);
     cout << "-> Applying folding..." << endl;
-    if (state < 2)         
-        throw AstranError("Select the cell first");
-    
-    state = 2;
     cout << "-> Number of transistors before folding: " << currentCell->size() << " -> P(" << currentCell->pSize() << ") N(" << currentCell->nSize() << ")" << endl;
     currentNetList.folding(float(pSize) / currentRules->getScale(), float(nSize) / currentRules->getScale());
     cout << "-> Number of transistors after folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
@@ -146,11 +139,8 @@ void AutoCell::foldTrans() {
 }
 
 void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
+    checkState(3);
     cout << "-> Placing transistors..." << endl;
-    if (state < 3)
-        throw AstranError("Fold the transistors first");
-    state = 3;
-    
     if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) 
         throw AstranError("Could not place the transistors");
     
@@ -158,11 +148,9 @@ void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
 }
 
 void AutoCell::route(bool hPoly) {
+    checkState(4);
     cout << "-> Routing cell..." << endl;
     printGraph();
-    if (state < 4)
-        throw AstranError("Place the transistors first");
-    state = 4;
     
     this->hPoly=hPoly;
     // CALCULATE THE NR OF INTERNAL TRACKS
@@ -389,11 +377,8 @@ void AutoCell::route(bool hPoly) {
 }
 
 void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool test) {
+    checkState(5);
     cout << "-> Compacting layout..." << endl;
-    if (state < 5) 
-        throw AstranError("Route the cell first");
-    state = 5;
-    
     this->diffStretching=diffStretching;
     this->griddedPoly=griddedPoly;
     this->rdCntsCost=rdCntsCost;
@@ -1283,3 +1268,16 @@ void AutoCell::printGraph() {
     }
 }
 
+
+void AutoCell::checkState(int nextState){
+    if(state<nextState){
+        switch(state){
+            case 0: throw AstranError("Select the cell first");
+            case 1: throw AstranError("Calculate area first");
+            case 2: throw AstranError("Fold the transistors first");
+            case 3: throw AstranError("Place the transistors first");
+            case 4: throw AstranError("Route the cell first");
+        }
+    }
+    state=nextState;
+}

@@ -719,7 +719,7 @@ bool DesignMng::readCommand(string cmd){
             }
         }
     } catch (AstranError& e){
-        cout << "Error: " << e.what() << endl;
+        cout << "** ERROR: " << e.what() << endl;
         return false;
     }
     return true;

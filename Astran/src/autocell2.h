@@ -100,6 +100,7 @@ protected:
     void insertDistanceRuleInteligent(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, layer_name l);
     void insertDistanceRuleInteligent2(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, int minDist, string booleanFlag);
     void insertDistanceRuleDumb(vector<Box*> &geometries, compaction &cpt, string last, string current, int minDist, HorV dir, layer_name l);
+    void checkState(int nextState);
 
     public:
 	AutoCell();
