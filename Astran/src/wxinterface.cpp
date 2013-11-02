@@ -219,6 +219,21 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	#endif
 	menu_view->Append( view_preferences );
 	
+	menu_size = new wxMenu();
+	wxMenuItem* size_fo4;
+	size_fo4 = new wxMenuItem( menu_size, wxID_ANY, wxString( wxT("FO4 Method") ) , wxEmptyString, wxITEM_NORMAL );
+	menu_size->Append( size_fo4 );
+	
+	wxMenuItem* size_gp;
+	size_gp = new wxMenuItem( menu_size, wxID_ANY, wxString( wxT("GP Method") ) , wxEmptyString, wxITEM_NORMAL );
+	menu_size->Append( size_gp );
+	
+	wxMenuItem* m_menuItem47;
+	m_menuItem47 = new wxMenuItem( menu_size, wxID_ANY, wxString( wxT("Elmore Delay") ) , wxEmptyString, wxITEM_NORMAL );
+	menu_size->Append( m_menuItem47 );
+	
+	menu_view->Append( -1, wxT("Size"), menu_size );
+	
 	barra_menu->Append( menu_view, wxT("View") ); 
 	
 	menu_cells = new wxMenu();
@@ -473,6 +488,9 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Connect( view_rules->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showTech ) );
 	this->Connect( view_circuit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showCircuit ) );
 	this->Connect( view_preferences->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showPreferences ) );
+	this->Connect( size_fo4->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::sizeFO4 ) );
+	this->Connect( size_gp->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::sizeGP ) );
+	this->Connect( m_menuItem47->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::elmoreDelay ) );
 	this->Connect( netlist_cellgen->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showCellgen ) );
 	this->Connect( netlist_calcPinsPos->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::calcPinsPos ) );
 	this->Connect( place_spec_fp->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showFP ) );
@@ -554,6 +572,9 @@ ICPD_frm::~ICPD_frm()
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showTech ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showCircuit ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showPreferences ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::sizeFO4 ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::sizeGP ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::elmoreDelay ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showCellgen ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::calcPinsPos ) );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( ICPD_frm::showFP ) );
@@ -631,6 +652,21 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	select_button = new wxButton( this, wxID_ANY, wxT("&Select"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( select_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
+	m_staticline16 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline16, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline17 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline17, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline18 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline18, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline19 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline19, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline20 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline20, 0, wxEXPAND | wxALL, 5 );
+	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
@@ -647,6 +683,21 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fold_button = new wxButton( this, wxID_ANY, wxT("&Fold Tr."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( fold_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	m_staticline11 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline11, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline12 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline12, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline13 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline13, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline14 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline14, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline15 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline15, 0, wxEXPAND | wxALL, 5 );
 	
 	static_widcost = new wxStaticText( this, wxID_ANY, wxT("Width Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_widcost->Wrap( -1 );
@@ -722,6 +773,21 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	place_button = new wxButton( this, wxID_ANY, wxT("&Place Tr."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( place_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
+	m_staticline6 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline6, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline7 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline7, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline8 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline8, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline9 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline9, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline10 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline10, 0, wxEXPAND | wxALL, 5 );
+	
 	static_metal = new wxStaticText( this, wxID_ANY, wxT("Horiz. Poly:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_metal->Wrap( -1 );
 	fgSizer6->Add( static_metal, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
@@ -738,6 +804,21 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	route_button = new wxButton( this, wxID_ANY, wxT("&Route"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( route_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	m_staticline1 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline1, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline2 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline2, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline3 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline3, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline4 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline4, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline5 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline5, 0, wxEXPAND | wxALL, 5 );
 	
 	static_ds = new wxStaticText( this, wxID_ANY, wxT("Diff. Stretching:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_ds->Wrap( -1 );
@@ -782,6 +863,22 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	alignDiffCnts->SetValue(true); 
 	fgSizer6->Add( alignDiffCnts, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
+	m_staticText70 = new wxStaticText( this, wxID_ANY, wxT("Enable DFM Rules:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText70->Wrap( -1 );
+	fgSizer6->Add( m_staticText70, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	enableDFM = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( enableDFM, 0, wxALL, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
 	m_staticText65 = new wxStaticText( this, wxID_ANY, wxT("Debug (no constrains):"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText65->Wrap( -1 );
 	fgSizer6->Add( m_staticText65, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
@@ -791,6 +888,33 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	compact_button = new wxButton( this, wxID_ANY, wxT("&Compact Layout"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( compact_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	m_staticline21 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline21, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline22 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline22, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline23 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline23, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline24 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline24, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline25 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer6->Add( m_staticline25, 0, wxEXPAND | wxALL, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	view_button = new wxButton( this, wxID_ANY, wxT("&View Layout"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( view_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -1481,5 +1605,132 @@ Help_About::~Help_About()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( Help_About::hide ) );
+	
+}
+
+View_PrintGP::View_PrintGP( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	static_design1 = new wxStaticText( this, wxID_ANY, wxT("Optimize:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design1->Wrap( -1 );
+	fgSizer6->Add( static_design1, 0, wxALL, 5 );
+	
+	wxString optimize_choiceChoices[] = { wxT("delay"), wxT("area") };
+	int optimize_choiceNChoices = sizeof( optimize_choiceChoices ) / sizeof( wxString );
+	optimize_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, optimize_choiceNChoices, optimize_choiceChoices, 0 );
+	optimize_choice->SetSelection( 0 );
+	fgSizer6->Add( optimize_choice, 0, wxALL, 5 );
+	
+	static_design13 = new wxStaticText( this, wxID_ANY, wxT("Sizing Type:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design13->Wrap( -1 );
+	fgSizer6->Add( static_design13, 0, wxALL, 5 );
+	
+	wxString sizingtype_choiceChoices[] = { wxT("transistor"), wxT("gate") };
+	int sizingtype_choiceNChoices = sizeof( sizingtype_choiceChoices ) / sizeof( wxString );
+	sizingtype_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, sizingtype_choiceNChoices, sizingtype_choiceChoices, 0 );
+	sizingtype_choice->SetSelection( 0 );
+	fgSizer6->Add( sizingtype_choice, 0, wxALL, 5 );
+	
+	static_design12 = new wxStaticText( this, wxID_ANY, wxT("Technology:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design12->Wrap( -1 );
+	fgSizer6->Add( static_design12, 0, wxALL, 5 );
+	
+	wxString technology_choiceChoices[] = { wxT("45nm"), wxT("350nm") };
+	int technology_choiceNChoices = sizeof( technology_choiceChoices ) / sizeof( wxString );
+	technology_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, technology_choiceNChoices, technology_choiceChoices, 0 );
+	technology_choice->SetSelection( 0 );
+	fgSizer6->Add( technology_choice, 0, wxALL, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	static_design11 = new wxStaticText( this, wxID_ANY, wxT("Parameters:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design11->Wrap( -1 );
+	fgSizer6->Add( static_design11, 0, wxALL, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	static_design112 = new wxStaticText( this, wxID_ANY, wxT("Cload:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design112->Wrap( -1 );
+	fgSizer6->Add( static_design112, 0, wxALL, 5 );
+	
+	parameterCload = new wxTextCtrl( this, wxID_ANY, wxT("4*1.434879e-16"), wxDefaultPosition, wxDefaultSize, 0 );
+	parameterCload->SetMaxLength( 0 ); 
+	fgSizer6->Add( parameterCload, 0, wxALL, 5 );
+	
+	static_design111 = new wxStaticText( this, wxID_ANY, wxT("Max Area:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design111->Wrap( -1 );
+	fgSizer6->Add( static_design111, 0, wxALL, 5 );
+	
+	parameterMaxArea = new wxTextCtrl( this, wxID_ANY, wxT("3.255"), wxDefaultPosition, wxDefaultSize, 0 );
+	parameterMaxArea->SetMaxLength( 0 ); 
+	fgSizer6->Add( parameterMaxArea, 0, wxALL, 5 );
+	
+	static_design1111 = new wxStaticText( this, wxID_ANY, wxT("Max Delay:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design1111->Wrap( -1 );
+	fgSizer6->Add( static_design1111, 0, wxALL, 5 );
+	
+	parameterDelay = new wxTextCtrl( this, wxID_ANY, wxT("4.29113e-10"), wxDefaultPosition, wxDefaultSize, 0 );
+	parameterDelay->SetMaxLength( 0 ); 
+	fgSizer6->Add( parameterDelay, 0, wxALL, 5 );
+	
+	static_design11111 = new wxStaticText( this, wxID_ANY, wxT("Max Cin:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_design11111->Wrap( -1 );
+	fgSizer6->Add( static_design11111, 0, wxALL, 5 );
+	
+	parameterMaxCin = new wxTextCtrl( this, wxID_ANY, wxT("1.0001"), wxDefaultPosition, wxDefaultSize, 0 );
+	parameterMaxCin->SetMaxLength( 0 ); 
+	fgSizer6->Add( parameterMaxCin, 0, wxALL, 5 );
+	
+	ok_button = new wxButton( this, wxID_ANY, wxT("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( ok_button, 0, wxALL, 5 );
+	
+	cancel_button = new wxButton( this, wxID_ANY, wxT("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( cancel_button, 0, wxALL, 5 );
+	
+	
+	this->SetSizer( fgSizer6 );
+	this->Layout();
+	
+	// Connect Events
+	parameterCload->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterCload->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	parameterMaxArea->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterMaxArea->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	parameterDelay->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterDelay->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	parameterMaxCin->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterMaxCin->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	ok_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( View_PrintGP::okButtonEvt ), NULL, this );
+	ok_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	cancel_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( View_PrintGP::cancelButtonEvt ), NULL, this );
+	cancel_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+}
+
+View_PrintGP::~View_PrintGP()
+{
+	// Disconnect Events
+	parameterCload->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterCload->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	parameterMaxArea->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterMaxArea->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	parameterDelay->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterDelay->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	parameterMaxCin->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	parameterMaxCin->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( View_PrintGP::applyButtonEvt ), NULL, this );
+	ok_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( View_PrintGP::okButtonEvt ), NULL, this );
+	ok_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
+	cancel_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( View_PrintGP::cancelButtonEvt ), NULL, this );
+	cancel_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
 	
 }

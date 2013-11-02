@@ -28,6 +28,7 @@
 #include <wx/frame.h>
 #include <wx/choice.h>
 #include <wx/button.h>
+#include <wx/statline.h>
 #include <wx/checkbox.h>
 #include <wx/slider.h>
 #include <wx/richtext/richtextctrl.h>
@@ -65,6 +66,7 @@ class ICPD_frm : public wxFrame
 		wxMenu* file_import;
 		wxMenu* file_export;
 		wxMenu* menu_view;
+		wxMenu* menu_size;
 		wxMenu* menu_cells;
 		wxMenu* menu_place;
 		wxMenu* menu_route;
@@ -112,6 +114,9 @@ class ICPD_frm : public wxFrame
 		virtual void showTech( wxCommandEvent& event ) { event.Skip(); }
 		virtual void showCircuit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void showPreferences( wxCommandEvent& event ) { event.Skip(); }
+		virtual void sizeFO4( wxCommandEvent& event ) { event.Skip(); }
+		virtual void sizeGP( wxCommandEvent& event ) { event.Skip(); }
+		virtual void elmoreDelay( wxCommandEvent& event ) { event.Skip(); }
 		virtual void showCellgen( wxCommandEvent& event ) { event.Skip(); }
 		virtual void calcPinsPos( wxCommandEvent& event ) { event.Skip(); }
 		virtual void showFP( wxCommandEvent& event ) { event.Skip(); }
@@ -160,9 +165,19 @@ class CellGen : public wxFrame
 		wxChoice* cellnet_choice;
 		wxButton* generate_button;
 		wxButton* select_button;
+		wxStaticLine* m_staticline16;
+		wxStaticLine* m_staticline17;
+		wxStaticLine* m_staticline18;
+		wxStaticLine* m_staticline19;
+		wxStaticLine* m_staticline20;
 		wxStaticText* static_trnum;
 		wxTextCtrl* s_RN;
 		wxButton* fold_button;
+		wxStaticLine* m_staticline11;
+		wxStaticLine* m_staticline12;
+		wxStaticLine* m_staticline13;
+		wxStaticLine* m_staticline14;
+		wxStaticLine* m_staticline15;
 		wxStaticText* static_widcost;
 		wxTextCtrl* p_WC;
 		wxStaticText* static_gatemmcost;
@@ -178,9 +193,19 @@ class CellGen : public wxFrame
 		wxStaticText* static_numatt;
 		wxTextCtrl* p_NRA;
 		wxButton* place_button;
+		wxStaticLine* m_staticline6;
+		wxStaticLine* m_staticline7;
+		wxStaticLine* m_staticline8;
+		wxStaticLine* m_staticline9;
+		wxStaticLine* m_staticline10;
 		wxStaticText* static_metal;
 		wxCheckBox* hPoly;
 		wxButton* route_button;
+		wxStaticLine* m_staticline1;
+		wxStaticLine* m_staticline2;
+		wxStaticLine* m_staticline3;
+		wxStaticLine* m_staticline4;
+		wxStaticLine* m_staticline5;
 		wxStaticText* static_ds;
 		wxCheckBox* diffStretching;
 		wxStaticText* static_gp;
@@ -191,9 +216,16 @@ class CellGen : public wxFrame
 		wxSlider* maxDiffCnts;
 		wxStaticText* static_adc;
 		wxCheckBox* alignDiffCnts;
+		wxStaticText* m_staticText70;
+		wxCheckBox* enableDFM;
 		wxStaticText* m_staticText65;
 		wxCheckBox* debug;
 		wxButton* compact_button;
+		wxStaticLine* m_staticline21;
+		wxStaticLine* m_staticline22;
+		wxStaticLine* m_staticline23;
+		wxStaticLine* m_staticline24;
+		wxStaticLine* m_staticline25;
 		wxButton* view_button;
 		
 		// Virtual event handlers, overide them in your derived class
@@ -427,6 +459,47 @@ class Help_About : public wxFrame
 		Help_About( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 520,720 ), long style = wxDEFAULT_FRAME_STYLE|wxALWAYS_SHOW_SB|wxTAB_TRAVERSAL );
 		
 		~Help_About();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class View_PrintGP
+///////////////////////////////////////////////////////////////////////////////
+class View_PrintGP : public wxFrame 
+{
+	private:
+	
+	protected:
+		wxStaticText* static_design1;
+		wxChoice* optimize_choice;
+		wxStaticText* static_design13;
+		wxChoice* sizingtype_choice;
+		wxStaticText* static_design12;
+		wxChoice* technology_choice;
+		wxStaticText* static_design11;
+		wxStaticText* static_design112;
+		wxTextCtrl* parameterCload;
+		wxStaticText* static_design111;
+		wxTextCtrl* parameterMaxArea;
+		wxStaticText* static_design1111;
+		wxTextCtrl* parameterDelay;
+		wxStaticText* static_design11111;
+		wxTextCtrl* parameterMaxCin;
+		wxButton* ok_button;
+		wxButton* cancel_button;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void PressedKey( wxKeyEvent& event ) { event.Skip(); }
+		virtual void applyButtonEvt( wxCommandEvent& event ) { event.Skip(); }
+		virtual void okButtonEvt( wxCommandEvent& event ) { event.Skip(); }
+		virtual void cancelButtonEvt( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		View_PrintGP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("GP-Geometric Program"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 296,340 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		
+		~View_PrintGP();
 	
 };
 
