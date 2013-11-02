@@ -10,9 +10,9 @@ https://adrieljr@gme-ufrgs.googlecode.com/svn
 2009-10-21T20:48:41.388726Z
 160
 felipenesello
-
-
-
+has-props
+has-prop-mods
+svn:special svn:externals svn:needs-lock
 
 
 
@@ -29,9 +29,9 @@ felipenesello
 art
 dir
 
-src
+dev
 dir
 
-dev
+src
 dir
 
