@@ -35,7 +35,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
     
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
-        if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], 4);
+        if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], vcost);
         if (elements.size())
             rt->addArc(tmp.met[x], elements.back().met[x], 4); //if it's not the first, connect to the last element
         
@@ -194,7 +194,7 @@ void AutoCell::route(bool hPoly) {
     //cout << currentNetList.getNetName(0);
     
     //cria elemento para roteamento lateral
-    tmp = createElement(20, center, center,center,center);
+    tmp = createElement(16, center, center,center,center);
     
     //conecta sinais de entrada e saida com o nó inoutCnt do elemento
     map<string, int>::iterator inoutPins_it;
@@ -237,7 +237,7 @@ void AutoCell::route(bool hPoly) {
             pDiffTop=center;
             while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
             while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-            tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+            tmp = createElement(4, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
             
             //conecta sinais de entrada e saida com o nó inoutCnt do elemento
             for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
@@ -288,7 +288,7 @@ void AutoCell::route(bool hPoly) {
         while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
         while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
         
-        tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+        tmp = createElement(16, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
             tmp->linkP = *eulerPathP_it;
@@ -314,7 +314,7 @@ void AutoCell::route(bool hPoly) {
         pDiffTop=center;   //CONSIDERAR W DO  TRANSISTOR ANTERIOR
         while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
         while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-        tmp = createElement(5, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+        tmp = createElement(4, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
             tmp->linkP = *eulerPathP_it;
@@ -359,7 +359,7 @@ void AutoCell::route(bool hPoly) {
     }
     
     //cria elemento lateral para roteamento
-    tmp = createElement(20, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], center, center); //MELHORAR!!!!!! max entre trans atual e próximo
+    tmp = createElement(16, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], center, center); //MELHORAR!!!!!! max entre trans atual e próximo
     
     //conecta sinais de entrada e saida com o nó inoutCnt do elemento
     for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
@@ -923,8 +923,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, int pos
             cpt.insertConstraint("y" + diffEnc + "LdistAfterGateOut", "y" + diffEnc + "b", CP_MAX, "y" + lastDiff + "b");            
             cpt.insertConstraint("y" + diffEnc + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + diffEnc + "a");            
         }
-        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateOut",(diffStretching?5:40));
-        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateIn",(diffStretching?5:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateOut",(diffStretching?8:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistAfterGateIn",(diffStretching?8:40));
     }
     
     //if there is not a gap after
@@ -979,8 +979,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, int pos
                 cpt.insertConstraint("y" + diffEnc + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + currentDiff + "a");            
             }
         }
-        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateOut",(diffStretching?5:40));
-        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateIn",(diffStretching?5:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateOut",(diffStretching?8:40));
+        cpt.insertLPMinVar("y" + diffEnc + "LdistBeforeGateIn",(diffStretching?8:40));
         
         lastDiff = currentDiff;
     }
