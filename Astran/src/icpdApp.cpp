@@ -25,6 +25,7 @@ IMPLEMENT_APP(icpdFrmApp)
 
 bool icpdFrmApp::OnInit(){
 	//frame->SetIcon(wxIcon(help_xpm));
+        setlocale(LC_ALL,"C");
 	if (argc == 2){
 		DesignMng designmng;
 		string cmd;
