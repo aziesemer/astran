@@ -1177,14 +1177,14 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
         cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "B");
         cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "T");    
         minDist = (l==MET1 ? currentRules->getRule(S1M1M1) : currentRules->getRule(S1P1P1));
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "L", CP_MAX, minDist*1.10);
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "R", CP_MAX, minDist*1.10);
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "B", CP_MAX, minDist*1.10);
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "T", CP_MAX, minDist*1.10);
-        cpt.insertLPMinVar("max" + currentGeo+ "L", -5);
-        cpt.insertLPMinVar("max" + currentGeo+ "R", -5);
-        cpt.insertLPMinVar("max" + currentGeo+ "B", -5);
-        cpt.insertLPMinVar("max" + currentGeo+ "T", -5);
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "L", CP_MAX, ceil(minDist*1.10));
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "R", CP_MAX, ceil(minDist*1.10));
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "B", CP_MAX, ceil(minDist*1.10));
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "T", CP_MAX, ceil(minDist*1.10));
+        cpt.insertLPMinVar("max" + currentGeo+ "L", -6);
+        cpt.insertLPMinVar("max" + currentGeo+ "R", -6);
+        cpt.insertLPMinVar("max" + currentGeo+ "B", -6);
+        cpt.insertLPMinVar("max" + currentGeo+ "T", -6);
     }
     
     currentNode[pos]=currentGeo;
