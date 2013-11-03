@@ -406,10 +406,12 @@ void Placer::readMangoParrotPlacement(string fileName) {
             currentPos=0;
             while(line >> cellName){
                 CLayout *l=getLayoutFromInstance(cellName);
-                if(l){
+                if(!l)
+                    throw AstranError("Cell Layout not found for instance:" + cellName);
+                else{
                     currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->placeCell( cellName, currentPos, actualRow*currentCircuit->getRowHeight()*currentCircuit->getVPitch()*currentCircuit->getRules()->getScale(), false, false);
                     currentPos+=l->getWidth();
-                } else return false;
+                }
             }
             largestRow=max(largestRow,currentPos);
             actualRow++;
