@@ -71,7 +71,7 @@ void DesignMng::run(string filename) {
 	string str_tmp;
 	while(getline(file, str_tmp)){
 		if((str_tmp[0] != '*') && !readCommand(str_tmp))
-            cout << "Could not execute line " << intToStr(line) << " of: " << filename << endl;
+            cout << "Could not execute line " << intToStr(line) << " of: " << filename;
 		line++;
 	}
 }
