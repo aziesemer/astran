@@ -2,6 +2,8 @@ THANK YOU FOR YOUR INTEREST IN ASTRAN
 
 HOW TO USE ASTRAN:
 
+There is a video tutorial that can be usefull in: https://www.youtube.com/watch?v=IFbCDSMi_FE
+
 1. Open Astran in the bin folder
 
 2. Load the technology file: File -> Load -> Technology

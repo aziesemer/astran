@@ -4,7 +4,8 @@ COMPILING SOURCE CODE
 - LINUX:
 1- sudo apt-get install libwxgtk2.8-dev
 2- sudo apt-get install g++
-3- g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
+3- cd Astran/src/
+4- g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
 
 - MAC:
 1- Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 you'r done, otherwise, continue on step 2)
