@@ -8,7 +8,7 @@ COMPILING SOURCE CODE
 4- g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
 
 - MAC:
-1- Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 you'r done, otherwise, continue on step 2)
+1- Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2 you'r done, otherwise, continue on step 2)
 2- Run in the terminal:  wx-config --libs
    Paste the output in Project -> Build Settings -> "Other Linker Flags"
 3- Run in the terminal:  wx-config --cppflags
@@ -28,7 +28,7 @@ http://www.gurobi.com/download/gurobi-optimizer
     You need to register first. After that, install the latest version supported by your SO (e.g. 5.0.2 for Mac OS X 10.6). You gonna need to acquire a valid license to use Gurobi, it's free for academic use:
 http://www.gurobi.com/download/licenses/free-academic
 
-   Follow the instructions to install the license, they will ask you to to run a command to validate the license.
+   Follow the instructions to install the license, they will ask you to run a command to validate the license.
 
 4. Run the file Astran/bin/Astran
 
