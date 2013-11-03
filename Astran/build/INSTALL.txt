@@ -1,18 +1,22 @@
 THANK YOU FOR YOUR INTEREST IN ASTRAN
 
 COMPILING SOURCE CODE 
+
+1. git clone https://code.google.com/p/gme-ufrgs/     (apt-get install git - if it is not installed)
+
 - LINUX:
-1- sudo apt-get install libwxgtk2.8-dev
-2- sudo apt-get install g++
-3- cd Astran/src/
-4- g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
+2. sudo apt-get install libwxgtk2.8-dev
+3. sudo apt-get install g++
+4. cd gme-ufrgs/Astran/src/
+5. g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
 
 - MAC:
-1- Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2 you'r done, otherwise, continue on step 2)
-2- Run in the terminal:  wx-config --libs
+2. Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2 you'r done, otherwise, continue on step 2)
+3. Run in the terminal:  wx-config --libs
    Paste the output in Project -> Build Settings -> "Other Linker Flags"
-3- Run in the terminal:  wx-config --cppflags
+4. Run in the terminal:  wx-config --cppflags
    Paste the output in Project -> Build Settings -> "Other C++ Flags"
+5. compile Astran normally
 
 INSTALL INSTRUCTIONS:
 
