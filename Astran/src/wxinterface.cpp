@@ -1306,7 +1306,7 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	static_plPath->Wrap( -1 );
 	fgSizer4->Add( static_plPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	plPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
+	plPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 300,-1 ), 0 );
 	plPath->SetMaxLength( 0 ); 
 	fgSizer4->Add( plPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
