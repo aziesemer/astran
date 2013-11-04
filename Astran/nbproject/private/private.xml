@@ -6,6 +6,14 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/rules.cpp</file>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/circuit.cpp</file>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/circuit.h</file>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/autocell2.cpp</file>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/icpdfrm.cpp</file>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/icpdApp.cpp</file>
+            <file>file:/home/adrieljr/gme-ufrgs/Astran/src/wxinterface.cpp</file>
+        </group>
     </open-files>
 </project-private>
