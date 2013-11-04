@@ -52,7 +52,7 @@ void Rules::readRules(string filename) {
 		if (line >> parm_tmp  && parm_tmp[0] != '*') {
 			if (parm_tmp == "MINSTEP"){
 				line >> parm_tmp;
-				if(resolution==0) resolution= int(round(1/atof(parm_tmp.c_str())));
+				if(resolution==0) resolution= int(round(1.0/atof(parm_tmp.c_str())));
 				else cout << "\t" << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
 			}
 			else if (parm_tmp == "CIFMET"){
