@@ -31,7 +31,6 @@
 #include <wx/statline.h>
 #include <wx/checkbox.h>
 #include <wx/slider.h>
-#include <wx/richtext/richtextctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -154,6 +153,51 @@ class ICPD_frm : public wxFrame
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+/// Class Specify_FP
+///////////////////////////////////////////////////////////////////////////////
+class Specify_FP : public wxFrame 
+{
+	private:
+	
+	protected:
+		wxStaticText* static_topcell;
+		wxChoice* cell_choice;
+		wxButton* ok_button;
+		wxStaticText* static_rows;
+		wxTextCtrl* wxNrRows;
+		wxButton* cancel_button;
+		wxStaticText* static_coreutil;
+		wxTextCtrl* wxUtilization;
+		wxStaticLine* m_staticline26;
+		wxStaticLine* m_staticline27;
+		wxStaticLine* m_staticline28;
+		wxStaticLine* m_staticline29;
+		wxStaticText* static_margin;
+		wxStaticText* static_cleft;
+		wxTextCtrl* wxC2L;
+		wxStaticText* static_ctop;
+		wxTextCtrl* wxC2T;
+		wxStaticText* static_cright;
+		wxTextCtrl* wxC2R;
+		wxStaticText* static_cbottom;
+		wxTextCtrl* wxC2B;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void hide( wxCloseEvent& event ) { event.Skip(); }
+		virtual void PressedKey( wxKeyEvent& event ) { event.Skip(); }
+		virtual void okButtonEvt( wxCommandEvent& event ) { event.Skip(); }
+		virtual void cancelButtonEvt( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		Specify_FP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Specify Floorplan"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		
+		~Specify_FP();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
 /// Class CellGen
 ///////////////////////////////////////////////////////////////////////////////
 class CellGen : public wxFrame 
@@ -220,6 +264,8 @@ class CellGen : public wxFrame
 		wxCheckBox* enableDFM;
 		wxStaticText* m_staticText65;
 		wxCheckBox* debug;
+		wxStaticText* m_staticText71;
+		wxTextCtrl* timeLimit;
 		wxButton* compact_button;
 		wxStaticLine* m_staticline21;
 		wxStaticLine* m_staticline22;
@@ -365,13 +411,11 @@ class Design_Rules : public wxFrame
 		wxTextCtrl* wxResolution;
 		wxStaticText* static_rule;
 		wxChoice* wxSelect_Rule;
-		wxStaticText* static_rdescription;
 		wxStaticText* static_RuleDesc;
 		wxStaticText* static_value;
 		wxTextCtrl* wxRule_Value;
 		wxStaticText* static_layerlabel;
 		wxChoice* wxSelect_Layer;
-		wxStaticText* static_ldescript;
 		wxStaticText* static_LayerDesc;
 		wxStaticText* static_cif;
 		wxTextCtrl* wxCIF;
@@ -400,47 +444,6 @@ class Design_Rules : public wxFrame
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class Specify_FP
-///////////////////////////////////////////////////////////////////////////////
-class Specify_FP : public wxFrame 
-{
-	private:
-	
-	protected:
-		wxStaticText* static_topcell;
-		wxChoice* cell_choice;
-		wxButton* ok_button;
-		wxStaticText* static_rows;
-		wxTextCtrl* wxNrRows;
-		wxButton* cancel_button;
-		wxStaticText* static_coreutil;
-		wxTextCtrl* wxUtilization;
-		wxStaticText* static_margin;
-		wxStaticText* static_cleft;
-		wxTextCtrl* wxC2L;
-		wxStaticText* static_ctop;
-		wxTextCtrl* wxC2T;
-		wxStaticText* static_cright;
-		wxTextCtrl* wxC2R;
-		wxStaticText* static_cbottom;
-		wxTextCtrl* wxC2B;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void hide( wxCloseEvent& event ) { event.Skip(); }
-		virtual void PressedKey( wxKeyEvent& event ) { event.Skip(); }
-		virtual void okButtonEvt( wxCommandEvent& event ) { event.Skip(); }
-		virtual void cancelButtonEvt( wxCommandEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		Specify_FP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Specify Floorplan"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
-		
-		~Specify_FP();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
 /// Class Help_About
 ///////////////////////////////////////////////////////////////////////////////
 class Help_About : public wxFrame 
@@ -448,7 +451,7 @@ class Help_About : public wxFrame
 	private:
 	
 	protected:
-		wxRichTextCtrl* richtxt_about;
+		wxStaticText* credits;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void hide( wxCloseEvent& event ) { event.Skip(); }
@@ -456,7 +459,7 @@ class Help_About : public wxFrame
 	
 	public:
 		
-		Help_About( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 520,720 ), long style = wxDEFAULT_FRAME_STYLE|wxALWAYS_SHOW_SB|wxTAB_TRAVERSAL );
+		Help_About( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("About"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 520,319 ), long style = wxDEFAULT_FRAME_STYLE|wxALWAYS_SHOW_SB|wxTAB_TRAVERSAL );
 		
 		~Help_About();
 	
@@ -497,7 +500,7 @@ class View_PrintGP : public wxFrame
 	
 	public:
 		
-		View_PrintGP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("GP-Geometric Program"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 296,340 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		View_PrintGP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("GP-Geometric Program"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~View_PrintGP();
 	

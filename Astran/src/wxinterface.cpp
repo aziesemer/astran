@@ -625,6 +625,153 @@ ICPD_frm::~ICPD_frm()
 	
 }
 
+Specify_FP::Specify_FP( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxFlexGridSizer* fgSizer8;
+	fgSizer8 = new wxFlexGridSizer( 2, 4, 0, 0 );
+	fgSizer8->SetFlexibleDirection( wxBOTH );
+	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	static_topcell = new wxStaticText( this, wxID_ANY, wxT("Top Cell:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_topcell->Wrap( -1 );
+	fgSizer8->Add( static_topcell, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxArrayString cell_choiceChoices;
+	cell_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxSize( 100,-1 ), cell_choiceChoices, 0 );
+	cell_choice->SetSelection( 0 );
+	fgSizer8->Add( cell_choice, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	ok_button = new wxButton( this, wxID_ANY, wxT("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer8->Add( ok_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	static_rows = new wxStaticText( this, wxID_ANY, wxT("# Rows:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_rows->Wrap( -1 );
+	fgSizer8->Add( static_rows, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxNrRows = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxNrRows->SetMaxLength( 0 ); 
+	fgSizer8->Add( wxNrRows, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	cancel_button = new wxButton( this, wxID_ANY, wxT("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer8->Add( cancel_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	static_coreutil = new wxStaticText( this, wxID_ANY, wxT("Core Utilization:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_coreutil->Wrap( -1 );
+	fgSizer8->Add( static_coreutil, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxUtilization = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxUtilization->SetMaxLength( 0 ); 
+	fgSizer8->Add( wxUtilization, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticline26 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer8->Add( m_staticline26, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline27 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer8->Add( m_staticline27, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline28 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer8->Add( m_staticline28, 0, wxEXPAND | wxALL, 5 );
+	
+	m_staticline29 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
+	fgSizer8->Add( m_staticline29, 0, wxEXPAND | wxALL, 5 );
+	
+	static_margin = new wxStaticText( this, wxID_ANY, wxT("Margins:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_margin->Wrap( -1 );
+	fgSizer8->Add( static_margin, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	static_cleft = new wxStaticText( this, wxID_ANY, wxT("Core to Left:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_cleft->Wrap( -1 );
+	fgSizer8->Add( static_cleft, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxC2L = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxC2L->SetMaxLength( 0 ); 
+	fgSizer8->Add( wxC2L, 0, wxALL|wxEXPAND, 5 );
+	
+	static_ctop = new wxStaticText( this, wxID_ANY, wxT("Core to Top:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_ctop->Wrap( -1 );
+	fgSizer8->Add( static_ctop, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxC2T = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxC2T->SetMaxLength( 0 ); 
+	fgSizer8->Add( wxC2T, 0, wxALL|wxEXPAND, 5 );
+	
+	static_cright = new wxStaticText( this, wxID_ANY, wxT("Core to Right:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_cright->Wrap( -1 );
+	fgSizer8->Add( static_cright, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxC2R = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxC2R->SetMaxLength( 0 ); 
+	fgSizer8->Add( wxC2R, 0, wxALL|wxEXPAND, 5 );
+	
+	static_cbottom = new wxStaticText( this, wxID_ANY, wxT("Core to Bottom:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_cbottom->Wrap( -1 );
+	fgSizer8->Add( static_cbottom, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	wxC2B = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), 0 );
+	wxC2B->SetMaxLength( 0 ); 
+	fgSizer8->Add( wxC2B, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( fgSizer8 );
+	this->Layout();
+	fgSizer8->Fit( this );
+	
+	// Connect Events
+	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( Specify_FP::hide ) );
+	this->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ) );
+	ok_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::okButtonEvt ), NULL, this );
+	ok_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxNrRows->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	cancel_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::cancelButtonEvt ), NULL, this );
+	cancel_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxUtilization->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2L->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2T->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2R->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2B->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+}
+
+Specify_FP::~Specify_FP()
+{
+	// Disconnect Events
+	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( Specify_FP::hide ) );
+	this->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ) );
+	ok_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::okButtonEvt ), NULL, this );
+	ok_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxNrRows->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	cancel_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::cancelButtonEvt ), NULL, this );
+	cancel_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxUtilization->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2L->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2T->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2R->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	wxC2B->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
+	
+}
+
 CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
@@ -639,9 +786,9 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	fgSizer6->Add( static_cellnet, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxArrayString cellnet_choiceChoices;
-	cellnet_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, cellnet_choiceChoices, 0 );
+	cellnet_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxSize( 100,-1 ), cellnet_choiceChoices, 0 );
 	cellnet_choice->SetSelection( 0 );
-	fgSizer6->Add( cellnet_choice, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( cellnet_choice, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -679,7 +826,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	s_RN = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
 	s_RN->SetMaxLength( 0 ); 
-	fgSizer6->Add( s_RN, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( s_RN, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	fold_button = new wxButton( this, wxID_ANY, wxT("&Fold Tr."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( fold_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -705,7 +852,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_WC = new wxTextCtrl( this, wxID_ANY, wxT("3"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_WC->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_WC, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_WC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_gatemmcost = new wxStaticText( this, wxID_ANY, wxT("Gate Miss Match Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_gatemmcost->Wrap( -1 );
@@ -713,7 +860,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_GMC = new wxTextCtrl( this, wxID_ANY, wxT("4"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_GMC->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_GMC, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_GMC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -724,7 +871,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_RC = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_RC->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_RC, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_RC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_rtdenscost = new wxStaticText( this, wxID_ANY, wxT("Rt Density Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_rtdenscost->Wrap( -1 );
@@ -732,7 +879,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_RTDC = new wxTextCtrl( this, wxID_ANY, wxT("4"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_RTDC->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_RTDC, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_RTDC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
@@ -743,7 +890,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_NGC = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_NGC->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_NGC, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_NGC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
@@ -760,7 +907,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_TAQ = new wxTextCtrl( this, wxID_ANY, wxT("150"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_TAQ->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_TAQ, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_TAQ, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_numatt = new wxStaticText( this, wxID_ANY, wxT("# Attempts:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_numatt->Wrap( -1 );
@@ -768,7 +915,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	p_NRA = new wxTextCtrl( this, wxID_ANY, wxT("3"), wxDefaultPosition, wxDefaultSize, 0 );
 	p_NRA->SetMaxLength( 0 ); 
-	fgSizer6->Add( p_NRA, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer6->Add( p_NRA, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	place_button = new wxButton( this, wxID_ANY, wxT("&Place Tr."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( place_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -788,7 +935,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	m_staticline10 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	fgSizer6->Add( m_staticline10, 0, wxEXPAND | wxALL, 5 );
 	
-	static_metal = new wxStaticText( this, wxID_ANY, wxT("Horiz. Poly:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_metal = new wxStaticText( this, wxID_ANY, wxT("Horizontal Poly:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_metal->Wrap( -1 );
 	fgSizer6->Add( static_metal, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -855,7 +1002,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	static_adc = new wxStaticText( this, wxID_ANY, wxT("Align Diff. Cnts."), wxDefaultPosition, wxDefaultSize, 0 );
+	static_adc = new wxStaticText( this, wxID_ANY, wxT("Align Diff. Cnts.:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_adc->Wrap( -1 );
 	fgSizer6->Add( static_adc, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -873,18 +1020,19 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	
-	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	m_staticText65 = new wxStaticText( this, wxID_ANY, wxT("Debug (no constrains):"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText65 = new wxStaticText( this, wxID_ANY, wxT("Debug (no constraints):"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText65->Wrap( -1 );
 	fgSizer6->Add( m_staticText65, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	debug = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( debug, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_staticText71 = new wxStaticText( this, wxID_ANY, wxT("Time Limit (s):"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText71->Wrap( -1 );
+	fgSizer6->Add( m_staticText71, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	timeLimit = new wxTextCtrl( this, wxID_ANY, wxT("3600"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( timeLimit, 0, wxALL|wxEXPAND, 5 );
 	
 	compact_button = new wxButton( this, wxID_ANY, wxT("&Compact Layout"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( compact_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -994,7 +1142,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	design_name = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,-1 ), 0 );
 	design_name->SetMaxLength( 0 ); 
-	fgSizer3->Add( design_name, 0, wxALL, 5 );
+	fgSizer3->Add( design_name, 0, wxALL|wxEXPAND, 5 );
 	
 	static_horizontal = new wxStaticText( this, wxID_ANY, wxT("Horizontal Grid:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_horizontal->Wrap( -1 );
@@ -1002,7 +1150,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	horizontalgrid = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	horizontalgrid->SetMaxLength( 0 ); 
-	fgSizer3->Add( horizontalgrid, 0, wxALL, 5 );
+	fgSizer3->Add( horizontalgrid, 0, wxALL|wxEXPAND, 5 );
 	
 	static_vertical = new wxStaticText( this, wxID_ANY, wxT("Vertical Grid:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_vertical->Wrap( -1 );
@@ -1010,7 +1158,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	verticalgrid = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	verticalgrid->SetMaxLength( 0 ); 
-	fgSizer3->Add( verticalgrid, 0, wxALL, 5 );
+	fgSizer3->Add( verticalgrid, 0, wxALL|wxEXPAND, 5 );
 	
 	m_staticText60 = new wxStaticText( this, wxID_ANY, wxT("H Grid Offset:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText60->Wrap( -1 );
@@ -1032,7 +1180,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	vddnetname = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	vddnetname->SetMaxLength( 0 ); 
-	fgSizer3->Add( vddnetname, 0, wxALL, 5 );
+	fgSizer3->Add( vddnetname, 0, wxALL|wxEXPAND, 5 );
 	
 	static_gnd = new wxStaticText( this, wxID_ANY, wxT("Gnd Net Name:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_gnd->Wrap( -1 );
@@ -1040,7 +1188,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	gndnetname = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	gndnetname->SetMaxLength( 0 ); 
-	fgSizer3->Add( gndnetname, 0, wxALL, 5 );
+	fgSizer3->Add( gndnetname, 0, wxALL|wxEXPAND, 5 );
 	
 	static_row = new wxStaticText( this, wxID_ANY, wxT("Row Height:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_row->Wrap( -1 );
@@ -1048,7 +1196,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	rowheight = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	rowheight->SetMaxLength( 0 ); 
-	fgSizer3->Add( rowheight, 0, wxALL, 5 );
+	fgSizer3->Add( rowheight, 0, wxALL|wxEXPAND, 5 );
 	
 	static_supply = new wxStaticText( this, wxID_ANY, wxT("Supply Size:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_supply->Wrap( -1 );
@@ -1056,7 +1204,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	supplysize = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	supplysize->SetMaxLength( 0 ); 
-	fgSizer3->Add( supplysize, 0, wxALL, 5 );
+	fgSizer3->Add( supplysize, 0, wxALL|wxEXPAND, 5 );
 	
 	static_supply1 = new wxStaticText( this, wxID_ANY, wxT("nWell Position:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_supply1->Wrap( -1 );
@@ -1064,7 +1212,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	nWellPos = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	nWellPos->SetMaxLength( 0 ); 
-	fgSizer3->Add( nWellPos, 0, wxALL, 5 );
+	fgSizer3->Add( nWellPos, 0, wxALL|wxEXPAND, 5 );
 	
 	static_supply12 = new wxStaticText( this, wxID_ANY, wxT("nWell Border:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_supply12->Wrap( -1 );
@@ -1072,7 +1220,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	nWellBorder = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	nWellBorder->SetMaxLength( 0 ); 
-	fgSizer3->Add( nWellBorder, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer3->Add( nWellBorder, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_supply121 = new wxStaticText( this, wxID_ANY, wxT("pnSel Border:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_supply121->Wrap( -1 );
@@ -1080,14 +1228,14 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	pnSelBorder = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	pnSelBorder->SetMaxLength( 0 ); 
-	fgSizer3->Add( pnSelBorder, 0, wxALL, 5 );
+	fgSizer3->Add( pnSelBorder, 0, wxALL|wxEXPAND, 5 );
 	
 	static_supply11 = new wxStaticText( this, wxID_ANY, wxT("StdCell Template:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_supply11->Wrap( -1 );
 	fgSizer3->Add( static_supply11, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
 	wxArrayString cellTemplateChoices;
-	cellTemplate = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, cellTemplateChoices, 0 );
+	cellTemplate = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxSize( 130,-1 ), cellTemplateChoices, 0 );
 	cellTemplate->SetSelection( 0 );
 	fgSizer3->Add( cellTemplate, 0, wxALL|wxEXPAND, 5 );
 	
@@ -1158,9 +1306,9 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	static_plPath->Wrap( -1 );
 	fgSizer4->Add( static_plPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	plPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	plPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	plPath->SetMaxLength( 0 ); 
-	fgSizer4->Add( plPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( plPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	plPath_button = new wxButton( this, wxID_ANY, wxT("Choose"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer4->Add( plPath_button, 0, wxALL, 5 );
@@ -1171,7 +1319,7 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	
 	rotdlPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	rotdlPath->SetMaxLength( 0 ); 
-	fgSizer4->Add( rotdlPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( rotdlPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	rotdlPath_button = new wxButton( this, wxID_ANY, wxT("Choose"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer4->Add( rotdlPath_button, 0, wxALL, 5 );
@@ -1182,7 +1330,7 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	
 	viewerPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	viewerPath->SetMaxLength( 0 ); 
-	fgSizer4->Add( viewerPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( viewerPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	viewerPath_button = new wxButton( this, wxID_ANY, wxT("Choose"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer4->Add( viewerPath_button, 0, wxALL, 5 );
@@ -1193,7 +1341,7 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	
 	lpsolverPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	lpsolverPath->SetMaxLength( 0 ); 
-	fgSizer4->Add( lpsolverPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( lpsolverPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	lpsolverPath_button = new wxButton( this, wxID_ANY, wxT("Choose"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer4->Add( lpsolverPath_button, 0, wxALL, 5 );
@@ -1204,16 +1352,19 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	
 	logPath = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	logPath->SetMaxLength( 0 ); 
-	fgSizer4->Add( logPath, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( logPath, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	logPath_button = new wxButton( this, wxID_ANY, wxT("Choose"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer4->Add( logPath_button, 0, wxALL, 5 );
 	
 	ok_button = new wxButton( this, wxID_ANY, wxT("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( ok_button, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( ok_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	
+	fgSizer4->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	cancel_button = new wxButton( this, wxID_ANY, wxT("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer4->Add( cancel_button, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer4->Add( cancel_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	this->SetSizer( fgSizer4 );
@@ -1284,16 +1435,15 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	static_technology->Wrap( -1 );
 	fgSizer2->Add( static_technology, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	wxTechName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxTechName = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	wxTechName->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxTechName, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	fgSizer2->Add( wxTechName, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5 );
 	
 	static_soi = new wxStaticText( this, wxID_ANY, wxT("SOI:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_soi->Wrap( -1 );
 	fgSizer2->Add( static_soi, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
 	wxSOI = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxSOI->SetValue(true); 
 	fgSizer2->Add( wxSOI, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	static_mlayers = new wxStaticText( this, wxID_ANY, wxT("Metal Layers:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -1302,15 +1452,15 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	wxMLayers = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	wxMLayers->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxMLayers, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxMLayers, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_resolution = new wxStaticText( this, wxID_ANY, wxT("Resolution:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_resolution->Wrap( -1 );
 	fgSizer2->Add( static_resolution, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxResolution = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	wxResolution = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), 0 );
 	wxResolution->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxResolution, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxResolution, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_rule = new wxStaticText( this, wxID_ANY, wxT("Rule:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_rule->Wrap( -1 );
@@ -1319,15 +1469,14 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxArrayString wxSelect_RuleChoices;
 	wxSelect_Rule = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSelect_RuleChoices, 0 );
 	wxSelect_Rule->SetSelection( 0 );
-	fgSizer2->Add( wxSelect_Rule, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	static_rdescription = new wxStaticText( this, wxID_ANY, wxT("Description:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_rdescription->Wrap( -1 );
-	fgSizer2->Add( static_rdescription, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxSelect_Rule, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_RuleDesc = new wxStaticText( this, wxID_ANY, wxT("Rule Description"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_RuleDesc->Wrap( -1 );
 	fgSizer2->Add( static_RuleDesc, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	static_value = new wxStaticText( this, wxID_ANY, wxT("Value:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_value->Wrap( -1 );
@@ -1335,7 +1484,7 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	wxRule_Value = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	wxRule_Value->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxRule_Value, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxRule_Value, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
 	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -1350,15 +1499,14 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxArrayString wxSelect_LayerChoices;
 	wxSelect_Layer = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSelect_LayerChoices, 0 );
 	wxSelect_Layer->SetSelection( 0 );
-	fgSizer2->Add( wxSelect_Layer, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	static_ldescript = new wxStaticText( this, wxID_ANY, wxT("Description:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_ldescript->Wrap( -1 );
-	fgSizer2->Add( static_ldescript, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	fgSizer2->Add( wxSelect_Layer, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_LayerDesc = new wxStaticText( this, wxID_ANY, wxT("Layer Description"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_LayerDesc->Wrap( -1 );
 	fgSizer2->Add( static_LayerDesc, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	static_cif = new wxStaticText( this, wxID_ANY, wxT("CIF:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_cif->Wrap( -1 );
@@ -1366,7 +1514,7 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	wxCIF = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	wxCIF->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxCIF, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxCIF, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_gds = new wxStaticText( this, wxID_ANY, wxT("GDSII:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_gds->Wrap( -1 );
@@ -1374,7 +1522,7 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	wxGDSII = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	wxGDSII->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxGDSII, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxGDSII, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	static_tech = new wxStaticText( this, wxID_ANY, wxT("Tech:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_tech->Wrap( -1 );
@@ -1382,7 +1530,7 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	wxTechVal = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	wxTechVal->SetMaxLength( 0 ); 
-	fgSizer2->Add( wxTechVal, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	fgSizer2->Add( wxTechVal, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	
 	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -1391,10 +1539,16 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	save_button = new wxButton( this, wxID_ANY, wxT("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer2->Add( save_button, 0, wxALL, 5 );
+	fgSizer2->Add( save_button, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	
+	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer2->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	close_button = new wxButton( this, wxID_ANY, wxT("&Close"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer2->Add( close_button, 0, wxALL, 5 );
+	fgSizer2->Add( close_button, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	this->SetSizer( fgSizer2 );
@@ -1446,155 +1600,19 @@ Design_Rules::~Design_Rules()
 	
 }
 
-Specify_FP::Specify_FP( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
-{
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	
-	wxFlexGridSizer* fgSizer8;
-	fgSizer8 = new wxFlexGridSizer( 2, 4, 0, 0 );
-	fgSizer8->SetFlexibleDirection( wxBOTH );
-	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	static_topcell = new wxStaticText( this, wxID_ANY, wxT("Top Cell:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_topcell->Wrap( -1 );
-	fgSizer8->Add( static_topcell, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxArrayString cell_choiceChoices;
-	cell_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, cell_choiceChoices, 0 );
-	cell_choice->SetSelection( 0 );
-	fgSizer8->Add( cell_choice, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	ok_button = new wxButton( this, wxID_ANY, wxT("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer8->Add( ok_button, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	static_rows = new wxStaticText( this, wxID_ANY, wxT("# Rows:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_rows->Wrap( -1 );
-	fgSizer8->Add( static_rows, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxNrRows = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxNrRows->SetMaxLength( 0 ); 
-	fgSizer8->Add( wxNrRows, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	cancel_button = new wxButton( this, wxID_ANY, wxT("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer8->Add( cancel_button, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	static_coreutil = new wxStaticText( this, wxID_ANY, wxT("Core Utilization:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_coreutil->Wrap( -1 );
-	fgSizer8->Add( static_coreutil, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxUtilization = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxUtilization->SetMaxLength( 0 ); 
-	fgSizer8->Add( wxUtilization, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	static_margin = new wxStaticText( this, wxID_ANY, wxT("Margins:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_margin->Wrap( -1 );
-	fgSizer8->Add( static_margin, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
-	
-	static_cleft = new wxStaticText( this, wxID_ANY, wxT("Core to Left:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_cleft->Wrap( -1 );
-	fgSizer8->Add( static_cleft, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxC2L = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxC2L->SetMaxLength( 0 ); 
-	fgSizer8->Add( wxC2L, 0, wxALL, 5 );
-	
-	static_ctop = new wxStaticText( this, wxID_ANY, wxT("Core to Top:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_ctop->Wrap( -1 );
-	fgSizer8->Add( static_ctop, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxC2T = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxC2T->SetMaxLength( 0 ); 
-	fgSizer8->Add( wxC2T, 0, wxALL, 5 );
-	
-	static_cright = new wxStaticText( this, wxID_ANY, wxT("Core to Right:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_cright->Wrap( -1 );
-	fgSizer8->Add( static_cright, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxC2R = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxC2R->SetMaxLength( 0 ); 
-	fgSizer8->Add( wxC2R, 0, wxALL, 5 );
-	
-	static_cbottom = new wxStaticText( this, wxID_ANY, wxT("Core to Bottom:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_cbottom->Wrap( -1 );
-	fgSizer8->Add( static_cbottom, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
-	
-	wxC2B = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	wxC2B->SetMaxLength( 0 ); 
-	fgSizer8->Add( wxC2B, 0, wxALL, 5 );
-	
-	
-	this->SetSizer( fgSizer8 );
-	this->Layout();
-	fgSizer8->Fit( this );
-	
-	// Connect Events
-	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( Specify_FP::hide ) );
-	this->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ) );
-	ok_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::okButtonEvt ), NULL, this );
-	ok_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxNrRows->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	cancel_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::cancelButtonEvt ), NULL, this );
-	cancel_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxUtilization->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2L->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2T->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2R->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2B->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-}
-
-Specify_FP::~Specify_FP()
-{
-	// Disconnect Events
-	this->Disconnect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( Specify_FP::hide ) );
-	this->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ) );
-	ok_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::okButtonEvt ), NULL, this );
-	ok_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxNrRows->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	cancel_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( Specify_FP::cancelButtonEvt ), NULL, this );
-	cancel_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxUtilization->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2L->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2T->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2R->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	wxC2B->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( Specify_FP::PressedKey ), NULL, this );
-	
-}
-
 Help_About::Help_About( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxSize( 520,720 ), wxSize( 520,720 ) );
+	this->SetSizeHints( wxSize( -1,-1 ), wxSize( -1,-1 ) );
 	
-	wxBoxSizer* bSizer11;
-	bSizer11 = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* bSizer10;
+	bSizer10 = new wxBoxSizer( wxVERTICAL );
 	
-	richtxt_about = new wxRichTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY|wxALWAYS_SHOW_SB|wxNO_BORDER|wxWANTS_CHARS );
-	richtxt_about->Enable( false );
+	credits = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	credits->Wrap( -1 );
+	bSizer10->Add( credits, 0, wxALL|wxEXPAND, 5 );
 	
-	bSizer11->Add( richtxt_about, 1, wxALL|wxEXPAND, 0 );
 	
-	
-	this->SetSizer( bSizer11 );
+	this->SetSizer( bSizer10 );
 	this->Layout();
 	
 	// Connect Events
@@ -1619,33 +1637,33 @@ View_PrintGP::View_PrintGP( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	static_design1 = new wxStaticText( this, wxID_ANY, wxT("Optimize:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design1->Wrap( -1 );
-	fgSizer6->Add( static_design1, 0, wxALL, 5 );
+	fgSizer6->Add( static_design1, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxString optimize_choiceChoices[] = { wxT("delay"), wxT("area") };
 	int optimize_choiceNChoices = sizeof( optimize_choiceChoices ) / sizeof( wxString );
-	optimize_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, optimize_choiceNChoices, optimize_choiceChoices, 0 );
+	optimize_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxSize( 100,-1 ), optimize_choiceNChoices, optimize_choiceChoices, 0 );
 	optimize_choice->SetSelection( 0 );
-	fgSizer6->Add( optimize_choice, 0, wxALL, 5 );
+	fgSizer6->Add( optimize_choice, 0, wxALL|wxEXPAND, 5 );
 	
 	static_design13 = new wxStaticText( this, wxID_ANY, wxT("Sizing Type:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design13->Wrap( -1 );
-	fgSizer6->Add( static_design13, 0, wxALL, 5 );
+	fgSizer6->Add( static_design13, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxString sizingtype_choiceChoices[] = { wxT("transistor"), wxT("gate") };
 	int sizingtype_choiceNChoices = sizeof( sizingtype_choiceChoices ) / sizeof( wxString );
 	sizingtype_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, sizingtype_choiceNChoices, sizingtype_choiceChoices, 0 );
 	sizingtype_choice->SetSelection( 0 );
-	fgSizer6->Add( sizingtype_choice, 0, wxALL, 5 );
+	fgSizer6->Add( sizingtype_choice, 0, wxALL|wxEXPAND, 5 );
 	
 	static_design12 = new wxStaticText( this, wxID_ANY, wxT("Technology:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design12->Wrap( -1 );
-	fgSizer6->Add( static_design12, 0, wxALL, 5 );
+	fgSizer6->Add( static_design12, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	wxString technology_choiceChoices[] = { wxT("45nm"), wxT("350nm") };
 	int technology_choiceNChoices = sizeof( technology_choiceChoices ) / sizeof( wxString );
 	technology_choice = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, technology_choiceNChoices, technology_choiceChoices, 0 );
 	technology_choice->SetSelection( 0 );
-	fgSizer6->Add( technology_choice, 0, wxALL, 5 );
+	fgSizer6->Add( technology_choice, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
@@ -1655,52 +1673,53 @@ View_PrintGP::View_PrintGP( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	static_design11 = new wxStaticText( this, wxID_ANY, wxT("Parameters:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design11->Wrap( -1 );
-	fgSizer6->Add( static_design11, 0, wxALL, 5 );
+	fgSizer6->Add( static_design11, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	static_design112 = new wxStaticText( this, wxID_ANY, wxT("Cload:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design112->Wrap( -1 );
-	fgSizer6->Add( static_design112, 0, wxALL, 5 );
+	fgSizer6->Add( static_design112, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	parameterCload = new wxTextCtrl( this, wxID_ANY, wxT("4*1.434879e-16"), wxDefaultPosition, wxDefaultSize, 0 );
+	parameterCload = new wxTextCtrl( this, wxID_ANY, wxT("4*1.434879e-16"), wxDefaultPosition, wxSize( 150,-1 ), 0 );
 	parameterCload->SetMaxLength( 0 ); 
-	fgSizer6->Add( parameterCload, 0, wxALL, 5 );
+	fgSizer6->Add( parameterCload, 0, wxALL|wxEXPAND, 5 );
 	
 	static_design111 = new wxStaticText( this, wxID_ANY, wxT("Max Area:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design111->Wrap( -1 );
-	fgSizer6->Add( static_design111, 0, wxALL, 5 );
+	fgSizer6->Add( static_design111, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	parameterMaxArea = new wxTextCtrl( this, wxID_ANY, wxT("3.255"), wxDefaultPosition, wxDefaultSize, 0 );
 	parameterMaxArea->SetMaxLength( 0 ); 
-	fgSizer6->Add( parameterMaxArea, 0, wxALL, 5 );
+	fgSizer6->Add( parameterMaxArea, 0, wxALL|wxEXPAND, 5 );
 	
 	static_design1111 = new wxStaticText( this, wxID_ANY, wxT("Max Delay:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design1111->Wrap( -1 );
-	fgSizer6->Add( static_design1111, 0, wxALL, 5 );
+	fgSizer6->Add( static_design1111, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	parameterDelay = new wxTextCtrl( this, wxID_ANY, wxT("4.29113e-10"), wxDefaultPosition, wxDefaultSize, 0 );
 	parameterDelay->SetMaxLength( 0 ); 
-	fgSizer6->Add( parameterDelay, 0, wxALL, 5 );
+	fgSizer6->Add( parameterDelay, 0, wxALL|wxEXPAND, 5 );
 	
 	static_design11111 = new wxStaticText( this, wxID_ANY, wxT("Max Cin:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_design11111->Wrap( -1 );
-	fgSizer6->Add( static_design11111, 0, wxALL, 5 );
+	fgSizer6->Add( static_design11111, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	parameterMaxCin = new wxTextCtrl( this, wxID_ANY, wxT("1.0001"), wxDefaultPosition, wxDefaultSize, 0 );
 	parameterMaxCin->SetMaxLength( 0 ); 
-	fgSizer6->Add( parameterMaxCin, 0, wxALL, 5 );
+	fgSizer6->Add( parameterMaxCin, 0, wxALL|wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	ok_button = new wxButton( this, wxID_ANY, wxT("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( ok_button, 0, wxALL, 5 );
+	fgSizer6->Add( ok_button, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	cancel_button = new wxButton( this, wxID_ANY, wxT("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( cancel_button, 0, wxALL, 5 );
+	fgSizer6->Add( cancel_button, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	
 	this->SetSizer( fgSizer6 );
 	this->Layout();
+	fgSizer6->Fit( this );
 	
 	// Connect Events
 	parameterCload->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( View_PrintGP::PressedKey ), NULL, this );
