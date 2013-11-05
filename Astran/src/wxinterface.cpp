@@ -943,11 +943,29 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	hPoly->SetValue(true); 
 	fgSizer6->Add( hPoly, 0, wxALL, 5 );
 	
+	m_staticText73 = new wxStaticText( this, wxID_ANY, wxT("Increase # Internal Tracks:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText73->Wrap( -1 );
+	fgSizer6->Add( m_staticText73, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	increaseIntTracks = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( increaseIntTracks, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText74 = new wxStaticText( this, wxID_ANY, wxT("Optimize:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText74->Wrap( -1 );
+	fgSizer6->Add( m_staticText74, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	optimize = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	optimize->SetValue(true); 
+	fgSizer6->Add( optimize, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	route_button = new wxButton( this, wxID_ANY, wxT("&Route"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( route_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
