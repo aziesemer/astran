@@ -77,7 +77,6 @@ protected:
 	
 	list<Element> elements;
 	map<string,int> inoutPins;
-	//	void eletricalOtimization(Cell& currentCell, Pathfinder2 &rt);
 	
 	Element* createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd, int pEnd);
 	
@@ -106,13 +105,13 @@ protected:
 	AutoCell();
 	~AutoCell();
 	void clear();
-	void calcArea(Circuit* c);
+	void calcArea(int nrIntTracks);
 	void foldTrans();
 	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
-	void route(bool hPoly);
+    void route(bool hPoly, bool increaseIntTracks, bool optimize);
     void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool enableDFM, bool test, int timeLimit);
-	void selectCell(string c);
+	void selectCell(Circuit* c, string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};
 	void setPolPriority(int x) {poly_priority=x;};

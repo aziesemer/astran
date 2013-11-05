@@ -668,12 +668,12 @@ bool DesignMng::readCommand(string cmd){
                     /****  CELLGEN - 9  ****/
                     
                 case CELLGEN_SELECT:
-                    autocell->calcArea(circuit);
                     cout << "Selecting cell: " << upcase(words[2]) << endl;
-                    autocell->selectCell(upcase(words[2]));
+                    autocell->selectCell(circuit,upcase(words[2]));
                     break;
                     
                 case CELLGEN_FOLD:
+                    autocell->calcArea(atoi(words[2].c_str()));
                     autocell->foldTrans();
                     break;
                     
@@ -690,7 +690,7 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case CELLGEN_ROUTE:
-                    autocell->route(atoi(words[2].c_str()));
+                    autocell->route(atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()));
                     break;
                     
                 case CELLGEN_COMPACT:

@@ -20,7 +20,7 @@ void AutoCell::clear() {
     if (rt != NULL) delete(rt);
 }
 
-Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd, int pEnd) {
+Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDiffEnd, int pDiffEnd) {
     Element tmp;
     tmp.diffP = rt->createNode();
     tmp.diffN = rt->createNode();
@@ -28,10 +28,10 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
     tmp.gapP = tmp.gapN = false;
     tmp.met.resize(trackPos.size());
     tmp.pol.resize(trackPos.size());
-    tmp.diffNEnd = nEnd+1;
+    tmp.diffNEnd = nDiffEnd;
     tmp.diffNIni = nDiffIni;
     tmp.diffPIni = pDiffIni;
-    tmp.diffPEnd = pEnd-1;
+    tmp.diffPEnd = pDiffEnd;
     
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
@@ -41,7 +41,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
         
         tmp.pol[x] = rt->createNode();
         if (x) rt->addArc(tmp.pol[x], tmp.pol[x - 1], 6);
-        if ((x<=nEnd) || (x > nDiffIni && x < pDiffIni) || (x>=pEnd)) { //CHECK IF THERE IS ENOUGHT SPACE IN THE EXTERNAL AREA 
+        if ((x<nDiffEnd) || (x > nDiffIni && x < pDiffIni) || (x>pDiffEnd)) { //CHECK IF THERE IS ENOUGHT SPACE IN THE EXTERNAL AREA 
             rt->addArc(tmp.pol[x], tmp.met[x], 20);
             if (hPoly && elements.size() && elements.back().pol[x] != -1)
                 rt->addArc(tmp.pol[x], elements.back().pol[x], 6); //if it's not the first, connect to the last element
@@ -60,9 +60,8 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd
     return &elements.back();
 }
 
-void AutoCell::calcArea(Circuit* c) {
-    state = 0;
-    currentCircuit = c;
+void AutoCell::calcArea(int nrIntTracks) {
+    checkState(1);
     currentRules = currentCircuit->getRules();
     
     cout << "-> Calculating cell area..." << endl;
@@ -96,8 +95,8 @@ void AutoCell::calcArea(Circuit* c) {
     //    for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
     //IMPROVE
-    nDif_iniY = min(nDif_iniY, center * vGrid - (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
-    pDif_iniY = max(pDif_iniY, center * vGrid + (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
+    nDif_iniY = min(nDif_iniY, (center+int(ceil(nrIntTracks/2.0)-1)) * vGrid - (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
+    pDif_iniY = max(pDif_iniY, (center+int(floor(nrIntTracks/2.0))) * vGrid + (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
     
     if(currentCircuit->getCellTemplate()=="Taps close to the boundary"){
         nDif_endY = max(currentRules->getRule(E1INDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
@@ -117,12 +116,13 @@ void AutoCell::calcArea(Circuit* c) {
     state++;
 }
 
-void AutoCell::selectCell(string c) {
-    checkState(1);
-    currentCell = currentCircuit->getCellNetlst(c);    
+void AutoCell::selectCell(Circuit* c, string cell) {
+    state = 0;
+    currentCircuit = c;
+    currentCell = currentCircuit->getCellNetlst(cell);    
     cout << "-> Selecting cell netlist: " << currentCell->getName() << endl;
     currentNetList.clear();
-    currentNetList = currentCircuit->getFlattenCell(c);
+    currentNetList = currentCircuit->getFlattenCell(cell);
     state++;
 }
 
@@ -144,27 +144,27 @@ void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
     state++;
 }
 
-void AutoCell::route(bool hPoly) {
+void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
     checkState(4);
     cout << "-> Routing cell..." << endl;
     printGraph();
     
     this->hPoly=hPoly;
-    // CALCULATE THE NR OF INTERNAL TRACKS
+    // CALCULATE DIFFUSION POSITIONS
     diffPini.clear();
     diffNini.clear();
     for (int x = 0; x < currentNetList.getOrderingP().size(); x++) {
         int p;
-        for (p = center + 1; trackPos[p] < pDif_iniY; ++p) {
-        }
-        //            cout << p;
+        for (p = center + 1; trackPos[p] < pDif_iniY; ++p);
+        for (; increaseIntTracks && p<trackPos.size()-1 && trackPos[p] <pDif_endY-currentRules->getIntValue(currentNetList.getTrans(currentNetList.getOrderingP()[x].link).width && trackPos[p] < height - (supWidth + currentRules->getRule(S2M1M1))); ++p);
         diffPini.push_back(p);
     }
+
     for (int x = 0; x < currentNetList.getOrderingN().size(); x++) {
         int p;
-        for (p = center - 1; trackPos[p] > nDif_iniY; --p) {
-        }
-        //            cout << p;
+        for (p = center - 1; trackPos[p] > nDif_iniY; --p);
+        for (; increaseIntTracks && p>1 && trackPos[p] > nDif_endY + currentRules->getIntValue(currentNetList.getTrans(currentNetList.getOrderingN()[x].link).width)
+             && trackPos[p] > supWidth + currentRules->getRule(S2M1M1)+ currentRules->getRule(S2M1M1); --p);
         diffNini.push_back(p);
     }
     
@@ -202,7 +202,7 @@ void AutoCell::route(bool hPoly) {
         rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
     
     vector<t_net2>::iterator eulerPathP_it = currentNetList.getOrderingP().begin(), eulerPathN_it = currentNetList.getOrderingN().begin(), lastP_it, lastN_it;
-    int nDiffTop,pDiffTop;
+    int nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd;
     
     while (eulerPathP_it != currentNetList.getOrderingP().end() && eulerPathN_it != currentNetList.getOrderingN().end()) {
         gapP = false;
@@ -230,14 +230,18 @@ void AutoCell::route(bool hPoly) {
         }
         
         // DIFF
+        nDiffTrackIni=diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
+        pDiffTrackIni=diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
+        //serch for first track above the transistor
+        nDiffTrackEnd=nDiffTrackIni;
+        pDiffTrackEnd=pDiffTrackIni;
+        while (nDiffTrackEnd && trackPos[nDiffTrackEnd-1] >= trackPos[nDiffTrackIni] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width)) nDiffTrackEnd--;
+        while (pDiffTrackEnd<trackPos.size() && trackPos[pDiffTrackEnd+1] <= trackPos[pDiffTrackIni] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width)) pDiffTrackEnd++;
+
+        
         if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
             lastElement = tmp;
-            //serch for first track above the transistor
-            nDiffTop=center;
-            pDiffTop=center;
-            while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-            while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-            tmp = createElement(4, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+            tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd);
             
             //conecta sinais de entrada e saida com o nó inoutCnt do elemento
             for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
@@ -256,10 +260,8 @@ void AutoCell::route(bool hPoly) {
                 if (lastElement->linkP.type != GAP && rt->getNet(lastElement->diffP) == rt->getNet(tmp->diffP) && currentNetList.getNet(currentNetList.getTrans(eulerPathP_it->link).drain).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
                     rt->addArc(tmp->diffP, lastElement->diffP, 0); //tira a ponte entre a difusao atual e ela mesma 
             }
-            int x = diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
-            do {
-                if (trackPos[x] >= pDif_iniY) rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
-            } while (trackPos[++x] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+            for(int x = pDiffTrackIni; x<=pDiffTrackEnd; x++)
+                rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
         }
         
         if (tmp->linkN.type == GAP && eulerPathN_it->link != -1) { // nao é GAP na difusao N
@@ -274,26 +276,19 @@ void AutoCell::route(bool hPoly) {
                 if (lastElement->linkN.type != GAP && rt->getNet(lastElement->diffN) == rt->getNet(tmp->diffN) && currentNetList.getNet(currentNetList.getTrans(eulerPathN_it->link).drain).trans.size() >= 2) //VERIFICAR POSTERIORMENTE ==2?
                     rt->addArc(tmp->diffN, lastElement->diffN, 0); //tira a ponte entre a difusao atual e ela mesma 
             }
-            int x = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
-            do {
-                if (trackPos[x] <= nDif_iniY) rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
-            } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+            for(int x = nDiffTrackIni; x>=nDiffTrackEnd; x--)
+                rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
         }
         
         //GATE
         //desenha gate do transistor se nao for GAP
-        lastElement = tmp;
-        nDiffTop=center;
-        pDiffTop=center;    //CONSIDERAR W DO PROXIMO TRANSISTOR
-        while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-        while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-        
-        tmp = createElement(16, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+        lastElement = tmp;        
+        tmp = createElement(16, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
             tmp->linkP = *eulerPathP_it;
             tmp->linkP.type = GATE;
-            for (int pos = tmp->diffPIni; pos<pDiffTop; pos++)
+            for (int pos = tmp->diffPIni; pos<=pDiffTrackEnd; pos++)
                 rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).gate, tmp->pol[pos]);
         } else tmp->linkP.type = GAP;
         
@@ -303,18 +298,14 @@ void AutoCell::route(bool hPoly) {
         if (eulerPathN_it->link != -1) { // nao é GAP na difusao N
             tmp->linkN = *eulerPathN_it;
             tmp->linkN.type = GATE;
-            for (int pos = tmp->diffNIni; pos>nDiffTop; pos--)
+            for (int pos = tmp->diffNIni; pos>=nDiffTrackEnd; pos--)
                 rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).gate, tmp->pol[pos]);
             
         } else tmp->linkN.type = GAP;
         
         // DIFF
         lastElement = tmp;
-        nDiffTop=center;
-        pDiffTop=center;   //CONSIDERAR W DO  TRANSISTOR ANTERIOR
-        while (trackPos[--nDiffTop] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
-        while (trackPos[++pDiffTop] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
-        tmp = createElement(4, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], nDiffTop, pDiffTop);
+        tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
             tmp->linkP = *eulerPathP_it;
@@ -325,11 +316,8 @@ void AutoCell::route(bool hPoly) {
                 tmp->linkP.type = DRAIN;
                 rt->addNodetoNet(currentNetList.getTrans(eulerPathP_it->link).drain, tmp->diffP);
             }
-            int x = diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
-            do {
-                if (trackPos[x] >= pDif_iniY) rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
-                //cout << "aquip " << x << endl;
-            } while (trackPos[++x] <= pDif_iniY + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width));
+            for(int x = pDiffTrackIni; x<=pDiffTrackEnd; x++)
+                rt->addArc(tmp->met[x], tmp->diffP, COST_CNT_INSIDE_DIFF);
         } else
             tmp->linkP.type = GAP;
         
@@ -343,11 +331,8 @@ void AutoCell::route(bool hPoly) {
                 tmp->linkN.type = SOURCE;
                 rt->addNodetoNet(currentNetList.getTrans(eulerPathN_it->link).source, tmp->diffN);
             }
-            int x = diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
-            do {
-                if (trackPos[x] <= nDif_iniY) rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
-                //cout << "aquin " << x << endl;
-            } while (trackPos[--x] >= nDif_iniY - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width));
+            for(int x = nDiffTrackIni; x>=nDiffTrackEnd; x--)
+                rt->addArc(tmp->met[x], tmp->diffN, COST_CNT_INSIDE_DIFF);
         } else tmp->linkN.type = GAP;
         
         //conecta sinais de entrada e saida com o nó inoutCnt do elemento
@@ -359,17 +344,16 @@ void AutoCell::route(bool hPoly) {
     }
     
     //cria elemento lateral para roteamento
-    tmp = createElement(16, diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()], diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()], center, center); //MELHORAR!!!!!! max entre trans atual e próximo
+    tmp = createElement(16, center, center,center,center);
     
     //conecta sinais de entrada e saida com o nó inoutCnt do elemento
     for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
         rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
     
     
-    if (!rt->routeNets(8000) || !rt->optimize())
+    if (!rt->routeNets(8000))
         throw AstranError("Unable to route this circuit");
-    
-    rt->showResult();
+    if(optimize) rt->optimize();
     state = 5;
 }
 

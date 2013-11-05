@@ -1,9 +1,8 @@
 set lpsolve "/Library/gurobi502/mac64/bin/gurobi_cl"
 load technology "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/tech_0065.rul"
 load netlist "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/Biblioteca.sp"
-cellgen set nr_tracks 2
 cellgen select INV0
-cellgen fold
+cellgen fold 2
 cellgen place 150 3 3 4 1 4 2
-cellgen route 1
+cellgen route 1 0 1
 cellgen compact 1 0 50 2 1 0 0 3600

@@ -26,13 +26,13 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	cout << "CellGen: Auto generating cell " << cellnet_choice->GetStringSelection().mb_str() << endl;	
 	
 	// Select cell
-	wxString cmd=wxT("cellgen set nr_tracks ") + s_RN->GetValue();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
-	cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
+	wxString cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Fold Transistors
-	currentFrmwork->readCommand("cellgen fold");
+	cmd=wxT("cellgen fold ");
+    cmd+= nrIntTracks->GetValue();
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Place
 	cmd=wxT("cellgen place ") + p_TAQ->GetValue() + wxT(" ") + p_NRA->GetValue() + wxT(" ") + p_WC->GetValue() + wxT(" ") + p_GMC->GetValue() + wxT(" ") + p_RC->GetValue() + wxT(" ") + p_RTDC->GetValue() + wxT(" ") + p_NGC->GetValue();
@@ -41,6 +41,10 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	// Route
 	cmd=wxT("cellgen route ");
     cmd+= hPoly->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= increaseIntTracks->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= optimize->GetValue()==true?wxT("1"):wxT("0");
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Compact Layout
@@ -71,7 +75,9 @@ void WxAutoCell::select( wxCommandEvent& event ){
 }
 
 void WxAutoCell::fold( wxCommandEvent& event ){
-	currentFrmwork->readCommand("cellgen fold");
+	wxString cmd=wxT("cellgen fold ");
+    cmd+= nrIntTracks->GetValue();
+	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
 
@@ -84,6 +90,10 @@ void WxAutoCell::place( wxCommandEvent& event ){
 void WxAutoCell::route( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen route ");
     cmd+= hPoly->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= increaseIntTracks->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= optimize->GetValue()==true?wxT("1"):wxT("0");
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
