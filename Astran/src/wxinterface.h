@@ -244,6 +244,10 @@ class CellGen : public wxFrame
 		wxStaticLine* m_staticline10;
 		wxStaticText* static_metal;
 		wxCheckBox* hPoly;
+		wxStaticText* m_staticText73;
+		wxCheckBox* increaseIntTracks;
+		wxStaticText* m_staticText74;
+		wxCheckBox* optimize;
 		wxButton* route_button;
 		wxStaticLine* m_staticline1;
 		wxStaticLine* m_staticline2;
