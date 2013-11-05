@@ -91,7 +91,7 @@ class compaction {
   void insertLPMinVar( string v );
   void insertLPMinVar( string v, int i );
   
-  int solve(string lpSolverFile);
+  int solve(string lpSolverFile, int timeLimit);
 
   int getVariableVal( string name );
 

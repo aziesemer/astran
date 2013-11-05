@@ -58,6 +58,8 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
     cmd+= enableDFM->GetValue()==true?wxT("1"):wxT("0");
     cmd+= wxT(" ");
     cmd+= debug->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= timeLimit->GetValue();
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
@@ -101,6 +103,8 @@ void WxAutoCell::compact( wxCommandEvent& event ){
     cmd+= enableDFM->GetValue()==true?wxT("1"):wxT("0");
     cmd+= wxT(" ");
     cmd+= debug->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= timeLimit->GetValue();
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }

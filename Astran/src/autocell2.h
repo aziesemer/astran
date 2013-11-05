@@ -111,7 +111,7 @@ protected:
 	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
 	void route(bool hPoly);
-    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool enableDFM, bool test);
+    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool enableDFM, bool test, int timeLimit);
 	void selectCell(string c);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};

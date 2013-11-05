@@ -373,7 +373,7 @@ void AutoCell::route(bool hPoly) {
     state = 5;
 }
 
-void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool enableDFM, bool test) {
+void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool enableDFM, bool test, int timeLimit) {
     checkState(5);
     cout << "-> Compacting layout..." << endl;
     this->diffStretching=diffStretching;
@@ -613,7 +613,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     cpt.forceIntegerVar("width_gpos");
     cpt.insertLPMinVar("width", 5000);
     
-    if (!cpt.solve(lpSolverFile))
+    if (!cpt.solve(lpSolverFile, timeLimit))
         throw AstranError("Unable to execute ILP solver");
     
     for (int i = 0; i < geometries.size(); i++) {

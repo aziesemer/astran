@@ -408,7 +408,7 @@ int compaction::solve(string lpSolverFile) {
 */
 
 /** Solve compaction constraints with linear programming. */
-int compaction::solve(string lpSolverFile) {
+int compaction::solve(string lpSolverFile, int timeLimit) {
 	cout << "Calling LP Solver (" 
 	<< variables.size() << " variables, " 
 	<< constraints.size() << " constraints)" << endl;
@@ -531,7 +531,7 @@ int compaction::solve(string lpSolverFile) {
     
     
 	f.close();
-    string cmd = "\"" + lpSolverFile + "\" TimeLimit=5000 ResultFile=temp.sol " + 	lp_filename + ".lp";
+    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=temp.sol " + 	lp_filename + ".lp";
 //    string cmd = "\"" + lpSolverFile + "\" TimeLimit=5000  MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
 	cout << "Running command: " << cmd << endl;
 	

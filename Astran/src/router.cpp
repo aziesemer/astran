@@ -363,7 +363,7 @@ void Router::compactLayout(string lpSolverFile){
 		}
 	}
 	
-	cpt.solve(lpSolverFile);
+	cpt.solve(lpSolverFile, 3600);
 	
 	for (unsigned int i =0; i < geometries.size(); i++ ) {		
 		int xa = cpt.getVariableVal( "x" + intToStr( i ) + "a" );
