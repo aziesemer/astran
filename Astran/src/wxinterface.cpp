@@ -820,13 +820,13 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	nrIntTracks = new wxStaticText( this, wxID_ANY, wxT("# Internal Tracks"), wxDefaultPosition, wxDefaultSize, 0 );
-	nrIntTracks->Wrap( -1 );
-	fgSizer6->Add( nrIntTracks, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	m_staticText50 = new wxStaticText( this, wxID_ANY, wxT("# Internal Tracks"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText50->Wrap( -1 );
+	fgSizer6->Add( m_staticText50, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	s_RN = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
-	s_RN->SetMaxLength( 0 ); 
-	fgSizer6->Add( s_RN, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
+	nrIntTracks = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
+	nrIntTracks->SetMaxLength( 0 ); 
+	fgSizer6->Add( nrIntTracks, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
 	fold_button = new wxButton( this, wxID_ANY, wxT("&Fold Tr."), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( fold_button, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_CENTER_HORIZONTAL, 5 );
@@ -1096,7 +1096,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	generate_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CellGen::generateCell ), NULL, this );
 	select_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CellGen::select ), NULL, this );
 	select_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
-	s_RN->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
+	nrIntTracks->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
 	fold_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CellGen::fold ), NULL, this );
 	fold_button->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
 	p_WC->Connect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
@@ -1124,7 +1124,7 @@ CellGen::~CellGen()
 	generate_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CellGen::generateCell ), NULL, this );
 	select_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CellGen::select ), NULL, this );
 	select_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
-	s_RN->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
+	nrIntTracks->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
 	fold_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( CellGen::fold ), NULL, this );
 	fold_button->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
 	p_WC->Disconnect( wxEVT_KEY_DOWN, wxKeyEventHandler( CellGen::PressedKey ), NULL, this );
