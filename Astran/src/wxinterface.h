@@ -214,7 +214,7 @@ class CellGen : public wxFrame
 		wxStaticLine* m_staticline18;
 		wxStaticLine* m_staticline19;
 		wxStaticLine* m_staticline20;
-		wxStaticText* static_trnum;
+		wxStaticText* nrIntTracks;
 		wxTextCtrl* s_RN;
 		wxButton* fold_button;
 		wxStaticLine* m_staticline11;
