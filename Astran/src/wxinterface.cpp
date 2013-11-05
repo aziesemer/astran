@@ -820,9 +820,9 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	static_trnum = new wxStaticText( this, wxID_ANY, wxT("Tracks Number:"), wxDefaultPosition, wxDefaultSize, 0 );
-	static_trnum->Wrap( -1 );
-	fgSizer6->Add( static_trnum, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
+	nrIntTracks = new wxStaticText( this, wxID_ANY, wxT("# Internal Tracks"), wxDefaultPosition, wxDefaultSize, 0 );
+	nrIntTracks->Wrap( -1 );
+	fgSizer6->Add( nrIntTracks, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	s_RN = new wxTextCtrl( this, wxID_ANY, wxT("2"), wxDefaultPosition, wxDefaultSize, 0 );
 	s_RN->SetMaxLength( 0 ); 
