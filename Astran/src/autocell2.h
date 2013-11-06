@@ -78,7 +78,7 @@ protected:
 	list<Element> elements;
 	map<string,int> inoutPins;
 	
-	Element* createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd, int pEnd);
+	Element* createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd, int pEnd, bool isDiff);
 	
 	CellNetlst* currentCell;
 	Rules* currentRules;

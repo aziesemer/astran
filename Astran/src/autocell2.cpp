@@ -20,7 +20,7 @@ void AutoCell::clear() {
     if (rt != NULL) delete(rt);
 }
 
-Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDiffEnd, int pDiffEnd) {
+Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDiffEnd, int pDiffEnd, bool isDiff) {
     Element tmp;
     tmp.diffP = rt->createNode();
     tmp.diffN = rt->createNode();
@@ -40,7 +40,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
             rt->addArc(tmp.met[x], elements.back().met[x], 4); //if it's not the first, connect to the last element
         
         tmp.pol[x] = rt->createNode();
-        if (x) rt->addArc(tmp.pol[x], tmp.pol[x - 1], 6);
+        if (x && (!isDiff || (x<nDiffEnd) || (x > nDiffIni+1 && x < pDiffIni) || (x>pDiffEnd+1))) rt->addArc(tmp.pol[x], tmp.pol[x - 1], 6);
         if ((x<nDiffEnd) || (x > nDiffIni && x < pDiffIni) || (x>pDiffEnd)) { //CHECK IF THERE IS ENOUGHT SPACE IN THE EXTERNAL AREA 
             rt->addArc(tmp.pol[x], tmp.met[x], 20);
             if (hPoly && elements.size() && elements.back().pol[x] != -1)
@@ -194,7 +194,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
     //cout << currentNetList.getNetName(0);
     
     //cria elemento para roteamento lateral
-    tmp = createElement(16, center, center,center,center);
+    tmp = createElement(16, center, center,center,center,false);
     
     //conecta sinais de entrada e saida com o nó inoutCnt do elemento
     map<string, int>::iterator inoutPins_it;
@@ -235,13 +235,14 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         //serch for first track above the transistor
         nDiffTrackEnd=nDiffTrackIni;
         pDiffTrackEnd=pDiffTrackIni;
-        while (nDiffTrackEnd && trackPos[nDiffTrackEnd-1] >= trackPos[nDiffTrackIni] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width)) nDiffTrackEnd--;
-        while (pDiffTrackEnd<trackPos.size() && trackPos[pDiffTrackEnd+1] <= trackPos[pDiffTrackIni] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width)) pDiffTrackEnd++;
+        while (nDiffTrackEnd && (trackPos[nDiffTrackEnd-1] >= trackPos[nDiffTrackIni] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width))) nDiffTrackEnd--;
+        while (pDiffTrackEnd<trackPos.size()-1 && (trackPos[pDiffTrackEnd+1] <= trackPos[pDiffTrackIni] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width))) pDiffTrackEnd++;
+        cout << nDiffTrackEnd << " " << nDiffTrackIni << " " << pDiffTrackIni << " " << pDiffTrackEnd << endl;
 
         
         if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
             lastElement = tmp;
-            tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd);
+            tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd, true);
             
             //conecta sinais de entrada e saida com o nó inoutCnt do elemento
             for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
@@ -283,7 +284,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         //GATE
         //desenha gate do transistor se nao for GAP
         lastElement = tmp;        
-        tmp = createElement(16, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd);
+        tmp = createElement(16, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd,false);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
             tmp->linkP = *eulerPathP_it;
@@ -305,7 +306,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         
         // DIFF
         lastElement = tmp;
-        tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd);
+        tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd,true);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
             tmp->linkP = *eulerPathP_it;
@@ -344,7 +345,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
     }
     
     //cria elemento lateral para roteamento
-    tmp = createElement(16, center, center,center,center);
+    tmp = createElement(16, center, center,center,center,false);
     
     //conecta sinais de entrada e saida com o nó inoutCnt do elemento
     for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
