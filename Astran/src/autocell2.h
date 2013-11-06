@@ -111,7 +111,7 @@ protected:
 	
     void route(bool hPoly, bool increaseIntTracks, bool optimize);
     void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool enableDFM, bool test, int timeLimit);
-	void selectCell(Circuit* c, string c);
+    void selectCell(Circuit* c, string cell);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};
 	void setPolPriority(int x) {poly_priority=x;};
