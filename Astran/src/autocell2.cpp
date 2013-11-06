@@ -42,7 +42,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
         tmp.pol[x] = rt->createNode();
         if (x && (!isDiff || (x<nDiffEnd) || (x > nDiffIni+1 && x < pDiffIni) || (x>pDiffEnd+1))) rt->addArc(tmp.pol[x], tmp.pol[x - 1], 6);
         if ((x<nDiffEnd) || (x > nDiffIni && x < pDiffIni) || (x>pDiffEnd)) { //CHECK IF THERE IS ENOUGHT SPACE IN THE EXTERNAL AREA 
-            rt->addArc(tmp.pol[x], tmp.met[x], 20);
+            if(x>1 && x<trackPos.size()-1) rt->addArc(tmp.pol[x], tmp.met[x], 20);
             if (hPoly && elements.size() && elements.back().pol[x] != -1)
                 rt->addArc(tmp.pol[x], elements.back().pol[x], 6); //if it's not the first, connect to the last element
         }
@@ -237,8 +237,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         pDiffTrackEnd=pDiffTrackIni;
         while (nDiffTrackEnd && (trackPos[nDiffTrackEnd-1] >= trackPos[nDiffTrackIni] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width))) nDiffTrackEnd--;
         while (pDiffTrackEnd<trackPos.size()-1 && (trackPos[pDiffTrackEnd+1] <= trackPos[pDiffTrackIni] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width))) pDiffTrackEnd++;
-        cout << nDiffTrackEnd << " " << nDiffTrackIni << " " << pDiffTrackIni << " " << pDiffTrackEnd << endl;
-
+//        cout << nDiffTrackEnd << " " << nDiffTrackIni << " " << pDiffTrackIni << " " << pDiffTrackEnd << endl;
         
         if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
             lastElement = tmp;

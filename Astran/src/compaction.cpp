@@ -532,7 +532,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     
 	f.close();
     string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=temp.sol " + 	lp_filename + ".lp";
-//    string cmd = "\"" + lpSolverFile + "\" TimeLimit=5000  MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
+//    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
 	cout << "Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");

@@ -98,7 +98,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "552"
          endingLineNumber = "552"
-         landmarkName = "compaction::solve(string lpSolverFile)"
+         landmarkName = "compaction::solve(string lpSolverFile, int timeLimit)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -112,7 +112,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "555"
          endingLineNumber = "555"
-         landmarkName = "compaction::solve(string lpSolverFile)"
+         landmarkName = "compaction::solve(string lpSolverFile, int timeLimit)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
