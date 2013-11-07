@@ -266,6 +266,8 @@ class CellGen : public wxFrame
 		wxCheckBox* alignDiffCnts;
 		wxStaticText* m_staticText70;
 		wxCheckBox* enableDFM;
+		wxStaticText* m_staticText731;
+		wxCheckBox* reduceLturns;
 		wxStaticText* m_staticText65;
 		wxCheckBox* debug;
 		wxStaticText* m_staticText71;

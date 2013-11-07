@@ -1038,6 +1038,23 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
+	m_staticText731 = new wxStaticText( this, wxID_ANY, wxT("Reduce L turns:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText731->Wrap( -1 );
+	fgSizer6->Add( m_staticText731, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	reduceLturns = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	reduceLturns->SetValue(true); 
+	fgSizer6->Add( reduceLturns, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	
 	m_staticText65 = new wxStaticText( this, wxID_ANY, wxT("Debug (no constraints):"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText65->Wrap( -1 );
 	fgSizer6->Add( m_staticText65, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5 );
