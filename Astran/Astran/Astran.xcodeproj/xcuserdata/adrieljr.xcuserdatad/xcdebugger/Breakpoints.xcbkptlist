@@ -404,7 +404,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "1280"
          endingLineNumber = "1280"
-         landmarkName = "AutoCell::insertDistanceRuleInteligent2(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string lastX, string currentX, string lastY, string currentY, int minDist, string booleanFlag)"
+         landmarkName = "AutoCell::insertDistanceRuleInteligent(vector&lt;Box*&gt; &amp;geometries, compaction &amp;cpt, string lastX, string currentX, string lastY, string currentY, layer_name l)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
