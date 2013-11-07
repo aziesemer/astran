@@ -1234,6 +1234,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_EQ, 0);
+        //minimizes L turns
         cpt.insertConstraint("x" + track + "a - " + intToStr(minIntersection) + " UM", "x" + track + "b", CP_MAX, "b"+track+"_minJoints", relaxation);
     }
     else {
@@ -1244,6 +1245,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("y" + track + "b", "y" + currentNode + "b", CP_MIN, 0);        
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("x" + lastNode + "a", "x" + currentNode + "a", CP_EQ, 0);
+        //minimizes L turns
         cpt.insertConstraint("y" + track + "a - " + intToStr(minIntersection) + " UM", "y" + track + "b", CP_MAX, "b"+track+"_minJoints", relaxation);
     }
     cpt.forceBinaryVar("b"+track+"_minJoints");
