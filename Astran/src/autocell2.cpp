@@ -881,8 +881,8 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, int pos
     //if there is a gate before
     if (lastGate != "") {
         //minimize contact to contact distance
-        cpt.insertConstraint("x" + lastCnt + "b", "x" + currentCnt + "a", CP_EQ, "x" + currentCnt + "min");
-        cpt.insertLPMinVar("x" + currentCnt + "min",6);
+        cpt.insertConstraint("x" + lastCnt + "a", "x" + currentCnt + "b", CP_EQ, "x" + currentCnt + "_boundbx_min");
+        cpt.insertLPMinVar("x" + currentCnt + "_boundbx_min",15);
         cpt.insertConstraint("y" + currentCnt + "_boundbx_a", "y" + lastCnt + "a", CP_MIN, 0);
         cpt.insertConstraint("y" + currentCnt + "_boundbx_a", "y" + currentCnt + "a", CP_MIN, 0);
         cpt.insertConstraint("y" + lastCnt + "b", "y" + currentCnt + "_boundbx_b", CP_MIN, 0);
