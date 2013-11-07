@@ -67,7 +67,7 @@ protected:
 	int nSize,pSize;
 	int center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
-    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts, maxDiffCnts, enableDFM;
+    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts,reduceLturns, maxDiffCnts, enableDFM;
     bool hPoly;
     
 	vector<int> trackPos, diffPini, diffNini;
@@ -110,7 +110,7 @@ protected:
 	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
     void route(bool hPoly, bool increaseIntTracks, bool optimize);
-    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, bool enableDFM, bool test, int timeLimit);
+    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, int reduceLturns, bool enableDFM, bool test, int timeLimit);
     void selectCell(Circuit* c, string cell);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};

@@ -359,7 +359,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
     state = 5;
 }
 
-void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, bool enableDFM, bool test, int timeLimit) {
+void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, int reduceLturns, bool enableDFM, bool test, int timeLimit) {
     checkState(5);
     cout << "-> Compacting layout..." << endl;
     this->diffStretching=diffStretching;
@@ -367,6 +367,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     this->rdCntsCost=rdCntsCost;
     this->maxDiffCnts=maxDiffCnts;
     this->alignDiffConts=alignDiffConts;
+    this->reduceLturns=reduceLturns;
     this->enableDFM=enableDFM;
     
     currentRules = currentCircuit->getRules();
@@ -834,9 +835,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
             insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[gateEnd+1], currentPolNodes[gateEnd], currentDiff, currentPolNodes[gateEnd+1], currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
         cpt.insertConstraint("yPDiffa", "y" + currentDiff + "a", CP_MIN, 0);
     }
-    
-    int c;
-    
+        
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
     cpt.forceBinaryVar("b" + lastDiffCnt + "_LshapeBeforeGate");
     cpt.forceBinaryVar("b" + currentPolNodes[gateIni] + "_applyExtraExtBeforeGate");
@@ -1234,8 +1233,6 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_EQ, 0);
-        //minimizes L turns
-        cpt.insertConstraint("x" + track + "a - " + intToStr(minIntersection) + " UM", "x" + track + "b", CP_MAX, "b"+track+"_minJoints", relaxation);
     }
     else {
         cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_MIN, 0);
@@ -1245,11 +1242,17 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("y" + track + "b", "y" + currentNode + "b", CP_MIN, 0);        
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("x" + lastNode + "a", "x" + currentNode + "a", CP_EQ, 0);
-        //minimizes L turns
-        cpt.insertConstraint("y" + track + "a - " + intToStr(minIntersection) + " UM", "y" + track + "b", CP_MAX, "b"+track+"_minJoints", relaxation);
     }
-    cpt.forceBinaryVar("b"+track+"_minJoints");
-    cpt.insertLPMinVar("b"+track+"_minJoints");
+    
+    //minimizes L turns
+    if(reduceLturns){
+        if(dir==H)
+            cpt.insertConstraint("x" + track + "a - " + intToStr(minIntersection) + " UM", "x" + track + "b", CP_MAX, "b"+track+"_reduceLturns", relaxation);
+        else
+            cpt.insertConstraint("y" + track + "a - " + intToStr(minIntersection) + " UM", "y" + track + "b", CP_MAX, "b"+track+"_reduceLturns", relaxation);
+        cpt.forceBinaryVar("b"+track+"_reduceLturns");
+        cpt.insertLPMinVar("b"+track+"_reduceLturns");
+    }
 }
 
 void AutoCell::insertDistanceRuleInteligent(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, layer_name l){

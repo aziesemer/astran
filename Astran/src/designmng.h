@@ -191,7 +191,7 @@ static commands commands_lst[] = {
 	{"CELLGEN GETARCCOST <int_Node1> <int_Node2>", "Get the arc cost between two nodes using Cellgen"},
 	{"CELLGEN SETARCCOST <int_Node1> <int_Node2> <int_Cost>", "Set the arc cost between two nodes using Cellgen"},
 	{"CELLGEN ROUTE <int_hPoly> <int_incrementIntTracks> <int_optimize>", "Make the routing of the cell with Cellgen"},
-	{"CELLGEN COMPACT <int_diffStretching> <int_griddedPolly> <int_rdCntsCost> <int_maxDiffCnts> <int_alignDiffConts> <int_debug> <int_enableDFM> <int_timeLimit>", "Compact the cell's layout with Cellgen"},
+	{"CELLGEN COMPACT <int_diffStretching> <int_griddedPolly> <int_rdCntsCost> <int_maxDiffCnts> <int_alignDiffConts>  <int_alignDiffConts> <int_debug> <int_enableDFM> <int_timeLimit>", "Compact the cell's layout with Cellgen"},
 	
 	// Help - 2
 	{"HELP", "Print the commands' usage on the screen"},
