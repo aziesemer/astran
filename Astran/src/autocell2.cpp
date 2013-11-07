@@ -1234,7 +1234,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_EQ, 0);
-        cpt.insertConstraint("x" + track + "a", "x" + track + "b", CP_MIN, "b"+track+"_minJoints", minIntersection);
+        cpt.insertConstraint("x" + track + "a - " + intToStr(minIntersection) + " UM", "x" + track + "b", CP_MAX, "b"+track+"_minJoints", relaxation);
     }
     else {
         cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_MIN, 0);
