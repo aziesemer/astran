@@ -633,7 +633,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     cpt.insertLPMinVar("width", 5000);
     
     if (!cpt.solve(lpSolverFile, timeLimit))
-        throw AstranError("Unable to execute ILP solver");
+        throw AstranError("Could not solve the ILP model. Try to adjust the constraints!");
     
     for (int i = 0; i < geometries.size(); i++) {
         

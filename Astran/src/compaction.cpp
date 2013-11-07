@@ -531,16 +531,15 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     
     
 	f.close();
-    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=temp.sol " + 	lp_filename + ".lp";
+    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + lp_filename + ".sol " + lp_filename + ".lp";
 //    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
 	cout << "Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
 	
-	if(x==NULL){
-		cout << "ERROR: Problem to execute lp_solve!" << endl;
-		return 0;
-	}
+	if(x==NULL)
+		throw AstranError("Problem to execute lp_solve!");
+    
     cerr << "* and H means new feasible solution found: ";
 
 	char line[150];
@@ -554,18 +553,17 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
             
 		if(n=="Time" || n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
 			cout << endl << line;
+        if(n=="Unable" || n=="Model")
+            return 0;
     }
 
-	
     _pclose(x);
     
-    FILE* stream = fopen("temp.sol", "r");
+    FILE* stream = fopen((lp_filename+".sol").c_str(), "r");
 
-	if(stream==NULL){
-		cout << "ERROR: Problem opening temp.sol!" << endl;
-		return 0;
-	}
-
+	if(stream==NULL)
+		throw AstranError("Problem opening temp.sol!");
+        
 	while (fgets(line, 150, stream)) {
 		
 		istringstream s(line);
@@ -575,10 +573,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 		int v;
 		
 		s >> n;
-		if(n=="This"){
-			cout << "Error executing LP Solver: " << line << endl;
-			return 0;
-		}else if(n=="#") continue;
+        if(n=="#") continue;
             
 		s >> tmp;
 		v = round(tmp);
