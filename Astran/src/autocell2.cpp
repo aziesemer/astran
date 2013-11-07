@@ -57,7 +57,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     
     //conecta aos pinos de entrada e saida
     for (int x = 0; x < trackPos.size(); x++)
-        rt->addArc(tmp.inoutCnt, tmp.met[x], 500);            
+        rt->addArc(tmp.inoutCnt, tmp.met[x], (x > nDiffIni && x < pDiffIni)?495:500);            
     
     elements.push_back(tmp);
     return &elements.back();
