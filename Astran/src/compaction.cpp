@@ -541,7 +541,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 		cout << "ERROR: Problem to execute lp_solve!" << endl;
 		return 0;
 	}
-    cout << "* and H means new feasible solution found: ";
+    cerr << "* and H means new feasible solution found: ";
 
 	char line[150];
 	while (fgets(line, 150, x)) {

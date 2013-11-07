@@ -136,7 +136,7 @@ void WxAutoCell::update(){
 	int state=0;
 	if(currentFrmwork->getDesign()->getAutoCell())
 		state=currentFrmwork->getDesign()->getAutoCell()->getState();
-	fold_button->Enable(state>=2);
+	fold_button->Enable(state>=1);
 	place_button->Enable(state>=3);
 	route_button->Enable(state>=4);
 	compact_button->Enable(state>=5);

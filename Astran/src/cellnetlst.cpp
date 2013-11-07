@@ -439,14 +439,17 @@ int CellNetlst::GetCost(){
 		if(boundBoxNets_ini[pos]!=-1 && nName!="VDD!" && nName!="VDD" && nName!="VCC" && nName!="GND" && nName!="0"){ //TO IMPROVE!!!
 			wRouting+=boundBoxNets_end[pos]-boundBoxNets_ini[pos]; 			
 			//cout << nName << "-" << boundBoxNets_ini[pos] <<"-"<< boundBoxNets_end[pos] << endl;
-			for(x=boundBoxNets_ini[pos]; x<=boundBoxNets_end[pos]; x++){
-				maxCong=max(maxCong,++congestioning[x]);
-			}
+			for(x=boundBoxNets_ini[pos]; x<=boundBoxNets_end[pos]; x++)
+				++congestioning[x];
 		}
 	}
-//	cerr << maxCong << "-";
+    int localCong=0;
+    for(pos=0; pos<congestioning.size(); pos++){
+        maxCong=max(maxCong,congestioning[pos]);
+        localCong+=congestioning[pos]*congestioning[pos];
+    }
 	//  cout << missMatchGate<< "-" << wGaps << "-" << wRouting << endl;
-	return(congCost*maxCong + gmCost*missMatchGate + ngCost*wGaps + rCost*wRouting + wCost*posPN);
+	return(localCong + 100*(congCost*maxCong + gmCost*missMatchGate + ngCost*wGaps + rCost*wRouting + wCost*posPN));
 }
 
 int CellNetlst::Perturbation(){
@@ -515,7 +518,7 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	rCost=rC;
 	congCost=congC;
 	ngCost=ngC;
-	
+
 	int i;
 	if(!orderingP.size() && !orderingN.size()){
 		if(!ep || !eulerpath()){ 
