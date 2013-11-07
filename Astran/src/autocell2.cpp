@@ -1234,6 +1234,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("x" + track + "b", "x" + currentNode + "b", CP_MIN, 0);
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_EQ, 0);
+        cpt.insertConstraint("x" + track + "a", "x" + track + "b", CP_MIN, "b"+track+"_minJoints", minIntersection);
     }
     else {
         cpt.insertConstraint("y" + lastNode + "a", "y" + currentNode + "a", CP_MIN, 0);
@@ -1243,7 +1244,10 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         cpt.insertConstraint("y" + track + "b", "y" + currentNode + "b", CP_MIN, 0);        
         if (l==POLY && griddedPoly)
             cpt.insertConstraint("x" + lastNode + "a", "x" + currentNode + "a", CP_EQ, 0);
+        cpt.insertConstraint("y" + track + "a - " + intToStr(minIntersection) + " UM", "y" + track + "b", CP_MAX, "b"+track+"_minJoints", relaxation);
     }
+    cpt.forceBinaryVar("b"+track+"_minJoints");
+    cpt.insertLPMinVar("b"+track+"_minJoints");
 }
 
 void AutoCell::insertDistanceRuleInteligent(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, layer_name l){
