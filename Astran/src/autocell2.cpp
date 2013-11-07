@@ -578,16 +578,24 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
         for (int c = 0; c < trackPos.size(); c++) {
             //insert contacts to diff space rule
             if(currentContacts[c]!=""){
-                if(elements_it->linkN.type!=GAP)
-                    if(c<elements_it->diffNEnd)
+                if(elements_it->linkN.type!=GAP){
+                    if(c<elements_it->diffNEnd){
                         insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentContacts[c], currentDiffN, currentRules->getRule(S1CTDF),"");
-                    else if(c>elements_it->diffNIni)
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffN, currentContacts[c], lastDiffN, currentRules->getRule(S1CTDF),"");
+                    }else if(c>elements_it->diffNIni){
                         insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentDiffN, currentContacts[c], currentRules->getRule(S1CTDF),"");
-                if(elements_it->linkP.type!=GAP)
-                    if(c<elements_it->diffPIni)
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffN, lastDiffN, currentContacts[c], currentRules->getRule(S1CTDF),"");
+                    }
+                }
+                if(elements_it->linkP.type!=GAP){
+                    if(c<elements_it->diffPIni){
                         insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentContacts[c], currentDiffP, currentRules->getRule(S1CTDF),"");
-                    else if(c>elements_it->diffPEnd)
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffP, currentContacts[c], lastDiffP, currentRules->getRule(S1CTDF),"");
+                    }else if(c>elements_it->diffPEnd){
                         insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentDiffP, currentContacts[c], currentRules->getRule(S1CTDF),"");
+                        insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffP, lastDiffP, currentContacts[c], currentRules->getRule(S1CTDF),"");
+                    }
+                }
             }
             
             //insert diff to poly space rule
