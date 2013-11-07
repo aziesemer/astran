@@ -49,11 +49,11 @@ http://www.gurobi.com/download/licenses/free-academic
 5. You need to setup the tool in order to use it. Open View->Preferences and set the path to gurobi_cl:
     MAC OS: It's usually in /Library/gurobi502/mac64/bin/gurobi_cl
 
-OPTIONAL: It's also hightly recomended you set the CIF Viewer path. E.g.: /Applications/wxSightGL.app/Contents/MacOS/wxSightGL
-
-    You can download wxSightGL from:
+6. Set the path to your CIF viewer too. You can use wxSightGL, it's usually inside the Tools folder for your SO. You can also download it from 
     https://code.google.com/p/gme-ufrgs/downloads/list
-    MAC OS: Install it in your Applications folder.
+    
+    MAC OS: Install it in your Applications folder and set the path to: /Applications/wxSightGL.app/Contents/MacOS/wxSightGL
+    LINUX: Execute: sudo apt-get install freeglut3-dev
     WINDOWS: Download the opengl dll (glut32.dll) to your c:\windows\system32 directory:
     http://www.dll-files.com/dllindex/dll-files.shtml?glut32
 
