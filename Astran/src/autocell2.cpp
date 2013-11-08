@@ -1251,7 +1251,7 @@ void AutoCell::createTrack(vector<Box*> &geometries, compaction &cpt, string las
         else
             cpt.insertConstraint("y" + track + "a - " + intToStr(minIntersection) + " UM", "y" + track + "b", CP_MAX, "b"+track+"_reduceLturns", relaxation);
         cpt.forceBinaryVar("b"+track+"_reduceLturns");
-        cpt.insertLPMinVar("b"+track+"_reduceLturns");
+        cpt.insertLPMinVar("b"+track+"_reduceLturns",l==MET1?4:7);
     }
 }
 
