@@ -14,7 +14,7 @@ DesignMng::DesignMng(){
 	rules=NULL;
 	placer=NULL;
 	autocell=NULL;
-	readCommand("new design new_design");
+	readCommand("new design astran_project");
 }
 
 DesignMng::~DesignMng(){

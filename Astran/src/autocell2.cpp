@@ -1199,10 +1199,10 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
         cpt.insertConstraint("ZERO", "max" + currentGeo+ "R", CP_MAX, ceil(minDist*1.10));
         cpt.insertConstraint("ZERO", "max" + currentGeo+ "B", CP_MAX, ceil(minDist*1.10));
         cpt.insertConstraint("ZERO", "max" + currentGeo+ "T", CP_MAX, ceil(minDist*1.10));
-        cpt.insertLPMinVar("max" + currentGeo+ "L", -6);
-        cpt.insertLPMinVar("max" + currentGeo+ "R", -6);
-        cpt.insertLPMinVar("max" + currentGeo+ "B", -6);
-        cpt.insertLPMinVar("max" + currentGeo+ "T", -6);
+        cpt.insertLPMinVar("max" + currentGeo+ "L", -(l==MET1?5:8));
+        cpt.insertLPMinVar("max" + currentGeo+ "R", -(l==MET1?5:8));
+        cpt.insertLPMinVar("max" + currentGeo+ "B", -(l==MET1?5:8));
+        cpt.insertLPMinVar("max" + currentGeo+ "T", -(l==MET1?5:8));
     }
     
     currentNode[pos]=currentGeo;
@@ -1273,7 +1273,10 @@ void AutoCell::insertDistanceRuleInteligent(vector<Box*> &geometries, compaction
     cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a2", CP_MIN, "b" + lastX + "_" + currentX + "_2", minDist + relaxation);
     cpt.insertConstraint("y" + lastY + "b2 + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_2", minDist + relaxation);
     
-    if(l==CONT) minDist = max(int(ceil(2*(currentRules->getRule(S3CTCT)/sqrt(2.0)))), currentRules->getRule(S1CTCT));
+    if(l==CONT) minDist = currentRules->getRule(S3CTCT);
+    minDist=int(ceil(2*(minDist/sqrt(2.0))));
+    if(l==CONT) minDist = max(minDist, currentRules->getRule(S1CTCT));
+    
     cpt.insertConstraint("ZERO", "x" + currentX +  "a2" + " - " + "x" + lastX +  "b" + " + "+ "y" + currentY +  "a2" + " - " + "y" + lastY +  "b + RELAXATION", CP_MIN, "b" + lastX + "_" + currentX+ "_3", minDist + relaxation);    
     cpt.insertConstraint("ZERO", "x" + currentX +  "a" + " - " + "x" + lastX +  "b2" + " + "+ "y" + currentY +  "a" + " - " + "y" + lastY +  "b2 + RELAXATION", CP_MIN, "b" + lastX + "_" + currentX+ "_3", minDist + relaxation);    
 }
