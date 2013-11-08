@@ -820,7 +820,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	m_staticText50 = new wxStaticText( this, wxID_ANY, wxT("# Internal Tracks"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText50 = new wxStaticText( this, wxID_ANY, wxT("Nr. of Internal Tracks"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText50->Wrap( -1 );
 	fgSizer6->Add( m_staticText50, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -854,7 +854,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	p_WC->SetMaxLength( 0 ); 
 	fgSizer6->Add( p_WC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
-	static_gatemmcost = new wxStaticText( this, wxID_ANY, wxT("Gate Miss Match Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_gatemmcost = new wxStaticText( this, wxID_ANY, wxT("Gate Missmatch Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_gatemmcost->Wrap( -1 );
 	fgSizer6->Add( static_gatemmcost, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -873,7 +873,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	p_RC->SetMaxLength( 0 ); 
 	fgSizer6->Add( p_RC, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
-	static_rtdenscost = new wxStaticText( this, wxID_ANY, wxT("Rt Density Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_rtdenscost = new wxStaticText( this, wxID_ANY, wxT("Routing Density Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_rtdenscost->Wrap( -1 );
 	fgSizer6->Add( static_rtdenscost, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -884,7 +884,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	static_gapcost = new wxStaticText( this, wxID_ANY, wxT("# Gaps Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_gapcost = new wxStaticText( this, wxID_ANY, wxT("Nr. of Gaps Cost:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_gapcost->Wrap( -1 );
 	fgSizer6->Add( static_gapcost, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -901,7 +901,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	static_taqual = new wxStaticText( this, wxID_ANY, wxT("TA Quality:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_taqual = new wxStaticText( this, wxID_ANY, wxT("Nr. of iterations:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_taqual->Wrap( -1 );
 	fgSizer6->Add( static_taqual, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -909,7 +909,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	p_TAQ->SetMaxLength( 0 ); 
 	fgSizer6->Add( p_TAQ, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxEXPAND, 5 );
 	
-	static_numatt = new wxStaticText( this, wxID_ANY, wxT("# Attempts:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_numatt = new wxStaticText( this, wxID_ANY, wxT("Nr. of attempts:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_numatt->Wrap( -1 );
 	fgSizer6->Add( static_numatt, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -943,11 +943,11 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	hPoly->SetValue(true); 
 	fgSizer6->Add( hPoly, 0, wxALL, 5 );
 	
-	m_staticText73 = new wxStaticText( this, wxID_ANY, wxT("Increase # Internal Tracks:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText73 = new wxStaticText( this, wxID_ANY, wxT("Align diffs top/bottom"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText73->Wrap( -1 );
 	fgSizer6->Add( m_staticText73, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	increaseIntTracks = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	increaseIntTracks = new wxCheckBox( this, wxID_ANY, wxT("(more internal tracks)"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( increaseIntTracks, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
@@ -963,7 +963,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	m_staticText74->Wrap( -1 );
 	fgSizer6->Add( m_staticText74, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	optimize = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	optimize = new wxCheckBox( this, wxID_ANY, wxT("(add steiner nodes)"), wxDefaultPosition, wxDefaultSize, 0 );
 	optimize->SetValue(true); 
 	fgSizer6->Add( optimize, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -985,7 +985,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	m_staticline5 = new wxStaticLine( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
 	fgSizer6->Add( m_staticline5, 0, wxEXPAND | wxALL, 5 );
 	
-	static_ds = new wxStaticText( this, wxID_ANY, wxT("Diff. Stretching:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_ds = new wxStaticText( this, wxID_ANY, wxT("Diffusion Stretching:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_ds->Wrap( -1 );
 	fgSizer6->Add( static_ds, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
@@ -997,7 +997,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	static_gp->Wrap( -1 );
 	fgSizer6->Add( static_gp, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	griddedPolly = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	griddedPolly = new wxCheckBox( this, wxID_ANY, wxT("(align polys vertically)"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( griddedPolly, 0, wxALL, 5 );
 	
 	
@@ -1020,31 +1020,39 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	static_adc = new wxStaticText( this, wxID_ANY, wxT("Align Diff. Cnts.:"), wxDefaultPosition, wxDefaultSize, 0 );
+	static_adc = new wxStaticText( this, wxID_ANY, wxT("Align Diffusion Cnts.:"), wxDefaultPosition, wxDefaultSize, 0 );
 	static_adc->Wrap( -1 );
 	fgSizer6->Add( static_adc, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	alignDiffCnts = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	alignDiffCnts = new wxCheckBox( this, wxID_ANY, wxT("(reduce distance)"), wxDefaultPosition, wxDefaultSize, 0 );
 	alignDiffCnts->SetValue(true); 
 	fgSizer6->Add( alignDiffCnts, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText70 = new wxStaticText( this, wxID_ANY, wxT("Enable DFM Rules:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText70 = new wxStaticText( this, wxID_ANY, wxT("Reduce L turns:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText70->Wrap( -1 );
 	fgSizer6->Add( m_staticText70, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	enableDFM = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( enableDFM, 0, wxALL, 5 );
+	reduceLturns = new wxCheckBox( this, wxID_ANY, wxT("(better quality)"), wxDefaultPosition, wxDefaultSize, 0 );
+	reduceLturns->SetValue(true); 
+	fgSizer6->Add( reduceLturns, 0, wxALL, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 	
-	m_staticText731 = new wxStaticText( this, wxID_ANY, wxT("Reduce L turns:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText731 = new wxStaticText( this, wxID_ANY, wxT("Enable DFM:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText731->Wrap( -1 );
 	fgSizer6->Add( m_staticText731, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
 	
-	reduceLturns = new wxCheckBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	reduceLturns->SetValue(true); 
-	fgSizer6->Add( reduceLturns, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	enableDFM = new wxCheckBox( this, wxID_ANY, wxT("(10% extra dist)"), wxDefaultPosition, wxDefaultSize, 0 );
+	enableDFM->SetValue(true); 
+	fgSizer6->Add( enableDFM, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	m_staticText741 = new wxStaticText( this, wxID_ANY, wxT("Experimental:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText741->Wrap( -1 );
+	fgSizer6->Add( m_staticText741, 0, wxALL|wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT, 5 );
+	
+	experimental = new wxCheckBox( this, wxID_ANY, wxT("(untested feat.)"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( experimental, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	
 	fgSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
