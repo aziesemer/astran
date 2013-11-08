@@ -256,156 +256,156 @@ void compaction::insertLPMinVar( string v, int i ) {
 }
 
 /*
-int compaction::solve(string lpSolverFile) {
-	cout << "Calling LP Solver (" 
-	<< variables.size() << " variables, " 
-	<< constraints.size() << " constraints)" << endl;
-	
-	string fn = lp_filename + ".lp";
-	ofstream f(fn.c_str());
-	
-	
-	if ( !f ) {
-		cerr << "ERROR:Cannot create file " << fn << ". Please verify your temporary directory." << endl;
-		exit(-1);
-	}
-	
-	f << "min: "; 
-	for ( unsigned int i = 0; i < lp_min_var.size(); i++ ) {    
-		if ( i != 0 )
-			f << " + ";
-		if ( lp_min_val[i] != 1 )
-			f << lp_min_val[i] << " ";
-		
-		f << lp_min_var[i];
-	}
-	f << ";" << endl;
-	
-	// Constant zero
-	variables[ "ZERO" ] = 0;
-	f << "Czero: ZERO = 0;" << endl;
-	
-	for ( unsigned int i = 0; i < constraints.size(); i++ ) {
-		
-		string v1 = constraints[i].v1->first;
-		
-		string v2  = "0";
-		if ( constraints[i].v2 != variables.end() )
-			v2 = constraints[i].v2->first;
-		
-		string t  = "0";
-		if ( constraints[i].t != variables.end() )
-			t = constraints[i].t->first;
-		
-		cp_cons_tp type = constraints[i].type;
-		
-		int val = constraints[i].val;
-		
-		if ( type == CP_MIN )
-			f << "C" << i << ": " << v2 << " - " << v1 << " >= " << val << ";" << endl;
-		if ( type == CP_MAX )
-			f << "C" << i << ": " << v2 << " - " << v1 << " <= " << val << ";" << endl;
-		else if ( type == CP_EQ )
-			f << "C" << i << ": " << v2 << " - " << v1 << " = " << val << ";" << endl;
-		else if ( type == CP_MIN_VAR_VAL )
-			f << "C" << i << ": " << v2 << " - " << v1 << " >= " << val << " " << t << ";" << endl;
-		else if ( type == CP_MAX_VAR_VAL )
-			f << "C" << i << ": " << v2 << " - " << v1 << " <= " << val << " " << t << ";" << endl;
-		else if ( type == CP_EQ_VAR_VAL )
-			f << "C" << i << ": " << v2 << " - " << v1 << " = " << val << " " << t << ";" << endl;
-		else if ( type == CP_MIN_VAR )
-			f << "C" << i << ": " << v2 << " - " << v1 << " >= " << t << ";" << endl;
-		else if ( type == CP_MAX_VAR )
-			f << "C" << i << ": " << v2 << " - " << v1 << " <= " << t << ";" << endl;
-		else if ( type == CP_EQ_VAR )
-			f << "C" << i << ": " << v2 << " - " << v1 << " = " << t << ";" << endl;
-		else if ( type == CP_BIG_ZERO )
-			f << "C" << i << ": " << v1 << " > 0;" << endl;
-		else if ( type == CP_BIG_EQ_ZERO )
-			f << "C" << i << ": " << v1 << " >= 0;" << endl;
-		else if ( type == CP_EQ_ZERO )
-			f << "C" << i << ": " << v1 << " = 0;" << endl;
-		else if ( type == CP_UPPER_BOUND )
-			f << "C" << i << ": " << v1 << " <= " << val << ";" << endl;
-		else if ( type == CP_LOWER_BOUND )
-			f << "C" << i << ": " << v1 << " >= " << val << ";" << endl;
-		
-	}
-	
-	if ( int_vars.size() > 0 ) {  
-		f << "int "; 
-		for ( unsigned int i = 0; i < int_vars.size(); i++ ) {
-			if ( i != 0 )
-				f << ", ";
-			f << int_vars[i];
-		}
-		f << ";" << endl;
-	}
-
-	if ( bin_vars.size() > 0 ) {  
-		f << "bin "; 
-		for ( unsigned int i = 0; i < bin_vars.size(); i++ ) {
-			if ( i != 0 )
-				f << ", ";
-			f << bin_vars[i];
-		}
-		f << ";" << endl;
-	}
-    
-    if ( sec_vars.size() > 0 ) {  
-		f << "sec "; 
-		for ( unsigned int i = 0; i < sec_vars.size(); i++ ) {
-			if ( i != 0 )
-				f << ", ";
-			f << sec_vars[i];
-		}
-		f << ";" << endl;
-	}
-
-    if ( sos_vars.size() > 0 ) {  
-		f << "sos" << endl; 
-		for ( unsigned int i = 0; i < sos_vars.size(); i++ )
-				f << "SOS" << i << ": " << sos_vars[i] << " <= 1;" << endl;
-	}
-
-    
-	f.close();
-    string cmd = "\"" + lpSolverFile + "\" " + 	lp_filename + ".lp 2> temp.log";
-	cout << "Running command: " << cmd << endl;
-	
-	FILE *x = _popen(cmd.c_str(), "r");
-	
-	if(x==NULL){
-		cout << "ERROR: Problem to execute lp_solve!" << endl;
-		return 0;
-	}
-	
-	char str[150];
-	while (fgets(str, 150, x)) {
-		
-		istringstream s(str);
-		
-		string n;
-		int v;
-		
-		s >> n;
-		if(n=="This"){
-			cout << "Error executing LP Solver: " << str << endl;
-			return 0;
-		}
-		s >> v;
-		
-		
-		map<string,int>::iterator i = variables.find( n );
-		if ( i != variables.end() ) {
-			i->second = v;
-		}
-	}
-	
-	_pclose(x);
-	return 1;
-}
-*/
+ int compaction::solve(string lpSolverFile) {
+ cout << "Calling LP Solver (" 
+ << variables.size() << " variables, " 
+ << constraints.size() << " constraints)" << endl;
+ 
+ string fn = lp_filename + ".lp";
+ ofstream f(fn.c_str());
+ 
+ 
+ if ( !f ) {
+ cerr << "ERROR:Cannot create file " << fn << ". Please verify your temporary directory." << endl;
+ exit(-1);
+ }
+ 
+ f << "min: "; 
+ for ( unsigned int i = 0; i < lp_min_var.size(); i++ ) {    
+ if ( i != 0 )
+ f << " + ";
+ if ( lp_min_val[i] != 1 )
+ f << lp_min_val[i] << " ";
+ 
+ f << lp_min_var[i];
+ }
+ f << ";" << endl;
+ 
+ // Constant zero
+ variables[ "ZERO" ] = 0;
+ f << "Czero: ZERO = 0;" << endl;
+ 
+ for ( unsigned int i = 0; i < constraints.size(); i++ ) {
+ 
+ string v1 = constraints[i].v1->first;
+ 
+ string v2  = "0";
+ if ( constraints[i].v2 != variables.end() )
+ v2 = constraints[i].v2->first;
+ 
+ string t  = "0";
+ if ( constraints[i].t != variables.end() )
+ t = constraints[i].t->first;
+ 
+ cp_cons_tp type = constraints[i].type;
+ 
+ int val = constraints[i].val;
+ 
+ if ( type == CP_MIN )
+ f << "C" << i << ": " << v2 << " - " << v1 << " >= " << val << ";" << endl;
+ if ( type == CP_MAX )
+ f << "C" << i << ": " << v2 << " - " << v1 << " <= " << val << ";" << endl;
+ else if ( type == CP_EQ )
+ f << "C" << i << ": " << v2 << " - " << v1 << " = " << val << ";" << endl;
+ else if ( type == CP_MIN_VAR_VAL )
+ f << "C" << i << ": " << v2 << " - " << v1 << " >= " << val << " " << t << ";" << endl;
+ else if ( type == CP_MAX_VAR_VAL )
+ f << "C" << i << ": " << v2 << " - " << v1 << " <= " << val << " " << t << ";" << endl;
+ else if ( type == CP_EQ_VAR_VAL )
+ f << "C" << i << ": " << v2 << " - " << v1 << " = " << val << " " << t << ";" << endl;
+ else if ( type == CP_MIN_VAR )
+ f << "C" << i << ": " << v2 << " - " << v1 << " >= " << t << ";" << endl;
+ else if ( type == CP_MAX_VAR )
+ f << "C" << i << ": " << v2 << " - " << v1 << " <= " << t << ";" << endl;
+ else if ( type == CP_EQ_VAR )
+ f << "C" << i << ": " << v2 << " - " << v1 << " = " << t << ";" << endl;
+ else if ( type == CP_BIG_ZERO )
+ f << "C" << i << ": " << v1 << " > 0;" << endl;
+ else if ( type == CP_BIG_EQ_ZERO )
+ f << "C" << i << ": " << v1 << " >= 0;" << endl;
+ else if ( type == CP_EQ_ZERO )
+ f << "C" << i << ": " << v1 << " = 0;" << endl;
+ else if ( type == CP_UPPER_BOUND )
+ f << "C" << i << ": " << v1 << " <= " << val << ";" << endl;
+ else if ( type == CP_LOWER_BOUND )
+ f << "C" << i << ": " << v1 << " >= " << val << ";" << endl;
+ 
+ }
+ 
+ if ( int_vars.size() > 0 ) {  
+ f << "int "; 
+ for ( unsigned int i = 0; i < int_vars.size(); i++ ) {
+ if ( i != 0 )
+ f << ", ";
+ f << int_vars[i];
+ }
+ f << ";" << endl;
+ }
+ 
+ if ( bin_vars.size() > 0 ) {  
+ f << "bin "; 
+ for ( unsigned int i = 0; i < bin_vars.size(); i++ ) {
+ if ( i != 0 )
+ f << ", ";
+ f << bin_vars[i];
+ }
+ f << ";" << endl;
+ }
+ 
+ if ( sec_vars.size() > 0 ) {  
+ f << "sec "; 
+ for ( unsigned int i = 0; i < sec_vars.size(); i++ ) {
+ if ( i != 0 )
+ f << ", ";
+ f << sec_vars[i];
+ }
+ f << ";" << endl;
+ }
+ 
+ if ( sos_vars.size() > 0 ) {  
+ f << "sos" << endl; 
+ for ( unsigned int i = 0; i < sos_vars.size(); i++ )
+ f << "SOS" << i << ": " << sos_vars[i] << " <= 1;" << endl;
+ }
+ 
+ 
+ f.close();
+ string cmd = "\"" + lpSolverFile + "\" " + 	lp_filename + ".lp 2> temp.log";
+ cout << "Running command: " << cmd << endl;
+ 
+ FILE *x = _popen(cmd.c_str(), "r");
+ 
+ if(x==NULL){
+ cout << "ERROR: Problem to execute lp_solve!" << endl;
+ return 0;
+ }
+ 
+ char str[150];
+ while (fgets(str, 150, x)) {
+ 
+ istringstream s(str);
+ 
+ string n;
+ int v;
+ 
+ s >> n;
+ if(n=="This"){
+ cout << "Error executing LP Solver: " << str << endl;
+ return 0;
+ }
+ s >> v;
+ 
+ 
+ map<string,int>::iterator i = variables.find( n );
+ if ( i != variables.end() ) {
+ i->second = v;
+ }
+ }
+ 
+ _pclose(x);
+ return 1;
+ }
+ */
 
 /** Solve compaction constraints with linear programming. */
 int compaction::solve(string lpSolverFile, int timeLimit) {
@@ -414,125 +414,126 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 	<< constraints.size() << " constraints)" << endl;
 	
 	string fn = lp_filename + ".lp";
-	ofstream f(fn.c_str());
-	
-	
-	if ( !f ) {
-		cerr << "ERROR:Cannot create file " << fn << ". Please verify your temporary directory." << endl;
-		exit(-1);
-	}
-	
-	f << "Minimize" << endl; 
-	for ( unsigned int i = 0; i < lp_min_var.size(); i++ ) {    
-		if ( i != 0 ){
-			if(lp_min_val[i]>=0)
-                f << " + ";
-            else
-                f << " - ";                
+    {
+        ofstream f(fn.c_str());
+        
+        if ( !f ) {
+            cerr << "ERROR:Cannot create file " << fn << ". Please verify your temporary directory." << endl;
+            exit(-1);
         }
-		if ( lp_min_val[i] != 1 )
-			f << abs(lp_min_val[i]) << " ";
-		
-		f << lp_min_var[i];
-	}
-	f << endl;
-	
-	f << "Subject To" << endl; 
-
-	// Constant zero
-	variables[ "ZERO" ] = 0;
-	f << "Czero: ZERO = 0;" << endl;
-    unsigned int i;
-	for (i = 0; i < constraints.size(); i++ ) {
-		
-		string v1 = constraints[i].v1->first;
-		
-		string v2  = "0";
-		if ( constraints[i].v2 != variables.end() )
-			v2 = constraints[i].v2->first;
-		
-		string t  = "0";
-		if ( constraints[i].t != variables.end() )
-			t = constraints[i].t->first;
-		
-		cp_cons_tp type = constraints[i].type;
-		
-		int val = constraints[i].val;
-		
-		if ( type == CP_MIN )
-			f << "C" << i << ": " << v2 << " - " << v1 << " >= " << val << endl;
-		if ( type == CP_MAX )
-			f << "C" << i << ": " << v2 << " - " << v1 << " <= " << val << endl;
-		else if ( type == CP_EQ)
-			f << "C" << i << ": " << v2 << " - " << v1 << " = " << val << endl;
-		else if ( type == CP_MIN_VAR_VAL )
-			f << "C" << i << ": " << v2 << " - " << val << " " << t << " - " << v1 << " >= 0" << endl;
-		else if ( type == CP_MAX_VAR_VAL )
-			f << "C" << i << ": " << v2 << " - " << val << " " << t << " - " << v1 << " <= 0" << endl;
-		else if ( type == CP_EQ_VAR_VAL )
-			f << "C" << i << ": " << v2 << " - " << val << " " << t << " - " << v1 << " = 0" << endl;
-		else if ( type == CP_MIN_VAR )
-			f << "C" << i << ": " << v2 << " - " << v1 << " - " << t << " >= 0" << endl;
-		else if ( type == CP_MAX_VAR )
-			f << "C" << i << ": " << v2 << " - " << v1 << " - " << t << " <= 0" << endl;
-		else if ( type == CP_EQ_VAR )
-			f << "C" << i << ": " << v2 << " - " << v1 << " - " << t << " = 0" << endl;
-		else if ( type == CP_BIG_ZERO )
-			f << "C" << i << ": " << v1 << " > 0" << endl;
-		else if ( type == CP_BIG_EQ_ZERO )
-			f << "C" << i << ": " << v1 << " >= 0" << endl;
-		else if ( type == CP_EQ_ZERO )
-			f << "C" << i << ": " << v1 << " = 0" << endl;
-		else if ( type == CP_UPPER_BOUND )
-			f << "C" << i << ": " << v1 << " <= " << val << endl;
-		else if ( type == CP_LOWER_BOUND )
-			f << "C" << i << ": " << v1 << " >= " << val << endl;
-		
-	}
-    for ( unsigned int j = 0; j < ctrts.size(); j++ ) {
-        f << "C" << i+j << ": " << ctrts[j] << endl;
+        
+        f << "Minimize" << endl; 
+        for ( unsigned int i = 0; i < lp_min_var.size(); i++ ) {    
+            if ( i != 0 ){
+                if(lp_min_val[i]>=0)
+                    f << " + ";
+                else
+                    f << " - ";                
+            }
+            if ( lp_min_val[i] != 1 )
+                f << abs(lp_min_val[i]) << " ";
+            
+            f << lp_min_var[i];
+        }
+        f << endl;
+        
+        f << "Subject To" << endl; 
+        
+        // Constant zero
+        variables[ "ZERO" ] = 0;
+        f << "Czero: ZERO = 0;" << endl;
+        unsigned int i;
+        for (i = 0; i < constraints.size(); i++ ) {
+            
+            string v1 = constraints[i].v1->first;
+            
+            string v2  = "0";
+            if ( constraints[i].v2 != variables.end() )
+                v2 = constraints[i].v2->first;
+            
+            string t  = "0";
+            if ( constraints[i].t != variables.end() )
+                t = constraints[i].t->first;
+            
+            cp_cons_tp type = constraints[i].type;
+            
+            int val = constraints[i].val;
+            
+            if ( type == CP_MIN )
+                f << "C" << i << ": " << v2 << " - " << v1 << " >= " << val << endl;
+            if ( type == CP_MAX )
+                f << "C" << i << ": " << v2 << " - " << v1 << " <= " << val << endl;
+            else if ( type == CP_EQ)
+                f << "C" << i << ": " << v2 << " - " << v1 << " = " << val << endl;
+            else if ( type == CP_MIN_VAR_VAL )
+                f << "C" << i << ": " << v2 << " - " << val << " " << t << " - " << v1 << " >= 0" << endl;
+            else if ( type == CP_MAX_VAR_VAL )
+                f << "C" << i << ": " << v2 << " - " << val << " " << t << " - " << v1 << " <= 0" << endl;
+            else if ( type == CP_EQ_VAR_VAL )
+                f << "C" << i << ": " << v2 << " - " << val << " " << t << " - " << v1 << " = 0" << endl;
+            else if ( type == CP_MIN_VAR )
+                f << "C" << i << ": " << v2 << " - " << v1 << " - " << t << " >= 0" << endl;
+            else if ( type == CP_MAX_VAR )
+                f << "C" << i << ": " << v2 << " - " << v1 << " - " << t << " <= 0" << endl;
+            else if ( type == CP_EQ_VAR )
+                f << "C" << i << ": " << v2 << " - " << v1 << " - " << t << " = 0" << endl;
+            else if ( type == CP_BIG_ZERO )
+                f << "C" << i << ": " << v1 << " > 0" << endl;
+            else if ( type == CP_BIG_EQ_ZERO )
+                f << "C" << i << ": " << v1 << " >= 0" << endl;
+            else if ( type == CP_EQ_ZERO )
+                f << "C" << i << ": " << v1 << " = 0" << endl;
+            else if ( type == CP_UPPER_BOUND )
+                f << "C" << i << ": " << v1 << " <= " << val << endl;
+            else if ( type == CP_LOWER_BOUND )
+                f << "C" << i << ": " << v1 << " >= " << val << endl;
+            
+        }
+        for ( unsigned int j = 0; j < ctrts.size(); j++ ) {
+            f << "C" << i+j << ": " << ctrts[j] << endl;
+        }
+        
+        if ( int_vars.size() > 0 ) {  
+            f << "Generals" << endl; 
+            for (map<string,int>::iterator it = variables.begin();it != variables.end(); ++it){
+                if ( it != variables.begin() )
+                    f << " ";
+                f << it->first;
+            }
+            f << endl;
+        }
+        
+        if ( bin_vars.size() > 0 ) {  
+            f << "Binary" << endl; 
+            for ( unsigned int i = 0; i < bin_vars.size(); i++ ) {
+                if ( i != 0 )
+                    f << " ";
+                f << bin_vars[i];
+            }
+            f << endl;
+        }
+        
+        if ( sec_vars.size() > 0 ) {  
+            f << "Semi" << endl;
+            for ( unsigned int i = 0; i < sec_vars.size(); i++ ) {
+                if ( i != 0 )
+                    f << " ";
+                f << sec_vars[i];
+            }
+            f << endl;
+        }
+        
+        if ( sos_vars.size() > 0 ) {  
+            f << "sos" << endl; 
+            for ( unsigned int i = 0; i < sos_vars.size(); i++ )
+                f << "SOS" << i << ": " << sos_vars[i] << " <= 1" << endl;
+        }
+        
+        f.flush();
+        f.close();
     }
-    
-	if ( int_vars.size() > 0 ) {  
-		f << "Generals" << endl; 
-		for (map<string,int>::iterator it = variables.begin();it != variables.end(); ++it){
-			if ( it != variables.begin() )
-				f << " ";
-			f << it->first;
-		}
-		f << endl;
-	}
-    
-	if ( bin_vars.size() > 0 ) {  
-		f << "Binary" << endl; 
-		for ( unsigned int i = 0; i < bin_vars.size(); i++ ) {
-			if ( i != 0 )
-				f << " ";
-			f << bin_vars[i];
-		}
-		f << endl;
-	}
-    
-    if ( sec_vars.size() > 0 ) {  
-		f << "Semi" << endl;
-		for ( unsigned int i = 0; i < sec_vars.size(); i++ ) {
-			if ( i != 0 )
-				f << " ";
-			f << sec_vars[i];
-		}
-		f << endl;
-	}
-    
-    if ( sos_vars.size() > 0 ) {  
-		f << "sos" << endl; 
-		for ( unsigned int i = 0; i < sos_vars.size(); i++ )
-            f << "SOS" << i << ": " << sos_vars[i] << " <= 1" << endl;
-	}
-    
-    
-	f.close();
     string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + lp_filename + ".sol " + lp_filename + ".lp";
-//    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
+    //    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
 	cout << "Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
@@ -541,7 +542,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 		throw AstranError("Problem to execute lp_solve!");
     
     cerr << "* and H means new feasible solution found: ";
-
+    
 	char line[150];
 	while (fgets(line, 150, x)) {
 		istringstream s(line);
@@ -550,20 +551,20 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 		s >> n;
         if(n=="H" || n=="*")
 			cerr << n;
-            
+        
 		if(n=="Time" || n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
 			cout << endl << line;
         if(n=="Unable" || n=="Model")
             return 0;
     }
-
+    
     _pclose(x);
     
     FILE* stream = fopen((lp_filename+".sol").c_str(), "r");
-
+    
 	if(stream==NULL)
 		throw AstranError("Problem opening temp.sol!");
-        
+    
 	while (fgets(line, 150, stream)) {
 		
 		istringstream s(line);
@@ -574,7 +575,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 		
 		s >> n;
         if(n=="#") continue;
-            
+        
 		s >> tmp;
 		v = round(tmp);
 		
