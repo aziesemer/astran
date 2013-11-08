@@ -559,7 +559,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 
             case GATE:
                 lastNGatePos = insertGate(geometries, cpt,elements_it->linkN.link, elements_it, currentPolNodes, lastPolNodes, lastNContact, lastNContactDiff, lastNGatePos, lastNGateLength, lastDiffN, currentDiffN, NDIF);
-                lastNGateDiff = currentDiffN;
+                currentDiffN;
                 break;
         }
         switch (elements_it->linkP.type) {
@@ -584,7 +584,6 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 
             case GATE:
                 lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNodes, lastPolNodes, lastPContact, lastPContactDiff, lastPGatePos, lastPGateLength, lastDiffP, currentDiffP, PDIF);                
-                lastPGateDiff = currentDiffP;
                 break;
         }
         
@@ -599,7 +598,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                         if(currentDiffN!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentDiffN, currentContacts[c], currentRules->getRule(S1CTDF),"");
                         if(lastDiffN!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffN, lastDiffN, currentContacts[c], currentRules->getRule(S1CTDF),"");
                     }else
-                        if(lastDiffN!="") insertDistanceRuleDumb(geometries, cpt, lastDiffN, currentContacts[c], currentRules->getRule(S1CTDF), H, CONT);
+                        if(lastNGateDiff!="") insertDistanceRuleInteligent3(geometries, cpt, lastNGateDiff, currentContacts[c], currentContacts[c], lastNGateDiff, currentRules->getRule(S1CTDF),"");
                     
                 }
                 if(elements_it->linkP.type!=GAP){
@@ -610,7 +609,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                         if(currentDiffP!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentDiffP, currentContacts[c], currentRules->getRule(S1CTDF),"");
                         if(lastDiffP!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffP, lastDiffP, currentContacts[c], currentRules->getRule(S1CTDF),"");
                     }else
-                        if(lastDiffP!="") insertDistanceRuleDumb(geometries, cpt, lastDiffP, currentContacts[c], currentRules->getRule(S1CTDF), H, CONT);
+                        if(lastPGateDiff!="") insertDistanceRuleInteligent3(geometries, cpt, lastPGateDiff, currentContacts[c], currentContacts[c], lastPGateDiff, currentRules->getRule(S1CTDF),"");
                 }
             }
             
@@ -638,6 +637,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
         }
         lastDiffN=currentDiffN;
         lastDiffP=currentDiffP;
+        if(lastNGateDiff != currentDiffN) lastNGateDiff = currentDiffN;
+        if(lastPGateDiff != currentDiffP) lastPGateDiff = currentDiffP;        
         lastElements_it = elements_it;
         for (x = 0; x < trackPos.size(); x++){
             if(currentMetNodes[x]!=lastMetNodes[x]) befLastMetNodes[x]=lastMetNodes[x];
@@ -1306,6 +1307,19 @@ void AutoCell::insertDistanceRuleInteligent2(vector<Box*> &geometries, compactio
     cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_1_"+id, minDist + relaxation);
     cpt.insertConstraint("x" + lastX + "b + RELAXATION", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_2_"+id, minDist + relaxation);
     cpt.insertConstraint("x" + currentX + "b + RELAXATION", "x" + lastX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3_"+id, minDist + relaxation);
+}
+
+void AutoCell::insertDistanceRuleInteligent3(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, int minDist, string booleanFlag){
+    static int index=0;
+    string id=intToStr(index++);
+    //select between different space possibilities
+    cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_1_"+id); //front
+    cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_2_"+id); //one side
+    cpt.forceBinaryVar("b" + lastX + "_" + currentX+ "_3_"+id); //other side
+    cpt.insertConstraint("ZERO", "b" + lastX + "_" + currentX + "_1_" + id + " + " + "b" + lastX + "_" + currentX + "_2_" +id+ " + " + "b" + lastX + "_" + currentX + "_3_"+id, CP_EQ, (booleanFlag==""?"UM":booleanFlag));
+    cpt.insertConstraint("x" + lastX + "b + RELAXATION", "x" + currentX + "a", CP_MIN, "b" + lastX + "_" + currentX + "_1_"+id, minDist + relaxation);
+    cpt.insertConstraint("y" + lastY + "b + RELAXATION", "y" + currentY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_2_"+id, minDist + relaxation);
+    cpt.insertConstraint("y" + currentY + "b + RELAXATION", "y" + lastY + "a", CP_MIN, "b" + lastX + "_" + currentX + "_3_"+id, minDist + relaxation);
 }
 
 void AutoCell::insertDistanceRuleDumb(vector<Box*> &geometries, compaction &cpt, string last, string next, int minDist, HorV dir, layer_name l){
