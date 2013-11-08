@@ -9,24 +9,25 @@
 
 #include <wx/wx.h>
 
+#include "icpdApp.h"
 #include "icpdfrm.h"
-//#include "..\Images\help.xpm"
 
 using namespace std;
-
-class icpdFrmApp : public wxApp
-{
-	public:
-		bool OnInit();
-		int OnExit();
-};
 
 IMPLEMENT_APP(icpdFrmApp)
 
 bool icpdFrmApp::OnInit(){
 	//frame->SetIcon(wxIcon(help_xpm));
-        setlocale(LC_ALL,"C");
-	if (argc == 2){
+    setlocale(LC_ALL,"C");
+	if (argc == 2 && string(wxString(argv[1]).mb_str())=="--shell") {
+		DesignMng designmng;
+        string cmd;
+        while (true) {
+            cout << "astran> ";
+            getline (cin, cmd);
+            designmng.readCommand(cmd);            
+        }
+    }else if (argc == 2 ){
 		DesignMng designmng;
 		string cmd;
         cmd= string("read ") + string(wxString(argv[1]).mb_str());
