@@ -110,7 +110,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	c2cfile << "    )" << endl;
 	c2cfile.close();
 	cout << "ATTENTION:" << endl;
-	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump - select all) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl << "If you have any problem loading your layout, execute Tools->Technology File Manager->Attach, select your Design Library (usually new_design) and the target Technology Library to Attach (e.g. cmos130), you only need to do it once. Now you are ready to use Cadence Virtuoso." << endl;
+	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump - select all) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl << "If you have any problem loading your layout, execute Tools->Technology File Manager->Attach, select your Design Library (usually astran_project) and the target Technology Library to Attach (e.g. cmos130), you only need to do it once. Now you are ready to use Cadence Virtuoso." << endl;
 	return true;
 }
 

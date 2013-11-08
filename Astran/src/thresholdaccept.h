@@ -101,7 +101,7 @@ int FindInitialThreshold(toOptimize& obj) {
 //Quality factor is generally between (0;1] but can be more than 1. Controls the quality vs speed trade-off
 template <class toOptimize>
 toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, bool greedy=false, bool print_progress=true, bool high_threshold=false){
-  int threshold = (greedy?0:(high_threshold?999:FindInitialThreshold<toOptimize>(initial_solution)));
+  int threshold = (greedy?0:(high_threshold?9999:FindInitialThreshold<toOptimize>(initial_solution)));
   //int temperature = 99999999;
   //int temperature = 0;
   double cost = initial_solution.GetCost();

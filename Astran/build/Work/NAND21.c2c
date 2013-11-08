@@ -2,7 +2,7 @@
     'runDir                 "./"
     'inFile                 "NAND21.cif"
     'primaryCell            "NAND21"
-    'libName                "new_design"
+    'libName                "astran_project"
     'dataDump               ""
     'techfileName           "tech.lib"
     'scale                  0.0025
