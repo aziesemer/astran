@@ -2,7 +2,7 @@
     'runDir                 "./"
     'inFile                 "XOR20_G6.cif"
     'primaryCell            "XOR20_G6"
-    'libName                "new_design"
+    'libName                "astran_project"
     'dataDump               ""
     'techfileName           "tech.lib"
     'scale                  0.0025
