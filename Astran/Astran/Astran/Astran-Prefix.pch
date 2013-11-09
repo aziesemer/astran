@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'Astran' target in the 'Astran' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

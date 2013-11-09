@@ -68,6 +68,7 @@ protected:
 	int center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
     int diffStretching, griddedPoly, rdCntsCost, alignDiffConts,reduceLturns, maxDiffCnts, enableDFM, experimental;
+    int index;
     bool hPoly;
     
 	vector<int> trackPos, diffPini, diffNini;
@@ -89,10 +90,11 @@ protected:
 	CLayout currentLayout;
 
     void insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> polTracks, int pos);
-    string insertCntDif(vector<Box*> &geometries, compaction &cpt, int pos,  string currentCnt, string &lastGatePos, string &lastCnt, string &lastDiff, vector<string> &currentPolTrack, vector<string> &lastPolTrack,  layer_name l, bool endDiff);
+    string insertCntDif(vector<Box*> &geometries, compaction &cpt, string currentCnt, string &lastGate, string &lastCnt,  layer_name l);
+    string newDif(vector<Box*> &geometries, compaction &cpt, string &lastGate, string &lastDiff, string &currentDiff, string &diffEnc,  layer_name l, bool endDiff);
     string insertVia(vector<Box*> &geometries, compaction &cpt, string metNode);
     string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, vector<string>& lastContacts, int pos, bool isDiff);
-    string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolTrack, vector<string> &lastPolTrack, string lastContact, string lastContactDiff, string &lastGatePos, int &lastGateLength, string lastDiff, string currentDiff, layer_name l);
+    string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolNodes, string lastCnt, string lastDiffCnt, string &lastGate, int &lastGateLength, string lastDiff, string currentDiff, layer_name l);
     string createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l);
     void createNode(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, int pos, vector<string> &currentMetNode, string netName, layer_name l);
     void createTrack(vector<Box*> &geometries, compaction &cpt, string lastMetNode, string currentMetNode, string netName, layer_name l, HorV dir);
