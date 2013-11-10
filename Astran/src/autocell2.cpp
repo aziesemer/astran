@@ -507,9 +507,9 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                         }
                     }
                     //space poly and last diff
-                    if(lastDiffN!="")
+                    if(!rt->isSource(elements_it->pol[x]) && lastDiffN!="")
                         insertDistanceRuleInteligent3(geometries, cpt, lastDiffN, currentPolNodes[x], currentPolNodes[x], lastDiffN, currentRules->getRule(S1DFP1),"");
-                    if(lastDiffP!="")
+                    if(!rt->isSource(elements_it->pol[x]) && lastDiffP!="")
                         insertDistanceRuleInteligent3(geometries, cpt, lastDiffP, currentPolNodes[x], currentPolNodes[x], lastDiffP, currentRules->getRule(S1DFP1),"");
                     
                     lastPolNodeV = currentPolNodes[x];
