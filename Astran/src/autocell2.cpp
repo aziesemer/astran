@@ -33,7 +33,8 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     tmp.diffNIni = nDiffIni;
     tmp.diffPIni = pDiffIni;
     tmp.diffPEnd = pDiffEnd;
-    
+    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
+
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
         if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], vcost);
@@ -240,7 +241,6 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         pDiffTrackEnd=pDiffTrackIni;
         while (nDiffTrackEnd && (trackPos[nDiffTrackEnd-1] >= trackPos[nDiffTrackIni] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width))) nDiffTrackEnd--;
         while (pDiffTrackEnd<trackPos.size()-1 && (trackPos[pDiffTrackEnd+1] <= trackPos[pDiffTrackIni] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width))) pDiffTrackEnd++;
-        //        cout << nDiffTrackEnd << " " << nDiffTrackIni << " " << pDiffTrackIni << " " << pDiffTrackEnd << endl;
         
         if (gapP || gapN || eulerPathP_it == currentNetList.getOrderingP().begin() || eulerPathN_it == currentNetList.getOrderingN().begin()) {
             lastElement = tmp;
@@ -308,6 +308,15 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         
         // DIFF
         lastElement = tmp;
+
+        nDiffTrackIni=diffNini[eulerPathN_it - currentNetList.getOrderingN().begin()];
+        pDiffTrackIni=diffPini[eulerPathP_it - currentNetList.getOrderingP().begin()];
+        //serch for first track above the transistor
+        nDiffTrackEnd=nDiffTrackIni;
+        pDiffTrackEnd=pDiffTrackIni;
+        while (nDiffTrackEnd && (trackPos[nDiffTrackEnd-1] >= trackPos[nDiffTrackIni] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width))) nDiffTrackEnd--;
+        while (pDiffTrackEnd<trackPos.size()-1 && (trackPos[pDiffTrackEnd+1] <= trackPos[pDiffTrackIni] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width))) pDiffTrackEnd++;
+
         tmp = createElement(4, nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd,true);
         
         if (eulerPathP_it->link != -1) { // nao é GAP na difusao P
@@ -606,11 +615,12 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNodes, lastPContact, lastPContactDiff, lastPGatePos, lastPGateLength, lastDiffP, currentDiffP, PDIF);                
                 break;
         }
+        cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
         
         for (int c = 0; c < trackPos.size(); c++) {
             //insert contacts to diff space rule
             if(currentContacts[c]!=""){
-                if(elements_it->linkN.type!=GAP){
+                if(elements_it->linkN.type!=GAP && !rt->areConnected(elements_it->met[c], elements_it->diffN)){
                     if(c<elements_it->diffNEnd){
                         if(currentDiffN!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffN, currentContacts[c], currentDiffN, currentRules->getRule(S1CTDF),"");
                         if(lastDiffN!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffN, currentContacts[c], lastDiffN, currentRules->getRule(S1CTDF),"");
@@ -621,7 +631,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     
                 }
                 
-                if(elements_it->linkP.type!=GAP){
+                if(elements_it->linkP.type!=GAP && !rt->areConnected(elements_it->met[c], elements_it->diffP)){
                     if(c<elements_it->diffPIni){
                         if(currentDiffP!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], currentDiffP, currentContacts[c], currentDiffP, currentRules->getRule(S1CTDF),"");
                         if(lastDiffP!="") insertDistanceRuleInteligent2(geometries, cpt, currentContacts[c], lastDiffP, currentContacts[c], lastDiffP, currentRules->getRule(S1CTDF),"");
@@ -669,7 +679,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
              }
              */
         }
-        cout << lastDiffN << "-" << currentDiffN << "/" << lastDiffP << "-" << currentDiffP << endl;
+//        cout << lastDiffN << "-" << currentDiffN << "/" << lastDiffP << "-" << currentDiffP << endl;
         lastElements_it = elements_it;
         for (x = 0; x < trackPos.size(); x++){
             if(currentMetNodes[x]!=lastMetNodes[x]) befLastMetNodes[x]=lastMetNodes[x];
@@ -962,6 +972,11 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
 string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastGate, string &lastDiff, string &currentDiff, string &diffEnc,  layer_name l, bool endDiff) {
     
     lastDiff = currentDiff;
+    
+    if (diffEnc != "" && lastDiff != ""){
+        cpt.insertConstraint("y" + diffEnc + "a", "y" + lastDiff + "b", CP_MIN, 0);
+        cpt.insertConstraint("y" + lastDiff + "a", "y" + diffEnc + "b", CP_MIN, 0);
+    }
     //if there is a gate after
     if(!endDiff){
         //create next gate diffusion
@@ -975,6 +990,8 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
         cpt.insertConstraint("x" + newDiff + "b", "width", CP_MIN, int(ceil(currentRules->getRule(S1DFDF) / 2.0)));
         
         if (diffEnc != "") {
+            cpt.insertConstraint("y" + diffEnc + "a", "y" + newDiff + "b", CP_MIN, 0);
+            cpt.insertConstraint("y" + newDiff + "a", "y" + diffEnc + "b", CP_MIN, 0);
             cpt.insertConstraint("x" + newDiff + "a", "x" + diffEnc + "a", CP_EQ, 0);
             //        cpt.insertConstraint("x" + diffEnc + "a", "x" + newDiff + "a", CP_EQ, "x" + newDiff + "minL");
             //        cpt.insertLPMinVar("x" + newDiff + "minL", 5);
