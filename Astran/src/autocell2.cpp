@@ -518,7 +518,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             
             //conecta os polys com os metais das trilhas
             if (rt->areConnected(elements_it->met[x], elements_it->pol[x])) {
-                currentContacts[x] = insertCnt(geometries, cpt, elements_it, currentMetNodes, lastContacts, x, false);
+                insertCnt(geometries, cpt, elements_it, currentMetNodes, lastContacts, currentContacts, x, false);
                 insertCntPol(geometries, cpt, currentContacts[x], currentPolNodes, x);
             }
             
@@ -543,7 +543,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 string cntBndBox;
                 for (x = center; x >= 0; x--) { // desenha contatos na difusao
                     if (rt->areConnected(elements_it->met[x], elements_it->diffN)){
-                        string currentCnt = insertCnt(geometries, cpt, elements_it, currentMetNodes, lastContacts, x,true);
+                        string currentCnt = insertCnt(geometries, cpt, elements_it, currentMetNodes, lastContacts, currentContacts, x,true);
                         if(cntBndBox=="") cntBndBox= "_CntsBoundBx"+intToStr(index++)+ "_";
                         
                         cpt.insertConstraint("x" + cntBndBox + "a", "x" + currentCnt + "a", CP_MIN, 0);
@@ -579,7 +579,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 string cntBndBox;
                 for (x = center; x < elements_it->met.size(); ++x) { // desenha contatos na difusao
                     if (rt->areConnected(elements_it->met[x], elements_it->diffP)) {
-                        string currentCnt = insertCnt(geometries, cpt, elements_it, currentMetNodes, lastContacts, x,true);
+                        string currentCnt = insertCnt(geometries, cpt, elements_it, currentMetNodes, lastContacts, currentContacts, x,true);
                         if(cntBndBox=="") cntBndBox= "_CntsBoundBx"+intToStr(index++)+ "_";
                         
                         cpt.insertConstraint("x" + cntBndBox + "a", "x" + currentCnt + "a", CP_MIN, 0);
@@ -1077,7 +1077,7 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
     return diffEnc;
 }
 
-string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, vector<string>& lastContacts, int pos, bool isDiff) {
+string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, vector<string>& lastContacts, vector<string>& currentContacts, int pos, bool isDiff) {
     geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
     string cnt = intToStr(geometries.size() - 1);
     
@@ -1141,7 +1141,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
                 insertDistanceRuleDumb(geometries, cpt, lastContacts[c], cntBndBox, currentRules->getRule(S1CTCT), H, CONT);
         }
     }
-    
+    currentContacts[pos]=cntBndBox;
     return cntBndBox;
 }
 
