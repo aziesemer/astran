@@ -641,7 +641,6 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentDiffN, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
                     if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, currentDiffN, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
                 }else{
-                    if(currentPolNodes[c]!="") insertDistanceRuleDumb(geometries, cpt, currentPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1), H, NDIF);                    
                 }
 
             }
@@ -653,7 +652,6 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentDiffP, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
                     if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, currentDiffP, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
                 }else{
-                    if(currentPolNodes[c]!="") insertDistanceRuleDumb(geometries, cpt, currentPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1), H, PDIF);                    
                 }
             }
             /*
