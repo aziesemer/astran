@@ -770,6 +770,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
         
     }
     int width = cpt.getVariableVal("width");
+    int height = cpt.getVariableVal("height");
     
     //Create M1P Layers
     list <Box>::iterator net_it;
