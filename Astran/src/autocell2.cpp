@@ -581,6 +581,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     diffEnc = insertCntDif(geometries, cpt, cntBndBox, lastNGatePos, lastNContact,  NDIF);
                 
                 if(!rt->areConnected(next->diffN, elements_it->diffN)){
+                    if(diffEnc=="" && rt->areConnected(lastElements_it->diffN, elements_it->diffN))
+                        diffEnc=lastNContactDiff;
                     newDif(geometries, cpt, lastNGatePos, lastDiffN, currentDiffN, diffEnc, NDIF, next->gapN==true || next->linkN.type==GAP);
                     lastNGatePos = "";
                 }
@@ -593,6 +595,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             }
             case GATE:
                 lastNGatePos = insertGate(geometries, cpt,elements_it->linkN.link, elements_it, currentPolNodes, lastNContact, lastNContactDiff, lastNGatePos, lastNGateLength, lastDiffN, currentDiffN, NDIF);
+                lastPContactDiff="";
+                
                 break;
         }
         switch (elements_it->linkP.type) {
@@ -618,6 +622,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     diffEnc = insertCntDif(geometries, cpt, cntBndBox, lastPGatePos, lastPContact, PDIF);
                 
                 if(!rt->areConnected(next->diffP, elements_it->diffP)) {
+                    if(diffEnc=="" && rt->areConnected(lastElements_it->diffP, elements_it->diffP))
+                        diffEnc=lastPContactDiff;
                     newDif(geometries, cpt, lastPGatePos, lastDiffP, currentDiffP, diffEnc, PDIF, next->gapP==true || next->linkP.type==GAP);
                     lastPGatePos = "";
             }
@@ -630,7 +636,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 break;
             }   
             case GATE:
-                lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNodes, lastPContact, lastPContactDiff, lastPGatePos, lastPGateLength, lastDiffP, currentDiffP, PDIF);                
+                lastPGatePos = insertGate(geometries, cpt, elements_it->linkP.link, elements_it, currentPolNodes, lastPContact, lastPContactDiff, lastPGatePos, lastPGateLength, lastDiffP, currentDiffP, PDIF);  
+                lastPContactDiff="";
                 break;
         }
         cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;

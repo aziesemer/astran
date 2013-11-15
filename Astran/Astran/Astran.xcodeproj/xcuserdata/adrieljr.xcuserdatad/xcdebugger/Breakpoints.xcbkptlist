@@ -79,25 +79,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "406178148.286458"
+         timestampString = "406179856.528726"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "620"
-         endingLineNumber = "620"
-         landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "0"
-         filePath = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/src/autocell2.cpp"
-         timestampString = "406178148.286458"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "583"
-         endingLineNumber = "583"
+         startingLineNumber = "624"
+         endingLineNumber = "624"
          landmarkName = "AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit)"
          landmarkType = "5">
       </FileBreakpoint>
