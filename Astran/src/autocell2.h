@@ -79,7 +79,7 @@ protected:
 	list<Element> elements;
 	map<string,int> inoutPins;
 	
-	Element* createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd, int pEnd, bool isDiff);
+	Element* createElement(int vcost, int nDiffIni, int pDiffIni, int nEnd, int pEnd, t_DGorS type);
 	
 	CellNetlst* currentCell;
 	Rules* currentRules;
@@ -103,7 +103,8 @@ protected:
     void insertDistanceRuleInteligent3(vector<Box*> &geometries, compaction &cpt, string lastX, string currentX, string lastY, string currentY, int minDist, string booleanFlag);
     void insertDistanceRuleDumb(vector<Box*> &geometries, compaction &cpt, string last, string current, int minDist, HorV dir, layer_name l);
     void checkState(int nextState);
-
+    bool testGap(vector<t_net2>::iterator last_it, vector<t_net2>::iterator eulerPath_it, vector<t_net2>& ordering, t_DGorS type);
+    
     public:
 	AutoCell();
 	~AutoCell();
