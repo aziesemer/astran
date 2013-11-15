@@ -595,7 +595,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             }
             case GATE:
                 lastNGatePos = insertGate(geometries, cpt,elements_it->linkN.link, elements_it, currentPolNodes, lastNContact, lastNContactDiff, lastNGatePos, lastNGateLength, lastDiffN, currentDiffN, NDIF);
-                lastPContactDiff="";
+                lastNContactDiff="";
                 
                 break;
         }
