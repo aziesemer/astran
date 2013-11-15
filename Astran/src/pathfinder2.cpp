@@ -450,6 +450,14 @@ int Pathfinder2::getNrFinalArcs(int n){
 	return cnt;
 }	
 
+int Pathfinder2::getCost(){
+	unsigned int finalCost=0;
+	for(list<t_arc>::iterator arc_it = arcs.begin(); arc_it != arcs.end(); arc_it++)
+		if(arc_it->label==finalNet)
+			finalCost+=arc_it->cost;
+	return finalCost;
+}
+
 void Pathfinder2::showResult(){
 	unsigned int finalCost=0,wlCost=0;
 	for(list<t_arc>::iterator arc_it = arcs.begin(); arc_it != arcs.end(); arc_it++){

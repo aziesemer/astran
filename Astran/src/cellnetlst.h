@@ -107,6 +107,9 @@ public:
 	void move(const vector<t_net2>& ref, vector<t_net2>& cp);	
 	vector<t_net2>& getOrderingP(){return orderingP;};
 	vector<t_net2>& getOrderingN(){return orderingN;};
+    void setOrderingP(vector<t_net2>& ordering){orderingP=ordering;};
+	void setOrderingN(vector<t_net2>& ordering){orderingN=ordering;};
+
 	int Perturbation(); //Retorna o custo da perturbacao
 	int GetCost(); //Retorna o custo
 	int GetProblemSize(); //Retorna um numero qualquer que indica o tamanho do problem (ex. numero de transistores)

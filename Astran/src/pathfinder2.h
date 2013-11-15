@@ -99,7 +99,7 @@ public:
 	bool connect(int net, unsigned int n1, unsigned int n2);
 	void clearHistory();
 	int getNrAttempts(){return finalNet;};
-	int getCost(){return 0;};
+	int getCost();
 	int getArcCost(int a, int b);
 	int setArcCost(int n1, int n2, int cost);
 	unsigned int createGraph(int size);

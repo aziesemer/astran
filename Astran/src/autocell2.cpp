@@ -147,8 +147,31 @@ void AutoCell::foldTrans() {
 void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
     checkState(3);
     cout << "-> Placing transistors..." << endl;
-    if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) 
-        throw AstranError("Could not place the transistors");
+    bool speculate=true;
+    if (speculate){
+        vector<t_net2> bestNOrdering;
+        vector<t_net2> bestPOrdering;
+        int bestCost=-1;
+        for(int c=0; c<nrAttempts; c++){
+            if (!currentNetList.transPlacement(ep, saquality, 1, wC, gmC, rC, congC, ngC)) 
+                throw AstranError("Could not place the transistors");
+            state = 4;
+            route(true, false, false);
+            state = 3;
+            int currentCost=rt->getCost();
+            if(bestCost==-1 || currentCost<bestCost){
+                bestCost=currentCost;
+                bestNOrdering=currentNetList.getOrderingN();
+                bestPOrdering=currentNetList.getOrderingP();
+                cout << "** New best transistor ordering found with cost: " << bestCost << endl;
+            }
+        }    
+        currentNetList.setOrderingN(bestNOrdering);
+        currentNetList.setOrderingP(bestPOrdering);
+    }else{
+        if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) 
+            throw AstranError("Could not place the transistors");
+    }
     
     state++;
 }
