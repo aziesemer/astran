@@ -416,7 +416,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     
     if(debug){
         cpt.insertConstraint("ZERO", "height", CP_MIN, height);
-        cpt.insertLPMinVar("height", 1);
+        cpt.insertLPMinVar("height", 100);
+        cpt.insertConstraint("ZERO", "posNWell", CP_MIN, currentRules->getIntValue(currentCircuit->getnWellPos()));
     }else{
         cpt.insertConstraint("ZERO", "height", CP_EQ, height);
         cpt.insertConstraint("ZERO", "posNWell", CP_EQ, currentRules->getIntValue(currentCircuit->getnWellPos()));
@@ -1186,6 +1187,9 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     
     //space contacts
     for (int c = 0; c < trackPos.size(); c++) {
+        if(currentContacts[c]!="" && c<pos)
+            insertDistanceRuleInteligent(geometries, cpt, lastContacts[c], cntBndBox, lastContacts[c], cntBndBox, CONT);
+            
         if(lastContacts[c]!=""){
             if(c<pos)
                 insertDistanceRuleInteligent(geometries, cpt, lastContacts[c], cntBndBox, lastContacts[c], cntBndBox, CONT);
