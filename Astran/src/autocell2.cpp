@@ -33,7 +33,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     tmp.diffNIni = nDiffIni;
     tmp.diffPIni = pDiffIni;
     tmp.diffPEnd = pDiffEnd;
-    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
+//    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
     
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
@@ -643,7 +643,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 lastPContactDiff="";
                 break;
         }
-        cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
+//        cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
         
         for (int c = 0; c < trackPos.size(); c++) {
             //insert contacts to diff space rule

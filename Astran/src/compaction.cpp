@@ -541,7 +541,8 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 	if(x==NULL)
 		throw AstranError("Problem to execute lp_solve!");
     
-    cerr << "* and H means new feasible solution found: ";
+    cout << "To interrupt earlier and get the current best solution, type: kill -2 [gurobi process]" << endl;
+    cout << "* and H means new feasible solution found: " << flush;
     
 	char line[150];
 	while (fgets(line, 150, x)) {
