@@ -583,7 +583,9 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 if(!rt->areConnected(next->diffN, elements_it->diffN)){
                     if(diffEnc=="" && rt->areConnected(lastElements_it->diffN, elements_it->diffN))
                         diffEnc=lastNContactDiff;
+
                     newDif(geometries, cpt, lastNGatePos, lastDiffN, currentDiffN, diffEnc, NDIF, next->gapN==true || next->linkN.type==GAP);
+                    
                     lastNGatePos = "";
                 }
                 if(gapN && lastNContactDiff!=""  && diffEnc!="") 
@@ -624,6 +626,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 if(!rt->areConnected(next->diffP, elements_it->diffP)) {
                     if(diffEnc=="" && rt->areConnected(lastElements_it->diffP, elements_it->diffP))
                         diffEnc=lastPContactDiff;
+                    
                     newDif(geometries, cpt, lastPGatePos, lastDiffP, currentDiffP, diffEnc, PDIF, next->gapP==true || next->linkP.type==GAP);
                     lastPGatePos = "";
             }
@@ -906,15 +909,12 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
         if(gateIni+1 < currentPolNodes.size() && currentPolNodes[gateIni+1]!="")
             insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[gateIni+1], currentPolNodes[gateIni], currentDiff, currentPolNodes[gateIni+1], currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
         if(gateEnd && currentPolNodes[gateEnd-1]!="")
-            insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[gateEnd-1], currentPolNodes[gateEnd], currentPolNodes[gateEnd-1], currentDiff, currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
-        cpt.insertConstraint("y" + currentDiff + "b", "yNDiffb", CP_MIN, 0);
-        
+            insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[gateEnd-1], currentPolNodes[gateEnd], currentPolNodes[gateEnd-1], currentDiff, currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");        
     }else{
         if(gateIni && currentPolNodes[gateIni-1]!="")
             insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[gateIni-1], currentPolNodes[gateIni], currentPolNodes[gateIni-1], currentDiff, currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
         if(gateEnd+1 < currentPolNodes.size() && currentPolNodes[gateEnd+1]!="")
             insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[gateEnd+1], currentPolNodes[gateEnd], currentDiff, currentPolNodes[gateEnd+1], currentRules->getRule(S2DFP1),"b" + currentDiff + "_smallTransWidth");
-        cpt.insertConstraint("yPDiffa", "y" + currentDiff + "a", CP_MIN, 0);
     }
     
     //gate extension rule for L shape transistor if diff dist to gate < E3P1DF
@@ -967,13 +967,19 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
     cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
     cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E2DFCT));
-    cpt.insertConstraint( "yNDiffa", "y" + diffEnc + "a", CP_MIN, 0);
-    cpt.insertConstraint("y" + diffEnc + "b", "yPDiffb", CP_MIN, 0);
     cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, currentRules->getRule(E1DFCT));
     cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
     cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_t", currentRules->getRule(E2DFCT));
     
+    if (l==NDIF) {
+        cpt.insertConstraint("yNDiffa", "y" + diffEnc + "a", CP_MIN, 0);
+        cpt.insertConstraint("y" + diffEnc + "b", "yNDiffb", CP_MIN, 0);
+    }else{
+        cpt.insertConstraint("yPDiffa", "y" + diffEnc + "a", CP_MIN, 0);
+        cpt.insertConstraint("y" + diffEnc + "b", "yPDiffb", CP_MIN, 0);
+    }
+
     //if there is a gate before
     if (lastGate != "") {
         //minimize contact to contact distance
@@ -1013,6 +1019,13 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
         
         cpt.insertConstraint("ZERO", "x" + newDiff + "a", CP_MIN, int(ceil(currentRules->getRule(S1DFDF) / 2.0)));
         cpt.insertConstraint("x" + newDiff + "b", "width", CP_MIN, int(ceil(currentRules->getRule(S1DFDF) / 2.0)));
+        if (l==NDIF) {
+            cpt.insertConstraint("yNDiffa", "y" + newDiff + "a", CP_MIN, 0);
+            cpt.insertConstraint("y" + newDiff + "b", "yNDiffb", CP_MIN, 0);
+        }else{
+            cpt.insertConstraint("yPDiffa", "y" + newDiff + "a", CP_MIN, 0);
+            cpt.insertConstraint("y" + newDiff + "b", "yPDiffb", CP_MIN, 0);
+        }
         
         if (diffEnc != "") {
             cpt.insertConstraint("y" + diffEnc + "a", "y" + newDiff + "b", CP_MIN, 0);
@@ -1029,7 +1042,7 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
             cpt.insertConstraint("y" + lastDiff + "a", "y" + newDiff + "a_int", CP_MIN, 0);
             cpt.insertConstraint("y" + newDiff + "a", "y" + newDiff + "a_int", CP_MIN, 0);
             cpt.insertConstraint( "y" + newDiff + "a_int", "y" + newDiff + "b_int", CP_EQ,  "y" + newDiff + "a_int_min");
-            //            cpt.insertLPMinVar("y" + newDiff + "a_int_min",-4);
+            cpt.insertConstraint( "y" + newDiff + "a_int", "y" + newDiff + "b_int", CP_EQ, currentRules->getRule(W2DF));
         }else{
             //insert GAP between diffusions if it's not the first diff
             if(lastDiff!="") {
