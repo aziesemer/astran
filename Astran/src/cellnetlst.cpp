@@ -243,7 +243,7 @@ bool CellNetlst::check(){
 			inouts.push_back(c);
 		}
 		if(nets[c].trans.size()<2 && find(inouts.begin(), inouts.end(), c)==inouts.end()){
-			cout << "** Net " << nets[c].name << " is connected just to a single node." << endl;
+			cout << "-> WARNING: Net " << nets[c].name << " is connected just to a single node." << endl;
 			return false;
 		}
 		c++;
@@ -334,11 +334,11 @@ void CellNetlst::print(){
 			cout << trans[tmp2->link].name << " ";
 		cout << endl;
 	}
-*/	cout << "Transistors: " << endl;
+*/	cout << "-> Transistors: " << endl;
 	for(int tmp=0; tmp<trans.size(); tmp++)
 		cout << trans[tmp].name << "\t\t" << nets[trans[tmp].drain].name << "\t\t" << nets[trans[tmp].gate].name << "\t\t" << nets[trans[tmp].source].name << "\t\t" <<
 			trans[tmp].type << "\t\t" << trans[tmp].length << "\t\t" << trans[tmp].width << endl;
-	cout << "Instances: " << endl;
+	cout << "-> Instances: " << endl;
 	for(map<string,Inst>::iterator tmp=instances.begin(); tmp!=instances.end(); ++tmp){
 		cout << tmp->first << " ";
 		for(vector<int>::iterator tmp2=tmp->second.ports.begin(); tmp2!=tmp->second.ports.end(); ++tmp2)
@@ -522,7 +522,7 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	int i;
 	if(!orderingP.size() && !orderingN.size()){
 		if(!ep || !eulerpath()){ 
-			cout << "- Creating a random initial solution... " << endl;
+//			cout << "- Creating a random initial solution... " << endl;
 			
 			t_net2 tmp;	
 			tmp.type=DRAIN;
@@ -545,14 +545,14 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	}
 	int best=0;
 	int best_cost=GetCost();
-	cout << "- Initial Cost (0): " << best_cost << endl;
+//	cout << "- Initial Cost (0): " << best_cost << endl;
 	
 	tmpP=orderingP;
 	tmpN=orderingN;
 	
 	for(int at=1; at<=nrattempts ; at++){
 		custo_atual=custo_anterior=GetCost();
-		cout << "- Running Threshold Accept algorithm (" << at << "): " << endl;
+//		cout << "- Running Threshold Accept algorithm (" << at << "): " << endl;
 //		*this = SimulatedAnnealing<CellNetlst>(*this,saquality,false,true,!ep || at!=1);
 		*this = ThresholdAccept<CellNetlst>(*this,saquality,false,true,!ep || at!=1);
 		cout << endl;
@@ -567,8 +567,8 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	orderingP=tmpP;
 	orderingN=tmpN;
 	GetCost();
-	cout << "-> Final cost: 	Width=" << posPN << "(*" << wCost << "); Gate Miss Match="<<  missMatchGate << "(*" << gmCost << "); Routing="<< wRouting << "(*" << rCost << "); Rt Density=" << maxCong << "(*" << congCost << "); wGaps=" << wGaps << "(*" << ngCost << ")"<< endl;
-	cout << "-> Transistor Ordering (" << best << "): " << endl;
+//	cout << "-> Final cost: 	Width=" << posPN << "(*" << wCost << "); Gate Miss Match="<<  missMatchGate << "(*" << gmCost << "); Routing="<< wRouting << "(*" << rCost << "); Rt Density=" << maxCong << "(*" << congCost << "); wGaps=" << wGaps << "(*" << ngCost << ")"<< endl;
+//	cout << "-> Transistor Ordering (" << best << "): " << endl;
 	cout << "-> PMOS: ";
 	for(i=0;i<orderingP.size();i++){ 
 		if(orderingP[i].link==-1) cout << "GAP";

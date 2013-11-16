@@ -18,7 +18,7 @@ void Lef::readObs(Draw& tmp, string net){
 		if(words[0]=="LAYER"){
 			int tmp=readTech?currentRules->findTechVal(words[1]):currentRules->findCIFVal(words[1]);
 			if(tmp==-1){
-				cout << "Error: Layer " << words[1] << " not found"<< endl;
+				cout << "-> WARNING: Layer " << words[1] << " not found"<< endl;
 				tmp=0;
 			}
 			currentLayer=(layer_name)tmp;
@@ -172,7 +172,7 @@ void Lef::readFile(string nome, Circuit& c, bool rTech){
 			tmp_layout.setName(words[1]);
 			readMacro(*(c.getCellNetlst(words[1])),tmp_layout);
 			if(tmp_layout.getHeight()!=c.getRowHeight()*round(c.getVPitch()*c.getRules()->getScale()))
-				cout << "Cell height of " << tmp_layout.getName() << " differs from the row height of the circuit" << endl;
+				cout << "-> WARNING: Cell height of " << tmp_layout.getName() << " differs from the row height of the circuit" << endl;
 			c.insertLayout(tmp_layout);
 		}
 		else if(words[0]=="UNITS") readUnits();

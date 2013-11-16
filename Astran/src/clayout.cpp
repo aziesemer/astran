@@ -6,7 +6,7 @@
 
 
 void Instance::print(){
-	cout << "Position: POSX=" << posx << " POSY=" << posy << " MX=" << mx << " MY=" << my << endl;
+	cout << "-> Position: POSX=" << posx << " POSY=" << posy << " MX=" << mx << " MY=" << my << endl;
 }
 
 
@@ -39,7 +39,7 @@ void CLayout::placeCell(string instanceName, int posX, int posY, bool mx, bool m
 
 bool CLayout::addInstance(string instName, string cellName){
 	if(instances.find(instName)!=instances.end()){
-		cout << "Cell Instance " << instName << " in " << name << " duplicated" << endl;
+		cout << "-> Cell Instance " << instName << " in " << name << " is duplicated" << endl;
 		return false;
 	}else{
 		Instance tmp(cellName);

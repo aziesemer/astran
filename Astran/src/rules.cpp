@@ -53,18 +53,18 @@ void Rules::readRules(string filename) {
 			if (parm_tmp == "MINSTEP"){
 				line >> parm_tmp;
 				if(resolution==0) resolution= int(round(1.0/atof(parm_tmp.c_str())));
-				else cout << "\t" << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
+				else cout << "-> " << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
 			}
 			else if (parm_tmp == "CIFMET"){
 				line >> parm_tmp;
 				if(resolution==0)
 					resolution=int(round(atof(parm_tmp.c_str())));
-				else cout << "\t" << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
+				else cout << "-> " << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
 			}
 			else if ( (i = findRule(parm_tmp)) >=0){
 				if (line >> parm_tmp)
 					rules_lst[i].val=atof(parm_tmp.c_str());
-				else cout << "\t" << fileline << ": Argument invalid \"" << parm_tmp << "\" - Ignoring it" << endl;
+				else cout << "-> " << fileline << ": Argument invalid \"" << parm_tmp << "\" - Ignoring it" << endl;
 			}
 			else if ( (i = findLayerName(parm_tmp)) >=0){
 				if (line >> parm_tmp){
@@ -75,11 +75,11 @@ void Rules::readRules(string filename) {
 							layer_labels_lst[i].valTech=parm_tmp;
 					}
 				}
-				else cout << "\t" << fileline << ": Error reading cell arguments" << endl;
+				else cout << "-> " << fileline << ": Error reading cell arguments" << endl;
 			}
 			else
 				if (parm_tmp != "VDD" && parm_tmp != "FIMP")
-					cout << "\t" << fileline << ": Unknown command \"" << parm_tmp << "\" - Ignoring this line" << endl;
+					cout << "-> " << fileline << ": Unknown command \"" << parm_tmp << "\" - Ignoring this line" << endl;
 		}
 	}
 	
@@ -129,7 +129,7 @@ void Rules::saveRules(string filename) {
 
 bool Rules::saveGDSIILayerTable(string filename) {
 	ofstream lTabfile;
-	cout << "Saving GDSII Technology Mapping File: " << filename << endl;
+	cout << "-> Saving GDSII Technology Mapping File: " << filename << endl;
 	
 	lTabfile.open(filename.c_str()); // Write
 	if (!lTabfile){
@@ -159,7 +159,7 @@ string Rules::getLayerPurposeText(layerPurpose l){
 
 bool Rules::saveCIFLayerTable(string filename) {
 	ofstream lTabfile;
-	cout << "Saving CIF Technology Mapping File: " << filename << endl;
+	cout << "-> Saving CIF Technology Mapping File: " << filename << endl;
 
 	lTabfile.open(filename.c_str()); // Write
 	if (!lTabfile){
@@ -203,7 +203,7 @@ void Rules::setRule(rule_name name, float val) {
 }
 
 void Rules::listRules() {
-	cout << "\nRULES: \n";
+	cout << "-> RULES: \n";
 	for(int i=0; i<N_RULES; i++)
 		cout << '\t' << rules_lst[i].name << " = " << rules_lst[i].val
         << '\t' << rules_lst[i].desc << endl;
@@ -260,7 +260,7 @@ void Rules::setTechVal(layer_name name, string val) {
 }
 
 void Rules::listLayersLabels() {
-	cout << "\nLayer Names : \n";
+	cout << "-> Layer Names : \n";
 	for(int i=0; i<N_LAYER_NAMES; i++)
 		cout << '\t' << layer_labels_lst[i].name << " = " << layer_labels_lst[i].valCIF << "\t" << layer_labels_lst[i].valGDSII << "\t" << layer_labels_lst[i].valTech << endl;
 }

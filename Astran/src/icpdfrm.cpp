@@ -398,7 +398,7 @@ void IcpdFrm::viewLayout( string cellName ){
 		cif->cellCif(*(designmng.getCircuit()->getLayouts()), cellName);
 		delete(cif);
 		string cmd = designmng.getViewer() + " temp.cif";
-		cout << "Opening viewer: " << cmd << endl;
+		cout << "-> Opening viewer: " << cmd << endl;
 		icpdExecute(cmd);
 	}
 }
@@ -421,7 +421,7 @@ void IcpdFrm::printInstance( wxCommandEvent& event ){
 			instanceLevel.push_back(tmp);
 			refreshInstanceList();
 		}
-		else cout << "No further hierarchy" << endl;
+		else cout << "-> No further hierarchy" << endl;
 	}
 	wx_layouts->Select(wx_layouts->FindString(wxString::From8BitData(instanceLevel.back()->getName().c_str())));
 }

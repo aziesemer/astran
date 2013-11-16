@@ -19,7 +19,7 @@ void Router::test(string r){
 	for(int nrNets=50; nrNets<=450; nrNets+=50){
 	//int nrNets=3;
 		netIndex.clear();
-		cout << endl << "Routing test circuit with #Nets=" << nrNets << endl; 
+		cout << endl << "-> Routing test circuit with #Nets=" << nrNets << endl; 
 		rt.clear();
 		rt.setSize(sizeX,sizeY,sizeZ);
 		rt.setLayerCosts(0,	11, 4, 4);
@@ -34,12 +34,12 @@ void Router::test(string r){
 				Point p((rt.getPosX(node)+1)*pitchH, (rt.getPosY(node)+1)*pitchV);
 			}
 		}
-		cout << "OURS: " << endl;
+		cout << "-> OURS: " << endl;
 		rt.routeNets(200);
 		//sprintf(name,"%d",nrNets) ;
 		//saveRoutingRotdl("teste");
 		rt.reset();
-		cout << "ROTDL: " << endl;
+		cout << "-> ROTDL: " << endl;
 		rotdl(r);
 		//readRoutingRotdl("teste");
 	}	
@@ -497,7 +497,7 @@ void Router::rotdl(string path){
 	frot.close();
 	
 	string cmd = "\"" + path + "\" -outputConnections temp.rot > temp.log";
-	cout << "Executing rotdl: " << cmd << endl;
+	cout << "-> Executing rotdl: " << cmd << endl;
 
 	time_t start,end;
 	time(&start); 
@@ -510,7 +510,7 @@ void Router::rotdl(string path){
 	_pclose(x);
 
 	time(&end); 
-	cout << "Runtime = " << difftime(end, start) << "s" << endl;
+	cout << "-> Runtime = " << difftime(end, start) << "s" << endl;
 	
     readRoutingRotdl("temp.rot.connections");
 }

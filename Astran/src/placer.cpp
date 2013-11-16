@@ -31,8 +31,8 @@ CLayout* Placer::getLayoutFromInstance(string instanceName){
 		CLayout *currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
 		if(currentLayout){
 			return currentLayout; 
-		}else cout << "Instance " << instanceName << " has no cell layout " << currentInstance->getTargetCell() << endl;
-	}else cout << "Instance " << instanceName << " not found" << endl;
+		}else cout << "-> Instance " << instanceName << " has no cell layout " << currentInstance->getTargetCell() << endl;
+	}else cout << "-> Instance " << instanceName << " not found" << endl;
 	return NULL;
 }
 
@@ -103,7 +103,7 @@ void Placer::incrementalPlacement(Router* rt, string lpSolverFile){
 		currentRow++;
 		cpt.insertConstraint( "ZERO", lastNode, CP_MAX, "WIDTH");
 	}
-	cout << "# Conflicts = " << nrConflicts << endl;
+	cout << "-> # Conflicts = " << nrConflicts << endl;
 	vector<t_net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
 	Interface *currentInterface;
 	for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
@@ -175,7 +175,7 @@ void Placer::checkWL(){
 			wl+=(maxX-minX)+(maxY-minY);
 		}
 	}
-	cout << "Semi-perimeter wire length = " << wl << endl;
+	cout << "-> Semi-perimeter wire length = " << wl << endl;
 }
 
 void Placer::autoFlip(){
@@ -274,12 +274,12 @@ bool Placer::checkPlacement(){
 			if(y%currentCircuit->getRowHeight()){
 				y=floor(float(cellsInst_it->second.getY())/cellsHeight);
 				cellsInst_it->second.setY(y*cellsHeight);
-				//				cout << "Shifting instance " << cellsInst_it->first << " to fit in row: " << y << endl;
+				//				cout << "-> Shifting instance " << cellsInst_it->first << " to fit in row: " << y << endl;
 				y*=currentCircuit->getRowHeight();
 			}
 			int rowNr=abs(y/currentCircuit->getRowHeight())-int(cellsInst_it->second.getMX());
 			if(rowNr%2 && !cellsInst_it->second.getMX()){
-				//				cout << "Mirroring instance: " << cellsInst_it->first << endl;
+				//				cout << "-> Mirroring instance: " << cellsInst_it->first << endl;
 				cellsInst_it->second.setY(cellsInst_it->second.getY()+(currentCircuit->getRowHeight()*currentCircuit->getVPitch()*currentCircuit->getRules()->getScale()));
 				cellsInst_it->second.setMX(true);
 			}
@@ -295,26 +295,26 @@ bool Placer::checkPlacement(){
 							posXi=(currentInstance->getX()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale()))-(int(currentInstance->getMY())*currentLayout->getWidth());
 							posXf=posXi+currentLayout->getWidth()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale());
 							if((posXi<x+l->getWidth()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())) && (posXf>x)){
-								if(errorMsgs<6) cout << "Instance " << cellsInst_it->first << " in row " << rowNr << " is overlaping cell " << *slots_it << ". Run INCREMENTAL PLACEMENT afterward to correct this problem." << endl;
+								if(errorMsgs<6) cout << "-> Instance " << cellsInst_it->first << " in row " << rowNr << " is overlaping cell " << *slots_it << ". Run INCREMENTAL PLACEMENT afterward to correct this problem." << endl;
 								errorMsgs++;
 							}
 						}else{
-							if(errorMsgs<6) cout << "Instance " << cellsInst_it->first << " has no cell layout" << *slots_it << endl;
+							if(errorMsgs<6) cout << "-> Instance " << cellsInst_it->first << " has no cell layout" << *slots_it << endl;
 							ok=false;
 						}
 						if(posXi>=x) break;
 					}else{
-						if(errorMsgs<6) cout << "Instance " << cellsInst_it->first << " not found" << endl;
+						if(errorMsgs<6) cout << "-> Instance " << cellsInst_it->first << " not found" << endl;
 						ok=false;
 					}
 				}
 				rows[rowNr].insert(slots_it,cellsInst_it->first);
 			}else{
-				if(errorMsgs<6) cout << "Instance " << cellsInst_it->first << " out of placement area" << endl;
+				if(errorMsgs<6) cout << "-> Instance " << cellsInst_it->first << " out of placement area" << endl;
 				ok=false;
 			}
 		}else{
-			if(errorMsgs<6) cout << "Instance " << cellsInst_it->first << " has no cell layout " << currentInstance->getTargetCell() << endl;
+			if(errorMsgs<6) cout << "-> Instance " << cellsInst_it->first << " has no cell layout " << currentInstance->getTargetCell() << endl;
 			ok=false;
 		}
 	}
@@ -331,13 +331,13 @@ bool Placer::checkPlacement(){
 		width=max(width, int(rowSize/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())));
 	}
     
-	if(errorMsgs>5) cout << "WARNING: A total of " << errorMsgs << " errors were found. Just the 5 firsts were shown." << endl;
+	if(errorMsgs>5) cout << "-> WARNING: A total of " << errorMsgs << " errors were found. Just the 5 firsts were shown." << endl;
 	if(width > nrSites){
-		cout << "Some cells could not be placed inside the placement area. Increasing number of sites from " << nrSites << " to " << width << ". Run PLACE TERMINALS again afterward." << endl;
+		cout << "-> Some cells could not be placed inside the placement area. Increasing number of sites from " << nrSites << " to " << width << ". Run PLACE TERMINALS again afterward." << endl;
 		nrSites=width;
 	}
 	if(rows.size() > nrRows){
-		cout << "Some cells could not be placed inside the placement area. Increasing number of rows from " << nrRows << " to " << rows.size() << ". Run PLACE TERMINALS again afterward." << endl;
+		cout << "-> Some cells could not be placed inside the placement area. Increasing number of rows from " << nrRows << " to " << rows.size() << ". Run PLACE TERMINALS again afterward." << endl;
 		nrSites=width;
 	}
 	
@@ -381,7 +381,7 @@ void Placer::setArea(int n, float u){
         throw AstranError("No cell instance found in the circuit");
     
     utilization= 100*(float(tmp)/(nrSites*rows.size()));
-    cout << "Setting place area to " << rows.size()*currentCircuit->getRowHeight()*currentCircuit->getVPitch() << " x " <<  nrSites*currentCircuit->getHPitch() << " (HxW)um  with " << getUtilization() << "% of utilization" << endl;
+    cout << "-> Setting place area to " << rows.size()*currentCircuit->getRowHeight()*currentCircuit->getVPitch() << " x " <<  nrSites*currentCircuit->getHPitch() << " (HxW)um  with " << getUtilization() << "% of utilization" << endl;
 }
 
 void Placer::readMangoParrotPlacement(string fileName) {
@@ -472,8 +472,8 @@ void Placer::readBookshelfPlacement(string fileName) {
             //	cout << "Instance " << cellName << " not found" << endl;
         }
     }
-    if(left) cout << "Mobral placement format with the positions indicating the left side of the cells"<< endl;
-    else cout << "Mobral placement format with the positions indicating the center of the cells."<< endl;
+    if(left) cout << "-> Mobral placement format with the positions indicating the left side of the cells"<< endl;
+    else cout << "-> Mobral placement format with the positions indicating the center of the cells."<< endl;
     checkPlacement();
 }
 

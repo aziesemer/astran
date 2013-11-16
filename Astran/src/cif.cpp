@@ -7,7 +7,7 @@ Cif::Cif(string fname, Rules &actual_rules) {
 	idx = 1;
 	
 	file.open(filename.c_str()); // Write
-	cout << "Saving CIF file: " << fname << endl;
+	cout << "-> Saving CIF file: " << fname << endl;
 	if (!file)
 		cerr << filename << ": CIF file could not be created" << endl;
 	
@@ -76,7 +76,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	ofstream c2cfile;
 	string c2cfilename=removeExt(filename)+".c2c";
 	c2cfile.open(c2cfilename.c_str()); // Write
-	cout << "Saving CIF2Cadence convertion file: " << c2cfilename << endl;
+	cout << "-> Saving CIF2Cadence convertion file: " << c2cfilename << endl;
 	if (!c2cfile)
 		cerr << c2cfilename << ": C2C file could not be created" << endl;
 	c2cfile << "  cifInKeys = list( nil  " << endl;
@@ -109,7 +109,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	c2cfile << "    'NOUnmappingLayerWarning                nil" << endl;
 	c2cfile << "    )" << endl;
 	c2cfile.close();
-	cout << "ATTENTION:" << endl;
+	cout << "-> ATTENTION:" << endl;
 	cout << "Copy the files: " << getFileName(c2cfilename) << ", " << getFileName(filename) << ", CIFLTable.txt, tech.lib (dump it direct from Cadence Icfb: Tools->Technology File Manager->Dump - select all) to the root of your cadence project and than execute in the icfb menu File->Import->CIF Load: " << getFileName(c2cfilename) << endl << "If you have any problem loading your layout, execute Tools->Technology File Manager->Attach, select your Design Library (usually astran_project) and the target Technology Library to Attach (e.g. cmos130), you only need to do it once. Now you are ready to use Cadence Virtuoso." << endl;
 	return true;
 }

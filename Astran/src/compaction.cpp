@@ -257,7 +257,7 @@ void compaction::insertLPMinVar( string v, int i ) {
 
 /*
  int compaction::solve(string lpSolverFile) {
- cout << "Calling LP Solver (" 
+ cout << "-> Calling LP Solver (" 
  << variables.size() << " variables, " 
  << constraints.size() << " constraints)" << endl;
  
@@ -371,12 +371,12 @@ void compaction::insertLPMinVar( string v, int i ) {
  
  f.close();
  string cmd = "\"" + lpSolverFile + "\" " + 	lp_filename + ".lp 2> temp.log";
- cout << "Running command: " << cmd << endl;
+ cout << "-> Running command: " << cmd << endl;
  
  FILE *x = _popen(cmd.c_str(), "r");
  
  if(x==NULL){
- cout << "ERROR: Problem to execute lp_solve!" << endl;
+ cout << "-> ERROR: Problem to execute lp_solve!" << endl;
  return 0;
  }
  
@@ -390,7 +390,7 @@ void compaction::insertLPMinVar( string v, int i ) {
  
  s >> n;
  if(n=="This"){
- cout << "Error executing LP Solver: " << str << endl;
+ cout << "-> Error executing LP Solver: " << str << endl;
  return 0;
  }
  s >> v;
@@ -409,7 +409,7 @@ void compaction::insertLPMinVar( string v, int i ) {
 
 /** Solve compaction constraints with linear programming. */
 int compaction::solve(string lpSolverFile, int timeLimit) {
-	cout << "Calling LP Solver (" 
+	cout << "-> Calling LP Solver (" 
 	<< variables.size() << " variables, " 
 	<< constraints.size() << " constraints)" << endl;
 	
@@ -534,15 +534,16 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     }
     string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + lp_filename + ".sol " + lp_filename + ".lp";
     //    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
-	cout << "Running command: " << cmd << endl;
+	cout << "-> Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
 	
 	if(x==NULL)
 		throw AstranError("Problem to execute lp_solve!");
     
-    cout << "To interrupt earlier and get the current best solution, type: kill -2 [gurobi process]" << endl;
-    cout << "* and H means new feasible solution found: " << flush;
+    cout << "-> To interrupt earlier and get the current best solution, type in a terminal: kill -2 [gurobi process]" << endl;
+    cout << "-> * and H means new feasible solution found:";
+    cerr << " ";
     
 	char line[150];
 	while (fgets(line, 150, x)) {

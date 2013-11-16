@@ -103,7 +103,7 @@ bool Pathfinder2::routeNets(unsigned int nrAttempts){
 	list<t_arc>::iterator arcs_it;	
 	map<int,int>::iterator Solved_it;
 	
-	cout << "Routing graph..." << endl;
+//	cout << "Routing graph..." << endl;
 	reset();
 	start=clock(); 
 	
@@ -137,7 +137,7 @@ bool Pathfinder2::routeNets(unsigned int nrAttempts){
 					graph[*netTree_it].net=nets_it->first;
 					if(graph[*netTree_it].nrNets>1)  graph[*netTree_it].history++;
 				}
-				if(ok==-1) cout << endl <<"Impossible to find a path to route net: " << nets_it->first << endl;
+				if(ok==-1) cout << endl <<"-> Impossible to find a path to route net: " << nets_it->first << endl;
 			}
 			nets_it++;
 		}
@@ -175,13 +175,9 @@ bool Pathfinder2::routeNets(unsigned int nrAttempts){
 	elapsed=elapsed/1000;
 	
 	if(conflicts){
-		cout << endl <<"Unable to route the circuit after ";
-		cout << actualAttempt << " attempts."<< endl;
+		cout << endl <<"-> Unable to route the circuit after " << actualAttempt << " attempts."<< endl;
 	}else{
-		cout << endl <<"Routing finished in ";
-		cout << actualAttempt << " attempts."<< endl;
-		showResult();
-		cout << "Runtime = " << elapsed << " s" << endl;
+		cout << endl <<"-> Routing finished in " << actualAttempt << " attempts after " << elapsed << " s" << endl;
 	}
 	return(ok && !conflicts);
 	
@@ -239,9 +235,9 @@ bool Pathfinder2::optimize(){
 	int nrSteiners=1;
 	
 	cout << endl;
-	cout << "Cost before optimization:" << endl;
+	cout << "-> Cost before optimization:" << endl;
 	showResult();
-	cout << "Optimizing routing graph...";
+	cout << "-> Optimizing routing graph...";
 	
 	start=clock();
 	//Clear history				
@@ -281,9 +277,9 @@ bool Pathfinder2::optimize(){
 	elapsed=(finish-start)/(CLOCKS_PER_SEC/1000);
 	elapsed=elapsed/1000;
 	cout << endl;
-	cout << "Cost after optimization:" << endl;
+	cout << "-> Cost after optimization:" << endl;
 	showResult();
-	cout << "Runtime = " << elapsed << " s" << endl;
+	cout << "-> Runtime = " << elapsed << " s" << endl;
 	return true;
 }
 
@@ -467,8 +463,8 @@ void Pathfinder2::showResult(){
 			wlCost++;
 		}
 	}
-	cout << "Cost =" << finalCost << endl;
-	cout << "Wirelength =" << wlCost << endl;
+	cout << "-> Cost =" << finalCost << endl;
+	cout << "-> Wirelength =" << wlCost << endl;
 }
 
 bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){

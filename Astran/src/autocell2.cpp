@@ -33,7 +33,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     tmp.diffNIni = nDiffIni;
     tmp.diffPIni = pDiffIni;
     tmp.diffPEnd = pDiffEnd;
-//    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
+    //    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
     
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
@@ -54,7 +54,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
             if (hPoly && elements.size() && elements.back().pol[x] != -1)
                 rt->addArc(tmp.pol[x], elements.back().pol[x], 6); //if it's not the first, connect to the last element
         }
-
+        
     }
     rt->addNodetoNet(gnd, tmp.met[0]);
     rt->addNodetoNet(vdd, tmp.met[trackPos.size() - 1]);
@@ -99,7 +99,7 @@ void AutoCell::calcArea(int nrIntTracks) {
     do {
         next = trackPos.back() + currentRules->getRule(S1M1M1) + currentRules->getRule(W1M1);
         trackPos.push_back(next);
-    } while (next + currentRules->getRule(S1M1M1) <= height - supWidth); //stop when it touchs vdd
+    } while (next + currentRules->getRule(S2M1M1) <= height - supWidth); //stop when it touchs vdd
     
     //    for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
@@ -163,7 +163,7 @@ void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
                 bestCost=currentCost;
                 bestNOrdering=currentNetList.getOrderingN();
                 bestPOrdering=currentNetList.getOrderingP();
-                cout << "** New best transistor ordering found with cost: " << bestCost << endl;
+                cout << "-> New best transistor ordering found with cost: " << bestCost << endl;
             }
         }    
         currentNetList.setOrderingN(bestNOrdering);
@@ -330,7 +330,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         
         // DIFF
         lastElement = tmp;
-
+        
         lastP_it = eulerPathP_it++;
         lastN_it = eulerPathN_it++;
         
@@ -555,10 +555,18 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                         }
                     }
                     //space poly and last diff
-                    if(!rt->isSource(elements_it->pol[x]) && lastDiffN!="")
-                        insertDistanceRuleInteligent3(geometries, cpt, lastDiffN, currentPolNodes[x], currentPolNodes[x], lastDiffN, currentRules->getRule(S1DFP1),"");
-                    if(!rt->isSource(elements_it->pol[x]) && lastDiffP!="")
-                        insertDistanceRuleInteligent3(geometries, cpt, lastDiffP, currentPolNodes[x], currentPolNodes[x], lastDiffP, currentRules->getRule(S1DFP1),"");
+                    if(!rt->isSource(elements_it->pol[x])){
+                        if(currentDiffN!="")
+                            insertDistanceRuleInteligent3(geometries, cpt, currentDiffN, currentPolNodes[x], currentPolNodes[x], currentDiffN, currentRules->getRule(S1DFP1),"");
+                        if(lastDiffN!="")
+                            insertDistanceRuleInteligent3(geometries, cpt, lastDiffN, currentPolNodes[x], currentPolNodes[x], lastDiffN, currentRules->getRule(S1DFP1),"");
+                    }
+                    if(!rt->isSource(elements_it->pol[x])){
+                        if(currentDiffP!="")
+                            insertDistanceRuleInteligent3(geometries, cpt, currentDiffP, currentPolNodes[x], currentPolNodes[x], currentDiffP, currentRules->getRule(S1DFP1),"");
+                        if(lastDiffP!="")
+                            insertDistanceRuleInteligent3(geometries, cpt, lastDiffP, currentPolNodes[x], currentPolNodes[x], lastDiffP, currentRules->getRule(S1DFP1),"");
+                    }
                     
                     lastPolNodeV = currentPolNodes[x];
                 }
@@ -607,7 +615,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 if(!rt->areConnected(next->diffN, elements_it->diffN)){
                     if(diffEnc=="" && rt->areConnected(lastElements_it->diffN, elements_it->diffN))
                         diffEnc=lastNContactDiff;
-
+                    
                     newDif(geometries, cpt, lastNGatePos, lastDiffN, currentDiffN, diffEnc, NDIF, next->gapN==true || next->linkN.type==GAP);
                     
                     lastNGatePos = "";
@@ -653,7 +661,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     
                     newDif(geometries, cpt, lastPGatePos, lastDiffP, currentDiffP, diffEnc, PDIF, next->gapP==true || next->linkP.type==GAP);
                     lastPGatePos = "";
-            }
+                }
                 if(gapP && lastPContactDiff!="" && diffEnc!="") 
                     cpt.insertConstraint("x" + lastPContactDiff + "b", "x" + diffEnc + "a", CP_MIN, currentRules->getRule(S1DFDF));
                 if(diffEnc!="")
@@ -667,7 +675,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 lastPContactDiff="";
                 break;
         }
-//        cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
+        //        cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
         
         for (int c = 0; c < trackPos.size(); c++) {
             //insert contacts to diff space rule
@@ -874,8 +882,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             }
         }
         
-        if(!btP) cout << "** WARNING: Could not insert bodye ties to the P transistors" << endl;
-        if(!btN) cout << "** WARNING: Could not insert bodye ties to the N transistors" << endl;
+        if(!btP) cout << "-> WARNING: Could not insert bodye ties to the P transistors" << endl;
+        if(!btN) cout << "-> WARNING: Could not insert bodye ties to the N transistors" << endl;
     }
     currentLayout.setWidth(width);
     currentLayout.setHeight(height);
@@ -896,7 +904,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     
     //	currentLayout.merge();
     currentCircuit->insertLayout(currentLayout);
-    cout << "** Cell Size (W x H): " << float(currentLayout.getWidth()) / currentRules->getScale() << " x " << float(currentLayout.getHeight()) / currentRules->getScale() << endl;
+    cout << "-> Cell Size (W x H): " << float(currentLayout.getWidth()) / currentRules->getScale() << " x " << float(currentLayout.getHeight()) / currentRules->getScale() << endl;
     state++;
 }
 
@@ -905,7 +913,7 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     int gateIni, gateEnd;
     int transWidth = round(currentNetList.getTrans(transistor).width * currentRules->getScale());
     int transLength = round(currentNetList.getTrans(transistor).length * currentRules->getScale());
-    if (transLength < currentRules->getRule(W2P1)) cout << "** Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
+    if (transLength < currentRules->getRule(W2P1)) cout << "-> Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
     
     //get gate
     if (l==NDIF){
@@ -1004,7 +1012,7 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
         cpt.insertConstraint("yPDiffa", "y" + diffEnc + "a", CP_MIN, 0);
         cpt.insertConstraint("y" + diffEnc + "b", "yPDiffb", CP_MIN, 0);
     }
-
+    
     //if there is a gate before
     if (lastGate != "") {
         //minimize contact to contact distance
@@ -1213,7 +1221,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     for (int c = 0; c < trackPos.size(); c++) {
         if(currentContacts[c]!="" && c<pos)
             insertDistanceRuleInteligent(geometries, cpt, lastContacts[c], cntBndBox, lastContacts[c], cntBndBox, CONT);
-            
+        
         if(lastContacts[c]!=""){
             if(c<pos)
                 insertDistanceRuleInteligent(geometries, cpt, lastContacts[c], cntBndBox, lastContacts[c], cntBndBox, CONT);

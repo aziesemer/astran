@@ -175,7 +175,7 @@ void Pathfinder::routeNets(int nrAttempts){
 		//cout << (nets_it->second).nodes[0] << endl;
 	}	
 	//Pathfinder Routing
-	cout << "Routing graph..." << endl;
+	cout << "-> Routing graph..." << endl;
 	do{		
 		// Loop over all nets
 		for(nets_it=netlist.begin(); nets_it!=netlist.end(); ++nets_it){
@@ -235,13 +235,13 @@ void Pathfinder::routeNets(int nrAttempts){
 		//		cout << conflicts << endl;
 	}while(targetNodes.empty() && conflicts && actualAttempt<nrAttempts);
 	//	cout << visited << endl;
-		cout << endl << "Runtime = " << float((clock()-start)/(CLOCKS_PER_SEC/1000))/1000 << "s" << endl;
-	if(!targetNodes.empty()) cout << "Impossible to route net: " << nets_it->first << endl;		
+		cout << endl << "-> Runtime = " << float((clock()-start)/(CLOCKS_PER_SEC/1000))/1000 << "s" << endl;
+	if(!targetNodes.empty()) cout << "-> Impossible to route net: " << nets_it->first << endl;		
 	if(conflicts || !targetNodes.empty()){
-		cout <<"Unable to route the circuit after ";
+		cout <<"-> Unable to route the circuit after ";
 		cout << actualAttempt << " attempts."<< endl;
 	}else{
-		cout <<"Routing finished in ";
+		cout <<"-> Routing finished in ";
 		cout << actualAttempt << " attempts."<< endl;
 		showResult();
 	}
@@ -383,9 +383,9 @@ void Pathfinder::showResult(){
 			//			cout << "(" << getPosX(*nodes_it) << " " <<getPosY(*nodes_it)<< " " <<getPosZ(*nodes_it)<< ")  --("<< graph[*nodes_it].net << " " << nets_it->second.finalNet <<")-->  (" << graph[*nodes_it].rightIter << " " <<graph[*nodes_it].upIter<< " " <<graph[*nodes_it].upLayerIter << ") " << endl;
 		}
 	}
-	cout << "Cost =" << finalCost << endl;
-	cout << "Wirelength =" << wlCost << endl;
-	cout << "# Pins =" << pins << endl;
+	cout << "-> Cost =" << finalCost << endl;
+	cout << "-> Wirelength =" << wlCost << endl;
+	cout << "-> # Pins =" << pins << endl;
 }
 
 bool Pathfinder::areConnected(int node1, rt_dir dir){

@@ -34,7 +34,7 @@ bool Circuit::setMargins(float l, float r, float t, float b){
 	c2rMargin=round(r/getHPitch());
 	c2tMargin=round(t/getVPitch());
 	c2bMargin=round(b/getVPitch());
-	cout << "Margins: L=" << c2lMargin*getHPitch() << "um  R=" << c2rMargin*getHPitch() << "um  T=" << c2tMargin*getVPitch() << "um  B=" << c2bMargin*getVPitch() << "um"  << endl;
+	cout << "-> Margins: L=" << c2lMargin*getHPitch() << "um  R=" << c2rMargin*getHPitch() << "um  T=" << c2tMargin*getVPitch() << "um  B=" << c2bMargin*getVPitch() << "um"  << endl;
 	return true;
 }
 
@@ -71,7 +71,7 @@ Interface* Circuit::getInterface(string n){
 bool Circuit::insertLayout(CLayout& tmp){
 	map<string, CLayout>::iterator cells_it=layouts.find(tmp.getName());
 	//	if(cells_it!=layouts.end())
-	//		cout << "Cell layout " << tmp.getName() << " already exists. Overwriting..." << endl;
+	//		cout << "-> Cell layout " << tmp.getName() << " already exists. Overwriting..." << endl;
 	layouts[tmp.getName()]=tmp;
 	return true;
 }
@@ -87,14 +87,14 @@ CLayout* Circuit::getLayout(string n){
 void Circuit::insertCell(CellNetlst& tmp){
 	map<string,CellNetlst>::iterator cells_it=cellNetlsts.find(tmp.getName());
     if(cells_it!=cellNetlsts.end())
-		cout << "Overwriting cell netlist: " << tmp.getName() << endl;
+		cout << "-> Overwriting cell netlist: " << tmp.getName() << endl;
 	cellNetlsts[tmp.getName()]=tmp;
 }
 
 bool Circuit::insertEquation(string cellName, string& tmp){
 	map<string, string>::iterator cells_it=equations.find(cellName);
 	//	if(cells_it!=equations.end())
-	//		cout << "Cell equation " << cellName << " already exists. Overwriting..." << endl;
+	//		cout << "-> Cell equation " << cellName << " already exists. Overwriting..." << endl;
 	equations[cellName]=tmp;
 	return true;
 }
@@ -138,16 +138,16 @@ CellNetlst Circuit::getFlattenCell(string name){
 	CellNetlst tmp;
 	int n;
 	if(cellNetlsts.find(name)==cellNetlsts.end()){
-		cout << "ERROR: Cell not found: " << name << endl;
+		cout << "-> ERROR: Cell not found: " << name << endl;
 	}else{
 		tmp=cellNetlsts[name];
 		map<string,Inst>& instances=tmp.getInstances();
 		for(map<string,Inst>::iterator instance_it=instances.begin(); instance_it!=instances.end(); ++instance_it){
-			if(instance_it==instances.begin()) cout << "Removing cell hierarchy in " << name << endl;
+			if(instance_it==instances.begin()) cout << "-> Removing cell hierarchy in " << name << endl;
 			CellNetlst currentCell=getFlattenCell(instance_it->second.subCircuit);
 			currentCell.appendNetNameSuffix(instance_it->first);
 			if(instance_it->second.ports.size()!=currentCell.getInouts().size()){
-				cout << "ERROR: Call for cell " << instance_it->second.subCircuit << " have different number of IOs in subcircuit " << name << endl;
+				cout << "-> ERROR: Call for cell " << instance_it->second.subCircuit << " have different number of IOs in subcircuit " << name << endl;
 				return tmp;
 			}
 			for(n=0;n<instance_it->second.ports.size();++n)
@@ -167,7 +167,7 @@ void Circuit::printInterface(string net){
 	if(interface_it==interfaces.end())
         throw AstranError("Could not find interface: " + net);
     
-    cout << "Interface: " <<  net << " => Orientation: ";
+    cout << "-> Interface: " <<  net << " => Orientation: ";
     switch(interface_it->second.orient){
         case N: cout << "N"; break;
         case S: cout << "S"; break;
@@ -189,9 +189,9 @@ void Circuit::printInstance(CLayout* l, string instance){
 	if(!currentInstance)
         throw AstranError("Instance " + instance + " not found");
     
-    cout << "Instance: " <<  instance << " => " << currentInstance->getTargetCell() << endl;
+    cout << "-> Instance: " <<  instance << " => " << currentInstance->getTargetCell() << endl;
     currentInstance->print();
-    cout << "Pins Assignment (Global Net->Pin): ";
+    cout << "-> Pins Assignment (Global Net->Pin): ";
     /*		map<string, list<Net> >::iterator netList_it;
      for(netList_it=netList.begin(); netList_it!=netList.end(); netList_it++)
      for(tmp_it=netList_it->second.begin(); tmp_it!=netList_it->second.end(); tmp_it++)

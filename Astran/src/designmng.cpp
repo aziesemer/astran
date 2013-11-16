@@ -62,7 +62,7 @@ int DesignMng::getCommandCode(vector<string> shell_cmd){
 }
 
 void DesignMng::run(string filename) {
-	cout << "Reading file: " << filename << endl;
+	cout << "-> Reading file: " << filename << endl;
 	ifstream file(filename.c_str()); // Read
 	if (!file)
 		throw AstranError("File not found");
@@ -71,7 +71,7 @@ void DesignMng::run(string filename) {
 	string str_tmp;
 	while(getline(file, str_tmp)){
 		if((str_tmp[0] != '*') && !readCommand(str_tmp))
-            cout << "Could not execute line " << intToStr(line) << " of: " << filename << endl;
+            cout << "-> WARNING: Could not execute line " << intToStr(line) << " of: " << filename << endl;
 		line++;
 	}
 }
@@ -100,7 +100,7 @@ void DesignMng::saveHistory(string filename){
 		for (int i=0; i < commandlog.size()-1; ++i)
 			file_out << commandlog[i] << endl;
 	} else 
-		cout << "Command log is empty\n";
+		cout << "-> Command log is empty\n";
 	
 	file_out.close();
 }
@@ -244,20 +244,20 @@ bool DesignMng::readCommand(string cmd){
                     
                     /****  LOAD - 6  ****/
                 case LOAD_PROJECT:
-                    cout << "Loading project from file: " << words[2] << endl;
+                    cout << "-> Loading project from file: " << words[2] << endl;
                     verboseMode=0;
                     run(words[2]);
                     verboseMode=1;
                     break;
                     
                 case LOAD_TECHNOLOGY:
-                    cout << "Loading technology from file: " << words[2] << endl;
+                    cout << "-> Loading technology from file: " << words[2] << endl;
                     rules->readRules(words[2]);
                     break;
                     
                 case LOAD_NETLIST:{
                     string tipo=upcase(getExt(words[2]));
-                    cout << "Loading cells netlist from file: " << words[2] << endl;
+                    cout << "-> Loading cells netlist from file: " << words[2] << endl;
                     if(tipo=="V"){
                         Verilog vlog;
                         if(!vlog.readFile(words[2], *circuit))
@@ -271,7 +271,7 @@ bool DesignMng::readCommand(string cmd){
                     
                 case LOAD_LAYOUTS:
                 {
-                    cout << "Loading LEF library: " << words[2] << endl;
+                    cout << "-> Loading LEF library: " << words[2] << endl;
                     Lef lef;
                     lef.readFile(words[2], *circuit, false);
                 }
@@ -279,7 +279,7 @@ bool DesignMng::readCommand(string cmd){
                     
                 case LOAD_PLACEMENT:{
                     string tipo=upcase(getExt(words[2]));
-                    cout << "Loading placement from file: " << words[2] << endl;
+                    cout << "-> Loading placement from file: " << words[2] << endl;
                     if(tipo=="PL"){
                         placer->readBookshelfPlacement(words[2]);
                     }else if(tipo=="MPP")
@@ -290,13 +290,13 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case LOAD_ROUTING:
-                    cout << "Loading routing from file: " << words[2] << endl;
+                    cout << "-> Loading routing from file: " << words[2] << endl;
                     router->readRoutingRotdl(words[2]);
                     break;
                     
                     /****  SAVE - 7  ****/
                 case SAVE_PROJECT:
-                    cout << "Saving project to file: " << words[2] << endl;
+                    cout << "-> Saving project to file: " << words[2] << endl;
                     saveProjectConfig(words[2], removeExt(words[2]));
                     break;
                     
@@ -305,44 +305,44 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case SAVE_NETLIST:{
-                    cout << "Saving spice netlist to file: " << words[2] << endl;
+                    cout << "-> Saving spice netlist to file: " << words[2] << endl;
                     Spice spice;
                     spice.saveFile(words[2], *circuit);
                 }
                     break;
                     
                 case SAVE_LAYOUTS:{
-                    cout << "Saving layouts to file: " << words[2] << endl;
+                    cout << "-> Saving layouts to file: " << words[2] << endl;
                     Lef lef;
                     lef.saveFile(words[2], *circuit);
                 }
                     break;
                     
                 case SAVE_PLACEMENT:
-                    cout << "Saving placement to file: " << words[2] << endl;
+                    cout << "-> Saving placement to file: " << words[2] << endl;
                     placer->writeBookshelfFiles(removeExt(getFileName(words[2])), true);
                     break;
                     
                 case SAVE_ROUTING:
-                    cout << "Saving routing to file: " << words[2] << endl;
+                    cout << "-> Saving routing to file: " << words[2] << endl;
                     router->saveRoutingRotdl(words[2]);
                     break;
                     
                 case SAVE_HISTORY:
-                    cout << "Saving script to file: " << words[2] << endl;
+                    cout << "-> Saving script to file: " << words[2] << endl;
                     saveHistory(words[2]);
                     break;
                     
                     /****  IMPORT - 2  ****/
                 case IMPORT_NETLIST:{
-                    cout << "Importing netlist from file: " << words[2] << endl;
+                    cout << "-> Importing netlist from file: " << words[2] << endl;
                     Spice spice;
                     spice.readFile(words[2], *circuit, true);
                 }
                     break;
                     
                 case IMPORT_LEF:{
-                    cout << "Importing LEF library: " << words[2] << endl;
+                    cout << "-> Importing LEF library: " << words[2] << endl;
                     Lef lef;
                     lef.readFile(words[2], *circuit, true);
                 }
@@ -355,7 +355,7 @@ bool DesignMng::readCommand(string cmd){
                     if(circuit->getLayout(upcase(words[2]))){
                         if(tipo=="GDS"){
                             rules->saveGDSIILayerTable(getPath(filename)+"GDSIILTable.txt");
-                            cout << "Saving layout " << words[2] << " to file: " << filename << endl;
+                            cout << "-> Saving layout " << words[2] << " to file: " << filename << endl;
                             Gds g(filename);
                             char tmp[20] = "                   ";
                             strcpy(tmp, words[2].substr(0,19).c_str());
@@ -392,18 +392,20 @@ bool DesignMng::readCommand(string cmd){
                         }else if(tipo=="CIF"){
                             Cif cifOut(filename, *rules);
                             cifOut.cellCif(*(circuit->getLayouts()), words[2]);
-                        }else cout << "Unknown file type: " << tipo << endl;			
-                    }else cout << "Cell not found: " << words[2] << endl;
+                        }else 
+                            throw AstranError("Unknown file type: " + tipo);			
+                    }else
+                        throw AstranError("Cell not found: " + words[2]);
                 }
                     break;
                     
                 case EXPORT_CELLSIZES:
-                    cout << "Writing Cell Sizes to file: " << words[2] << endl;
+                    cout << "-> Writing Cell Sizes to file: " << words[2] << endl;
                     circuit->writeCellSizesFile(words[2]);
                     break;
                     
                 case EXPORT_PLACEMENT:
-                    cout << "Saving placement to file: " << words[2] << endl;
+                    cout << "-> Saving placement to file: " << words[2] << endl;
                     placer->writeCadende(words[2]);
                     break;
                     
@@ -417,15 +419,15 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case PLACE_FPLACE:{
-                    cout << "Writing bookshelf files for placement..." << endl;
+                    cout << "-> Writing bookshelf files for placement..." << endl;
                     placer->writeBookshelfFiles("test", false);
                     string cmd = "\"" + placerFile + "\"" + " test > temp.log";
-                    cout << "Calling placement tool: " << cmd << endl;
+                    cout << "-> Calling placement tool: " << cmd << endl;
                     FILE *x = _popen(cmd.c_str(), "r");
                     if ( x == NULL ) 
                         throw AstranError("Could not execute: " + cmd);
                     _pclose(x);
-                    cout << "Placing Cells..." << endl;
+                    cout << "-> Placing Cells..." << endl;
                     placer->readBookshelfPlacement("test_mp.pl");
                 }
                     break;
@@ -503,7 +505,7 @@ bool DesignMng::readCommand(string cmd){
                         throw AstranError("Could not find file: " + words[2]);
                     
                     placerFile=words[2];
-                    cout << "Setting placer executable to: " << placerFile << endl;
+                    cout << "-> Setting placer executable to: " << placerFile << endl;
                     break;
                     
                 case SET_ROTDL:
@@ -511,7 +513,7 @@ bool DesignMng::readCommand(string cmd){
                         throw AstranError("Could not find file: " + words[2]);
                     
                     rotdlFile=words[2];
-                    cout << "Setting rotdl executable path to: " << rotdlFile << endl;
+                    cout << "-> Setting rotdl executable path to: " << rotdlFile << endl;
                     break;
                     
                 case SET_VIEWER:
@@ -519,7 +521,7 @@ bool DesignMng::readCommand(string cmd){
                         throw AstranError("Could not find file: " + words[2]);
                     
                     viewerProgram=words[2];
-                    cout << "Setting viewer executable path to: " << viewerProgram << endl;
+                    cout << "-> Setting viewer executable path to: " << viewerProgram << endl;
                     break;
                     
                 case SET_LPSOLVE:
@@ -527,17 +529,17 @@ bool DesignMng::readCommand(string cmd){
                         throw AstranError("Could not find file: " + words[2]);
                     
                     lpSolverFile=words[2];
-                    cout << "Setting lpsolve executable to: " << lpSolverFile << endl;
+                    cout << "-> Setting lpsolve executable to: " << lpSolverFile << endl;
                     break;
                     
                 case SET_LOG:
                     historyFile = words[2];
                     remove(historyFile.c_str());
-                    cout << "Saving history log to file: " << historyFile << endl;
+                    cout << "-> Saving history log to file: " << historyFile << endl;
                     break;
                     
                 case SET_VERBOSEMODE:
-                    cout << "Setting verbose mode = " << words[2] << endl;
+                    cout << "-> Setting verbose mode = " << words[2] << endl;
                     verboseMode=atoi(words[2].c_str());
                     break;
                     
@@ -668,7 +670,7 @@ bool DesignMng::readCommand(string cmd){
                     /****  CELLGEN - 9  ****/
                     
                 case CELLGEN_SELECT:
-                    cout << "Selecting cell: " << upcase(words[2]) << endl;
+                    cout << "-> Selecting cell: " << upcase(words[2]) << endl;
                     autocell->selectCell(circuit,upcase(words[2]));
                     break;
                     
@@ -699,7 +701,7 @@ bool DesignMng::readCommand(string cmd){
                     
                     /****  HELP - 2  ****/
                 case HELP:
-                    cout << "Note: For detailed instructions, use command \"HELP <str_Command>\"\n\n";
+                    cout << "-> Note: For detailed instructions, use command \"HELP <str_Command>\"\n\n";
                     for (int i=0; i<NR_COMMANDS; ++i)
                         cout << commands_lst[i].name << endl;
                     break;

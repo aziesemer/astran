@@ -108,7 +108,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 						intToStr(readRange(tokens,++n,a,b));
 						v2+="["+intToStr(a)+"]";
 					}
-					cout << v1 << "-" << v2 << endl;
+//					cout << v1 << "-" << v2 << endl;
 					assigns[v1]=v2;
 					++n;
 					if(!compareChars(tokens[n++], ";")) return false;
@@ -171,11 +171,9 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 										v2+="["+intToStr(x)+"]";				
 								}
 								if(assigns.find(v2)!=assigns.end()) v2=assigns[v2];
-								if(!findNet(v2)){
-									cout << "Parameter " << v2 << " not initialized" << endl;
-									return false;
-								}
-								net_ids.push_back(v2);
+								if(!findNet(v2))
+                                    throw AstranError("Parameter " + v2 + " not initialized");
+                                net_ids.push_back(v2);
 								if(!compareChars(tokens[++n], ",", ")")) return false;
 							}
 							net_ids.push_back(netlist.getVddNet());
@@ -204,10 +202,8 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 								v2+="["+intToStr(c)+"]";				
 							}
 							if(assigns.find(v2)!=assigns.end()) v2=assigns[v2];
-							if(!findNet(v2)){
-								cout << "Parameter " << v2 << " not initialized" << endl;
-								return false;
-							}
+							if(!findNet(v2))
+                                throw AstranError("Parameter " + v2 + " not initialized");
 							net_ids.push_back(v2);
 							if(!compareChars(tokens[++n], ",", ")")) return false;
 						}
@@ -285,13 +281,13 @@ bool Verilog::readRange(vector<string>& tokens, int& n,  int& a, int& b){
 
 bool Verilog::compareChars(string a, string b){
 	if (a == b) return true;
-	cout << "ERROR: It was expecting " << b << " but get " << a << endl;
+	cout << "-> ERROR: It was expecting " << b << " but get " << a << endl;
 	return false;
 }
 
 bool Verilog::compareChars(string a, string b, string c){
 	if (a == b | a == c) return true;
-	cout << "ERROR: It was expecting " << b << " or " << c << " but get " << a << endl;
+	cout << "-> ERROR: It was expecting " << b << " or " << c << " but get " << a << endl;
 	return false;
 }
 
