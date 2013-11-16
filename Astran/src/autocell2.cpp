@@ -99,7 +99,7 @@ void AutoCell::calcArea(int nrIntTracks) {
     do {
         next = trackPos.back() + currentRules->getRule(S1M1M1) + currentRules->getRule(W1M1);
         trackPos.push_back(next);
-    } while (next + currentRules->getRule(S2M1M1) <= height - supWidth); //stop when it touchs vdd
+    } while (next  + currentRules->getRule(W1M1) + currentRules->getRule(S2M1M1) <= height - supWidth); //stop when it touchs vdd
     
     //    for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
