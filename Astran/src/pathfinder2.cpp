@@ -478,13 +478,7 @@ bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){
 }
 
 int Pathfinder2::areConnected2(unsigned int n1, unsigned n2){
-	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
-		if((*arc_it)->label==finalNet){
-			if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
-				return graph[n1].net;
-		}
-	}
-	return -1;
+	return graph[n1].net==graph[n2].net && graph[n1].nrNets>=1 && graph[n2].nrNets>=1;
 }
 
 bool Pathfinder2::connect(int net, unsigned int n1, unsigned n2){

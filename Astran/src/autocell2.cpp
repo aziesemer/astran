@@ -481,10 +481,9 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     //insert space or a track between current and lasts H met node, if it exists
                     for (int c = 0; c < trackPos.size(); c++) {
                         if(lastMetNodes[c]!=""){
-                            if(c<x && rt->getNet(lastElements_it->met[c])!=rt->getNet(elements_it->met[x])){
+                            if(c<x && !rt->areConnected(lastElements_it->met[c],elements_it->met[x]))
                                 insertDistanceRuleInteligent(geometries, cpt, lastMetNodes[c], currentMetNodes[x], lastMetNodes[c], currentMetNodes[x], MET1);
-                            }
-                            else if(c>x && rt->getNet(lastElements_it->met[c])!=rt->getNet(elements_it->met[x]))
+                            else if(c>x && !rt->areConnected(lastElements_it->met[c],elements_it->met[x]))
                                 insertDistanceRuleInteligent(geometries, cpt, lastMetNodes[c], currentMetNodes[x], currentMetNodes[x], lastMetNodes[c], MET1);
                             else if(c==x){
                                 if(!rt->areConnected(lastElements_it->met[c], elements_it->met[x]))
@@ -526,9 +525,9 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     //insert space or a track between current and last H poly node, if it exists
                     for (int c = 0; c < trackPos.size(); c++) {
                         if(lastPolNodes[c]!="") {
-                            if(c<x && rt->getNet(lastElements_it->pol[c])!=rt->getNet(elements_it->pol[x]))
+                            if(c<x && !rt->areConnected(lastElements_it->pol[c],elements_it->pol[x]))
                                 insertDistanceRuleInteligent(geometries, cpt, lastPolNodes[c], currentPolNodes[x], lastPolNodes[c], currentPolNodes[x], POLY);
-                            else if(c>x && rt->getNet(lastElements_it->pol[c])!=rt->getNet(elements_it->pol[x]))
+                            else if(c>x && !rt->areConnected(lastElements_it->pol[c],elements_it->pol[x]))
                                 insertDistanceRuleInteligent(geometries, cpt, lastPolNodes[c], currentPolNodes[x], currentPolNodes[x], lastPolNodes[c], POLY);
                             else if(c==x){
                                 if(!rt->areConnected(elements_it->pol[x], lastElements_it->pol[x]))
@@ -742,11 +741,16 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
         //        cout << lastDiffN << "-" << currentDiffN << "/" << lastDiffP << "-" << currentDiffP << endl;
         lastElements_it = elements_it;
         for (x = 0; x < trackPos.size(); x++){
-            if(currentMetNodes[x]!=lastMetNodes[x]) befLastMetNodes[x]=lastMetNodes[x];
-            if(currentPolNodes[x]!=lastPolNodes[x]) befLastPolNodes[x]=lastPolNodes[x];
-            if(lastMetNodes[x]!=currentMetNodes[x]) lastMetNodes[x]=currentMetNodes[x];
-            if(lastPolNodes[x]!=currentPolNodes[x]) lastPolNodes[x]=currentPolNodes[x];
-            if(lastContacts[x]!=currentContacts[x]) lastContacts[x]=currentContacts[x];
+            if(currentMetNodes[x]!=""){
+                befLastMetNodes[x]=lastMetNodes[x];
+                lastMetNodes[x]=currentMetNodes[x];
+            }
+            if(currentPolNodes[x]!=""){
+                befLastPolNodes[x]=lastPolNodes[x];
+                lastPolNodes[x]=currentPolNodes[x];
+            }
+            if(currentContacts[x]!="")
+                lastContacts[x]=currentContacts[x];
         }
     }
     
@@ -1219,7 +1223,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     
     //space contacts
     for (int c = 0; c < trackPos.size(); c++) {
-        if(currentContacts[c]!="" && currentContacts[c]!=lastContacts[c] && c<pos)
+        if(currentContacts[c]!="" && c<pos)
             insertDistanceRuleInteligent(geometries, cpt, currentContacts[c], cntBndBox, currentContacts[c], cntBndBox, CONT);
         
         if(lastContacts[c]!=""){
