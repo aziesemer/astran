@@ -503,7 +503,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                                     insertDistanceRuleDumb(geometries, cpt, befLastMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), H, MET1);
                         }
                     }
-                    for(int c=x-1; c>0; --c){
+                    for(int c=x-1; c>=0; --c){
                         if(currentMetNodes[c]!="" && !rt->areConnected2(elements_it->met[c], elements_it->met[x])){
                             insertDistanceRuleDumb(geometries, cpt, currentMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), V, MET1);
                             break;
@@ -546,7 +546,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                             else insertDistanceRuleDumb(geometries, cpt, befLastPolNodes[c], currentPolNodes[x], currentRules->getRule(S1P1P1), H, POLY);
                         }
                     }
-                    for(int c=x-1; c>0; --c){
+                    for(int c=x-1; c>=0; --c){
                         if(currentPolNodes[c]!="" && !rt->areConnected2(elements_it->pol[c],elements_it->pol[x])){
                             insertDistanceRuleDumb(geometries, cpt, currentPolNodes[c], currentPolNodes[x], currentRules->getRule(S1P1P1), V, POLY);
                             break;
