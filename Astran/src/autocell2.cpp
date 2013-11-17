@@ -478,20 +478,13 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     createNode(geometries, cpt, elements_it, x, currentMetNodes, currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1);                    
                     //insert space or a track between current and lasts H met node, if it exists
                     for (int c = 0; c < trackPos.size(); c++) {
-                        if(lastMetNodes[c]!=""){
-                            if(c<x && !rt->areConnected2(lastElements_it->met[c],elements_it->met[x]))
+                        if(lastMetNodes[c]!="" && !rt->areConnected2(lastElements_it->met[c], elements_it->met[x])){
+                            if(c<x)
                                 insertDistanceRuleInteligent(geometries, cpt, lastMetNodes[c], currentMetNodes[x], lastMetNodes[c], currentMetNodes[x], MET1);
-                            else if(c>x && !rt->areConnected2(lastElements_it->met[c],elements_it->met[x]))
+                            else if(c>x)
                                 insertDistanceRuleInteligent(geometries, cpt, lastMetNodes[c], currentMetNodes[x], currentMetNodes[x], lastMetNodes[c], MET1);
-                            else if(c==x){
-                                if(!rt->areConnected2(lastElements_it->met[c], elements_it->met[x]))
-                                    insertDistanceRuleDumb(geometries, cpt, lastMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), H, MET1);
-                                else{
-                                    if(rt->getNet(elements_it->met[x])!=vdd && rt->getNet(elements_it->met[x])!=gnd)
-                                        createTrack(geometries, cpt, lastMetNodes[c], currentMetNodes[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
-                                }
-                                
-                            }
+                            else
+                                insertDistanceRuleDumb(geometries, cpt, lastMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), H, MET1);
                         }
                         if(c && befLastMetNodes[c]!=""){
                             if(experimental && c<x)
@@ -499,8 +492,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                             else if(experimental && c>x)
                                 insertDistanceRuleInteligent(geometries, cpt, befLastMetNodes[c], currentMetNodes[x], currentMetNodes[x], befLastMetNodes[c], MET1);
                             else 
-                                if(rt->getNet(elements_it->met[x])!=vdd && rt->getNet(elements_it->met[x])!=gnd)
-                                    insertDistanceRuleDumb(geometries, cpt, befLastMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), H, MET1);
+                                insertDistanceRuleDumb(geometries, cpt, befLastMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), H, MET1);
                         }
                     }
                     for(int c=x-1; c>=0; --c){
@@ -511,6 +503,9 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     }
 
                     //insert space or a track between current and last V met node, if it exists
+                    if(rt->areConnected2(lastElements_it->met[x], elements_it->met[x]) && x && x<trackPos.size()-1)
+                        createTrack(geometries, cpt, lastMetNodes[x], currentMetNodes[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
+                    
                     if(x && rt->areConnected(elements_it->met[x-1], elements_it->met[x]))
                             createTrack(geometries, cpt, currentMetNodes[x-1], currentMetNodes[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, V);                        
             }
@@ -526,17 +521,13 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     
                     //insert space or a track between current and last H poly node, if it exists
                     for (int c = 0; c < trackPos.size(); c++) {
-                        if(lastPolNodes[c]!="") {
-                            if(c<x && !rt->areConnected2(lastElements_it->pol[c],elements_it->pol[x]))
+                        if(lastPolNodes[c]!="" && !rt->areConnected2(lastElements_it->pol[c],elements_it->pol[x])) {
+                            if(c<x)
                                 insertDistanceRuleInteligent(geometries, cpt, lastPolNodes[c], currentPolNodes[x], lastPolNodes[c], currentPolNodes[x], POLY);
-                            else if(c>x && !rt->areConnected2(lastElements_it->pol[c],elements_it->pol[x]))
+                            else if(c>x)
                                 insertDistanceRuleInteligent(geometries, cpt, lastPolNodes[c], currentPolNodes[x], currentPolNodes[x], lastPolNodes[c], POLY);
-                            else if(c==x){
-                                if(!rt->areConnected2(elements_it->pol[x], lastElements_it->pol[x]))
-                                    insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentPolNodes[x], currentRules->getRule(S1P1P1), H, POLY);
-                                else
-                                    createTrack(geometries, cpt, lastPolNodes[x], currentPolNodes[x], "", POLY, H);
-                            }
+                            else 
+                                insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentPolNodes[x], currentRules->getRule(S1P1P1), H, POLY);
                         }
                         if(c && befLastPolNodes[c]!=""){
                             if(experimental && c<x)
@@ -552,8 +543,12 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                             break;
                         }
                     }
-                    //insert space or a track between current and last V poly node, if it exists
-                        if(x && rt->areConnected(elements_it->pol[x-1], elements_it->pol[x]))
+                    
+                    //insert space or a track between current and last poly node, if it exists
+                    if(rt->areConnected2(lastElements_it->pol[x], elements_it->pol[x]))
+                        createTrack(geometries, cpt, lastPolNodes[x], currentPolNodes[x], "", POLY, H);
+
+                    if(x && rt->areConnected(elements_it->pol[x-1], elements_it->pol[x]))
                             createTrack(geometries, cpt, currentPolNodes[x-1], currentPolNodes[x], "", POLY, V);                        
 
                     //space poly and last diff
