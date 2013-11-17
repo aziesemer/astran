@@ -1219,8 +1219,8 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     
     //space contacts
     for (int c = 0; c < trackPos.size(); c++) {
-        if(currentContacts[c]!="" && c<pos)
-            insertDistanceRuleInteligent(geometries, cpt, lastContacts[c], cntBndBox, lastContacts[c], cntBndBox, CONT);
+        if(currentContacts[c]!="" && currentContacts[c]!=lastContacts[c] && c<pos)
+            insertDistanceRuleInteligent(geometries, cpt, currentContacts[c], cntBndBox, currentContacts[c], cntBndBox, CONT);
         
         if(lastContacts[c]!=""){
             if(c<pos)
