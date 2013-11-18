@@ -465,7 +465,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     
     //Compact the routing tracks
     for (list<Element>::iterator elements_it = elements.begin(); elements_it != elements.end(); ++elements_it) {
-                elements_it->print();
+//                elements_it->print();
         vector<string> currentMetNodes(trackPos.size(), ""), currentPolNodes(trackPos.size(), ""), currentContacts(trackPos.size(), "");
         list<Element>::iterator next = elements_it; next++;
         //create metals and polys for intra-cell routing
