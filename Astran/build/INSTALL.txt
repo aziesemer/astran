@@ -39,22 +39,29 @@ unzip Astran.zip
 3. Download Gurobi Optimizer from:
 http://www.gurobi.com/download/gurobi-optimizer
 
-    You need to register first. After that, install the latest version supported by your SO (e.g. 5.0.2 for Mac OS X 10.6). You gonna need to acquire a valid license to use Gurobi, it's free for academic use:
+    You need to register first. After that, install the latest version
+ supported by your SO (e.g. 5.0.2 for Mac OS X 10.6). You gonna need to
+ acquire a valid license to use Gurobi, it's free for academic use:
 http://www.gurobi.com/download/licenses/free-academic
 
-   Follow the instructions to install the license, they will ask you to run a command to validate the license.
+   Follow the instructions to install the license, they will ask you to
+ run a command to validate the license.
+
+   PS.: The Free Trial license is limited to 2.000 variables and
+ constraints, you will only be able to generate very small circutis.
+ The academic license on the other hand is unlimited.
 
 4. Run the file Astran/bin/Astran
 
 5. You need to setup the tool in order to use it. Open View->Preferences and set the path to gurobi_cl:
     MAC OS: It's usually in /Library/gurobi502/mac64/bin/gurobi_cl
 
-6. Set the path to your CIF viewer too. You can use wxSightGL, it's usually inside the Tools folder for your SO. You can also download it from 
+6. Set the path to your CIF viewer too. You can use wxSightGL, it's usually inside the Astran/Tools folder for your SO. You can also download it from 
     https://code.google.com/p/gme-ufrgs/downloads/list
     
-    MAC OS: Install it in your Applications folder and set the path to: /Applications/wxSightGL.app/Contents/MacOS/wxSightGL
+    MAC OS: Set the path to: .../wxSightGL.app/Contents/MacOS/wxSightGL
     LINUX: Execute: sudo apt-get install freeglut3-dev
     WINDOWS: Download the opengl dll (glut32.dll) to your c:\windows\system32 directory:
     http://www.dll-files.com/dllindex/dll-files.shtml?glut32
 
-IMPORTANT TIP: Edit astran.cfg  and save the configuration so you don't have to set it again when you run the tool again.
+IMPORTANT TIP: Edit astran.cfg and save the configuration so you don't have to set it again when you run the tool again.
