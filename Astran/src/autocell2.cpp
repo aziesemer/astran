@@ -1270,13 +1270,13 @@ string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string met
     //allign via to the routing grid
     cpt.insertConstraint( "HGRID_OFFSET", "x" + via + "g", CP_EQ_VAR_VAL,  "x" + via + "gpos", hGrid);
     cpt.forceIntegerVar("x" + via + "gpos");
-    cpt.insertConstraint( "x" + via + "a", "x" + via + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
-    cpt.insertConstraint( "x" + via + "g", "x" + via + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "x" + via + "a", "x" + via + "g", CP_EQ, currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "x" + via + "g", "x" + via + "b", CP_EQ, currentRules->getRule(W2VI)/2);
     
-    cpt.insertConstraint( "VGRID_OFFSET", "y" + via + "g", CP_EQ_VAR_VAL,  "y" + via + "gpos", hGrid);
+    cpt.insertConstraint( "VGRID_OFFSET", "y" + via + "g", CP_EQ_VAR_VAL,  "y" + via + "gpos", vGrid);
     cpt.forceIntegerVar("y" + via + "gpos");
-    cpt.insertConstraint( "y" + via + "a", "y" + via + "g", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
-    cpt.insertConstraint( "y" + via + "g", "y" + via + "b", CP_EQ, currentRules->getRule(E1M1VI)+currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "y" + via + "a", "y" + via + "g", CP_EQ, currentRules->getRule(W2VI)/2);
+    cpt.insertConstraint( "y" + via + "g", "y" + via + "b", CP_EQ, currentRules->getRule(W2VI)/2);
     
     return via;
 }
