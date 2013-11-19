@@ -486,7 +486,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                             else
                                 insertDistanceRuleDumb(geometries, cpt, lastMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), H, MET1);
                         }
-                        if(c && befLastMetNodes[c]!=""){
+                        if(befLastMetNodes[c]!=""){
                             if(experimental && c<x)
                                 insertDistanceRuleInteligent(geometries, cpt, befLastMetNodes[c], currentMetNodes[x], befLastMetNodes[c], currentMetNodes[x], MET1);
                             else if(experimental && c>x)
@@ -529,7 +529,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                             else 
                                 insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentPolNodes[x], currentRules->getRule(S1P1P1), H, POLY);
                         }
-                        if(c && befLastPolNodes[c]!=""){
+                        if(befLastPolNodes[c]!=""){
                             if(experimental && c<x)
                                 insertDistanceRuleInteligent(geometries, cpt, befLastPolNodes[c], currentPolNodes[x], befLastPolNodes[c], currentPolNodes[x], POLY);
                             else if(experimental && c>x)
