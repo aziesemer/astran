@@ -12,13 +12,21 @@ COMPILING SOURCE CODE
 6. g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
 
 - MAC:
+0. If you are using Mac OS X earlier than 10.9, first download:
+https://code.google.com/p/gme-ufrgs/downloads/detail?name=wxLibs-MacOSX.tar.gz
+ 
+ than copy the files to your /usr:
+sudo cp -R wxLibs/* /usr/
+
+ This is needed because Mavericks dropped support to wxWidgets which is used by Astran GUI.
+
 1. git clone https://code.google.com/p/gme-ufrgs/
 2. Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2 you'r done, otherwise, continue on step 2)
 3. Run in the terminal:  wx-config --libs
    Paste the output in Project -> Build Settings -> "Other Linker Flags"
 4. Run in the terminal:  wx-config --cppflags
    Paste the output in Project -> Build Settings -> "Other C++ Flags"
-5. compile Astran normally
+5. Compile Astran normally
 
 - WINDOWS
 
@@ -51,7 +59,8 @@ http://www.gurobi.com/download/licenses/free-academic
  constraints, you will only be able to generate very small circutis.
  The academic license on the other hand is unlimited.
 
-4. Run the file Astran/bin/Astran
+4. Run the file Astran/bin/Astran.
+    MAC OS: If you are using Mac OS X 10.9 or earlier, do the step 0 of (COMPILING SOURCE CODE) before.
 
 5. You need to setup the tool in order to use it. Open View->Preferences and set the path to gurobi_cl:
     MAC OS: It's usually in /Library/gurobi502/mac64/bin/gurobi_cl

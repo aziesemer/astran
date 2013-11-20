@@ -96,7 +96,7 @@ bool Cif::cif2Cadence(string designName, string top){
 	c2cfile << "    'hierDepth              32" << endl;
 	c2cfile << "    'maxVertices            1024" << endl;
 	c2cfile << "    'checkPolygon           nil" << endl;
-	c2cfile << "    'snapToGrid             nil" << endl;
+	c2cfile << "    'snapToGrid             t" << endl;
 	c2cfile << "    'caseSensitivity        \"lower\"" << endl;
 	c2cfile << "    'zeroWireToLine         \"lines\"" << endl;
 	c2cfile << "    'wireToPathStyle        \"extend\"" << endl;

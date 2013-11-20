@@ -42,7 +42,7 @@ There is a video tutorial that can be usefull in: https://www.youtube.com/watch?
 
 15. Route -> NBRouter. Enter the number of attempts before give up (e.g. 1000)
 
-16. (Optional) Route -> Optimize. Will try to insert stainer points to reduce the routing (it's a very slow step)
+16. (Optional) Route -> Optimize. Will try to insert stainer points to reduce the wirelength (it's a very slow step)
 
 17. Route -> Compact. Generates the routing layout and adds it to the Layouts list.
 
