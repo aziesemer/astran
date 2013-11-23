@@ -1357,10 +1357,10 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     cpt.forceBinaryVar("b" + currentGeo+ "_endline_v"); 
     cpt.forceBinaryVar("b" + currentGeo+ "_endline_h");
     cpt.insertConstraint("ZERO", "b" + currentGeo+ "_endline_v" + " + " "b" + currentGeo+ "_endline_h", CP_EQ, 1);
-    cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_EQ, "b" + currentGeo+ "_endline_h", minExt);
-    cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_EQ, "b" + currentGeo+ "_endline_h", minExt);
-    cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_EQ, "b" + currentGeo+ "_endline_v", minExt);
-    cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_EQ, "b" + currentGeo+ "_endline_v", minExt);    
+    cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_MIN, "b" + currentGeo+ "_endline_h", minExt);
+    cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_MIN, "b" + currentGeo+ "_endline_h", minExt);
+    cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_MIN, "b" + currentGeo+ "_endline_v", minExt);
+    cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "b" + currentGeo+ "_endline_v", minExt);    
     if(enableDFM){
         cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "L");
         cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "R");
