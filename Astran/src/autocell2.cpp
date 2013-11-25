@@ -575,7 +575,6 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             
             //se for entrada/saida, alinha o metal1 com a grade
             if (rt->areConnected(elements_it->met[x], elements_it->inoutCnt)) {
-                cout << rt->getNrFinalArcs(elements_it->met[x]) << endl;
                 IOgeometries[currentNetList.getNetName(rt->getNet(elements_it->inoutCnt))] = strToInt(insertVia(geometries, cpt, currentMetNodes[x],rt->getNrFinalArcs(elements_it->met[x])<=2));
                 ;
                 //				if(lastIO!="") cpt.insertConstraint("x" + lastIO + "b", "x" + tmp + "a", CP_MIN, 0);
