@@ -32,6 +32,8 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	// Fold Transistors
 	cmd=wxT("cellgen fold ");
     cmd+= nrIntTracks->GetValue();
+    cmd+= wxT(" ");
+    cmd+= wxString::Format(_T("%d"), reduceMetTracks->GetValue());
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
 	// Place
@@ -81,6 +83,8 @@ void WxAutoCell::select( wxCommandEvent& event ){
 void WxAutoCell::fold( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen fold ");
     cmd+= nrIntTracks->GetValue();
+    cmd+= wxT(" ");
+    cmd+= wxString::Format(_T("%d"), reduceMetTracks->GetValue());
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }

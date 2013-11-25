@@ -186,7 +186,7 @@ static commands commands_lst[] = {
 	
 	// CellGen - 9
 	{"CELLGEN SELECT <str_Cell>", "Select a cell to generate the layout using Cellgen"},
-	{"CELLGEN FOLD <int_nrIntTracks>", "Fold the cell's transistors with Cellgen"},
+	{"CELLGEN FOLD <int_nrIntTracks> <int_conservativeFactor>", "Fold the cell's transistors with Cellgen"},
 	{"CELLGEN PLACE <int_Saquality> <int_#Attempts> <int_WidthCost> <int_GateMissMatchCost> <int_RoutingCost> <int_RtDensityCost> <int_#GapsCost>", "Place the cell's transistors with Cellgen"},
 	{"CELLGEN GETARCCOST <int_Node1> <int_Node2>", "Get the arc cost between two nodes using Cellgen"},
 	{"CELLGEN SETARCCOST <int_Node1> <int_Node2> <int_Cost>", "Set the arc cost between two nodes using Cellgen"},

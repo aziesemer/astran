@@ -38,7 +38,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
         if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], vcost);
-        if (elements.size())
+        if (elements.size() && (x==0 || x==trackPos.size()-1 || (x>floor(reduceMetTracks/2.0) && x<trackPos.size()-1-ceil(reduceMetTracks/2.0))))
             rt->addArc(tmp.met[x], elements.back().met[x], 4); //if it's not the first, connect to the last element
         
         tmp.pol[x] = rt->createNode();
@@ -69,7 +69,8 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     return &elements.back();
 }
 
-void AutoCell::calcArea(int nrIntTracks) {
+void AutoCell::calcArea(int nrIntTracks, int reduceMetTracks) {
+    this->reduceMetTracks=reduceMetTracks;
     checkState(1);
     currentRules = currentCircuit->getRules();
     
@@ -503,7 +504,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     }
 
                     //insert space or a track between current and last V met node, if it exists
-                    if(rt->areConnected2(lastElements_it->met[x], elements_it->met[x]) && x && x<trackPos.size()-1)
+                    if(lastMetNodes[x]!="" && rt->areConnected2(lastElements_it->met[x], elements_it->met[x]) && x && x<trackPos.size()-1)
                         createTrack(geometries, cpt, lastMetNodes[x], currentMetNodes[x], currentNetList.getNetName(rt->getNet(elements_it->met[x])), MET1, H);
                     
                     if(x && rt->areConnected(elements_it->met[x-1], elements_it->met[x]))
@@ -545,7 +546,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     }
                     
                     //insert space or a track between current and last poly node, if it exists
-                    if(rt->areConnected2(lastElements_it->pol[x], elements_it->pol[x]))
+                    if(lastPolNodes[x]!="" && rt->areConnected2(lastElements_it->pol[x], elements_it->pol[x]))
                         createTrack(geometries, cpt, lastPolNodes[x], currentPolNodes[x], "", POLY, H);
 
                     if(x && rt->areConnected(elements_it->pol[x-1], elements_it->pol[x]))

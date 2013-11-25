@@ -675,7 +675,7 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case CELLGEN_FOLD:
-                    autocell->calcArea(atoi(words[2].c_str()));
+                    autocell->calcArea(atoi(words[2].c_str()), atoi(words[3].c_str()));
                     autocell->foldTrans();
                     break;
                     

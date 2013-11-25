@@ -67,7 +67,7 @@ protected:
 	int nSize,pSize;
 	int center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
-    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts,reduceLturns, maxDiffCnts, enableDFM, experimental;
+    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts,reduceLturns, maxDiffCnts, enableDFM, experimental,reduceMetTracks;
     int index;
     bool hPoly;
     
@@ -109,7 +109,7 @@ protected:
 	AutoCell();
 	~AutoCell();
 	void clear();
-	void calcArea(int nrIntTracks);
+	void calcArea(int nrIntTracks, int reduceMetTracks);
 	void foldTrans();
 	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
