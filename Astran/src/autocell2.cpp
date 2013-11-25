@@ -575,7 +575,8 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             
             //se for entrada/saida, alinha o metal1 com a grade
             if (rt->areConnected(elements_it->met[x], elements_it->inoutCnt)) {
-                IOgeometries[currentNetList.getNetName(rt->getNet(elements_it->inoutCnt))] = strToInt(insertVia(geometries, cpt, currentMetNodes[x]));
+                cout << rt->getNrFinalArcs(elements_it->met[x]) << endl;
+                IOgeometries[currentNetList.getNetName(rt->getNet(elements_it->inoutCnt))] = strToInt(insertVia(geometries, cpt, currentMetNodes[x],rt->getNrFinalArcs(elements_it->met[x])<=2));
                 ;
                 //				if(lastIO!="") cpt.insertConstraint("x" + lastIO + "b", "x" + tmp + "a", CP_MIN, 0);
                 //				lastIO=tmp;
@@ -1200,6 +1201,8 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     cpt.forceBinaryVar("b" + cntBndBox + "_2M"); // vertical stripe
     cpt.forceBinaryVar("b" + cntBndBox + "_3M"); // classic all around
     cpt.insertConstraint("ZERO", "b" + cntBndBox + "_1M" + " + " + "b" + cntBndBox + "_2M"  + " + " + "b" + cntBndBox + "_3M", CP_EQ, 1);
+
+ //   cpt.insertConstraint("ZERO", "b" + cntBndBox + "_3M", CP_EQ, 1);
     
     cpt.insertConstraint("ZERO", "x" + cntBndBox + "hM", CP_MIN, "b" + cntBndBox + "_1M", currentRules->getRule(E2M1CT));
     cpt.insertConstraint("ZERO", "x" + cntBndBox + "hM", CP_MIN, "b" + cntBndBox + "_2M", currentRules->getRule(E1M1CT));
@@ -1235,7 +1238,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
     return cntBndBox;
 }
 
-string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string metNode) {
+string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string metNode, bool minArea) {
     geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, MET1P));
     string via = intToStr(geometries.size() - 1);
     
@@ -1254,18 +1257,19 @@ string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string met
     cpt.insertConstraint("y" + via + "b", "y" + metNode + "b", CP_MIN, "b" + via + "_2V", currentRules->getRule(E2M1VI));
     
     //choose a kind of metal area format
-    cpt.forceBinaryVar("b" + via + "_1A"); // linear
-    cpt.forceBinaryVar("b" + via + "_2A"); //square
+    if(minArea){
+        cpt.forceBinaryVar("b" + via + "_1A"); // linear
+        cpt.forceBinaryVar("b" + via + "_2A"); //square
     
-    cpt.insertConstraint("ZERO", "b" + via + "_1A" + " + " + "b" + via + "_2A", CP_EQ, 1);
+        cpt.insertConstraint("ZERO", "b" + via + "_1A" + " + " + "b" + via + "_2A", CP_EQ, 1);
     
-    cpt.insertConstraint("ZERO", "x" + metNode +  "_width" + " + " + "y" + metNode +  "_width", CP_MIN, "b" + via + "_1A", currentRules->getIntValue(currentRules->getRulef(A1M1)/currentRules->getRulef(W2VI)+currentRules->getRulef(W2VI)));    
-    cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN,  "x" + metNode +  "_width");
-    cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "y" + metNode +  "_width");
+        cpt.insertConstraint("ZERO", "x" + metNode +  "_width" + " + " + "y" + metNode +  "_width", CP_MIN, "b" + via + "_1A", currentRules->getIntValue(currentRules->getRulef(A1M1)/currentRules->getRulef(W2VI)+currentRules->getRulef(W2VI)));    
+        cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN,  "x" + metNode +  "_width");
+        cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "y" + metNode +  "_width");
     
-    cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
-    cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
-    
+        cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+        cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+    }
     
     //allign via to the routing grid
     cpt.insertConstraint( "HGRID_OFFSET", "x" + via + "g", CP_EQ_VAR_VAL,  "x" + via + "gpos", hGrid);

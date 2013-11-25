@@ -92,7 +92,7 @@ protected:
     void insertCntPol(vector<Box*> &geometries, compaction &cpt, string cntPos, vector<string> polTracks, int pos);
     string insertCntDif(vector<Box*> &geometries, compaction &cpt, string currentCnt, string &lastGate, string &lastCnt,  layer_name l);
     string newDif(vector<Box*> &geometries, compaction &cpt, string &lastGate, string &lastDiff, string &currentDiff, string &diffEnc,  layer_name l, bool endDiff);
-    string insertVia(vector<Box*> &geometries, compaction &cpt, string metNode);
+    string insertVia(vector<Box*> &geometries, compaction &cpt, string metNode, bool minArea);
     string insertCnt(vector<Box*> &geometries, compaction &cpt, list<Element>::iterator elements_it, vector<string>& metTracks, vector<string>& lastContacts, vector<string>& currentContacts, int pos, bool isDiff);
     string insertGate(vector<Box*> &geometries, compaction &cpt, int transistor, list<Element>::iterator elements_it, vector<string> &currentPolNodes, string lastCnt, string lastDiffCnt, string &lastGate, int &lastGateLength, string lastDiff, string currentDiff, layer_name l);
     string createGeometry(vector<Box*> &geometries, compaction &cpt, string netName, int priority, layer_name l);
