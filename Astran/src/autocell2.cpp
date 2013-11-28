@@ -992,19 +992,17 @@ string AutoCell::insertCntDif(vector<Box*> &geometries, compaction &cpt, string 
     string diffEnc = intToStr(geometries.size() - 1);
     
     //diffusion enclosure of contact - 3 sides E2DFCT, one side E1DFCT  (comentar que ele coloca o lado menor em cima ou embaixo tbm)
-    cpt.forceBinaryVar("b" + diffEnc + "_l");
-    cpt.forceBinaryVar("b" + diffEnc + "_r");
-    cpt.forceBinaryVar("b" + diffEnc + "_b");
-    cpt.forceBinaryVar("b" + diffEnc + "_t");
-    cpt.insertConstraint("ZERO", "b" + diffEnc + "_l + b" + diffEnc + "_r + b" + diffEnc + "_b + b" + diffEnc + "_t", CP_EQ, 3);
+    cpt.forceBinaryVar("b" + diffEnc + "_v");
+    cpt.forceBinaryVar("b" + diffEnc + "_h");
+    cpt.insertConstraint("ZERO", "b" + diffEnc + "_v + b" + diffEnc + "_h", CP_EQ, 1);
     cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_l", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("x" + diffEnc + "a", "x" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_h", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_r", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("x" + currentCnt + "b", "x" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_h", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_b", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("y" + diffEnc + "a", "y" + currentCnt + "a", CP_MIN, "b" + diffEnc + "_v", currentRules->getRule(E2DFCT));
     cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, currentRules->getRule(E1DFCT));
-    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_t", currentRules->getRule(E2DFCT));
+    cpt.insertConstraint("y" + currentCnt + "b", "y" + diffEnc + "b", CP_MIN, "b" + diffEnc + "_v", currentRules->getRule(E2DFCT));
     
     if (l==NDIF) {
         cpt.insertConstraint("yNDiffa", "y" + diffEnc + "a", CP_MIN, 0);
@@ -1364,21 +1362,18 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_MIN, "b" + currentGeo+ "_endline_h", minExt);
     cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_MIN, "b" + currentGeo+ "_endline_h", minExt);
     cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_MIN, "b" + currentGeo+ "_endline_v", minExt);
-    cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "b" + currentGeo+ "_endline_v", minExt);    
+    cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "b" + currentGeo+ "_endline_v", minExt);  
+    
     if(enableDFM){
-        cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "L");
-        cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "R");
-        cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "B");
-        cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "T");    
+        cpt.insertConstraint("x" + currentGeo + "a2", "x" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "H");
+        cpt.insertConstraint("x" + currentGeo + "b", "x" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "H");
+        cpt.insertConstraint("y" + currentGeo + "a2", "y" + currentGeo + "a", CP_MIN, "max" + currentGeo+ "V");
+        cpt.insertConstraint("y" + currentGeo + "b", "y" + currentGeo + "b2", CP_MIN, "max" + currentGeo+ "V");    
         minDist = (l==MET1 ? currentRules->getRule(S1M1M1) : currentRules->getRule(S1P1P1));
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "L", CP_MAX, ceil(minDist*0.10));
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "R", CP_MAX, ceil(minDist*0.10));
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "B", CP_MAX, ceil(minDist*0.10));
-        cpt.insertConstraint("ZERO", "max" + currentGeo+ "T", CP_MAX, ceil(minDist*0.10));
-        cpt.insertLPMinVar("max" + currentGeo+ "L", -(l==MET1?5:8));
-        cpt.insertLPMinVar("max" + currentGeo+ "R", -(l==MET1?5:8));
-        cpt.insertLPMinVar("max" + currentGeo+ "B", -(l==MET1?5:8));
-        cpt.insertLPMinVar("max" + currentGeo+ "T", -(l==MET1?5:8));
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "H", CP_MAX, ceil(minDist*0.10));
+        cpt.insertConstraint("ZERO", "max" + currentGeo+ "V", CP_MAX, ceil(minDist*0.10));
+        cpt.insertLPMinVar("max" + currentGeo+ "H", -(l==MET1?10:16));
+        cpt.insertLPMinVar("max" + currentGeo+ "V", -(l==MET1?10:16));
     }
     
     currentNode[pos]=currentGeo;
