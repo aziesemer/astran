@@ -924,6 +924,9 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
         gateIni = elements_it->diffPIni;
         gateEnd = elements_it->diffPEnd;
     }
+    //minimum Area
+    cpt.insertConstraint("x" + currentDiff + "a", "x" + currentDiff + "b", CP_MIN, currentRules->getIntValue(currentRules->getRulef(A1DF)/float(currentNetList.getTrans(transistor).width)));
+
     cpt.insertConstraint("x" + currentPolNodes[gateIni] + "a", "x" + currentPolNodes[gateIni] + "b", CP_EQ, transLength);
     cpt.insertConstraint("x" + currentDiff + "a", "x" + currentPolNodes[gateIni] + "a", CP_MIN, currentRules->getRule(E1DFP1));
     cpt.insertConstraint("x" + currentPolNodes[gateIni] + "b", "x" + currentDiff + "b", CP_MIN, currentRules->getRule(E1DFP1));
