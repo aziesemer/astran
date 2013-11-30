@@ -105,9 +105,11 @@ void AutoCell::calcArea(int nrIntTracks, int reduceMetTracks) {
     //    for (int x = 0; x < trackPos.size(); x++) cout << float(trackPos[x]) / currentRules->getScale() << " ";
     
     //IMPROVE
-    nDif_iniY = min(nDif_iniY, (center+int(ceil(nrIntTracks/2.0)-1)) * vGrid - (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
-    pDif_iniY = max(pDif_iniY, (center+int(floor(nrIntTracks/2.0))) * vGrid + (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
-    
+    if(reduceMetTracks){
+        nDif_iniY = min(nDif_iniY, (center+int(ceil(nrIntTracks/2.0)-1)) * vGrid - (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
+        pDif_iniY = max(pDif_iniY, (center+int(floor(nrIntTracks/2.0))) * vGrid + (currentRules->getRule(W2CT) / 2 + currentRules->getRule(E2P1CT) + currentRules->getRule(S1DFP1)));
+    }
+
     if(currentCircuit->getCellTemplate()=="Taps close to the boundary"){
         nDif_endY = max(currentRules->getRule(E1INDF), currentRules->getRule(S1P1P1) / 2 + currentRules->getRule(E1P1DF));
         pDif_endY = height - nDif_endY;
@@ -122,7 +124,7 @@ void AutoCell::calcArea(int nrIntTracks, int reduceMetTracks) {
     nSize = nDif_iniY - nDif_endY;
     pSize = pDif_endY - pDif_iniY;
     
-    //   cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
+       cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
     state++;
 }
 
@@ -1340,7 +1342,7 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     cpt.insertConstraint("x" + currentGeo + "b", "width", CP_MIN, minDist / 2);
     
     //special rules for wide metals and p/nplus enclusure of poly
-    minDist = (l==MET1 ? currentRules->getRule(S2M1M1) : currentRules->getRule(S2P1P1));
+    minDist = (l==MET1 ? currentRules->getRule(S2M1M1) : currentRules->getRule(S1P1P1));
     if(l==MET1){
         if (currentNetList.getNetName(rt->getNet(elements_it->met[pos])) != currentCircuit->getGndNet())
             cpt.insertConstraint("yGNDb", "y" + currentGeo + "a", CP_MIN, minDist);

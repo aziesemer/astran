@@ -257,8 +257,8 @@ void CellNetlst::folding(float pSize, float nSize){
 	for(int c=0; c<trans.size(); c++){
 		switch(trans[c].type){
 			case PMOS:
-				if(trans[c].width>pSize){
-					int n=ceil(trans[c].width/pSize);
+				if(trans[c].width>pSize+0.00001f){
+					int n=ceil(trans[c].width/(pSize+0.00001f));
 					trans[c].width = trans[c].width/n;
 					for(;n>1;n--){
 					    string tmp=trans[c].name+"_"+intToStr(n);
@@ -267,8 +267,8 @@ void CellNetlst::folding(float pSize, float nSize){
 				}
 				break;
 			case NMOS:
-				if(trans[c].width>nSize){
-					int n=ceil(trans[c].width/nSize);
+				if(trans[c].width>nSize+0.00001f){
+					int n=ceil(trans[c].width/(nSize+0.00001f));
 					trans[c].width = trans[c].width/n;
 					for(;n>1;n--){
 					    string tmp=trans[c].name+"_"+intToStr(n);
