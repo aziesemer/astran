@@ -339,7 +339,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         
         if(eulerPathP_it!= currentNetList.getOrderingP().end() && (eulerPathP_it->link != -1 || testGap(lastP_it, eulerPathP_it, currentNetList.getOrderingP(), SOURCE))){
             if(tmp->linkP.type == GAP || gapP){ 
-                pDiffTrackEnd=0; pDiffTrackIni= trackPos.size();
+                pDiffTrackEnd=0; pDiffTrackIni= trackPos.size()-1;
             }
             int tmp=pDiffTrackIni, proximo = eulerPathP_it - currentNetList.getOrderingP().begin();
             pDiffTrackIni=min(pDiffTrackIni, diffPini[proximo]);
@@ -351,7 +351,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         
         if(eulerPathN_it != currentNetList.getOrderingN().end() && (eulerPathN_it->link != -1 || testGap(lastN_it, eulerPathN_it, currentNetList.getOrderingN(), SOURCE))){
             if(tmp->linkN.type == GAP || gapN){
-                nDiffTrackEnd=trackPos.size(); nDiffTrackIni=0;
+                nDiffTrackEnd=trackPos.size()-1; nDiffTrackIni=0;
             }
             int tmp=nDiffTrackIni, proximo = eulerPathN_it - currentNetList.getOrderingN().begin();;
             nDiffTrackIni=max(nDiffTrackIni, diffNini[proximo]);
