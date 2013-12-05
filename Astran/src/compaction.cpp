@@ -548,9 +548,11 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 	char line[150];
 	while (fgets(line, 150, x)) {
 		istringstream s(line);
-        printf("%s",line);
 		string n;		
 		s >> n;
+        if(n!="Warning:")
+            printf("%s",line);
+
         if(n=="H" || n=="*")
 			cerr << n;
         
