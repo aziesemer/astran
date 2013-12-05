@@ -33,7 +33,7 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     tmp.diffNIni = nDiffIni;
     tmp.diffPIni = pDiffIni;
     tmp.diffPEnd = pDiffEnd;
-    //    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
+//    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
     
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
@@ -124,7 +124,7 @@ void AutoCell::calcArea(int nrIntTracks, int reduceMetTracks) {
     nSize = nDif_iniY - nDif_endY;
     pSize = pDif_endY - pDif_iniY;
     
-       cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
+//       cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
     state++;
 }
 
@@ -337,24 +337,26 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
         lastP_it = eulerPathP_it++;
         lastN_it = eulerPathN_it++;
         
-        if(eulerPathP_it!= currentNetList.getOrderingP().end() && (eulerPathP_it->link == -1 || !testGap(lastP_it, eulerPathP_it, currentNetList.getOrderingP(), SOURCE))){
+        if(eulerPathP_it!= currentNetList.getOrderingP().end() && (eulerPathP_it->link == -1 || lastP_it->link == -1 || !testGap(lastP_it, eulerPathP_it, currentNetList.getOrderingP(), SOURCE))){
             if(lastElement->linkP.type == GAP){ 
                 pDiffTrackEnd=0; pDiffTrackIni= trackPos.size()-1;
             }
-            int tmp=pDiffTrackIni, proximo = eulerPathP_it - currentNetList.getOrderingP().begin();
+            int tmp, proximo = eulerPathP_it - currentNetList.getOrderingP().begin();
             pDiffTrackIni=min(pDiffTrackIni, diffPini[proximo]);
+            tmp=pDiffTrackIni;
             while ((tmp<trackPos.size()-1) && (trackPos[tmp+1] <= trackPos[diffPini[proximo]] + currentRules->getIntValue(currentNetList.getTrans(eulerPathP_it->link).width))){
                 ++tmp;
             }
             pDiffTrackEnd=max(pDiffTrackEnd, tmp);
         }
         
-        if(eulerPathN_it != currentNetList.getOrderingN().end() && (eulerPathN_it->link == -1 || !testGap(lastN_it, eulerPathN_it, currentNetList.getOrderingN(), SOURCE))){
+        if(eulerPathN_it != currentNetList.getOrderingN().end() && (eulerPathN_it->link == -1 || lastN_it->link == -1 || !testGap(lastN_it, eulerPathN_it, currentNetList.getOrderingN(), SOURCE))){
             if(lastElement->linkN.type == GAP){
                 nDiffTrackEnd=trackPos.size()-1; nDiffTrackIni=0;
             }
-            int tmp=nDiffTrackIni, proximo = eulerPathN_it - currentNetList.getOrderingN().begin();;
+            int tmp, proximo = eulerPathN_it - currentNetList.getOrderingN().begin();;
             nDiffTrackIni=max(nDiffTrackIni, diffNini[proximo]);
+            tmp=nDiffTrackIni;
             while (tmp && (trackPos[tmp-1] >= trackPos[diffNini[proximo]] - currentRules->getIntValue(currentNetList.getTrans(eulerPathN_it->link).width)))
                 --tmp;
             nDiffTrackEnd=min(nDiffTrackEnd, tmp);
@@ -671,7 +673,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 lastPContactDiff="";
                 break;
         }
-                cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
+//                cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
         
         for (int c = 0; c < trackPos.size(); c++) {
             //insert contacts to diff space rule
@@ -700,10 +702,10 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             
             //insert diff to poly space rule
             if(elements_it->linkN.type!=GAP && currentDiffN!="" && !rt->areConnected(next->diffN, elements_it->diffN)){
-                if(c<lastElement_it->diffNEnd){
+                if(c<elements_it->diffNEnd){
                     if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1),"");
                     if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, lastPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1),"");
-                }else if(c>lastElement_it->diffNIni){
+                }else if(c>elements_it->diffNIni){
                     if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentDiffN, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
                     if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, currentDiffN, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
                 }else
@@ -712,10 +714,10 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
 
             }
             if(elements_it->linkP.type!=GAP && currentDiffP!="" && !rt->areConnected(next->diffP, elements_it->diffP)){
-                if(c<lastElement_it->diffPIni){
+                if(c<elements_it->diffPIni){
                     if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1),"");
                     if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, lastPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1),"");
-                }else if(c>lastElement_it->diffPEnd){
+                }else if(c>elements_it->diffPEnd){
                     if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentDiffP, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
                     if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, currentDiffP, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
                 }else
