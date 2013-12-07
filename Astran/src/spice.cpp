@@ -32,7 +32,7 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 		while (clin>>palavra)
 			palavras.push_back(upcase(palavra));
 		
-		if (palavras.size() == 0) continue;
+		if (palavras.size() == 0 || palavras[0] == ".GLOBAL") continue;
 
 		if (palavras[0] == "*INTERFACE"){
 			if(palavras.size() == 4 || palavras.size() == 6){
@@ -106,9 +106,9 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 
 			// identify transistor type
 			transType type;
-			if(palavras[5]=="PMOS" || palavras[5]=="CMOSP" || palavras[5]=="MODP")
+			if(palavras[5]=="PMOS" || palavras[5]=="CMOSP" || palavras[5]=="MODP" || palavras[5]=="PMOS_VTL")
 				type=PMOS;
-			else if(palavras[5]=="NMOS" || palavras[5]=="CMOSN" || palavras[5]=="MODN")
+			else if(palavras[5]=="NMOS" || palavras[5]=="CMOSN" || palavras[5]=="MODN" || palavras[5]=="NMOS_VTL")
 				type=NMOS;
 			else 
                 throw AstranError("Line" + intToStr(lineNr) + ": Parameter " + palavras[5] + " is incorrect. Use NMOS or PMOS");
