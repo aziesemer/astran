@@ -69,7 +69,7 @@ protected:
 	vector<t_net> nets;		//List of transistors and instances that are connected to each net
 	vector<t_net2> orderingP, orderingN, cpP, cpN, tmpP, tmpN;
 	int PorN, custo_atual, custo_anterior;
-	int wGaps, missMatchGate, wRouting, maxCong, posPN, wCost, gmCost, rCost, congCost, ngCost;
+	int wGaps, mismatchesGate, wRouting, maxCong, posPN, wCost, gmCost, rCost, congCost, ngCost;
 	bool eulerpath();
 	bool visit(int nDifs, t_net2& transP, t_net2& transN);
 	bool visit(int nDifs);

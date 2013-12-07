@@ -503,7 +503,6 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     for(int c=x-1; c>=0; --c){
                         if(currentMetNodes[c]!="" && !rt->areConnected2(elements_it->met[c], elements_it->met[x])){
                             insertDistanceRuleDumb(geometries, cpt, currentMetNodes[c], currentMetNodes[x], currentRules->getRule(S1M1M1), V, MET1);
-                            break;
                         }
                     }
 
@@ -545,7 +544,6 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     for(int c=x-1; c>=0; --c){
                         if(currentPolNodes[c]!="" && !rt->areConnected2(elements_it->pol[c],elements_it->pol[x])){
                             insertDistanceRuleDumb(geometries, cpt, currentPolNodes[c], currentPolNodes[x], currentRules->getRule(S1P1P1), V, POLY);
-                            break;
                         }
                     }
                     
@@ -673,7 +671,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 lastPContactDiff="";
                 break;
         }
-//                cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
+//               cout << elements_it->diffNEnd << "-" << elements_it->diffNIni << "/" << elements_it->diffPIni << "-" << elements_it->diffPEnd << endl;
         
         for (int c = 0; c < trackPos.size(); c++) {
             //insert contacts to diff space rule
@@ -702,29 +700,33 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             
             //insert diff to poly space rule
             if(elements_it->linkN.type!=GAP && currentDiffN!="" && !rt->areConnected(next->diffN, elements_it->diffN)){
-                if(c<elements_it->diffNEnd){
-                    if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1),"");
-                    if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, lastPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1),"");
-                }else if(c>elements_it->diffNIni){
-                    if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentDiffN, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
-                    if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, currentDiffN, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
-                }else
-                    if(lastPolNodes[c]!="" && !rt->isSource(lastElement_it->pol[c]) && elements_it->linkN.type!=GATE)
-                        insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1), H, NDIF);
-
+                if(c<elements_it->diffNEnd && currentPolNodes[c]!="")
+                    insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1),"");
+                if(c<lastElement_it->diffNEnd && lastPolNodes[c]!="") 
+                    insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, lastPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1),"");
+                if(c>elements_it->diffNIni && currentPolNodes[c]!="") 
+                    insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffN, currentDiffN, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
+                if(c>lastElement_it->diffNIni && lastPolNodes[c]!="") 
+                    insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffN, currentDiffN, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
+                if((c>=elements_it->diffNEnd && c<=elements_it->diffNIni) && 
+                   lastPolNodes[c]!="" && !rt->isSource(lastElement_it->pol[c]) && elements_it->linkN.type!=GATE)
+                    insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentDiffN, currentRules->getRule(S1DFP1), H, NDIF);
             }
             if(elements_it->linkP.type!=GAP && currentDiffP!="" && !rt->areConnected(next->diffP, elements_it->diffP)){
-                if(c<elements_it->diffPIni){
-                    if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1),"");
-                    if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, lastPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1),"");
-                }else if(c>elements_it->diffPEnd){
-                    if(currentPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentDiffP, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
-                    if(lastPolNodes[c]!="") insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, currentDiffP, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
-                }else
-                    if(lastPolNodes[c]!="" && !rt->isSource(lastElement_it->pol[c]) && elements_it->linkP.type!=GATE)
-                        insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1), H, PDIF);
+                if(c<elements_it->diffPIni && currentPolNodes[c]!="")
+                    insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1),"");
+                if(c<lastElement_it->diffPIni && lastPolNodes[c]!="") 
+                    insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, lastPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1),"");
+                if(c>elements_it->diffPEnd && currentPolNodes[c]!="")
+                    insertDistanceRuleInteligent2(geometries, cpt, currentPolNodes[c], currentDiffP, currentDiffP, currentPolNodes[c], currentRules->getRule(S1DFP1),"");
+                if(c>lastElement_it->diffPEnd && lastPolNodes[c]!="")
+                    insertDistanceRuleInteligent2(geometries, cpt, lastPolNodes[c], currentDiffP, currentDiffP, lastPolNodes[c], currentRules->getRule(S1DFP1),"");
+                if((c>=elements_it->diffPIni && c<=elements_it->diffPEnd) && 
+                   lastPolNodes[c]!="" && !rt->isSource(lastElement_it->pol[c]) && elements_it->linkP.type!=GATE)
+                    insertDistanceRuleDumb(geometries, cpt, lastPolNodes[c], currentDiffP, currentRules->getRule(S1DFP1), H, PDIF);
             }
         }
+ 
         //        cout << lastDiffN << "-" << currentDiffN << "/" << lastDiffP << "-" << currentDiffP << endl;
         lastElement_it = elements_it;
         for (x = 0; x < trackPos.size(); x++){

@@ -20,8 +20,8 @@ sudo cp -R wxLibs/* /usr/
 
  This is needed because Mavericks dropped support to wxWidgets which is used by Astran GUI.
 
-1. git clone https://code.google.com/p/gme-ufrgs/
-2. Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2 you'r done, otherwise, continue on step 2)
+1. Run in the terminal: git clone https://code.google.com/p/gme-ufrgs/
+2. Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2, jump to step 5)
 3. Run in the terminal:  wx-config --libs
    Paste the output in Project -> Build Settings -> "Other Linker Flags"
 4. Run in the terminal:  wx-config --cppflags

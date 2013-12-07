@@ -670,7 +670,6 @@ bool DesignMng::readCommand(string cmd){
                     /****  CELLGEN - 9  ****/
                     
                 case CELLGEN_SELECT:
-                    cout << "-> Selecting cell: " << upcase(words[2]) << endl;
                     autocell->selectCell(circuit,upcase(words[2]));
                     break;
                     

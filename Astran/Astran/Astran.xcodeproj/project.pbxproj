@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC0C597318529EEC00F47434 /* tech_freePDK45.rul in Resources */ = {isa = PBXBuildFile; fileRef = BC0C597218529EEC00F47434 /* tech_freePDK45.rul */; };
 		BC97A535178F2BBE0002254A /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
 		BC97A536178F2BBE0002254A /* cellnetlst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */; };
 		BC97A537178F2BBE0002254A /* cif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A501178F2BBE0002254A /* cif.cpp */; };
@@ -42,6 +43,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC0C597218529EEC00F47434 /* tech_freePDK45.rul */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = tech_freePDK45.rul; path = ../build/Work/tech_freePDK45.rul; sourceTree = "<group>"; };
 		BC97A4DB178F2B1E0002254A /* Astran.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astran.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC97A4E7178F2B1E0002254A /* Astran-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Astran-Info.plist"; sourceTree = "<group>"; };
 		BC97A4ED178F2B1E0002254A /* Astran-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Astran-Prefix.pch"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 		BC97A4D0178F2B1E0002254A = {
 			isa = PBXGroup;
 			children = (
+				BC0C597218529EEC00F47434 /* tech_freePDK45.rul */,
 				BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */,
 				BCF19DAB181C493A000FA8CA /* tech_0065.rul */,
 				BCF19DA51819BA57000FA8CA /* HOWTO.txt */,
@@ -278,6 +281,7 @@
 				BCF19DAA1819BA57000FA8CA /* RULES.png in Resources */,
 				BCF19DAC181C493A000FA8CA /* tech_0065.rul in Resources */,
 				BCDE61AD183B9FDB00419EA7 /* ISSUES.txt in Resources */,
+				BC0C597318529EEC00F47434 /* tech_freePDK45.rul in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

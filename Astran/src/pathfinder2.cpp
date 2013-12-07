@@ -464,7 +464,7 @@ void Pathfinder2::showResult(){
 		}
 	}
 	cout << "-> Cost =" << finalCost << endl;
-	cout << "-> Wirelength =" << wlCost << endl;
+//	cout << "-> Wirelength =" << wlCost << endl;
 }
 
 bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){

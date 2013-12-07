@@ -363,7 +363,7 @@ int CellNetlst::GetCost(){
 	vector<int> boundBoxNets_end(nets.size(),-1);
 	vector<int> boundBoxNets_ini(nets.size(),-1);
 	
-	wGaps=0; missMatchGate=0; wRouting=0; maxCong=0;posPN=0;
+	wGaps=0; mismatchesGate=0; wRouting=0; maxCong=0;posPN=0;
 
 	for(pos=0; pos<orderingP.size(); pos++){
 		//analisa verticalmente o custo
@@ -391,7 +391,7 @@ int CellNetlst::GetCost(){
 				break;
 			}
 		}
-		if(orderingP[pos].link!=-1 && orderingN[pos].link!=-1 && trans[orderingP[pos].link].gate!=trans[orderingN[pos].link].gate) ++missMatchGate;
+		if(orderingP[pos].link!=-1 && orderingN[pos].link!=-1 && trans[orderingP[pos].link].gate!=trans[orderingN[pos].link].gate) ++mismatchesGate;
 		//		if(leftP!=leftN && !((nets[leftP].name=="VDD" || nets[leftP].name=="VCC") && (nets[leftN].name=="GND" || nets[leftN].name=="0"))) missMatchSourceDrain++;
 		//		if(rightP!=rightN && !((nets[rightP].name=="VDD" || nets[rightP].name=="VCC") && (nets[rightN].name=="GND" || nets[rightN].name=="0"))) missMatchSourceDrain++;
 		
@@ -448,8 +448,8 @@ int CellNetlst::GetCost(){
         maxCong=max(maxCong,congestioning[pos]);
         localCong+=congestioning[pos]*congestioning[pos];
     }
-	//  cout << missMatchGate<< "-" << wGaps << "-" << wRouting << endl;
-	return(localCong + 100*(congCost*maxCong + gmCost*missMatchGate + ngCost*wGaps + rCost*wRouting + wCost*posPN));
+	//  cout << mismatchesGate<< "-" << wGaps << "-" << wRouting << endl;
+	return(localCong + 100*(congCost*maxCong + gmCost*mismatchesGate + ngCost*wGaps + rCost*wRouting + wCost*posPN));
 }
 
 int CellNetlst::Perturbation(){
@@ -567,7 +567,7 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	orderingP=tmpP;
 	orderingN=tmpN;
 	GetCost();
-//	cout << "-> Final cost: 	Width=" << posPN << "(*" << wCost << "); Gate Miss Match="<<  missMatchGate << "(*" << gmCost << "); Routing="<< wRouting << "(*" << rCost << "); Rt Density=" << maxCong << "(*" << congCost << "); wGaps=" << wGaps << "(*" << ngCost << ")"<< endl;
+	cout << "-> Final cost: Width=" << posPN << "; Gate Mismatches="<<  mismatchesGate << "; WL="<< wRouting << "; Rt. Density=" << maxCong << "; Nr. Gaps=" << wGaps;
 //	cout << "-> Transistor Ordering (" << best << "): " << endl;
 	cout << "-> PMOS: ";
 	for(i=0;i<orderingP.size();i++){ 
