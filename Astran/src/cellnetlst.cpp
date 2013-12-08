@@ -567,7 +567,7 @@ bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, 
 	orderingP=tmpP;
 	orderingN=tmpN;
 	GetCost();
-	cout << "-> Final cost: Width=" << posPN << "; Gate Mismatches="<<  mismatchesGate << "; WL="<< wRouting << "; Rt. Density=" << maxCong << "; Nr. Gaps=" << wGaps;
+	cout << "-> Final cost: Width=" << posPN << "; Gate Mismatches="<<  mismatchesGate << "; WL="<< wRouting << "; Rt. Density=" << maxCong << "; Nr. Gaps=" << wGaps << endl;
 //	cout << "-> Transistor Ordering (" << best << "): " << endl;
 	cout << "-> PMOS: ";
 	for(i=0;i<orderingP.size();i++){ 
