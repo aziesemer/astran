@@ -1,6 +1,6 @@
 * ASTRAN Technology Rules
 
-TECHNAME	tech0.065
+TECHNAME	freePDK45
 MINSTEP	   	0.0025
 VDD         3.3
 MLAYERS		6
