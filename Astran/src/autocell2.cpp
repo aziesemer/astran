@@ -1346,16 +1346,16 @@ void AutoCell::createNode(vector<Box*> &geometries, compaction &cpt, list<Elemen
     minDist = (l==MET1 ? currentRules->getRule(S2M1M1) : currentRules->getRule(S1P1P1));
     if(l==MET1){
         if (currentNetList.getNetName(rt->getNet(elements_it->met[pos])) != currentCircuit->getGndNet())
-            cpt.insertConstraint("yGNDb", "y" + currentGeo + "a", CP_MIN, minDist);
+             cpt.insertConstraint("yGNDb", "y" + currentGeo + "a", CP_MIN, minDist);
         
         if (currentNetList.getNetName(rt->getNet(elements_it->met[pos])) != currentCircuit->getVddNet())
             cpt.insertConstraint("y" + currentGeo + "b", "yVDDa", CP_MIN, minDist);
         
         if (pos == 0)
-            cpt.insertConstraint("y" + currentGeo + "a", "yGNDb", CP_MIN, 0);
+            createTrack(geometries, cpt, "GND", currentGeo, netName, l, V);
         
         if (pos == trackPos.size() - 1)
-            cpt.insertConstraint("yVDDa", "y" + currentGeo + "b", CP_MIN, 0);
+            createTrack(geometries, cpt, currentGeo, "VDD", netName, l, V);
     }else if(l==POLY){
         cpt.insertConstraint("ZERO", "y" + currentGeo + "a", CP_MIN, minDist / 2);
         cpt.insertConstraint("y" + currentGeo + "b", "height", CP_MIN, minDist / 2);        
