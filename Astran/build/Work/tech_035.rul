@@ -1,4 +1,5 @@
 * ASTRAN Technology Rules
+* This is an example for a fictitious 65nm technology.
 
 TECHNAME	tech0.35
 MINSTEP	   	0.025

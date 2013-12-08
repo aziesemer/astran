@@ -23,7 +23,7 @@
 using namespace std;
 
 #define printme( e ) { cerr << #e << " = " << ( e ) << "\n"; };
-#define VERSION "3.7"
+#define VERSION "3.8"
 
 enum IOType {IOTYPE_INPUT, IOTYPE_OUTPUT, IOTYPE_INOUT};
 enum HorV {V, H};
@@ -37,19 +37,12 @@ inline void printHeader (ostream& target, string begin, string end) {
 	target << begin << "UFRGS - Universidade Federal do Rio Grande do Sul" << end << endl;
 	target << begin << "GME - Microelectronics Group" << end << endl;
 	target << begin << "WEBPAGE - https://code.google.com/p/gme-ufrgs/" << endl << endl;
+	target << begin << "Original Author" << end << endl;
+	target << begin << " - Adriel Ziesemer <amziesemerj[at]inf.ufrgs.br>" << end << endl;
 	target << begin << "Project Advisor" << end << endl;
 	target << begin << " - Ricardo Reis <reis[at]inf.ufrgs.br>" << end << endl;	
-	target << begin << "Main Developer" << end << endl;
-	target << begin << " - Adriel Ziesemer <amziesemerj[at]inf.ufrgs.br>" << end << endl;
-	target << begin << "Co-Developers" << end << endl;
-	target << begin << " - Charles Capella Leonhardt <ccleonhardt[at]inf.ufrgs.br>" << end << endl;
-	target << begin << " - Felipe Avila Nesello <felipe.nesello[at]inf.ufrgs.br>" << end << endl;
-	target << begin << "Acknowledgement" << end << endl;
-	target << begin << " - Cristiano Lazzari <clazz[at]inf.ufrgs.br>" << end << endl;
-	target << begin << " - Glauco Santos <gbvsantos[at]inf.ufrgs.br>" << end << endl;
-	target << begin << " - Guilherme Flach <gaflach[at]inf.ufrgs.br>" << end << endl;
-	target << begin << " - Gracieli Posser <gposser[at]inf.ufrgs.br>" << end << endl;
-	target << begin << " - Renato Hentschke <renato[at]inf.ufrgs.br>" << end << endl << endl;
+	target << begin << "Contributors:" << end << endl;
+	target << begin << " - Charles Capella Leonhardt, Felipe Avila Nesello, Cristiano Lazzari, Glauco Santos, Guilherme Flach, Gracieli Posser, Renato Hentschke" << end << endl << endl;
 }
 
 inline bool isNumber(string number){
