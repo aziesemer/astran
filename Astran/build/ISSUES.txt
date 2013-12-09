@@ -1,11 +1,16 @@
 THANK YOU FOR YOUR INTEREST IN ASTRAN
 
 Know Issues:
- - Mac OS 10.9 (Mavericks) drop support to dynamic linked wxWidgets (haven't tried
- to fix this since I don't have this system to test)
- - I was not able to compile wxWidgets to run on Windows systems.  It used to work
- but it's not working with the newer versions of VC++. A workaround for this is to
- remove the wx libraries from the code and use Astran's shell. It worked without 
+ - Mac OS 10.9 (Mavericks) drop support to dynamic linked wxWidgets, you must
+ download and install:
+https://gme-ufrgs.googlecode.com/files/wxLibs-MacOSX.tar.gz
+
+ - I was not able to compile wxWidgets to run on Windows systems.  It used to work
+ but it's not working with the newer versions of VC++. A workaround for this is to
+ remove the wx libraries from the code and use Astran's shell. It worked without 
  issues for me.
- - I'm not verifying spacing rules between same net metals and polys. This produces 
+ 
+ - I'm not verifying spacing rules between same net metals and polys. This produces 
 DRC errors but they are easy to fix by hand most of the time.
+
+ - wxSightGL is not working OK on Linux. 

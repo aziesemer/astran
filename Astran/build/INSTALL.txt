@@ -2,29 +2,30 @@ THANK YOU FOR YOUR INTEREST IN ASTRAN
 
 COMPILING SOURCE CODE 
 
-
 - LINUX:
-1. apt-get install git
-2. git clone https://code.google.com/p/gme-ufrgs/
-3. sudo apt-get install libwxgtk2.8-dev
-4. sudo apt-get install g++
-5. cd gme-ufrgs/Astran/src/
-6. g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
+1. $ sudo apt-get install git
+2. $ git clone https://code.google.com/p/gme-ufrgs/
+3. $ sudo apt-get install libwxgtk2.8-dev
+4. $ sudo apt-get install g++
+5. $ cd gme-ufrgs/Astran/src/
+6. $ g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
 
 - MAC:
 0. If you are using Mac OS X earlier than 10.9, first download:
 https://code.google.com/p/gme-ufrgs/downloads/detail?name=wxLibs-MacOSX.tar.gz
- 
- than copy the files to your /usr:
-sudo cp -R wxLibs/* /usr/
+ unzip:
+$ tar xzvf wxLibs-MacOSX.tar.gz
+ and than copy the files to your /usr:
+$ sudo cp -R wxLibs/* /usr/
+ This is needed because Mavericks dropped support to wxWidgets which is
+used by Astran GUI.
 
- This is needed because Mavericks dropped support to wxWidgets which is used by Astran GUI.
-
-1. Run in the terminal: git clone https://code.google.com/p/gme-ufrgs/
-2. Load the Xcode Project in the folder Astran (if you have Mac OS 10.6.8 and Xcode 4.2, jump to step 5)
-3. Run in the terminal:  wx-config --libs
+1. $ git clone https://code.google.com/p/gme-ufrgs/
+2. Load the Xcode Project in the folder Astran. If you have Mac OS
+ 10.6.8 and Xcode 4.2, jumpt to step 5
+3. $ wx-config --libs
    Paste the output in Project -> Build Settings -> "Other Linker Flags"
-4. Run in the terminal:  wx-config --cppflags
+4. $ wx-config --cppflags
    Paste the output in Project -> Build Settings -> "Other C++ Flags"
 5. Compile Astran normally
 
@@ -32,17 +33,21 @@ sudo cp -R wxLibs/* /usr/
 
 1. Download GIT from http://git-scm.com/downloads and install
 2. git clone https://code.google.com/p/gme-ufrgs/
-3. Download and install Visual C++ Express 2010 from http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express
+3. Download and install Visual C++ Express 2010 from
+ http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express
 4. Donwload wxMSW 2.8.12 from http://www.wxwidgets.org/downloads/
 ... (incomplete)
 
 INSTALL INSTRUCTIONS:
 
-1. Download Astran from the google code repository. If you compiled Astran from source code, jump to step 3.
+1. Download Astran from the google code repository. If you compiled
+ Astran from source code, jump to step 3.
 https://code.google.com/p/gme-ufrgs/downloads/list
 
 2. Unzip
-unzip Astran.zip
+$ unzip Astran.zip
+or
+$ tar xzvf Astran.tar.gz
 
 3. Download Gurobi Optimizer from:
 http://www.gurobi.com/download/gurobi-optimizer
@@ -59,18 +64,25 @@ http://www.gurobi.com/download/licenses/free-academic
  constraints, you will only be able to generate very small circutis.
  The academic license on the other hand is unlimited.
 
-4. Run the file Astran/bin/Astran.
-    MAC OS: If you are using Mac OS X 10.9 or earlier, do the step 0 of (COMPILING SOURCE CODE) before.
+4. Run the file Astran/bin/Astran
+    MAC OS: If you are using Mac OS X 10.9 or earlier, do the step 0 of 
+     (COMPILING SOURCE CODE) before.
 
-5. You need to setup the tool in order to use it. Open View->Preferences and set the path to gurobi_cl:
+5. You need to setup the tool in order to use it. Open View->Preferences
+ and set the path to gurobi_cl:
     MAC OS: It's usually in /Library/gurobi502/mac64/bin/gurobi_cl
 
-6. Set the path to your CIF viewer too. You can use wxSightGL, it's usually inside the Astran/Tools folder for your SO. You can also download it from 
+6. Set the path to your CIF viewer too. You can use wxSightGL, it's
+ usually inside the Tools folder for your SO. You can also download it
+ from 
     https://code.google.com/p/gme-ufrgs/downloads/list
     
-    MAC OS: Set the path to: .../wxSightGL.app/Contents/MacOS/wxSightGL
+    MAC OS: Install it in your Applications folder and set the path to:
+ /Applications/wxSightGL.app/Contents/MacOS/wxSightGL
     LINUX: Execute: sudo apt-get install freeglut3-dev
-    WINDOWS: Download the opengl dll (glut32.dll) to your c:\windows\system32 directory:
+    WINDOWS: Download the opengl dll (glut32.dll) to your
+ c:\windows\system32 directory:
     http://www.dll-files.com/dllindex/dll-files.shtml?glut32
 
-IMPORTANT TIP: Edit astran.cfg and save the configuration so you don't have to set it again when you run the tool again.
+IMPORTANT TIP: Edit astran.cfg  and save the configuration so you don't
+ have to set it again when you run the tool again.
