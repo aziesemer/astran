@@ -95,7 +95,7 @@ void AutoCell::calcArea(int nrIntTracks, int reduceMetTracks) {
         next = trackPos.front() - currentRules->getRule(S1M1M1) - currentRules->getRule(W1M1);
         trackPos.insert(trackPos.begin(), next);
     } while (next >= supWidth); //stop when it touchs gnd
-    center = trackPos.size();
+    center = trackPos.size()-1;
     
     //tracks position above the central track
     do {
