@@ -233,6 +233,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
     
     //        currentCell->print();
     vector<int>::iterator inouts_it = currentNetList.getInouts().begin();
+    vdd=gnd=-1;
     while (inouts_it != currentNetList.getInouts().end()) {
         //		cerr << currentCircuit->getGndNet()  << " - " <<  currentCircuit->getVddNet() << " - " << currentNetList.getNetName(*inouts_it) << endl;
         if (currentNetList.getNetName(*inouts_it) == currentCircuit->getVddNet()) {
