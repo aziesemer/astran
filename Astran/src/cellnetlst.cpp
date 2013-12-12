@@ -436,7 +436,7 @@ int CellNetlst::GetCost(){
 	vector<int> congestioning(posPN+1,0);
 	for(pos=0; pos<boundBoxNets_ini.size(); pos++){
 		nName=getNetName(pos);
-		if(boundBoxNets_ini[pos]!=-1 && nName!="VDD!" && nName!="VDD" && nName!="VCC" && nName!="GND" && nName!="0"){ //TO IMPROVE!!!
+		if(boundBoxNets_ini[pos]!=-1 && nName!=vddNet && nName!=gndNet){
 			wRouting+=boundBoxNets_end[pos]-boundBoxNets_ini[pos]; 			
 			//cout << nName << "-" << boundBoxNets_ini[pos] <<"-"<< boundBoxNets_end[pos] << endl;
 			for(x=boundBoxNets_ini[pos]; x<=boundBoxNets_end[pos]; x++)
@@ -512,12 +512,14 @@ void CellNetlst::UndoPerturbation(){
 	custo_atual = custo_anterior;
 }
 
-bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC){
+bool CellNetlst::transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet){
 	wCost=wC;
 	gmCost=gmC;
 	rCost=rC;
 	congCost=congC;
 	ngCost=ngC;
+    this->vddNet=vddNet;
+    this->gndNet=gndNet;
 
 	int i;
 	if(!orderingP.size() && !orderingN.size()){

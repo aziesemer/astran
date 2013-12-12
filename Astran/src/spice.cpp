@@ -118,7 +118,7 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 			for (int p=6; p<palavras.size(); p++){
 				int pos=palavras[p].find("=");
 				string parm=palavras[p].substr(0,pos++);
-				float  tam=atof((palavras[p].substr(pos)).c_str())*getFactor(palavras[p][palavras[p].size()-1]);
+				float  tam=atof((palavras[p].substr(pos)).c_str())*getFactor(palavras[p][palavras[p].size()-1])*getFactor(palavras[p][palavras[p].size()-2]);
 				if(parm=="L")
 					length=tam;
 				else if(parm=="W")
@@ -191,7 +191,7 @@ float Spice::getFactor(char s){
 	switch(s){
 		case 'U': return 1;
 		case 'N': return 0.001;  //fill with the others
-		default: return 1000000;
+		default: return 1;
 	}
 }
 

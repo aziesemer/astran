@@ -70,6 +70,7 @@ protected:
 	vector<t_net2> orderingP, orderingN, cpP, cpN, tmpP, tmpN;
 	int PorN, custo_atual, custo_anterior;
 	int wGaps, mismatchesGate, wRouting, maxCong, posPN, wCost, gmCost, rCost, congCost, ngCost;
+    string vddNet, gndNet;
 	bool eulerpath();
 	bool visit(int nDifs, t_net2& transP, t_net2& transN);
 	bool visit(int nDifs);
@@ -102,7 +103,7 @@ public:
 	Trans& getTrans(int ID){ return trans[ID];};
 	void print();
 	void clear();
-	bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC);
+	bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
 	unsigned int calcWeight(vector<t_net2>& eulerPathP,vector<t_net2>& eulerPathN);
 	void move(const vector<t_net2>& ref, vector<t_net2>& cp);	
 	vector<t_net2>& getOrderingP(){return orderingP;};

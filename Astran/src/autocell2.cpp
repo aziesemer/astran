@@ -126,7 +126,7 @@ void AutoCell::calcArea(int nrIntTracks, int reduceMetTracks) {
     pSize = pDif_endY - pDif_iniY;
     
     if(nSize<currentRules->getRule(W2DF) || pSize<currentRules->getRule(W2DF))
-        throw AstranError("Diffusion width is too small to fit a transistor. Try to adjust cell height, nwell position, routing grid pitch or the design rules");
+        throw AstranError("P/N diffusion space is too small to fit a transistor. Try to adjust the cell template: height, nwell position, routing grid pitch or the design rules");
     //       cout << "Resume: tracks(" << trackPos.size() << ") " << nSize << "N and " << pSize << "P" <<endl;
     state++;
 }
@@ -159,7 +159,7 @@ void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
         vector<t_net2> bestPOrdering;
         int bestCost=-1;
         for(int c=0; c<nrAttempts; c++){
-            if (!currentNetList.transPlacement(ep, saquality, 1, wC, gmC, rC, congC, ngC)) 
+            if (!currentNetList.transPlacement(ep, saquality, 1, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet())) 
                 throw AstranError("Could not place the transistors");
             state = 4;
             route(true, false, false);
@@ -175,7 +175,7 @@ void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
         currentNetList.setOrderingN(bestNOrdering);
         currentNetList.setOrderingP(bestPOrdering);
     }else{
-        if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC)) 
+        if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
             throw AstranError("Could not place the transistors");
     }
     
