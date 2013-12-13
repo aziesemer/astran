@@ -161,13 +161,13 @@ void AutoCell::autoFlow(string lpSolverFile){
             cout << "-> Trying with " << nrTracks << " tracks and conservative = " << conservative << " ..." << endl;
             calcArea(nrTracks, conservative);
             foldTrans();
-            placeTrans(false, 150, 3, 3, 4, 1, 4, 2);
+            placeTrans(false, 150, 3, 4, 4, 1, 4, 2);
             if(currentNetList.getMaxCongestioning()<=6 && nrTracks==2) break;
             if(currentNetList.getMaxCongestioning()<=8 && nrTracks==3) break;
             if(nrTracks==4) break;
             nrTracks++;
         }
-        placeTrans(true, 150, 3, 3, 4, 1, 4, 2);
+        placeTrans(true, 150, 3, 4, 4, 1, 4, 2);
         route(true, false, (currentNetList.getMaxCongestioning()<=5?true:false), true);
         if(compact(lpSolverFile, true, false, 50, 2, true, true, true, false, false, 3600)) break;
         conservative++;
