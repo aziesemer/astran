@@ -957,6 +957,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     currentCircuit->insertLayout(currentLayout);
     cout << "-> Cell Size (W x H): " << float(currentLayout.getWidth()) / currentRules->getScale() << " x " << float(currentLayout.getHeight()) / currentRules->getScale() << endl;
     state++;
+    return true;
 }
 
 
