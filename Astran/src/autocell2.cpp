@@ -34,12 +34,21 @@ Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDif
     tmp.diffPIni = pDiffIni;
     tmp.diffPEnd = pDiffEnd;
     //    cout << nDiffEnd << " " << nDiffIni << " " << pDiffIni << " " << pDiffEnd << endl;
-    
     for (int x = 0; x < trackPos.size(); x++) {
         tmp.met[x] = rt->createNode();
-        if (x) rt->addArc(tmp.met[x], tmp.met[x - 1], vcost);
+        if (x)
+            if(x<=nDiffEnd || x> pDiffEnd)
+                rt->addArc(tmp.met[x], tmp.met[x - 1], vcost-1);
+            else if(x>nDiffIni && x<=pDiffIni && type!=GATE && type!=GAP)
+                rt->addArc(tmp.met[x], tmp.met[x - 1], (reduceVRt?vcost*2:vcost+1));
+            else 
+                rt->addArc(tmp.met[x], tmp.met[x - 1], vcost);
+        
         if (elements.size() && (x==0 || x==trackPos.size()-1 || (x>floor(reduceMetTracks/2.0) && x<trackPos.size()-1-ceil(reduceMetTracks/2.0))))
-            rt->addArc(tmp.met[x], elements.back().met[x], 4); //if it's not the first, connect to the last element
+            if(reduceVRt && x>=nDiffIni && x<=pDiffIni)
+                rt->addArc(tmp.met[x], elements.back().met[x], 1); //if it's not the first, connect to the last element
+            else
+                rt->addArc(tmp.met[x], elements.back().met[x], 4); //if it's not the first, connect to the last element
         
         tmp.pol[x] = rt->createNode();
         if (x && ((type==GATE) || (type==GAP) || (x<nDiffEnd) || (x > nDiffIni && x < pDiffIni) || (x>pDiffEnd)))
@@ -141,30 +150,72 @@ void AutoCell::selectCell(Circuit* c, string cell) {
     state++;
 }
 
+void AutoCell::autoFlow(string lpSolverFile){
+    int nrTracks=2, bestNrTracks, conservative=0;
+    bestNrTracks=nrTracks;
+    time_t start,end;
+    time (&start);
+
+    while(1){
+        while(1){
+            cout << "-> Trying with " << nrTracks << " tracks and conservative = " << conservative << " ..." << endl;
+            calcArea(nrTracks, conservative);
+            foldTrans();
+            placeTrans(false, 150, 3, 3, 4, 1, 4, 2);
+            if(currentNetList.getMaxCongestioning()<=6 && nrTracks==2) break;
+            if(currentNetList.getMaxCongestioning()<=8 && nrTracks==3) break;
+            if(nrTracks==4) break;
+            nrTracks++;
+        }
+        placeTrans(true, 150, 3, 3, 4, 1, 4, 2);
+        route(true, false, (currentNetList.getMaxCongestioning()<=5?true:false), true);
+        if(compact(lpSolverFile, true, false, 50, 2, true, true, true, false, false, 3600)) break;
+        conservative++;
+        if(conservative>4) AstranError("Could not generate cell layout automatically");
+    }
+    
+    time (&end);
+    double dif = difftime (end,start);
+    cout << "-> Total generation time for cell " << currentCell->getName() << ": " << dif << "s" << endl;
+}
+
 void AutoCell::foldTrans() {
     checkState(2);
     cout << "-> Applying folding..." << endl;
-    cout << "-> Number of transistors before folding: " << currentCell->size() << " -> P(" << currentCell->pSize() << ") N(" << currentCell->nSize() << ")" << endl;
+    cout << "-> Number of transistors before folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
     currentNetList.folding(float(pSize) / currentRules->getScale(), float(nSize) / currentRules->getScale());
     cout << "-> Number of transistors after folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
+    currentNetList.getOrderingP().clear();
+    currentNetList.getOrderingN().clear();
     state++;
 }
 
-void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
+void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
     checkState(3);
     cout << "-> Placing transistors..." << endl;
-    bool speculate=true;
+    int bestCost, currentCost;
+    
     if (speculate){
         vector<t_net2> bestNOrdering;
         vector<t_net2> bestPOrdering;
-        int bestCost=-1;
+        //get previosly cost
+        if(currentNetList.getOrderingP().size()!=0 && currentNetList.getOrderingN().size()!=0){
+            state = 4;
+            route(true, false,1, false);
+            state = 3;
+            bestCost=rt->getCost();
+            bestNOrdering=currentNetList.getOrderingN();
+            bestPOrdering=currentNetList.getOrderingP();
+        }
+        else bestCost=-1;
+        
         for(int c=0; c<nrAttempts; c++){
-            if (!currentNetList.transPlacement(ep, saquality, 1, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet())) 
+            if (!currentNetList.transPlacement(true, saquality, 1, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet())) 
                 throw AstranError("Could not place the transistors");
             state = 4;
-            route(true, false, false);
+            route(true, false,1, false);
             state = 3;
-            int currentCost=rt->getCost();
+            currentCost=rt->getCost();
             if(bestCost==-1 || currentCost<bestCost){
                 bestCost=currentCost;
                 bestNOrdering=currentNetList.getOrderingN();
@@ -175,10 +226,11 @@ void AutoCell::placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gm
         currentNetList.setOrderingN(bestNOrdering);
         currentNetList.setOrderingP(bestPOrdering);
     }else{
-        if (!currentNetList.transPlacement(ep, saquality, nrAttempts, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
+        if (!currentNetList.transPlacement(true, saquality, nrAttempts, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
             throw AstranError("Could not place the transistors");
     }
     
+    currentNetList.printPlacement();
     state++;
 }
 
@@ -199,11 +251,13 @@ bool AutoCell::testGap(vector<t_net2>::iterator last_it, vector<t_net2>::iterato
     return gap;
 }
 
-void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
+void AutoCell::route(bool hPoly, bool increaseIntTracks, int reduceVRt, bool optimize) {
     checkState(4);
-    cout << "-> Routing cell..." << endl;
+    cout << "-> Routing cell...";
     
     this->hPoly=hPoly;
+    this->reduceVRt=reduceVRt;
+    
     // CALCULATE DIFFUSION POSITIONS
     diffPini.clear();
     diffNini.clear();
@@ -415,7 +469,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, bool optimize) {
     state = 5;
 }
 
-void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit) {
+bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly, int rdCntsCost, int maxDiffCnts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit) {
     checkState(5);
     cout << "-> Compacting layout..." << endl;
     this->diffStretching=diffStretching;
@@ -755,7 +809,7 @@ void AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     cpt.insertLPMinVar("width", 5000);
     
     if (!cpt.solve(lpSolverFile, timeLimit))
-        throw AstranError("Could not solve the ILP model. Try to adjust the constraints!");
+        return false;
     
     for (int i = 0; i < geometries.size(); i++) {
         
@@ -910,7 +964,11 @@ string AutoCell::insertGate(vector<Box*> &geometries, compaction &cpt, int trans
     int gateIni, gateEnd;
     int transWidth = round(currentNetList.getTrans(transistor).width * currentRules->getScale());
     int transLength = round(currentNetList.getTrans(transistor).length * currentRules->getScale());
-    if (transLength < currentRules->getRule(W2P1)) cout << "-> Gate length of transistor " << currentNetList.getTrans(transistor).name << " is smaller than the minimum of the technology" << endl;
+    if (transLength < currentRules->getRule(W2P1)) 
+        throw AstranError("-> Gate length of transistor " + currentNetList.getTrans(transistor).name + " is smaller than the minimum of the technology");
+    
+    if(transWidth < currentRules->getRule(W2DF))
+        throw AstranError("-> Gate Width of transistor " + currentNetList.getTrans(transistor).name + " is smaller than the minimum of the technology");
     
     //get gate
     if (l==NDIF){
@@ -1080,7 +1138,7 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
             cpt.insertConstraint("y" + lastDiff + "a", "y" + newDiff + "a_int", CP_MIN, 0);
             cpt.insertConstraint("y" + newDiff + "a", "y" + newDiff + "a_int", CP_MIN, 0);
             cpt.insertConstraint( "y" + newDiff + "a_int", "y" + newDiff + "b_int", CP_EQ,  "y" + newDiff + "a_int_min");
-            cpt.insertConstraint( "y" + newDiff + "a_int", "y" + newDiff + "b_int", CP_EQ, currentRules->getRule(W2DF));
+            cpt.insertConstraint( "y" + newDiff + "a_int", "y" + newDiff + "b_int", CP_MIN, currentRules->getRule(W2DF));
         }else{
             //insert GAP between diffusions if it's not the first diff
             if(lastDiff!="") {
@@ -1115,8 +1173,8 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
                 cpt.insertConstraint("y" + lastDiff + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + newDiff + "a");            
             }
         }
-        cpt.insertLPMinVar("y" + newDiff + "LdistBeforeGateOut",(diffStretching?8:40));
-        cpt.insertLPMinVar("y" + newDiff + "LdistBeforeGateIn",(diffStretching?8:40));
+        cpt.insertLPMinVar("y" + newDiff + "LdistBeforeGateOut",(diffStretching?9:40));
+        cpt.insertLPMinVar("y" + newDiff + "LdistBeforeGateIn",(diffStretching?9:40));
         currentDiff = newDiff;
     }else
         currentDiff = "";
@@ -1162,8 +1220,8 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
                 cpt.insertConstraint("y" + lastDiff + "LdistAfterGateIn", "y" + lastDiff + "a", CP_MAX, "y" + diffEnc + "a");            
             }
         }
-        cpt.insertLPMinVar("y" + lastDiff + "LdistAfterGateOut",(diffStretching?8:40));
-        cpt.insertLPMinVar("y" + lastDiff + "LdistAfterGateIn",(diffStretching?8:40));
+        cpt.insertLPMinVar("y" + lastDiff + "LdistAfterGateOut",(diffStretching?9:40));
+        cpt.insertLPMinVar("y" + lastDiff + "LdistAfterGateIn",(diffStretching?9:40));
         
         //U shape spacing
         //        if (diffEnc != "") 
@@ -1193,7 +1251,7 @@ string AutoCell::insertCnt(vector<Box*> &geometries, compaction &cpt, list<Eleme
             geometries.push_back(&currentLayout.addLayer(0, 0, 0, 0, CONT));
             string cnt2 = intToStr(geometries.size() - 1);    
             cpt.forceBinaryVar("b" + cnt2); // 2nd contact
-            cpt.insertLPMinVar("b" + cnt2, -rdCntsCost*8);
+            cpt.insertLPMinVar("b" + cnt2, -rdCntsCost*9);
             cpt.insertConstraint("y" + lastCnt + "b", "y" + cnt2 + "a", CP_EQ, "b" + cnt2, currentRules->getRule(S2CTCT));
             cpt.insertConstraint("x" + cnt2 + "a", "x" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));
             cpt.insertConstraint("y" + cnt2 + "a", "y" + cnt2 + "b", CP_EQ, "b" + cnt2, currentRules->getRule(W2CT));

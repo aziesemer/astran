@@ -29,47 +29,8 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	
-	// Fold Transistors
-	cmd=wxT("cellgen fold ");
-    cmd+= nrIntTracks->GetValue();
-    cmd+= wxT(" ");
-    cmd+= wxString::Format(_T("%d"), reduceMetTracks->GetValue());
-	currentFrmwork->readCommand(string(cmd.mb_str()));
-	
-	// Place
-	cmd=wxT("cellgen place ") + p_TAQ->GetValue() + wxT(" ") + p_NRA->GetValue() + wxT(" ") + p_WC->GetValue() + wxT(" ") + p_GMC->GetValue() + wxT(" ") + p_RC->GetValue() + wxT(" ") + p_RTDC->GetValue() + wxT(" ") + p_NGC->GetValue();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
-	
-	// Route
-	cmd=wxT("cellgen route ");
-    cmd+= hPoly->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= increaseIntTracks->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= optimize->GetValue()==true?wxT("1"):wxT("0");
-	currentFrmwork->readCommand(string(cmd.mb_str()));
-	
-	// Compact Layout
-    cmd=wxT("cellgen compact ");
-    cmd+= diffStretching->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= griddedPolly->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= wxString::Format(_T("%d"), rdCntsCost->GetValue());
-    cmd+= wxT(" ");
-    cmd+= wxString::Format(_T("%d"), maxDiffCnts->GetValue());
-    cmd+= wxT(" ");
-    cmd+= alignDiffCnts->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= reduceLturns->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= enableDFM->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= experimental->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= debug->GetValue()==true?wxT("1"):wxT("0");
-    cmd+= wxT(" ");
-    cmd+= timeLimit->GetValue();
+	// Autoflow
+	cmd=wxT("cellgen autoflow");
 	currentFrmwork->readCommand(string(cmd.mb_str()));
 	update();
 }
@@ -100,6 +61,8 @@ void WxAutoCell::route( wxCommandEvent& event ){
     cmd+= hPoly->GetValue()==true?wxT("1"):wxT("0");
     cmd+= wxT(" ");
     cmd+= increaseIntTracks->GetValue()==true?wxT("1"):wxT("0");
+    cmd+= wxT(" ");
+    cmd+= reduceVRt->GetValue()==true?wxT("1"):wxT("0");
     cmd+= wxT(" ");
     cmd+= optimize->GetValue()==true?wxT("1"):wxT("0");
 	currentFrmwork->readCommand(string(cmd.mb_str()));

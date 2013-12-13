@@ -235,8 +235,7 @@ bool Pathfinder2::optimize(){
 	int nrSteiners=1;
 	
 	cout << endl;
-	cout << "-> Cost before optimization:" << endl;
-	showResult();
+	cout << "-> Cost before optimization:" << getCost() << endl;
 	cout << "-> Optimizing routing graph...";
 	
 	start=clock();
@@ -277,8 +276,7 @@ bool Pathfinder2::optimize(){
 	elapsed=(finish-start)/(CLOCKS_PER_SEC/1000);
 	elapsed=elapsed/1000;
 	cout << endl;
-	cout << "-> Cost after optimization:" << endl;
-	showResult();
+	cout << "-> Cost after optimization: " << getCost() << endl;
 	cout << "-> Runtime = " << elapsed << " s" << endl;
 	return true;
 }

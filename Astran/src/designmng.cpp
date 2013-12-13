@@ -673,13 +673,17 @@ bool DesignMng::readCommand(string cmd){
                     autocell->selectCell(circuit,upcase(words[2]));
                     break;
                     
+                case CELLGEN_AUTOFLOW:
+                    autocell->autoFlow(lpSolverFile);
+                    break;
+
                 case CELLGEN_FOLD:
                     autocell->calcArea(atoi(words[2].c_str()), atoi(words[3].c_str()));
                     autocell->foldTrans();
                     break;
                     
                 case CELLGEN_PLACE:
-                    autocell->placeTrans(false, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()));
+                    autocell->placeTrans(true, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()));
                     break;
                     
                 case CELLGEN_GETARCCOST:
@@ -691,11 +695,12 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case CELLGEN_ROUTE:
-                    autocell->route(atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()));
+                    autocell->route(atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()));
                     break;
                     
                 case CELLGEN_COMPACT:
-                    autocell->compact(lpSolverFile, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()), atoi(words[9].c_str()), atoi(words[10].c_str()), atoi(words[11].c_str()));
+                    if(!autocell->compact(lpSolverFile, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()), atoi(words[9].c_str()), atoi(words[10].c_str()), atoi(words[11].c_str())))
+                        throw AstranError("Could not solve the ILP model. Try to adjust the constraints!");                        
                     break;
                     
                     /****  HELP - 2  ****/

@@ -104,7 +104,10 @@ public:
 	void print();
 	void clear();
 	bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
+    void printPlacement();
 	unsigned int calcWeight(vector<t_net2>& eulerPathP,vector<t_net2>& eulerPathN);
+    int getMaxCongestioning(){return maxCong;};
+    int getWidth(){return posPN;};
 	void move(const vector<t_net2>& ref, vector<t_net2>& cp);	
 	vector<t_net2>& getOrderingP(){return orderingP;};
 	vector<t_net2>& getOrderingN(){return orderingN;};

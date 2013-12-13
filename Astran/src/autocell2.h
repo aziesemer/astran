@@ -28,7 +28,8 @@
 
 #include <vector>
 #include <sstream>
-#include <iterator>     // std::next
+#include <iterator>
+#include <time.h>
 #include "clayout.h"
 #include "draw.h"
 #include "rules.h"
@@ -67,8 +68,8 @@ protected:
 	int nSize,pSize;
 	int center;
 	int pDif_iniY, pDif_endY, nDif_iniY, nDif_endY;
-    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts,reduceLturns, maxDiffCnts, enableDFM, experimental,reduceMetTracks;
-    int index;
+    int diffStretching, griddedPoly, rdCntsCost, alignDiffConts, reduceLturns, maxDiffCnts, enableDFM, experimental,reduceMetTracks;
+    int index, reduceVRt;
     bool hPoly;
     
 	vector<int> trackPos, diffPini, diffNini;
@@ -111,11 +112,12 @@ protected:
 	~AutoCell();
 	void clear();
 	void calcArea(int nrIntTracks, int reduceMetTracks);
+    void autoFlow(string lpSolverFile);
 	void foldTrans();
 	void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
 	
-    void route(bool hPoly, bool increaseIntTracks, bool optimize);
-    void compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit);
+    void route(bool hPoly, bool increaseIntTracks, int reduceVRt, bool optimize);
+    bool compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit);
     void selectCell(Circuit* c, string cell);
 	void setMetPriority(int x) {metal_priority=x;};
 	int getMetPriority() {return metal_priority;};

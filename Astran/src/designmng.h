@@ -73,7 +73,7 @@ enum command_name {
 	CALCPINSPOS,
 	
 	// CellGen - 9
-	CELLGEN_SELECT,CELLGEN_FOLD,CELLGEN_PLACE,CELLGEN_GETARCCOST,CELLGEN_SETARCCOST,CELLGEN_ROUTE,CELLGEN_COMPACT,
+	CELLGEN_SELECT,CELLGEN_AUTOFLOW,CELLGEN_FOLD,CELLGEN_PLACE,CELLGEN_GETARCCOST,CELLGEN_SETARCCOST,CELLGEN_ROUTE,CELLGEN_COMPACT,
 	
 	// Help - 2
 	HELP, HELP_PARAM,
@@ -186,11 +186,12 @@ static commands commands_lst[] = {
 	
 	// CellGen - 9
 	{"CELLGEN SELECT <str_Cell>", "Select a cell to generate the layout using Cellgen"},
+	{"CELLGEN AUTOFLOW", "Try to generate cell layout automatically in the best possible way"},
 	{"CELLGEN FOLD <int_nrIntTracks> <int_conservativeFactor>", "Fold the cell's transistors with Cellgen"},
 	{"CELLGEN PLACE <int_Saquality> <int_#Attempts> <int_WidthCost> <int_GateMissMatchCost> <int_RoutingCost> <int_RtDensityCost> <int_#GapsCost>", "Place the cell's transistors with Cellgen"},
 	{"CELLGEN GETARCCOST <int_Node1> <int_Node2>", "Get the arc cost between two nodes using Cellgen"},
 	{"CELLGEN SETARCCOST <int_Node1> <int_Node2> <int_Cost>", "Set the arc cost between two nodes using Cellgen"},
-	{"CELLGEN ROUTE <int_hPoly> <int_incrementIntTracks> <int_optimize>", "Make the routing of the cell with Cellgen"},
+	{"CELLGEN ROUTE <int_hPoly> <int_incrementIntTracks> <int_reduceVRt> <int_optimize>", "Make the routing of the cell with Cellgen"},
 	{"CELLGEN COMPACT <int_diffStretching> <int_griddedPolly> <int_rdCntsCost> <int_maxDiffCnts> <int_alignDiffConts> <int_reduceLTurns> <int_enableDFM> <int_experimental> <int_debug> <int_timeLimit>", "Compact the cell's layout with Cellgen"},
 	
 	// Help - 2

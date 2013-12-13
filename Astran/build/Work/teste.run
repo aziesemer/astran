@@ -4,5 +4,5 @@ load netlist "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/lib65.sp"
 cellgen select INV0
 cellgen fold 2 0
 cellgen place 150 3 3 4 1 4 2
-cellgen route 1 0 1
+cellgen route 1 0 1 1
 cellgen compact 1 0 50 2 1 1 0 0 0 3600
