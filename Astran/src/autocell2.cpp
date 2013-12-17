@@ -171,7 +171,8 @@ void AutoCell::autoFlow(string lpSolverFile){
         route(true, false, (currentNetList.getMaxCongestioning()<=5?true:false), true);
         if(compact(lpSolverFile, true, false, 50, 2, true, true, true, false, false, 3600)) break;
         conservative++;
-        if(conservative>4) AstranError("Could not generate cell layout automatically");
+        if(conservative>4) 
+            throw AstranError("Could not generate cell layout automatically");
     }
     
     time (&end);
