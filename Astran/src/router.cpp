@@ -452,7 +452,7 @@ void Router::readRoutingRotdl(string fileName){
 					}
 					line >> str; // ]
 				}else
-                    throw AstranError("Expected ( or [ in line: " + fileline);
+                    throw AstranError("Expected ( or [ in line: " + intToStr(fileline));
 			}
 			
 		}else if(upcase(str)=="ERROR:"){
@@ -460,7 +460,7 @@ void Router::readRoutingRotdl(string fileName){
 			line >> netName;
             throw AstranError("Unable to route net: " + netName + " in line: " + intToStr(fileline));
 		}else 
-            throw AstranError("Parser error in line: " + fileline);
+            throw AstranError("Parser error in line: " + intToStr(fileline));
 	}
 	rt.showResult();
 }

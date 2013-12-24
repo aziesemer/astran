@@ -630,7 +630,7 @@ Specify_FP::Specify_FP( wxWindow* parent, wxWindowID id, const wxString& title, 
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxFlexGridSizer* fgSizer8;
-	fgSizer8 = new wxFlexGridSizer( 2, 4, 0, 0 );
+	fgSizer8 = new wxFlexGridSizer( 7, 4, 0, 0 );
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -777,7 +777,7 @@ CellGen::CellGen( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxFlexGridSizer* fgSizer6;
-	fgSizer6 = new wxFlexGridSizer( 2, 5, 0, 0 );
+	fgSizer6 = new wxFlexGridSizer( 19, 5, 0, 0 );
 	fgSizer6->SetFlexibleDirection( wxBOTH );
 	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -1171,7 +1171,7 @@ View_Circuit::View_Circuit( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxFlexGridSizer* fgSizer3;
-	fgSizer3 = new wxFlexGridSizer( 2, 2, 0, 0 );
+	fgSizer3 = new wxFlexGridSizer( 14, 2, 0, 0 );
 	fgSizer3->SetFlexibleDirection( wxVERTICAL );
 	fgSizer3->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -1337,7 +1337,7 @@ View_Preferences::View_Preferences( wxWindow* parent, wxWindowID id, const wxStr
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxFlexGridSizer* fgSizer4;
-	fgSizer4 = new wxFlexGridSizer( 2, 3, 0, 0 );
+	fgSizer4 = new wxFlexGridSizer( 6, 3, 0, 0 );
 	fgSizer4->SetFlexibleDirection( wxBOTH );
 	fgSizer4->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -1466,7 +1466,7 @@ Design_Rules::Design_Rules( wxWindow* parent, wxWindowID id, const wxString& tit
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
 	wxFlexGridSizer* fgSizer2;
-	fgSizer2 = new wxFlexGridSizer( 3, 4, 0, 0 );
+	fgSizer2 = new wxFlexGridSizer( 8, 4, 0, 0 );
 	fgSizer2->SetFlexibleDirection( wxBOTH );
 	fgSizer2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	

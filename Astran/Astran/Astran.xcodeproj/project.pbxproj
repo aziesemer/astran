@@ -102,7 +102,6 @@
 		BC97A533178F2BBE0002254A /* wxrules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxrules.cpp; sourceTree = "<group>"; };
 		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
 		BCBBF216181454EB00139922 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		BCC8FEA71811F0AF00A322C9 /* Astran copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Astran copy2-Info.plist"; path = "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/Astran/Astran copy2-Info.plist"; sourceTree = "<absolute>"; };
 		BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ISSUES.txt; path = ../build/ISSUES.txt; sourceTree = "<group>"; };
 		BCF19DA218183D10000FA8CA /* wxpreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxpreferences.cpp; sourceTree = "<group>"; };
 		BCF19DA318183D10000FA8CA /* wxpreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxpreferences.h; sourceTree = "<group>"; };
@@ -137,7 +136,6 @@
 				BC97A4FC178F2BBE0002254A /* src */,
 				BC97A4E5178F2B1E0002254A /* Astran */,
 				BC97A4DC178F2B1E0002254A /* Products */,
-				BCC8FEA71811F0AF00A322C9 /* Astran copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -254,7 +252,7 @@
 		BC97A4D2178F2B1E0002254A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = BC97A4D5178F2B1E0002254A /* Build configuration list for PBXProject "Astran" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -332,9 +330,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -347,10 +350,21 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0 /usr/local/include/wx-3.0";
 			};
 			name = Debug;
 		};
@@ -358,25 +372,41 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = "/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0 /usr/local/include/wx-3.0";
 			};
 			name = Release;
 		};
 		BC97A4FA178F2B1E0002254A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -388,14 +418,16 @@
 				INFOPLIST_FILE = "Astran/Astran-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
-					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
-					"-I/usr/include/wx-2.8",
+					"-I/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I/usr/local/include/wx-3.0",
 					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-D__WXDEBUG__",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+					"-D_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_",
 				);
 				OTHER_LDFLAGS = (
+					"-L/usr/local/lib",
 					"-framework",
 					IOKit,
 					"-framework",
@@ -403,14 +435,31 @@
 					"-framework",
 					Cocoa,
 					"-framework",
+					AudioToolbox,
+					"-framework",
 					System,
 					"-framework",
-					QuickTime,
-					"-framework",
 					OpenGL,
+					"/usr/local/lib/libwx_osx_cocoau_xrc-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_webview-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_qa-3.0.a",
+					"/usr/local/lib/libwx_baseu_net-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_html-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_adv-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_core-3.0.a",
+					"/usr/local/lib/libwx_baseu_xml-3.0.a",
+					"/usr/local/lib/libwx_baseu-3.0.a",
 					"-framework",
-					AGL,
-					"-lwx_macud-2.8",
+					WebKit,
+					"-lexpat",
+					"-lwxregexu-3.0",
+					"-lwxtiff-3.0",
+					"-lwxjpeg-3.0",
+					"-lwxpng-3.0",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"-llzma",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYMROOT = ../build;
@@ -421,7 +470,7 @@
 		BC97A4FB178F2B1E0002254A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/bin";
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -433,14 +482,16 @@
 				INFOPLIST_FILE = "Astran/Astran-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
-					"-I/usr/lib/wx/include/mac-unicode-debug-2.8",
-					"-I/usr/include/wx-2.8",
+					"-I/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I/usr/local/include/wx-3.0",
 					"-D_FILE_OFFSET_BITS=64",
-					"-D_LARGE_FILES",
-					"-D__WXDEBUG__",
 					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+					"-D_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_",
 				);
 				OTHER_LDFLAGS = (
+					"-L/usr/local/lib",
 					"-framework",
 					IOKit,
 					"-framework",
@@ -448,14 +499,31 @@
 					"-framework",
 					Cocoa,
 					"-framework",
+					AudioToolbox,
+					"-framework",
 					System,
 					"-framework",
-					QuickTime,
-					"-framework",
 					OpenGL,
+					"/usr/local/lib/libwx_osx_cocoau_xrc-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_webview-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_qa-3.0.a",
+					"/usr/local/lib/libwx_baseu_net-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_html-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_adv-3.0.a",
+					"/usr/local/lib/libwx_osx_cocoau_core-3.0.a",
+					"/usr/local/lib/libwx_baseu_xml-3.0.a",
+					"/usr/local/lib/libwx_baseu-3.0.a",
 					"-framework",
-					AGL,
-					"-lwx_macud-2.8",
+					WebKit,
+					"-lexpat",
+					"-lwxregexu-3.0",
+					"-lwxtiff-3.0",
+					"-lwxjpeg-3.0",
+					"-lwxpng-3.0",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"-llzma",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYMROOT = ../build;
