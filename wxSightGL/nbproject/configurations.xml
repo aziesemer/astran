@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="90">
+<configurationDescriptor version="84">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="src" displayName="src" projectFiles="true">
       <logicalFolder name="art" displayName="art" projectFiles="true">
@@ -98,15 +98,14 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>/home/gaflach/work/projects/wxSightGL/src</Elem>
+    <Elem>/Users/adrieljr/Dropbox/gme-ufrgs/wxSightGL/src</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="Debug" type="1">
       <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <ccTool>
@@ -119,158 +118,11 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="src/app.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/app.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/cif-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/drag-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/label-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/line-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/minus-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/plus-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/rectangle-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/ruler-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/select-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/sight-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/wire-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/zoom-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/basicglpane.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/basicglpane.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/interface/interface.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/interface/interface.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/interface/layeritem.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/interface/layeritem.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/camera.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/camera.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/BinaryFileReader.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/BinaryFileReader.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/Types.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/gds.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/gds.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/io_files.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/io_files.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/label.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/label.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/layer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/layer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/model.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/model.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/object.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/opengl.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/opengl.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/rectangle.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/rectangle.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/repository.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/repository.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/ruler.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/ruler.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/sight.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/sight.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/sqr.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/drag.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/drag.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/lbl.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/lbl.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/line.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/line.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/rulerst.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/rulerst.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/select.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/select.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/sqr.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/sqr.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/state.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/wire.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/wire.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/stipple.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/stipple.xls" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/txGpu.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/txGpu.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/vertex.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/wire_line.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/wire_line.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/util/util.h" ex="false" tool="3" flavor2="0">
-      </item>
     </conf>
     <conf name="Release" type="1">
       <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
         <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <compileType>
         <cTool>
@@ -278,7 +130,7 @@
         </cTool>
         <ccTool>
           <developmentMode>5</developmentMode>
-          <commandLine>`wx-config --static=no --debug=no --cppflags`</commandLine>
+          <commandLine>`wx-config --cppflags`</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
@@ -288,157 +140,11 @@
         </asmTool>
         <linkerTool>
           <linkerLibItems>
-            <linkerOptionItem>`wx-config --static=no --debug=no --libs --gl-libs`</linkerOptionItem>
-            <linkerOptionItem>-lGL -lGLU -lglut -lGLEW</linkerOptionItem>
+            <linkerOptionItem>`wx-config --libs --gl-libs`</linkerOptionItem>
+            <linkerOptionItem>-framework OpenGL -framework GLUT</linkerOptionItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
-      <item path="src/app.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/app.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/cif-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/drag-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/label-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/line-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/minus-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/plus-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/rectangle-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/ruler-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/select-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/sight-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/wire-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/art/zoom-png.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/basicglpane.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/basicglpane.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/interface/interface.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/interface/interface.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/interface/layeritem.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/interface/layeritem.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/camera.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/camera.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/BinaryFileReader.cpp"
-            ex="false"
-            tool="1"
-            flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/BinaryFileReader.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/Types.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/gds.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/fileformats/gds.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/io_files.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/io_files.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/label.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/label.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/layer.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/layer.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/model.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/model.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/object.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/opengl.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/opengl.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/rectangle.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/rectangle.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/repository.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/repository.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/ruler.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/ruler.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/sight.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/sight.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/sqr.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/drag.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/drag.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/lbl.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/lbl.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/line.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/line.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/rulerst.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/rulerst.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/select.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/select.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/sqr.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/sqr.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/state.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/states/wire.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/states/wire.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/stipple.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/stipple.xls" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/txGpu.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/txGpu.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/vertex.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/sight/wire_line.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/sight/wire_line.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/util/util.h" ex="false" tool="3" flavor2="0">
-      </item>
     </conf>
   </confs>
 </configurationDescriptor>
