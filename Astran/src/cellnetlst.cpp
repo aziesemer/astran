@@ -399,7 +399,7 @@ int CellNetlst::GetCost(){
 		if(pos){
 			if(orderingP[pos-1].link!=-1 && orderingP[pos].link!=-1 && leftP!=lastRightP) ++wGaps;
 			if(orderingN[pos-1].link!=-1 && orderingN[pos].link!=-1 && leftN!=lastRightN) ++wGaps;
-			if((orderingP[pos-1].link!=-1 && orderingP[pos].link!=-1 && leftP!=lastRightP) || (orderingN[pos-1].link!=-1 && orderingN[pos].link!=-1 && leftN!=lastRightN)) posPN+=2;
+			if((orderingP[pos-1].link!=-1 && orderingP[pos].link!=-1 && leftP!=lastRightP) || (orderingN[pos-1].link!=-1 && orderingN[pos].link!=-1 && leftN!=lastRightN)) posPN+=1;
 		}
 		
 		//pega as boundbox das redes
