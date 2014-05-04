@@ -43,10 +43,10 @@ class Box: public Point {
 	void setWidth(int w){width=w;};
 	int getHeight(){return height;};		
 	int getWidth(){return width;};
-	int getX1(){return posx-round(width/float(2));};
-	int getX2(){return posx+round(width/float(2));};
-	int getY1(){return posy-round(height/float(2));};
-	int getY2(){return posy+round(height/float(2));};
+	int getX1(){return posx-(width/2);};
+	int getX2(){return posx+(width/2)+(width%2?1:0);};
+	int getY1(){return posy-(height/2);};
+	int getY2(){return posy+(height/2)+(height%2?1:0);};
 	void setNet(string n){net=n;};
 	string getNet(){return net;};
 };

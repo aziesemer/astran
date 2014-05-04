@@ -99,27 +99,27 @@ W2V10	0
 *Layers Map
 *Name   CIF  GDSII Tech
 
-CONT    CCG  1     CO
-POLY    CPG  2     PO
-NDIF    CAN  3     OD
-PDIF    CAP  4     OD
-NSEL    CSN  5     NP
-PSEL    CSP  6     PP
-NWEL    CWN  7     NW
-PWEL    CWP  8     PTUB
-VIA1    CVA  9     VIA1
-VIA2    CVS  10    VIA2
-VIA3    CVT  11    VIA3
-VIA4    CVQ  12    VIA4
-MET1    CMF  13    M1
-MET2    CMS  14    M2
-MET3    CMT  15    M3
-MET4    CMQ  16    M4
-MET5    CMP  17    M5
-MET1P   CPF  18    M1
-MET2P   CPS  19    M2
-MET3P   CPT  20    M3
-CELLBOX CBX  21    prBoundary
-FIMP    FIMP 22    FIMP
+CONT    CCG  10    contact
+POLY    CPG  9     poly
+NDIF    CAN  1     active
+PDIF    CAP  1     active
+NSEL    CSN  4     nimplant
+PSEL    CSP  5     pimplant
+NWEL    CWN  3     nwell
+PWEL    CWP  2     pwell
+VIA1    CVA  12    via1
+VIA2    CVS  14    via2
+VIA3    CVT  16    via3
+VIA4    CVQ  18    via4
+MET1    CMF  11    metal1
+MET2    CMS  13    metal2
+MET3    CMT  15    metal3
+MET4    CMQ  17    metal4
+MET5    CMP  19    metal5
+MET1P   CPF  18    metal1
+MET2P   CPS  19    metal2
+MET3P   CPT  20    metal3
+CELLBOX CBX  235   prBoundary
+FIMP    FIMP 199   FIMP
 
 

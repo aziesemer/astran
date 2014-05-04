@@ -371,14 +371,16 @@ bool DesignMng::readCommand(string cmd){
                             map <layer_name , list<Box> >::iterator layers_it; // iterador das camadas		
                             for (layers_it = circuit->getLayout(words[2])->layers.begin(); layers_it != circuit->getLayout(words[2])->layers.end(); layers_it++) {
                                 if ( !layers_it->second.empty() ) {
-                                    int layer =layers_it->first;
+                                    int layer = stoi(rules->getGDSIIVal(layers_it->first));
                                     for ( layer_it = layers_it->second.begin(); layer_it != layers_it->second.end(); layer_it++ ){
-                                        long int x1 = layer_it->getX1();
-                                        long int y1 = layer_it->getY1();
-                                        long int x2 = layer_it->getX2();
-                                        long int y2 = layer_it->getY2();
-                                        g.generateBox(layer, x1, y1, x2, y2);
-                                        //									cout << layer << "-"<< x1 << "-" << y1 << "-" << x2 << "-" << y2 << endl; 
+                                        long int x1 = 2*layer_it->getX1();
+                                        long int y1 = 2*layer_it->getY1();
+                                        long int x2 = 2*layer_it->getX2();
+                                        long int y2 = 2*layer_it->getY2();
+                                        if(x2-x1!=0 & y2-y1!=0){
+                                            g.generateBox(layer, x1, y1, x2, y2);
+//                                            cout << layer << "-"<< x1 << "-" << y1 << "-" << x2 << "-" << y2 << endl;
+                                        }
                                         g.generateEndelement();
                                     }
                                 }
