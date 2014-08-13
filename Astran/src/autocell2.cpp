@@ -161,7 +161,7 @@ void AutoCell::autoFlow(string lpSolverFile){
             cout << "-> Trying with " << nrTracks << " tracks and conservative = " << conservative << " ..." << endl;
             calcArea(nrTracks, conservative);
             foldTrans();
-            placeTrans(false, 150, 3, 4, 4, 1, 4, 2);
+            placeTrans(false, 150, 3, 4, 4, 1, 4, 2); //try with , 8)
             if(currentNetList.getMaxCongestioning()<=6 && nrTracks==2) break;
             if(currentNetList.getMaxCongestioning()<=8 && nrTracks==3) break;
             if(nrTracks==4) break;
@@ -215,7 +215,7 @@ void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC,
                 throw AstranError("Could not place the transistors");
             state = 4;
             route(true, false,1, false);
-            state = 3;
+            state =  3;
             currentCost=rt->getCost();
             if(bestCost==-1 || currentCost<bestCost){
                 bestCost=currentCost;

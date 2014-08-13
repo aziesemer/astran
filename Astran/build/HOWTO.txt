@@ -63,3 +63,6 @@ export layout INV0 INV0.cif
 3. help -> for more information
 
 4. exit
+
+- USING A SCRIPT FILE:
+1. .$ ./Astran script.run
