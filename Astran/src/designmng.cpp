@@ -371,7 +371,7 @@ bool DesignMng::readCommand(string cmd){
                             map <layer_name , list<Box> >::iterator layers_it; // iterador das camadas		
                             for (layers_it = circuit->getLayout(words[2])->layers.begin(); layers_it != circuit->getLayout(words[2])->layers.end(); layers_it++) {
                                 if ( !layers_it->second.empty() ) {
-                                    int layer = stoi(rules->getGDSIIVal(layers_it->first));
+                                    int layer = strToInt(rules->getGDSIIVal(layers_it->first));
                                     for ( layer_it = layers_it->second.begin(); layer_it != layers_it->second.end(); layer_it++ ){
                                         long int x1 = 2*layer_it->getX1();
                                         long int y1 = 2*layer_it->getY1();
