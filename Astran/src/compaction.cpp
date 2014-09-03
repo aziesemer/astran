@@ -533,8 +533,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     
     string solFileName = lp_filename + ".sol";
     
-    if( remove(solFileName.c_str()) != 0 )
-        throw AstranError("Error deleting file: " + solFileName);
+    remove(solFileName.c_str());
     
     string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + solFileName + " " + lp_filename + ".lp";
 
@@ -560,7 +559,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
         if(n=="H" || n=="*")
 			cerr << n;
         
-		if(n=="Time" || n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
+		if(n=="ERROR" || n=="Time" || n=="Unable" || n=="Wrote" || n=="Optimal" || n=="Model")
 			cout << endl << line;
         if(n=="Unable" || n=="Model")
             return 0;
