@@ -417,10 +417,8 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     {
         ofstream f(fn.c_str());
         
-        if ( !f ) {
-            cerr << "ERROR:Cannot create file " << fn << ". Please verify your temporary directory." << endl;
-            exit(-1);
-        }
+        if ( !f )
+            throw AstranError("Cannot create file " + fn);
         
         f << "Minimize" << endl; 
         for ( unsigned int i = 0; i < lp_min_var.size(); i++ ) {    
@@ -532,14 +530,20 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
         f.flush();
         f.close();
     }
-    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + lp_filename + ".sol " + lp_filename + ".lp";
-    //    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " MIPFocus=1 ResultFile=temp.sol " + 	lp_filename + ".lp";
+    
+    string solFileName = lp_filename + ".sol";
+    
+    if( remove(solFileName.c_str()) != 0 )
+        throw AstranError("Error deleting file: " + solFileName);
+    
+    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + solFileName + " " + lp_filename + ".lp";
+
 	cout << "-> Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
 	
 	if(x==NULL)
-		throw AstranError("Problem to execute lp_solve!");
+		throw AstranError("Problem executing lp_solve!");
     
     cout << "-> To interrupt earlier and get the current best solution, type in a terminal: kill -2 [gurobi process]" << endl;
     cout << "-> * and H means new feasible solution found:";
@@ -564,10 +568,10 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     
     _pclose(x);
     
-    FILE* stream = fopen((lp_filename+".sol").c_str(), "r");
+    FILE* stream = fopen(solFileName.c_str(), "r");
     
 	if(stream==NULL)
-		throw AstranError("Problem opening temp.sol!");
+		throw AstranError("Problem opening " + solFileName);
     
 	while (fgets(line, 150, stream)) {
 		
