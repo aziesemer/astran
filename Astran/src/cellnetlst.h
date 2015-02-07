@@ -70,7 +70,7 @@ protected:
 	vector<t_net2> orderingP, orderingN, cpP, cpN, tmpP, tmpN;
 	int PorN, custo_atual, custo_anterior;
 	int wGaps, mismatchesGate, wRouting, maxCong, posPN, wCost, gmCost, rCost, congCost, ngCost;
-    string vddNet, gndNet;
+        string vddNet, gndNet;
 	bool eulerpath();
 	bool visit(int nDifs, t_net2& transP, t_net2& transN);
 	bool visit(int nDifs);

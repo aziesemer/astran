@@ -673,7 +673,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                     
                     newDif(geometries, cpt, lastNGatePos, lastDiffN, currentDiffN, diffEnc, NDIF, next->gapN==true || next->linkN.type==GAP);
                     
-                    if(cntBndBox!="") lastNGatePos = "";
+                    if(cntBndBox!="" && (next->gapN==true || next->linkN.type==GAP)) lastNGatePos = "";
                 }
                 if(gapN && lastNContactDiff!=""  && diffEnc!="") 
                     cpt.insertConstraint("x" + lastNContactDiff + "b", "x" + diffEnc + "a", CP_MIN, currentRules->getRule(S1DFDF));
@@ -715,7 +715,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                         diffEnc=lastPContactDiff;
                     
                     newDif(geometries, cpt, lastPGatePos, lastDiffP, currentDiffP, diffEnc, PDIF, next->gapP==true || next->linkP.type==GAP);
-                    if(cntBndBox!="") lastPGatePos = "";
+                    if(cntBndBox!="" && (next->gapP==true || next->linkP.type==GAP)) lastPGatePos = "";
                 }
                 if(gapP && lastPContactDiff!="" && diffEnc!="") 
                     cpt.insertConstraint("x" + lastPContactDiff + "b", "x" + diffEnc + "a", CP_MIN, currentRules->getRule(S1DFDF));
