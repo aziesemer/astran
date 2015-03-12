@@ -33,7 +33,7 @@ HOW TO COMPILE THE SOURCE CODE:
     Compile Astran normally
 2. If you want to compile using command line:
     $ cd gme-ufrgs/Astran/src
-    $ g++ *.cpp -o ../build/bin/Astran `wx-config --static=yes --cxxflags --libs` -D_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_
+    $ g++ *.cpp -o ../build/bin/Astran `wx-config --static=yes --cxxflags --libs` -D_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_ -O3
 
 - WINDOWS
 1. Download GIT from http://git-scm.com/downloads and install
