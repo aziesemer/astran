@@ -18,7 +18,7 @@ Features:
 
 TIP: Download and install always the latest version directly from the GIT repository. Binary versions will not be updated anymore since google closed this service. It's pretty easy to compile.
 
-There is a video tutorial that can be usefull in: https://www.youtube.com/watch?v=IFbCDSMi_FE
+There is a <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">video</a> tutorial that can be usefull.
 Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrgs.br
 
 If you are using my tool, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.
