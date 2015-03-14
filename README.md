@@ -20,5 +20,3 @@ Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrg
 
 If you are using my tool, please cite: ISVLSI'14 or visit my profile for other works
 
-Layout examples of automatically generated cells:
-
