@@ -1,0 +1,75 @@
+
+```
+<pre>
+THANK YOU FOR YOUR INTEREST IN ASTRAN
+
+If you are using it, please cite:
+http://ieeexplore.ieee.org/xpl/articleDetails.jsp?tp=&arnumber=4402483
+
+HOW TO USE ASTRAN:
+
+- USING GUI:
+There is a video tutorial that can be usefull in: https://www.youtube.com/watch?v=IFbCDSMi_FE
+
+1. Open Astran in the bin folder
+
+2. Load the technology file: File -> Load -> Technology
+    There are some example files in the Work folder. E.g.:  tech_0065.rul
+    You can also edit the rules in View -> Rules
+
+3. Load the Spice Netlist file: File -> Load -> Netlist
+    There are some example files in the Work folder. E.g.: Biblioteca.sp
+    Astran will populate the "Cells" list with each of your subckts in your spice file.
+
+4. Setup the Circuit Preferences: View -> Circuit
+
+5. Open Cellgen window: Cells -> Cellgen
+
+6. Select your cell and click in "Generate Cell" to execute the flow automatically. You can also execute the flow step by step and change the parameters if you prefer. Click in View Layout to view the result.
+
+7. Refresh the main window and your layout will show in the "Layouts" list (double-click to view them). Now you can save the Library (File -> Save -> Layouts) or export individual cells to CIF, GDII or C2C (cadence CIF import script, follow the instructions...) formats (select them before).
+
+EXPERIMENTAL:
+
+8. Generate the layout of each of your cells and execute: Cells -> Calculate Pin's Position. The tool will mark the I/O pins of the cells with its name.
+
+9. Place -> Specify Floorplan
+
+10. Place -> Terminals
+
+11. Place -> MobralPlace
+
+12. Place -> Verify
+
+13. Place -> Autoflip. Astran will flip the cells to reduce wirelenth. (OBS.: The SightGL viewer doesn't support cell mirror in both X and Y axis)
+
+14. Place -> Incremental Place will fix any problem during the placement step. It will also try to insert blank spaces in congested areas after the routing step.
+
+15. Route -> NBRouter. Enter the number of attempts before give up (e.g. 1000)
+
+16. (Optional) Route -> Optimize. Will try to insert stainer points to reduce the routing (it's a very slow step)
+
+17. Route -> Compact. Generates the routing layout and adds it to the Layouts list.
+
+- USING SHELL:
+1. .$ ./Astran --shell
+
+2. Follow the example:
+set lpsolve "/Library/gurobi502/mac64/bin/gurobi_cl"
+load technology "~/Astran/Work/tech_0065.rul"
+load netlist "~/Astran/Work/Biblioteca.sp"
+cellgen select INV0
+cellgen fold 2 0
+cellgen place 150 3 3 4 1 4 2
+cellgen route 1 0 1
+cellgen compact 1 0 50 2 1 1 0 0 0 3600
+export layout INV0 INV0.cif
+
+3. help -> for more information
+
+4. exit
+
+- USING A SCRIPT FILE:
+1. .$ ./Astran script.run
+
+```

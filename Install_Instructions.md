@@ -1,0 +1,98 @@
+
+```
+<pre>
+THANK YOU FOR YOUR INTEREST IN ASTRAN
+
+HOW TO COMPILE THE SOURCE CODE:
+
+- LINUX:
+1. $ sudo apt-get install git
+2. $ git clone https://code.google.com/p/gme-ufrgs/
+3. $ sudo apt-get install libwxgtk2.8-dev
+4. $ sudo apt-get install g++
+5. $ cd gme-ufrgs/Astran/src/
+6. $ g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
+
+- MAC:
+0. If you are using Mac OS X 10.9/10.10, download wxWidgets 3.x source code for OS X:
+    http://www.wxwidgets.org/downloads/
+    Follow the instructions:
+        $ tar jxvf wxWidgets-3.0.2.tar.bz2
+        $ cd wxWidgets-3.0.2
+        $ mkdir build-release
+        $ cd build-release
+        $ ../configure --with-opengl --disable-shared --with-osx_cocoa --with-macosx-version-min=10.9 --with-macosx-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk  (change the sdk path if needed)
+        $ make (this can take several minutes)
+        $ sudo make install (will install wxWidgets in your /usr/local)
+
+1. $ git clone https://code.google.com/p/gme-ufrgs/
+2. If you want to use Xcode:
+    Load the Xcode Project inside the Astran folder.
+    Run in the Terminal (only needed if using wxWidgets different than mine):
+        $ wx-config --libs
+        Paste the output in: Astran -> Targets (Astran) -> Build Settings -> "Other Linker Flags"
+        $ echo `wx-config --static=yes --cxxflags` -D_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_
+        Paste the output in: Astran -> Targets (Astran) -> Build Settings -> "Other C Flags"
+    Compile Astran normally
+2. If you want to compile using command line:
+    $ cd gme-ufrgs/Astran/src
+    $ g++ *.cpp -o ../build/bin/Astran `wx-config --static=yes --cxxflags --libs` -D_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_ -O3
+
+- WINDOWS
+1. Download GIT from http://git-scm.com/downloads and install
+2. git clone https://code.google.com/p/gme-ufrgs/
+3. Download and install Visual C++ Express 2010 from
+ http://www.microsoft.com/visualstudio/eng/downloads#d-2010-express
+4. Donwload wxMSW 2.8.12 from http://www.wxwidgets.org/downloads/
+... (incomplete)
+
+INSTALL INSTRUCTIONS:
+
+1. Download Astran from the google code repository. If you compiled
+ Astran from source code, jump to step 3.
+https://code.google.com/p/gme-ufrgs/downloads/list
+
+2. Unzip
+$ unzip Astran.zip
+or
+$ tar xzvf Astran.tar.gz
+
+3. Download Gurobi Optimizer from:
+http://www.gurobi.com/download/gurobi-optimizer
+
+    You need to register first. After that, install the latest version
+ supported by your SO (e.g. 5.0.2 for Mac OS X 10.6). You gonna need to
+ acquire a valid license to use Gurobi, it's free for academic use:
+http://www.gurobi.com/download/licenses/free-academic
+
+   Follow the instructions to install the license, they will ask you to
+ run a command to validate the license.
+
+   PS.: The Free Trial license is limited to 2.000 variables and
+ constraints, you will only be able to generate very small circutis.
+ The academic license on the other hand is unlimited.
+
+4. Run the file Astran/bin/Astran
+    MAC OS: If you are using Mac OS X 10.9 or earlier, do the step 0 of 
+     (COMPILING SOURCE CODE) before.
+
+5. You need to setup the tool in order to use it. Open View->Preferences
+ and set the path to gurobi_cl:
+    MAC OS: It's usually in /Library/gurobi502/mac64/bin/gurobi_cl
+
+6. Set the path to your CIF viewer too. You can use wxSightGL, it's
+ usually inside the Tools folder for your SO. You can also download it
+ from 
+    https://code.google.com/p/gme-ufrgs/downloads/list
+    
+    MAC OS: Install it in your Applications folder and set the path to:
+ /Applications/wxSightGL.app/Contents/MacOS/wxSightGL
+    LINUX: Execute: sudo apt-get install freeglut3-dev
+    WINDOWS: Download the opengl dll (glut32.dll) to your
+ c:\windows\system32 directory:
+    http://www.dll-files.com/dllindex/dll-files.shtml?glut32
+
+IMPORTANT TIP: Edit astran.cfg  and save the configuration so you don't
+ have to set it again when you run the tool again.
+</pre>
+```
