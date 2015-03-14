@@ -1,4 +1,7 @@
-# ASTRAN is a free, open source, physical synthesis framework for Mac and Linux
+
+#ASTRAN - Automatic Synthesis of Transistor Networks 
+
+ASTRAN is a free, open source, physical synthesis framework for Mac and Linux
 
 It supports automatic layout generation of CMOS cells from a transistor level netlist description in SPICE format. Area overhead compared to high quality hand-made standard-cells layouts is 3.7% on average.
 It's functionality is being extended to produce complete circuit layouts. Features include transistor sizing, floorplanning, cell placement, and routing. The framework is very modular and new contributions to this project are welcome.
@@ -18,5 +21,5 @@ TIP: Download and install always the latest version directly from the GIT reposi
 There is a video tutorial that can be usefull in: https://www.youtube.com/watch?v=IFbCDSMi_FE
 Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrgs.br
 
-If you are using my tool, please cite: ISVLSI'14 or visit my profile for other works
+If you are using my tool, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.
 
