@@ -6,6 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 
 #include "wxinterface.h"
+#include "wxicons.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -44,36 +45,36 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* load_technology;
 	load_technology = new wxMenuItem( file_load, wxID_ANY, wxString( wxT("Technology") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	load_technology->SetBitmaps( wxBitmap( wxT("../Images/load_tec.png"), wxBITMAP_TYPE_ANY ) );
+	load_technology->SetBitmaps( wxGetBitmapFromMemory(load_tec));
 	#elif defined( __WXGTK__ )
-	load_technology->SetBitmap( wxBitmap( wxT("../Images/load_tec.png"), wxBITMAP_TYPE_ANY ) );
+	load_technology->SetBitmap( wxGetBitmapFromMemory(load_tec));
 	#endif
 	file_load->Append( load_technology );
 	
 	wxMenuItem* load_netlist;
 	load_netlist = new wxMenuItem( file_load, wxID_ANY, wxString( wxT("Netlist") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	load_netlist->SetBitmaps( wxBitmap( wxT("../Images/load_net.png"), wxBITMAP_TYPE_ANY ) );
+	load_netlist->SetBitmaps( wxGetBitmapFromMemory(load_net));
 	#elif defined( __WXGTK__ )
-	load_netlist->SetBitmap( wxBitmap( wxT("../Images/load_net.png"), wxBITMAP_TYPE_ANY ) );
+	load_netlist->SetBitmap( wxGetBitmapFromMemory(load_net));
 	#endif
 	file_load->Append( load_netlist );
 	
 	wxMenuItem* load_layouts;
 	load_layouts = new wxMenuItem( file_load, wxID_ANY, wxString( wxT("Layouts") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	load_layouts->SetBitmaps( wxBitmap( wxT("../Images/load_lay.png"), wxBITMAP_TYPE_ANY ) );
+	load_layouts->SetBitmaps( wxGetBitmapFromMemory(load_lay));
 	#elif defined( __WXGTK__ )
-	load_layouts->SetBitmap( wxBitmap( wxT("../Images/load_lay.png"), wxBITMAP_TYPE_ANY ) );
+	load_layouts->SetBitmap( wxGetBitmapFromMemory(load_lay));
 	#endif
 	file_load->Append( load_layouts );
 	
 	wxMenuItem* load_placement;
 	load_placement = new wxMenuItem( file_load, wxID_ANY, wxString( wxT("Placement") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	load_placement->SetBitmaps( wxBitmap( wxT("../Images/load_pl.png"), wxBITMAP_TYPE_ANY ) );
+	load_placement->SetBitmaps( wxGetBitmapFromMemory(load_pl));
 	#elif defined( __WXGTK__ )
-	load_placement->SetBitmap( wxBitmap( wxT("../Images/load_pl.png"), wxBITMAP_TYPE_ANY ) );
+	load_placement->SetBitmap( wxGetBitmapFromMemory(load_pl));
 	#endif
 	file_load->Append( load_placement );
 	
@@ -97,27 +98,27 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* save_netlist;
 	save_netlist = new wxMenuItem( file_save, wxID_ANY, wxString( wxT("Netlist") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	save_netlist->SetBitmaps( wxBitmap( wxT("../Images/save_net.png"), wxBITMAP_TYPE_ANY ) );
+	save_netlist->SetBitmaps( wxGetBitmapFromMemory(save_net));
 	#elif defined( __WXGTK__ )
-	save_netlist->SetBitmap( wxBitmap( wxT("../Images/save_net.png"), wxBITMAP_TYPE_ANY ) );
+	save_netlist->SetBitmap( wxGetBitmapFromMemory(save_net));
 	#endif
 	file_save->Append( save_netlist );
 	
 	wxMenuItem* save_layouts;
 	save_layouts = new wxMenuItem( file_save, wxID_ANY, wxString( wxT("Layouts") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	save_layouts->SetBitmaps( wxBitmap( wxT("../Images/save_lay.png"), wxBITMAP_TYPE_ANY ) );
+	save_layouts->SetBitmaps(wxGetBitmapFromMemory(save_lay));
 	#elif defined( __WXGTK__ )
-	save_layouts->SetBitmap( wxBitmap( wxT("../Images/save_lay.png"), wxBITMAP_TYPE_ANY ) );
+	save_layouts->SetBitmap(wxGetBitmapFromMemory(save_lay));
 	#endif
 	file_save->Append( save_layouts );
 	
 	wxMenuItem* save_placement;
 	save_placement = new wxMenuItem( file_save, wxID_ANY, wxString( wxT("Placement") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	save_placement->SetBitmaps( wxBitmap( wxT("../Images/save_pl.png"), wxBITMAP_TYPE_ANY ) );
+	save_placement->SetBitmaps(wxGetBitmapFromMemory(save_pl));
 	#elif defined( __WXGTK__ )
-	save_placement->SetBitmap( wxBitmap( wxT("../Images/save_pl.png"), wxBITMAP_TYPE_ANY ) );
+	save_placement->SetBitmap(wxGetBitmapFromMemory(save_pl));
 	#endif
 	file_save->Append( save_placement );
 	
@@ -168,9 +169,9 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* read_script;
 	read_script = new wxMenuItem( menu_file, wxID_ANY, wxString( wxT("Read Script") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	read_script->SetBitmaps( wxBitmap( wxT("../Images/read_script.png"), wxBITMAP_TYPE_ANY ) );
+	read_script->SetBitmaps(wxGetBitmapFromMemory(read_script));
 	#elif defined( __WXGTK__ )
-	read_script->SetBitmap( wxBitmap( wxT("../Images/read_script.png"), wxBITMAP_TYPE_ANY ) );
+	read_script->SetBitmap(wxGetBitmapFromMemory(read_script));
 	#endif
 	menu_file->Append( read_script );
 	
@@ -183,9 +184,9 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* exit;
 	exit = new wxMenuItem( menu_file, wxID_ANY, wxString( wxT("Exit") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	exit->SetBitmaps( wxBitmap( wxT("../Images/close.png"), wxBITMAP_TYPE_ANY ) );
+	exit->SetBitmaps( wxGetBitmapFromMemory(close));
 	#elif defined( __WXGTK__ )
-	exit->SetBitmap( wxBitmap( wxT("../Images/close.png"), wxBITMAP_TYPE_ANY ) );
+	exit->SetBitmap( wxGetBitmapFromMemory(close));
 	#endif
 	menu_file->Append( exit );
 	
@@ -195,27 +196,27 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* view_rules;
 	view_rules = new wxMenuItem( menu_view, wxID_ANY, wxString( wxT("Rules...") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	view_rules->SetBitmaps( wxBitmap( wxT("../Images/view_rules.png"), wxBITMAP_TYPE_ANY ) );
+	view_rules->SetBitmaps( wxGetBitmapFromMemory(view_rules));
 	#elif defined( __WXGTK__ )
-	view_rules->SetBitmap( wxBitmap( wxT("../Images/view_rules.png"), wxBITMAP_TYPE_ANY ) );
+	view_rules->SetBitmap( wxGetBitmapFromMemory(view_rules));
 	#endif
 	menu_view->Append( view_rules );
 	
 	wxMenuItem* view_circuit;
 	view_circuit = new wxMenuItem( menu_view, wxID_ANY, wxString( wxT("Circuit...") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	view_circuit->SetBitmaps( wxBitmap( wxT("../Images/view_cir.png"), wxBITMAP_TYPE_ANY ) );
+	view_circuit->SetBitmaps( wxGetBitmapFromMemory(view_cir));
 	#elif defined( __WXGTK__ )
-	view_circuit->SetBitmap( wxBitmap( wxT("../Images/view_cir.png"), wxBITMAP_TYPE_ANY ) );
+	view_circuit->SetBitmap( wxGetBitmapFromMemory(view_cir));
 	#endif
 	menu_view->Append( view_circuit );
 	
 	wxMenuItem* view_preferences;
 	view_preferences = new wxMenuItem( menu_view, wxID_ANY, wxString( wxT("Preferences...") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	view_preferences->SetBitmaps( wxBitmap( wxT("../Images/view_pref.png"), wxBITMAP_TYPE_ANY ) );
+	view_preferences->SetBitmaps( wxGetBitmapFromMemory(view_pref));
 	#elif defined( __WXGTK__ )
-	view_preferences->SetBitmap( wxBitmap( wxT("../Images/view_pref.png"), wxBITMAP_TYPE_ANY ) );
+	view_preferences->SetBitmap( wxGetBitmapFromMemory(view_pref));
 	#endif
 	menu_view->Append( view_preferences );
 	
@@ -240,9 +241,9 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* netlist_cellgen;
 	netlist_cellgen = new wxMenuItem( menu_cells, wxID_ANY, wxString( wxT("CellGen...") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	netlist_cellgen->SetBitmaps( wxBitmap( wxT("../Images/view_cellgen.png"), wxBITMAP_TYPE_ANY ) );
+	netlist_cellgen->SetBitmaps( wxGetBitmapFromMemory(view_cellgen));
 	#elif defined( __WXGTK__ )
-	netlist_cellgen->SetBitmap( wxBitmap( wxT("../Images/view_cellgen.png"), wxBITMAP_TYPE_ANY ) );
+	netlist_cellgen->SetBitmap( wxGetBitmapFromMemory(view_cellgen));
 	#endif
 	menu_cells->Append( netlist_cellgen );
 	
@@ -310,9 +311,9 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxMenuItem* help_about;
 	help_about = new wxMenuItem( menu_help, wxID_ANY, wxString( wxT("About ICPD") ) , wxEmptyString, wxITEM_NORMAL );
 	#ifdef __WXMSW__
-	help_about->SetBitmaps( wxBitmap( wxT("../Images/help.png"), wxBITMAP_TYPE_ANY ) );
+	help_about->SetBitmaps( wxGetBitmapFromMemory(help));
 	#elif defined( __WXGTK__ )
-	help_about->SetBitmap( wxBitmap( wxT("../Images/help.png"), wxBITMAP_TYPE_ANY ) );
+	help_about->SetBitmap( wxGetBitmapFromMemory(help));
 	#endif
 	menu_help->Append( help_about );
 	
@@ -325,43 +326,43 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->SetMenuBar( barra_menu );
 	
 	toolbar = this->CreateToolBar( wxTB_FLAT|wxTB_HORIZONTAL, wxID_ANY ); 
-	toolbar->AddTool( ID_readscript, wxT("tool_readscript"), wxBitmap( wxT("../Images/read_script.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Read Script"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_readscript, wxT("tool_readscript"), wxGetBitmapFromMemory(read_script), wxNullBitmap, wxITEM_NORMAL, wxT("Read Script"), wxEmptyString, NULL );
 	
 	toolbar->AddSeparator(); 
 	
-	toolbar->AddTool( ID_opentech, wxT("tool_opentech"), wxBitmap( wxT("../Images/load_tec.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Load Technology"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_opentech, wxT("tool_opentech"), wxGetBitmapFromMemory(load_tec), wxNullBitmap, wxITEM_NORMAL, wxT("Load Technology"), wxEmptyString, NULL );
 	
-	toolbar->AddTool( ID_opennetlist, wxT("tool_opennetlist"), wxBitmap( wxT("../Images/load_net.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Load Netlist"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_opennetlist, wxT("tool_opennetlist"), wxGetBitmapFromMemory(load_net), wxNullBitmap, wxITEM_NORMAL, wxT("Load Netlist"), wxEmptyString, NULL );
 	
-	toolbar->AddTool( ID_openlibrary, wxT("tool_openlibrary"), wxBitmap( wxT("../Images/load_lay.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Load Layouts"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_openlibrary, wxT("tool_openlibrary"), wxGetBitmapFromMemory(load_lay), wxNullBitmap, wxITEM_NORMAL, wxT("Load Layouts"), wxEmptyString, NULL );
 	
-	toolbar->AddTool( ID_openplacement, wxT("tool_openplacement"), wxBitmap( wxT("../Images/load_pl.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Load Placement"), wxEmptyString, NULL ); 
-	
-	toolbar->AddSeparator(); 
-	
-	toolbar->AddTool( ID_savenetlist, wxT("tool_savenetlist"), wxBitmap( wxT("../Images/save_net.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Save Netlist"), wxEmptyString, NULL ); 
-	
-	toolbar->AddTool( ID_savelayout, wxT("tool_savelayouts"), wxBitmap( wxT("../Images/save_lay.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Save Layouts"), wxEmptyString, NULL ); 
-	
-	toolbar->AddTool( ID_savepl, wxT("tool_savepl"), wxBitmap( wxT("../Images/save_pl.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Save Placement"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_openplacement, wxT("tool_openplacement"), wxGetBitmapFromMemory(load_pl), wxNullBitmap, wxITEM_NORMAL, wxT("Load Placement"), wxEmptyString, NULL );
 	
 	toolbar->AddSeparator(); 
 	
-	toolbar->AddTool( ID_rules, wxT("tool_rules"), wxBitmap( wxT("../Images/view_rules.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("View Rules"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_savenetlist, wxT("tool_savenetlist"), wxGetBitmapFromMemory(save_net), wxNullBitmap, wxITEM_NORMAL, wxT("Save Netlist"), wxEmptyString, NULL );
 	
-	toolbar->AddTool( ID_circuit, wxT("tool_circuit"), wxBitmap( wxT("../Images/view_cir.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("View Circuit"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_savelayout, wxT("tool_savelayouts"), wxGetBitmapFromMemory(save_lay), wxNullBitmap, wxITEM_NORMAL, wxT("Save Layouts"), wxEmptyString, NULL );
 	
-	toolbar->AddTool( ID_cellgen, wxT("tool_cellgen"), wxBitmap( wxT("../Images/view_cellgen.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("View CellGen"), wxEmptyString, NULL ); 
-	
-	toolbar->AddTool( ID_preferences, wxT("tool_preferences"), wxBitmap( wxT("../Images/view_pref.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("View Preferences"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_savepl, wxT("tool_savepl"), wxGetBitmapFromMemory(save_pl), wxNullBitmap, wxITEM_NORMAL, wxT("Save Placement"), wxEmptyString, NULL );
 	
 	toolbar->AddSeparator(); 
 	
-	toolbar->AddTool( ID_refresh, wxT("tool_refresh"), wxBitmap( wxT("../Images/refresh.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_rules, wxT("tool_rules"), wxGetBitmapFromMemory(view_rules), wxNullBitmap, wxITEM_NORMAL, wxT("View Rules"), wxEmptyString, NULL );
+	
+	toolbar->AddTool( ID_circuit, wxT("tool_circuit"), wxGetBitmapFromMemory(view_cir), wxNullBitmap, wxITEM_NORMAL, wxT("View Circuit"), wxEmptyString, NULL );
+	
+	toolbar->AddTool( ID_cellgen, wxT("tool_cellgen"), wxGetBitmapFromMemory(view_cellgen), wxNullBitmap, wxITEM_NORMAL, wxT("View CellGen"), wxEmptyString, NULL );
+	
+	toolbar->AddTool( ID_preferences, wxT("tool_preferences"), wxGetBitmapFromMemory(view_pref), wxNullBitmap, wxITEM_NORMAL, wxT("View Preferences"), wxEmptyString, NULL );
 	
 	toolbar->AddSeparator(); 
 	
-	toolbar->AddTool( ID_help, wxT("tool_help"), wxBitmap( wxT("../Images/help.png"), wxBITMAP_TYPE_ANY ), wxNullBitmap, wxITEM_NORMAL, wxT("Help"), wxEmptyString, NULL ); 
+	toolbar->AddTool( ID_refresh, wxT("tool_refresh"), wxGetBitmapFromMemory(refresh), wxNullBitmap, wxITEM_NORMAL, wxT("Refresh"), wxEmptyString, NULL );
+	
+	toolbar->AddSeparator(); 
+	
+	toolbar->AddTool( ID_help, wxT("tool_help"), wxGetBitmapFromMemory(help), wxNullBitmap, wxITEM_NORMAL, wxT("Help"), wxEmptyString, NULL );
 	
 	toolbar->Realize(); 
 	

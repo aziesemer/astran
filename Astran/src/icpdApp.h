@@ -15,7 +15,8 @@
 #else
 	#include <wx/wxprec.h>
 #endif
-
+#include "icpdfrm.h"
+#include <wx/wx.h>
 
 class icpdFrmApp : public wxApp
 {

@@ -8,6 +8,10 @@
 #ifndef __WXINTERFACE_H__
 #define __WXINTERFACE_H__
 
+#include <wx/stdpaths.h>
+#include <wx/file.h>
+#include <wx/mstream.h>
+
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
@@ -48,6 +52,13 @@
 #define ID_preferences 1011
 #define ID_refresh 1012
 #define ID_help 1013
+
+#define wxGetBitmapFromMemory(name) _wxGetBitmapFromMemory(name ## _img, sizeof(name ## _img))
+inline wxBitmap _wxGetBitmapFromMemory(const unsigned char *data, int length)
+{
+    wxMemoryInputStream is(data, length);
+    return wxBitmap(wxImage(is, wxBITMAP_TYPE_ANY, -1), -1);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class ICPD_frm

@@ -46,6 +46,7 @@
 /* Begin PBXFileReference section */
 		BC0C597218529EEC00F47434 /* tech_freePDK45.rul */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = tech_freePDK45.rul; path = ../build/Work/tech_freePDK45.rul; sourceTree = "<group>"; };
 		BC0C59751853807E00F47434 /* tech_035.rul */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = tech_035.rul; path = ../build/Work/tech_035.rul; sourceTree = "<group>"; };
+		BC64D7DE1B2648BD0048D30A /* wxicons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxicons.h; sourceTree = "<group>"; };
 		BC97A4DB178F2B1E0002254A /* Astran.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Astran.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC97A4E7178F2B1E0002254A /* Astran-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Astran-Info.plist"; sourceTree = "<group>"; };
 		BC97A4ED178F2B1E0002254A /* Astran-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Astran-Prefix.pch"; sourceTree = "<group>"; };
@@ -221,6 +222,7 @@
 				BCF19DA318183D10000FA8CA /* wxpreferences.h */,
 				BC97A533178F2BBE0002254A /* wxrules.cpp */,
 				BC97A534178F2BBE0002254A /* wxrules.h */,
+				BC64D7DE1B2648BD0048D30A /* wxicons.h */,
 			);
 			name = src;
 			path = ../src;

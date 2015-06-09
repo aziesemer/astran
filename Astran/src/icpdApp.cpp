@@ -7,10 +7,7 @@
 //
 //---------------------------------------------------------------------------
 
-#include <wx/wx.h>
-
 #include "icpdApp.h"
-#include "icpdfrm.h"
 
 using namespace std;
 
