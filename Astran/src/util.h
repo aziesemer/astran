@@ -74,6 +74,12 @@ inline string intToStr(int pos){
 	return tmp.str();
 }
 
+inline string doubleToStr(double pos){
+    ostringstream tmp;
+    tmp << pos;
+    return tmp.str();
+}
+
 inline int strToInt( const string &s){
 	istringstream myStream(s);
 	int i;

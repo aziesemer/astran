@@ -1346,17 +1346,15 @@ string AutoCell::insertVia(vector<Box*> &geometries, compaction &cpt, string met
     
     //choose a kind of metal area format
     if(minArea){
-        cpt.forceBinaryVar("b" + via + "_1A"); // linear
-        cpt.forceBinaryVar("b" + via + "_2A"); //square
-        
-        cpt.insertConstraint("ZERO", "b" + via + "_1A" + " + " + "b" + via + "_2A", CP_EQ, 1);
-        
-        cpt.insertConstraint("ZERO", "x" + metNode +  "_width" + " + " + "y" + metNode +  "_width", CP_MIN, "b" + via + "_1A", currentRules->getIntValue(currentRules->getRulef(A1M1)/currentRules->getRulef(W2VI)+currentRules->getRulef(W2VI)));
-        cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN,  "x" + metNode +  "_width");
-        cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "y" + metNode +  "_width");
-        
-        cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
-        cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_MIN, "b" + via + "_2A", currentRules->getIntValue(sqrt(currentRules->getRulef(A1M1))));
+        cpt.insertConstraint("x" + metNode + "a", "x" + metNode + "b", CP_EQ,  "x" + metNode +  "_width");
+        cpt.insertConstraint("y" + metNode + "a", "y" + metNode + "b", CP_EQ, "y" + metNode +  "_width");
+
+        double A=currentRules->getRulef(A1M1);
+        double W=currentRules->getRulef(W2VI);
+        double tmp1=(sqrt(A)-(A/W))/(sqrt(A)-W);
+        cpt.insertConstraint("ZERO", "y" + metNode +  "_width" + " + " + doubleToStr(-tmp1) + " x" + metNode +  "_width", CP_MIN, currentRules->getIntValue(A/W-W*tmp1));
+        double tmp2=(sqrt(A)-W)/(sqrt(A)-(A/W));
+        cpt.insertConstraint("ZERO", "y" + metNode +  "_width" + " + " + doubleToStr(-tmp2) + " x" + metNode +  "_width", CP_MIN, currentRules->getIntValue(W-(A/W)*tmp2));
     }
     
     //allign via to the routing grid
