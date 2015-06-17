@@ -1144,6 +1144,7 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
         }
         //merge new diffusion to the last one and maximize intersection
         if (lastGate != "") {
+            if (lastDiff=="")  throw AstranError("Float source/drain is not supported by ASTRAN (net degree = 1). Check your spice netlist!");
             cpt.insertConstraint("x" + newDiff + "a", "x" + lastDiff + "b", CP_MIN, 0);
             cpt.insertConstraint("y" + newDiff + "b_int", "y" + lastDiff + "b", CP_MIN, 0);
             cpt.insertConstraint("y" + newDiff + "b_int", "y" + newDiff + "b", CP_MIN, 0);
@@ -1203,6 +1204,7 @@ string AutoCell::newDif(vector<Box*> &geometries, compaction &cpt, string &lastG
         cpt.forceBinaryVar("b" + lastDiff + "_LshapeAfterGate");
         cpt.forceBinaryVar("b" + lastDiff + "_LshapeAfterGateIn");
         cpt.forceBinaryVar("b" + lastDiff + "_LshapeAfterGateOut");
+        
         cpt.insertConstraint("b" + lastDiff + "_applyS2AfterGate", "b" + lastDiff + "_LshapeAfterGate", CP_MAX, "b" + lastGate + "_applyExtraExtAfterGate");
         cpt.insertConstraint("y" + lastGate + "a", "y" + lastDiff + "a", CP_MIN, currentRules->getRule(E1P1DF));
         cpt.insertConstraint("y" + lastGate + "a", "y" + lastDiff + "a", CP_MIN, "b" + lastGate + "_applyExtraExtAfterGate", currentRules->getRule(E2P1DF));

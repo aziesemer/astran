@@ -336,8 +336,8 @@ void CellNetlst::print(){
 	}
 */	cout << "-> Transistors: " << endl;
 	for(int tmp=0; tmp<trans.size(); tmp++)
-		cout << trans[tmp].name << "\t\t" << nets[trans[tmp].drain].name << "\t\t" << nets[trans[tmp].gate].name << "\t\t" << nets[trans[tmp].source].name << "\t\t" <<
-			trans[tmp].type << "\t\t" << trans[tmp].length << "\t\t" << trans[tmp].width << endl;
+		cout << trans[tmp].name << "     " << nets[trans[tmp].drain].name << "     " << nets[trans[tmp].gate].name << "     " << nets[trans[tmp].source].name << "     " <<
+        (trans[tmp].type?"NMOS":"PMOS") << "     L=" << trans[tmp].length << "     W=" << trans[tmp].width << endl;
 	cout << "-> Instances: " << endl;
 	for(map<string,Inst>::iterator tmp=instances.begin(); tmp!=instances.end(); ++tmp){
 		cout << tmp->first << " ";
