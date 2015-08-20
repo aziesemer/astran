@@ -71,6 +71,19 @@ protected:
 	int PorN, custo_atual, custo_anterior;
 	int wGaps, mismatchesGate, wRouting, maxCong, posPN, wCost, gmCost, rCost, congCost, ngCost;
         string vddNet, gndNet;
+    
+    //Atributos para novo folding
+    vector<int> gates; //Vetor que armazenará as nets que são gates
+    vector<int> outs; //Vetor que armazenara o indice das nets que sao saidas
+    int gnd; // Net que e GND
+    int vcc; // Net que e VCC/VDD
+    vector<int> visitToFolding; //Transistores que ja foram visitados na busca dos transistores em serie
+    int **transToFolding; /*Matriz que armazena os transistores que estao em serie.
+                           *Cada linha sera uma sequencia de transistores em serie, e cada coluna desta linha, sera um transistor desta serie*/
+    int totalTrans; //Quantida total de transistores da celula
+    int lineToFolding; //Iterador das linhas da matriz dos transistores que estao em serie
+    int columnToFolding; //Iterador das colunas da matriz dos transistores que estao em serie
+    
 	bool eulerpath();
 	bool visit(int nDifs, t_net2& transP, t_net2& transN);
 	bool visit(int nDifs);
@@ -119,6 +132,17 @@ public:
 	int GetProblemSize(); //Retorna um numero qualquer que indica o tamanho do problem (ex. numero de transistores)
 	void UndoPerturbation(); //Desfaz a ultima perturbacao
 	bool isIO(string n);
+    
+    //Métodos para o algoritmo de folging nas series
+    bool defineIOToGraph();
+    bool isOut(int out_id);
+    bool isGate(int gate_id);
+    bool wasVisit(int indexNet);
+    int getSeriesToFolding(int currentNet, int currentTrans, int nextNet);
+    void findSeriesToFolding(int startNet);
+    void foldingSeries(float pSize, float nSize);
+    bool seriesFolding(int numSequence, int numTrans, int numLegs, int biggerTrans);
+    
 };
 
 #endif
