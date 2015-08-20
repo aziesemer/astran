@@ -254,6 +254,11 @@ bool CellNetlst::check(){
 void CellNetlst::folding(float pSize, float nSize){
 	orderingP.clear();
 	orderingN.clear();
+    
+    //Aplica o folding nas series da rede de transistores
+    this->defineIOToGraph();
+    this->foldingSeries(pSize, nSize);
+    
 	for(int c=0; c<trans.size(); c++){
 		switch(trans[c].type){
 			case PMOS:
@@ -614,3 +619,320 @@ string CellNetlst::getInout(int n){
 	}
 	return "";
 }
+
+bool CellNetlst::defineIOToGraph(){
+    //Define quais sao as entradas e saidas, tanto "externas" quanto "internas" de cada circuito
+    list<t_net2>::iterator net2_it;
+    list<t_net2>::iterator net2Aux_it;
+    vector<int>::iterator gates_it;
+    vector<int>::iterator outs_it;
+    
+    try{
+        //Definir quais nets sao gates, para posteriormente ter as saidas "internas"
+        for (int i = 0; i < this->trans.size(); i++){
+            if (gates.empty())
+                gates.push_back(trans[i].gate);
+            if (!isGate(trans[i].gate))
+                gates.push_back(trans[i].gate);
+        }
+        //Determinar qual o indice da net que é vcc e gnd
+        for (int i = 0; i < nets.size(); i++) {
+            if(nets[i].name=="VDD" || nets[i].name=="VCC")
+                this->vcc = i;
+            if(nets[i].name=="GND" || nets[i].name=="0")
+                this->gnd = i;
+        }
+        
+        //Definir as saidas "interna", ou seja, que nao estao descritas no arquivo spice, mas sao internamente utilizadas como saida
+        //Se a net for gate e também for drain/source, quer dizer que ela é uma saída interna, visto que este drain/source sera gate em outro transistor
+        for (gates_it = gates.begin(); gates_it != gates.end(); gates_it++){
+            for (net2_it = nets[*gates_it].trans.begin(); net2_it != nets[*gates_it].trans.end(); net2_it++){
+                if ((net2_it->type == DRAIN || net2_it->type == SOURCE) && (!isOut(*gates_it))){
+                    outs.push_back(*gates_it);
+                    break;
+                }
+            }
+        }
+        
+        //Definir as saidas 'externas' do circuito
+        for (int i = 0; i < this->inouts.size(); i++){
+            for (net2_it = nets[inouts[i]].trans.begin(); net2_it != nets[inouts[i]].trans.end(); net2_it++){
+                for (net2Aux_it = nets[inouts[i]].trans.begin(); net2Aux_it != nets[inouts[i]].trans.end(); net2Aux_it++ ){
+                    if ((trans[net2Aux_it->link].type != trans[net2_it->link].type) && (!isGate(inouts[i]))){
+                        if (!isOut(inouts[i])){
+                            outs.push_back(inouts[i]);
+                        }
+                    }
+                }
+            }
+        }
+        
+        return true;
+        
+    } catch(exception){
+        cout << "\n-> Error: CellNetlst_defineIOToGraph method";
+    }
+    return false;
+}
+
+bool CellNetlst::isOut(int out_id){ // Testa se ID eh uma saida armazenada no vetor de saidas;
+    for (int j = 0; j < outs.size(); j++){
+        if (out_id == outs[j]) return true;
+    }
+    return false;
+}
+
+bool CellNetlst::isGate(int gate_id){ //Testa se ID eh um gate armazenado no vetor dos gates
+    for (int j = 0; j < gates.size(); j++){
+        if (gate_id == gates[j]) return true;
+    }
+    return false;
+}
+
+bool CellNetlst::wasVisit(int indexNet){
+    for (int i = 0; i < visitToFolding.size(); i++){
+        if (visitToFolding[i] == indexNet) return true;
+    }
+    return false;
+}
+
+int CellNetlst::getSeriesToFolding(int currentNet, int currentTrans, int nextNet){
+    //Descobrir quais transistores estao em serie, para aplicar o folding
+    try{
+        this->columnToFolding = -1;
+        do {
+            // Preencher matriz com os transistores que estao em serie.
+            this->columnToFolding++;
+            this->transToFolding[this->lineToFolding][this->columnToFolding] = currentTrans;
+            
+            if (nets[nextNet].trans.front().link == currentTrans){
+                currentTrans = nets[nextNet].trans.back().link;
+                if (trans[currentTrans].drain == nextNet){
+                    nextNet = trans[currentTrans].source;
+                } else nextNet = trans[currentTrans].drain;
+                
+            } else {
+                currentTrans = nets[nextNet].trans.front().link;
+                
+                if (trans[currentTrans].drain == nextNet){
+                    nextNet = trans[currentTrans].source;
+                } else nextNet = trans[currentTrans].drain;
+            }
+            
+        }while ((nets[nextNet].trans.size() == 2)
+                && (!isOut(nextNet))
+                && (nextNet != this->gnd)
+                && (nextNet != this->vcc));
+        this->columnToFolding++;
+        this->transToFolding[this->lineToFolding][this->columnToFolding] = currentTrans;
+        this->lineToFolding++;
+        return nextNet;
+        
+    } catch (exception) {
+        cout << "\n-> Error: CellNetlst_getSeriesToFolding method";
+    }
+    return -1;
+}
+
+void CellNetlst::findSeriesToFolding(int startNet){
+    //Metodo que apartir de um determinado vertice, procura os transistores que estao em serie
+    list<t_net2>::iterator transNet_it;
+    int nextNet;
+    try {
+        
+        if(isOut(startNet) || wasVisit(startNet)) return;
+        
+        this->visitToFolding.push_back(startNet);
+        
+        for (transNet_it = nets[startNet].trans.begin(); transNet_it != nets[startNet].trans.end(); transNet_it++){
+            if (transNet_it->type == SOURCE){
+                nextNet = trans[transNet_it->link].drain;
+            } else {
+                nextNet = trans[transNet_it->link].source;
+            }
+            
+            if ((nets[nextNet].trans.size() == 2) && (!isOut(nextNet)) && (nextNet != startNet)){
+                //Método que procura os vertices em serie;
+                nextNet = this->getSeriesToFolding(startNet, transNet_it->link , nextNet);
+            }
+            if((!wasVisit(nextNet)) && (nextNet != this->gnd) && (nextNet != this->vcc)){
+                this->findSeriesToFolding(nextNet);
+            }
+        }
+        
+    } catch (exception) {
+        cout << "\n-> Error: CellNetlst_findSeriesToFolding method";
+    }
+}
+
+void CellNetlst::foldingSeries(float pSize, float nSize){
+    int numTransSeries, legs, biggerTrans, numSeries;
+    float widthBiggerTrans = 0;
+    bool folding = false;
+    numTransSeries = biggerTrans = legs = 0;
+    
+    try{
+        this->totalTrans = (int)trans.size();
+        numSeries = ((int)(totalTrans-(totalTrans*0.1)));
+        this->transToFolding = new int*[numSeries];
+        for (int i = 0; i < numSeries; i++){
+            this->transToFolding[i] = new int[totalTrans];
+        }
+        
+        this->lineToFolding = this->columnToFolding = 0;
+        this->visitToFolding.clear();
+        
+        for(int i = 0; i < numSeries; i++){
+            for (int j = 0; j < this->totalTrans; j++)
+                this->transToFolding[i][j] = -1;
+        }
+        
+        //Preenche a matriz com os transistores que estao em serie
+        this->findSeriesToFolding(this->gnd);
+        this->findSeriesToFolding(this->vcc);
+        
+        if (this->transToFolding[0][0] == -1) return;
+        
+        for(int i = 0; i < numSeries; i++){
+            if (this->transToFolding[i][0] == -1) break;
+            folding = false;
+            numTransSeries = biggerTrans = legs = 0;
+            widthBiggerTrans = 0;
+            int auxIndex = 0;
+            int transSeries = 0;
+            for (int j = 0; j < this->totalTrans; j++){
+                auxIndex = this->transToFolding[i][j];
+                if (auxIndex == -1) break;
+                numTransSeries = j;
+                //Procura o maior transistor da serie e determina o numero de quebras
+                switch(trans[auxIndex].type){
+                    case PMOS:
+                        if (this->trans[auxIndex].width > pSize+0.00001f) {
+                            transSeries++'
+                            if (widthBiggerTrans < this->trans[auxIndex].width){
+                                biggerTrans = auxIndex;
+                                widthBiggerTrans = this->trans[auxIndex].width;
+                                legs = ceil(trans[auxIndex].width/(pSize+0.00001f));
+                            }
+                        }
+                        break;
+                    case NMOS:
+                        if (this->trans[auxIndex].width > nSize+0.00001f) {
+                            transSeries++;
+                            if (widthBiggerTrans < this->trans[auxIndex].width){
+                                biggerTrans = auxIndex;
+                                widthBiggerTrans = this->trans[auxIndex].width;
+                                legs = ceil(trans[auxIndex].width/(nSize+0.00001f));
+                            }
+                        }
+                        break;
+                }
+            }
+            
+            if (transSeries == numTransSeries) folding = true;
+            
+            if (folding == true){
+                ofstream foldingFile;
+                //Aplica o folding na serie
+                seriesFolding(i, numTransSeries, legs, biggerTrans);
+                folding = false;
+            }
+        }
+        
+        for (int i = 0; i < numSeries; i++){
+            delete []this->transToFolding[i];
+        }
+        delete this->transToFolding;
+        this->transToFolding = NULL;
+        
+    } catch(exception){
+        cout << "\n-> Error: CellNetlst_foldingSeries method";
+    }
+    
+}
+
+bool CellNetlst::seriesFolding(int numSequence, int numTrans, int numLegs, int biggerTrans){
+    float widthTrans;
+    int indexTrans;
+    indexTrans = -1;
+    int indexProxTrans = -1;
+    int indexPrevTrans = -1;
+    int legs = numLegs;
+    
+    for (;numLegs > 1;numLegs--){
+        for (int i = 0; i <= numTrans ; i++) {
+            indexTrans = this->transToFolding[numSequence][i];
+            indexProxTrans = this->transToFolding[numSequence][i+1];
+            indexPrevTrans = this->transToFolding[numSequence][i-1];
+            widthTrans = trans[indexTrans].width/legs;
+            /*Testa o primeiro transistor da sequencia, pois ou o dreno ou a fonte dele
+             deve possuir a mesma conexão que a serie original*/
+            if (i == 0){
+                //Teste para o primeiro transistor da serie
+                if (this->trans[indexTrans].drain == this->trans[indexProxTrans].source){
+                    //O transistor da ponto estah conectado ao outro transistor da serie pelo dreno
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxSource = this->getNetName(this->trans[indexTrans].source);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                } else if (this->trans[indexProxTrans].drain == this->trans[indexTrans].source){
+                    //O transistor da ponto estah conectado ao outro transistor da série pela fonte
+                    string auxSource = this->getNetName(this->trans[indexTrans].source)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                } else if (this->trans[indexTrans].drain == this->trans[indexProxTrans].drain){
+                    //Quando o drain dos dois transistores sao iguais;
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxSource = this->getNetName(this->trans[indexTrans].source);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                } else if (this->trans[indexTrans].source == this->trans[indexProxTrans].source){
+                    //Quando o source dos dois transistores sao iguais
+                    string auxSource = this->getNetName(this->trans[indexTrans].source)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                }
+            } else if (i == (numTrans)) {
+                //Teste para o ultimo transistor da serie
+                if (this->trans[indexTrans].drain == this->trans[indexPrevTrans].source){
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxSource = this->getNetName(this->trans[indexTrans].source);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                } else if (this->trans[indexPrevTrans].drain == this->trans[indexTrans].source){
+                    string auxSource = this->getNetName(this->trans[indexTrans].source)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                } else if (this->trans[indexTrans].drain == this->trans[indexPrevTrans].drain){
+                    //Quando o drain dos dois transistores sao iguais;
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxSource = this->getNetName(this->trans[indexTrans].source);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                } else if (this->trans[indexTrans].source == this->trans[indexPrevTrans].source){
+                    //Quando o source dos dois transistores sao iguais
+                    string auxSource = this->getNetName(this->trans[indexTrans].source)+"_"+intToStr(numLegs);
+                    string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                    string auxDrain = this->getNetName(this->trans[indexTrans].drain);
+                    this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+                }
+                
+            } else { //Transistores que estão no meio da serie
+                string auxDrain = this->getNetName(this->trans[indexTrans].drain)+"_"+intToStr(numLegs);
+                string auxName = this->trans[indexTrans].name+"_"+intToStr(numLegs);
+                string auxSource = this->getNetName(this->trans[indexTrans].source)+"_"+intToStr(numLegs);
+                this->insertTrans(auxName, auxDrain, getNetName(this->trans[indexTrans].gate), auxSource, this->trans[indexTrans].type, this->trans[indexTrans].length, widthTrans);
+            }
+        }
+    }
+    //Atualiza o tamanho dos transistores originais
+    for (int i = 0; i <= numTrans; i++) {
+        indexTrans = this->transToFolding[numSequence][i];
+        this->trans[indexTrans].width = trans[indexTrans].width/legs;
+    }
+}
+
+
