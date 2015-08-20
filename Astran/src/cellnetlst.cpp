@@ -808,7 +808,7 @@ void CellNetlst::foldingSeries(float pSize, float nSize){
                 switch(trans[auxIndex].type){
                     case PMOS:
                         if (this->trans[auxIndex].width > pSize+0.00001f) {
-                            transSeries++'
+                            transSeries++;
                             if (widthBiggerTrans < this->trans[auxIndex].width){
                                 biggerTrans = auxIndex;
                                 widthBiggerTrans = this->trans[auxIndex].width;
