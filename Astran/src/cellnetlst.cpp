@@ -829,10 +829,9 @@ void CellNetlst::foldingSeries(float pSize, float nSize){
                 }
             }
             
-            if (transSeries == numTransSeries) folding = true;
+            if ((transSeries-1) == numTransSeries) folding = true;
             
             if (folding == true){
-                ofstream foldingFile;
                 //Aplica o folding na serie
                 seriesFolding(i, numTransSeries, legs, biggerTrans);
                 folding = false;
