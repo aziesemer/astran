@@ -108,7 +108,7 @@ public:
 	void insertInstance(string instName, string subCircuit, vector<string> &ports);
 	map<string,Inst>& getInstances(){return instances;};
 	bool check();
-	void folding(float pSize, float nSize);
+	void folding(float pSize, float nSize, string VddNet_Name, string GndNet_Name);
 	void insertTrans(string name, string d, string g, string s, transType t, float l, float w);
 	int size(){return trans.size();};
 	int pSize();
@@ -134,7 +134,7 @@ public:
 	bool isIO(string n);
     
     //Métodos para o algoritmo de folging nas series
-    bool defineIOToGraph();
+    bool defineIOToGraph(string Vdd_Name, string Gnd_Name);
     bool isOut(int out_id);
     bool isGate(int gate_id);
     bool wasVisit(int indexNet);
