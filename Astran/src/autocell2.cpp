@@ -184,7 +184,7 @@ void AutoCell::foldTrans() {
     checkState(2);
     cout << "-> Applying folding..." << endl;
     cout << "-> Number of transistors before folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
-    currentNetList.folding(float(pSize) / currentRules->getScale(), float(nSize) / currentRules->getScale());
+    currentNetList.folding(float(pSize) / currentRules->getScale(), float(nSize) / currentRules->getScale(), currentCircuit->getVddNet(), currentCircuit->getGndNet());
     cout << "-> Number of transistors after folding: " << currentNetList.size() << " -> P(" << currentNetList.pSize() << ") N(" << currentNetList.nSize() << ")" << endl;
     currentNetList.getOrderingP().clear();
     currentNetList.getOrderingN().clear();

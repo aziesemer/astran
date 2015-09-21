@@ -251,12 +251,12 @@ bool CellNetlst::check(){
 	return true;
 }
 
-void CellNetlst::folding(float pSize, float nSize){
+void CellNetlst::folding(float pSize, float nSize, string VddNet_Name, string GndNet_Name){
 	orderingP.clear();
 	orderingN.clear();
     
     //Aplica o folding nas series da rede de transistores
-    this->defineIOToGraph();
+    this->defineIOToGraph(VddNet_Name, GndNet_Name);
     this->foldingSeries(pSize, nSize);
     
 	for(int c=0; c<trans.size(); c++){
@@ -620,7 +620,7 @@ string CellNetlst::getInout(int n){
 	return "";
 }
 
-bool CellNetlst::defineIOToGraph(){
+bool CellNetlst::defineIOToGraph(string Vdd_Name, string Gnd_Name){
     //Define quais sao as entradas e saidas, tanto "externas" quanto "internas" de cada circuito
     list<t_net2>::iterator net2_it;
     list<t_net2>::iterator net2Aux_it;
@@ -637,9 +637,9 @@ bool CellNetlst::defineIOToGraph(){
         }
         //Determinar qual o indice da net que é vcc e gnd
         for (int i = 0; i < nets.size(); i++) {
-            if(nets[i].name=="VDD" || nets[i].name=="VCC")
+            if(nets[i].name==Vdd_Name)
                 this->vcc = i;
-            if(nets[i].name=="GND" || nets[i].name=="0")
+            if(nets[i].name== Gnd_Name)
                 this->gnd = i;
         }
         
