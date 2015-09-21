@@ -23,7 +23,7 @@
 using namespace std;
 
 #define printme( e ) { cerr << #e << " = " << ( e ) << "\n"; };
-#define VERSION "3.9.7"
+#define VERSION "3.9.8"
 
 enum IOType {IOTYPE_INPUT, IOTYPE_OUTPUT, IOTYPE_INOUT};
 enum HorV {V, H};
