@@ -952,6 +952,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     currentLayout.addPolygon(0, 0, width, height, CELLBOX);
     int nWellBorder=currentRules->getIntValue(currentCircuit->getnWellBorder());
     currentLayout.addPolygon(-nWellBorder, height + nWellBorder, width + nWellBorder, cpt.getVariableVal("posNWell"), NWEL);
+    currentLayout.addPolygon(-nWellBorder, -nWellBorder, width + nWellBorder, cpt.getVariableVal("posNWell"), PWEL);
     
     
     //	currentLayout.merge();
