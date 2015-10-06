@@ -78,7 +78,7 @@ enum command_name {
 	// Help - 2
 	HELP, HELP_PARAM,
 	
-	EXIT,
+	COMMENT,EXIT,
 	NR_COMMANDS
 };
 
@@ -198,7 +198,8 @@ static commands commands_lst[] = {
 	{"HELP", "Print the commands' usage on the screen"},
 	{"HELP <str_Command>", "Prints the specified commands with details on the screen. Use double quotes (\"this is an example\") for words in the same parameter"},
 	
-	{"EXIT", "Close the program"}
+    {"#", "Comment"},
+    {"EXIT", "Close the program"}
 };
 
 class DesignMng{

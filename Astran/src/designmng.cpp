@@ -718,6 +718,8 @@ bool DesignMng::readCommand(string cmd){
                             cout << commands_lst[i].name << "\n\t" << commands_lst[i].desc << endl;
                     break;
                     
+                case COMMENT:
+                    break;
                 case EXIT:
                     exit(1);
                     break;

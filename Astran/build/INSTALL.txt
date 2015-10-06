@@ -20,6 +20,7 @@ HOW TO COMPILE THE SOURCE CODE:
         $ cd build-release
         $ ../configure --with-opengl --disable-shared --with-osx_cocoa --with-macosx-version-min=10.9 --with-macosx-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk  (change the sdk path if needed)
         $ make (this can take several minutes)
+          In case you receve this error message: ../src/osx/webview_webkit.mm:936:25: error... in Mac OS +10.10 you may try to edit the wxWidgets-3.0.2/src/osx/webview_webkit.mm file and replace line 31 #include <WebKit/WebKit.h> by #include <WebKit/WebKitLegacy.h>
         $ sudo make install (will install wxWidgets in your /usr/local)
 
 1. $ git clone https://github.com/aziesemer/astran.git
