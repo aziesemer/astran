@@ -40,5 +40,5 @@ bool icpdFrmApp::OnInit(){
 }
 
 int icpdFrmApp::OnExit(){
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -723,7 +723,7 @@ bool DesignMng::readCommand(string cmd){
                 case COMMENT:
                     break;
                 case EXIT:
-                    exit(1);
+                    exit(EXIT_SUCCESS);
                     break;
             }
         }
