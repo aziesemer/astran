@@ -9,7 +9,7 @@ It supports automatic layout generation of CMOS cells from a transistor level ne
 Its functionality is being extended to produce complete circuit layouts. Features include transistor sizing, floorplanning, cell placement, and routing. The framework is very modular and new contributions to this project are welcome.
 
 
-Features:
+###Features:
 - ASTRAN 3 is under active development and supports +45nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...
 - It generates all kinds of logic cells, including non-complementary as PTL;
 - Cell instances can be individually sized before generation to reduce delay;
@@ -25,7 +25,7 @@ Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrg
 
 If you are using my tool, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.
 
-#Building
+##Building
 
 - On Linux 
 
