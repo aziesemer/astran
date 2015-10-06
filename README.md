@@ -37,3 +37,14 @@ make -f make-linux
 ```
 
 - On Mac OSX
+
+##Using
+
+- On Command Line
+
+```Astran --shell```
+
+- On GUI 
+
+![Astran GUI](https://github.com/aziesemer/astran/blob/master/Astran/misc/astran.jpg?raw=true)
+
