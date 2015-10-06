@@ -22,7 +22,7 @@ HOW TO COMPILE THE SOURCE CODE:
         $ make (this can take several minutes)
         $ sudo make install (will install wxWidgets in your /usr/local)
 
-1. $ git clone https://code.google.com/p/gme-ufrgs/
+1. $ git clone https://github.com/aziesemer/astran.git
 2. If you want to use Xcode:
     Load the Xcode Project inside the Astran folder.
     Run in the Terminal (only needed if using wxWidgets different than mine):
