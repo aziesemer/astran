@@ -15,7 +15,7 @@
 
 export LD_LIBRARY_PATH=/usr/lib64/
 
-BIN=build/bin/astran
+BIN=build/bin/Astran
 SRC=$(shell find -name "*.cpp")
 OBJ=$(SRC:.cpp=.o)
 
@@ -33,7 +33,6 @@ $(BIN): $(OBJ)
 
 pos-compile:
 	@ chmod -x build/bin/astran.cfg
-	@ ln -sf build/bin/astran build/bin/Astran
 	@ echo "Done, the output diretory is 'build'. Move it to the right place."
 	@ echo "Test the binnary with: build/bin/astran --shell"
 
