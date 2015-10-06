@@ -4,7 +4,7 @@ HOW TO COMPILE THE SOURCE CODE:
 
 - LINUX:
 1. $ sudo apt-get install git
-2. $ git clone https://code.google.com/p/gme-ufrgs/
+2. $ git clone https://github.com/aziesemer/astran.git
 3. $ sudo apt-get install libwxgtk2.8-dev
 4. $ sudo apt-get install g++
 5. $ cd gme-ufrgs/Astran/src/
