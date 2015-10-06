@@ -1,5 +1,7 @@
 
-#ASTRAN - Automatic Synthesis of Transistor Networks 
+#ASTRAN
+
+ASTRAN is an acronym for __Automatic Synthesis of Transistor Networks__.
 
 ASTRAN is a free, open source, physical synthesis framework for Mac and Linux
 
@@ -23,3 +25,15 @@ Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrg
 
 If you are using my tool, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.
 
+#Building
+
+- On Linux 
+
+The following procedure was tested in Centos 5.11 and Ubuntu 14.04
+```
+git clone https://github.com/aziesemer/astran.git astran
+cd astran
+make -f make-linux
+```
+
+- On Mac OSX
