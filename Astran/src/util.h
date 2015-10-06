@@ -36,7 +36,7 @@ inline void printHeader (ostream& target, string begin, string end) {
 	target << begin << "--------------------------------------------------------" << end << endl;
 	target << begin << "UFRGS - Universidade Federal do Rio Grande do Sul" << end << endl;
 	target << begin << "GME - Microelectronics Group" << end << endl;
-	target << begin << "WEBPAGE - https://code.google.com/p/gme-ufrgs/" << endl << endl;
+	target << begin << "WEBPAGE - http://aziesemer.github.io/astran/" << endl << endl;
 	target << begin << "Original Author" << end << endl;
 	target << begin << " - Adriel Ziesemer <amziesemerj[at]inf.ufrgs.br>" << end << endl;
 	target << begin << "Project Advisor" << end << endl;
