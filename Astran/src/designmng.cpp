@@ -32,6 +32,8 @@ int DesignMng::getCommandCode(vector<string> shell_cmd){
 	vector<string> reg_cmd;
 	bool same_cmd;
 	
+    if (shell_cmd[0]==commands_lst[COMMENT].name ) return COMMENT;
+        
 	// compare all the commands of the array
 	for (int i=0; i<NR_COMMANDS; ++i){
 		same_cmd = true;
