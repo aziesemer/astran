@@ -709,15 +709,15 @@ bool DesignMng::readCommand(string cmd){
                     
                     /****  HELP - 2  ****/
                 case HELP:
-                    cout << "-> Note: For detailed instructions, use command \"HELP <str_Command>\"\n\n";
                     for (int i=0; i<NR_COMMANDS; ++i)
                         cout << commands_lst[i].name << endl;
+                    cout << "-> Note: For detailed instructions, use command \"HELP <str_Command>\"\n\n";
                     break;
                     
                 case HELP_PARAM:
                     for (int i=0; i<NR_COMMANDS; ++i)
                         if (commands_lst[i].name.find(upcase(words[1])) != string::npos)
-                            cout << commands_lst[i].name << "\n\t" << commands_lst[i].desc << endl;
+                            cout << commands_lst[i].name << " - " << commands_lst[i].desc << endl;
                     break;
                     
                 case COMMENT:
