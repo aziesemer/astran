@@ -16,14 +16,17 @@ IMPLEMENT_APP(icpdFrmApp)
 bool icpdFrmApp::OnInit(){
 	//frame->SetIcon(wxIcon(help_xpm));
     setlocale(LC_ALL,"C");
-	if (argc == 2 && string(wxString(argv[1]).mb_str())=="--shell") {
-		DesignMng designmng;
+    if (argc == 2 && string(wxString(argv[1]).mb_str())=="--shell") {
+        DesignMng designmng;
         string cmd;
         while (true) {
             cout << "astran> ";
             getline (cin, cmd);
-            designmng.readCommand(cmd);            
+            designmng.readCommand(cmd);
         }
+    }if (argc == 2 && string(wxString(argv[1]).mb_str())=="--help") {
+        cout << "Use: " << getFileName(string(argv[0])) << " [--shell] or [filename]" << endl;
+        exit(0);
     }else if (argc == 2 ){
 		DesignMng designmng;
 		string cmd;
