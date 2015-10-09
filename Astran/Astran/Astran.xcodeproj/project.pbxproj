@@ -34,6 +34,7 @@
 		BC97A54C178F2BBE0002254A /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
 		BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
 		BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
+		BCB5E8331BC81A900085A066 /* astran.cfg in Resources */ = {isa = PBXBuildFile; fileRef = BCB5E8321BC81A900085A066 /* astran.cfg */; settings = {ASSET_TAGS = (); }; };
 		BCBBF217181454EB00139922 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCBBF216181454EB00139922 /* icon.icns */; };
 		BCDE61AD183B9FDB00419EA7 /* ISSUES.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */; };
 		BCF19DA418183D10000FA8CA /* wxpreferences.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCF19DA218183D10000FA8CA /* wxpreferences.cpp */; };
@@ -102,6 +103,7 @@
 		BC97A530178F2BBE0002254A /* wxinterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxinterface.h; sourceTree = "<group>"; };
 		BC97A533178F2BBE0002254A /* wxrules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxrules.cpp; sourceTree = "<group>"; };
 		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
+		BCB5E8321BC81A900085A066 /* astran.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = astran.cfg; path = ../build/bin/astran.cfg; sourceTree = "<group>"; };
 		BCBBF216181454EB00139922 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ISSUES.txt; path = ../build/ISSUES.txt; sourceTree = "<group>"; };
 		BCF19DA218183D10000FA8CA /* wxpreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxpreferences.cpp; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 		BC97A4D0178F2B1E0002254A = {
 			isa = PBXGroup;
 			children = (
+				BCB5E8321BC81A900085A066 /* astran.cfg */,
 				BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */,
 				BC0C59751853807E00F47434 /* tech_035.rul */,
 				BCF19DAB181C493A000FA8CA /* tech_0065.rul */,
@@ -284,6 +287,7 @@
 				BCF19DAA1819BA57000FA8CA /* RULES.png in Resources */,
 				BCF19DAC181C493A000FA8CA /* tech_0065.rul in Resources */,
 				BCDE61AD183B9FDB00419EA7 /* ISSUES.txt in Resources */,
+				BCB5E8331BC81A900085A066 /* astran.cfg in Resources */,
 				BC0C597318529EEC00F47434 /* tech_freePDK45.rul in Resources */,
 				BC0C59761853807E00F47434 /* tech_035.rul in Resources */,
 			);

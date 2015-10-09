@@ -23,7 +23,7 @@
 using namespace std;
 
 #define printme( e ) { cerr << #e << " = " << ( e ) << "\n"; };
-#define VERSION "3.9.9"
+#define VERSION "3.10"
 
 enum IOType {IOTYPE_INPUT, IOTYPE_OUTPUT, IOTYPE_INOUT};
 enum HorV {V, H};
@@ -42,7 +42,7 @@ inline void printHeader (ostream& target, string begin, string end) {
 	target << begin << "Project Advisor" << end << endl;
 	target << begin << " - Ricardo Reis <reis[at]inf.ufrgs.br>" << end << endl;	
 	target << begin << "Contributors:" << end << endl;
-	target << begin << " - Gustavo Smaniotto, Charles Capella Leonhardt, Felipe Avila Nesello, Cristiano Lazzari, Glauco Santos, Guilherme Flach, Gracieli Posser, Renato Hentschke" << end << endl << endl;
+	target << begin << " - Leandro Heck, Gustavo Smaniotto, Charles Capella Leonhardt, Felipe Avila Nesello, Cristiano Lazzari, Glauco Santos, Guilherme Flach, Gracieli Posser, Renato Hentschke" << end << endl << endl;
 }
 
 inline bool isNumber(string number){
