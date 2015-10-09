@@ -61,8 +61,8 @@ void Router::setup(int sX, int sY, int sZ){
 	
 	netIndex.clear();
 	int i=1;
-	vector<t_net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
-	for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+	vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
+	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
 			if(netIndex.find(nets_it->name)==netIndex.end()) netIndex[nets_it->name]=i++;
 			Interface* tmp_int=currentCircuit->getInterface(nets_it->name);
@@ -70,7 +70,7 @@ void Router::setup(int sX, int sY, int sZ){
 				//					cerr << netIndex[nets_it->name] << " " << tmp_int->pos.getX()+currentCircuit->getLMargin() << " " << tmp_int->pos.getY()+currentCircuit->getBMargin() << endl;
 				rt.addNodetoNet(netIndex[nets_it->name], rt.getPos(tmp_int->pos.getX()+currentCircuit->getLMargin() ,tmp_int->pos.getY()+currentCircuit->getBMargin(), 2));
 			}
-			for(list<t_inst>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
+			for(list<InstancePin>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
 				Instance* tmp_inst=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstance(nodes_it->targetCellInst);
 				if(tmp_inst){
 					CLayout* tmp_layout=currentCircuit->getLayout(tmp_inst->getTargetCell());

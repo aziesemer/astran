@@ -24,37 +24,36 @@
 
 using namespace std;
 
-enum transType {PMOS, NMOS};
+enum TransType {PMOS, NMOS};
 
-enum t_DGorS {DRAIN, GATE, SOURCE, GAP};
+enum TransTerminalType {DRAIN, GATE, SOURCE, GAP};
 
-// Point the net to a transistor
-struct t_net2{
+// Points the net to a transistor
+struct TransitorTerminal{
 	int link;
-	t_DGorS type;
+	TransTerminalType type;
 };
 
-struct t_inst{
+struct InstancePin{
 	string targetCellInst;
 	int targetPin;
 };
 
-// Lista encadeada com os transistores da mesma rede
-struct t_net{
-	list<t_net2> trans;
-	list<t_inst> insts;	
+struct Net{
+	list<TransitorTerminal> trans;
+	list<InstancePin> insts;	
 	string name;
 };
 
-struct Trans{
+struct Transistor{
 	string name;
 	bool visited;
-	unsigned int drain, gate, source;
-	transType type;
+    int drain, gate, source;
+	TransType type;
 	float length,width;	
 };
 
-struct Inst{
+struct CellInstance{
 	string subCircuit;
 	vector<int> ports;
 };
@@ -62,12 +61,12 @@ struct Inst{
 class CellNetlst{
 protected:
 	string name;
-	vector<Trans> trans;
-	map<string,Inst> instances;
+	vector<Transistor> trans;
+	map<string,CellInstance> instances;
 	vector<int> inouts;
 	vector<IOType> inouts_type;
-	vector<t_net> nets;		//List of transistors and instances that are connected to each net
-	vector<t_net2> orderingP, orderingN, cpP, cpN, tmpP, tmpN;
+	vector<Net> nets;		//List of transistors and instances that are connected to each net
+	vector<TransitorTerminal> orderingP, orderingN, cpP, cpN, tmpP, tmpN;
 	int PorN, custo_atual, custo_anterior;
 	int wGaps, mismatchesGate, wRouting, maxCong, posPN, wCost, gmCost, rCost, congCost, ngCost;
         string vddNet, gndNet;
@@ -85,47 +84,47 @@ protected:
     int columnToFolding; //Iterador das colunas da matriz dos transistores que estao em serie
     
 	bool eulerpath();
-	bool visit(int nDifs, t_net2& transP, t_net2& transN);
+	bool visit(int nDifs, TransitorTerminal& transP, TransitorTerminal& transN);
 	bool visit(int nDifs);
 	bool verifyCnt(int pos);
-	t_net2 point(int link, t_DGorS type);
+	TransitorTerminal point(int link, TransTerminalType type);
 	
-	void move(vector<t_net2>& ref);
+	void move(vector<TransitorTerminal>& ref);
 	
 public:
 	void setName(string n){name=n;};
 	string getName(){return name;};
 	vector<int>& getInouts(){return inouts;};
 	string getInout(int n);
-	t_net& getNet(int n){return nets[n];};
-	vector<t_net>& getNets(){return nets;};
+	Net& getNet(int n){return nets[n];};
+	vector<Net>& getNets(){return nets;};
 	bool setIOType(string name, IOType t);
 	IOType getIOType(int net){return inouts_type[net];};
 	void appendNetNameSuffix(string n);
 	string& getNetName(int n){return nets[n].name;};
 	bool insertInOut(string name);
-	int insertNet(string& name, t_DGorS type, int t);
+	int insertNet(string& name, TransTerminalType type, int t);
 	void insertInstance(string instName, string subCircuit, vector<string> &ports);
-	map<string,Inst>& getInstances(){return instances;};
+	map<string,CellInstance>& getInstances(){return instances;};
 	bool check();
 	void folding(float pSize, float nSize, string VddNet_Name, string GndNet_Name);
-	void insertTrans(string name, string d, string g, string s, transType t, float l, float w);
+	void insertTrans(string name, string d, string g, string s, TransType t, float l, float w);
 	int size(){return trans.size();};
 	int pSize();
 	int nSize();
-	Trans& getTrans(int ID){ return trans[ID];};
+	Transistor& getTrans(int ID){ return trans[ID];};
 	void print();
 	void clear();
 	bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
     void printPlacement();
-	unsigned int calcWeight(vector<t_net2>& eulerPathP,vector<t_net2>& eulerPathN);
+	unsigned int calcWeight(vector<TransitorTerminal>& eulerPathP,vector<TransitorTerminal>& eulerPathN);
     int getMaxCongestioning(){return maxCong;};
     int getWidth(){return posPN;};
-	void move(const vector<t_net2>& ref, vector<t_net2>& cp);	
-	vector<t_net2>& getOrderingP(){return orderingP;};
-	vector<t_net2>& getOrderingN(){return orderingN;};
-    void setOrderingP(vector<t_net2>& ordering){orderingP=ordering;};
-	void setOrderingN(vector<t_net2>& ordering){orderingN=ordering;};
+	void move(const vector<TransitorTerminal>& ref, vector<TransitorTerminal>& cp);	
+	vector<TransitorTerminal>& getOrderingP(){return orderingP;};
+	vector<TransitorTerminal>& getOrderingN(){return orderingN;};
+    void setOrderingP(vector<TransitorTerminal>& ordering){orderingP=ordering;};
+	void setOrderingN(vector<TransitorTerminal>& ordering){orderingN=ordering;};
 
 	int Perturbation(); //Retorna o custo da perturbacao
 	int GetCost(); //Retorna o custo

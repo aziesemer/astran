@@ -10,7 +10,7 @@ bool CellNetlst::verifyCnt(int pos){
 	return false;
 }
 
-bool CellNetlst::visit( int nDifs, t_net2& transP, t_net2& transN){
+bool CellNetlst::visit( int nDifs, TransitorTerminal& transP, TransitorTerminal& transN){
 	bool ok=false;
 	
 	trans[transP.link].visited=true;
@@ -36,7 +36,7 @@ bool CellNetlst::visit( int nDifs, t_net2& transP, t_net2& transN){
 bool CellNetlst::visit( int nDifs){
 	bool ok=false;
 	int netP, netN, netP_2, netN_2;
-	list<t_net2>::iterator transP_it, transN_it;
+	list<TransitorTerminal>::iterator transP_it, transN_it;
 	
 	if(orderingP.size()){
 		//netP pega a redes conectada ao ultimo transistor P
@@ -199,7 +199,7 @@ bool CellNetlst::insertInOut(string name){
 	inouts.push_back(c);
 	inouts_type.push_back(IOTYPE_INOUT);
 	if(c==nets.size()){		// if doesnt exist, create a new net
-		t_net tmp;
+		Net tmp;
 		tmp.name=name;
 		nets.push_back(tmp);
 		return true;
@@ -218,15 +218,15 @@ bool CellNetlst::setIOType(string name, IOType t){
 	}
 	return false;
 }
-int CellNetlst::insertNet(string& name, t_DGorS type, int t){
+int CellNetlst::insertNet(string& name, TransTerminalType type, int t){
 	int c=0;
-	t_net2 tmp2;
+	TransitorTerminal tmp2;
 	tmp2.link=t;
 	tmp2.type=type;
 	
 	while(c<nets.size() && nets[c].name!=name) c++;
 	if(c==nets.size()){		// if doesnt exist, create a new net and add the new transistor
-		t_net tmp;
+		Net tmp;
 		tmp.name=name;
 		tmp.trans.push_back(tmp2);
 		nets.push_back(tmp);
@@ -285,8 +285,8 @@ void CellNetlst::folding(float pSize, float nSize, string VddNet_Name, string Gn
 	}
 }
 
-void CellNetlst::insertTrans(string name, string d, string g, string s, transType t, float l, float w){
-	Trans tmp;
+void CellNetlst::insertTrans(string name, string d, string g, string s, TransType t, float l, float w){
+	Transistor tmp;
 	tmp.name=name;
 	tmp.type=t;
 	tmp.length=l;
@@ -299,20 +299,20 @@ void CellNetlst::insertTrans(string name, string d, string g, string s, transTyp
 }
 
 void CellNetlst::insertInstance(string instName, string subCircuit, vector<string>& ports){
-	Inst tmp;
+	CellInstance tmp;
 	tmp.subCircuit=subCircuit;
 	vector<string>::iterator ports_it;
 	for(int port=0; port<ports.size(); ++port){
 		int c=0;
 		while(c<nets.size() && nets[c].name!=ports[port]) c++;
 		if(c==nets.size()){		// if doesnt exist
-			t_net tmp2;
+			Net tmp2;
 			tmp2.name=ports[port];
 			nets.push_back(tmp2);			
 			tmp.ports.push_back(nets.size()-1);
 		}
 		else tmp.ports.push_back(c);
-		t_inst tmp_inst;
+		InstancePin tmp_inst;
 		tmp_inst.targetCellInst=instName;
 		tmp_inst.targetPin=port;
 		nets[c].insts.push_back(tmp_inst);
@@ -333,9 +333,9 @@ void CellNetlst::print(){
 	}
 	cout << endl;
 /*	cout << "Nets: " << endl;
-	for(vector<t_net>::iterator tmp=nets.begin(); tmp!=nets.end(); tmp++){
+	for(vector<Net>::iterator tmp=nets.begin(); tmp!=nets.end(); tmp++){
 		cout << tmp->name << ":";
-		for(list<t_net2>::iterator tmp2=tmp->trans.begin(); tmp2!=tmp->trans.end(); tmp2++)
+		for(list<TransitorTerminal>::iterator tmp2=tmp->trans.begin(); tmp2!=tmp->trans.end(); tmp2++)
 			cout << trans[tmp2->link].name << " ";
 		cout << endl;
 	}
@@ -344,7 +344,7 @@ void CellNetlst::print(){
 		cout << trans[tmp].name << "     " << nets[trans[tmp].drain].name << "     " << nets[trans[tmp].gate].name << "     " << nets[trans[tmp].source].name << "     " <<
         (trans[tmp].type?"NMOS":"PMOS") << "     L=" << trans[tmp].length << "     W=" << trans[tmp].width << endl;
 	cout << "-> Instances: " << endl;
-	for(map<string,Inst>::iterator tmp=instances.begin(); tmp!=instances.end(); ++tmp){
+	for(map<string,CellInstance>::iterator tmp=instances.begin(); tmp!=instances.end(); ++tmp){
 		cout << tmp->first << " ";
 		for(vector<int>::iterator tmp2=tmp->second.ports.begin(); tmp2!=tmp->second.ports.end(); ++tmp2)
 			cout << getNetName(*tmp2) << " ";
@@ -469,9 +469,9 @@ int CellNetlst::Perturbation(){
 	return custo_atual-custo_anterior;
 }
 
-void CellNetlst::move(vector<t_net2>& ref){
-	static vector<t_net2> aux;
-	static t_net2 tmp;
+void CellNetlst::move(vector<TransitorTerminal>& ref){
+	static vector<TransitorTerminal> aux;
+	static TransitorTerminal tmp;
 	static int size, origin, dest;
 	size=1+(rand()%ref.size());
 	origin=rand()%(ref.size()-size+1);
@@ -530,7 +530,7 @@ bool CellNetlst::transPlacement(bool newPl, int saquality, int nrattempts, int w
 	if(newPl){
         orderingP.clear();
         orderingN.clear();
-			t_net2 tmp;	
+			TransitorTerminal tmp;	
 			tmp.type=DRAIN;
 			
 			for(i=0;i<trans.size();++i){
@@ -622,8 +622,8 @@ string CellNetlst::getInout(int n){
 
 bool CellNetlst::defineIOToGraph(string Vdd_Name, string Gnd_Name){
     //Define quais sao as entradas e saidas, tanto "externas" quanto "internas" de cada circuito
-    list<t_net2>::iterator net2_it;
-    list<t_net2>::iterator net2Aux_it;
+    list<TransitorTerminal>::iterator net2_it;
+    list<TransitorTerminal>::iterator net2Aux_it;
     vector<int>::iterator gates_it;
     vector<int>::iterator outs_it;
     
@@ -736,7 +736,7 @@ int CellNetlst::getSeriesToFolding(int currentNet, int currentTrans, int nextNet
 
 void CellNetlst::findSeriesToFolding(int startNet){
     //Metodo que apartir de um determinado vertice, procura os transistores que estao em serie
-    list<t_net2>::iterator transNet_it;
+    list<TransitorTerminal>::iterator transNet_it;
     int nextNet;
     try {
         

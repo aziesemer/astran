@@ -105,7 +105,7 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 			}
 
 			// identify transistor type
-			transType type;
+			TransType type;
 			if(palavras[5]=="PMOS" || palavras[5]=="CMOSP" || palavras[5]=="MODP" || palavras[5]=="PMOS_VTL")
 				type=PMOS;
 			else if(palavras[5]=="NMOS" || palavras[5]=="CMOSN" || palavras[5]=="MODN" || palavras[5]=="NMOS_VTL")
@@ -166,7 +166,7 @@ void Spice::saveFile(string filename, Circuit& netList){
 		for ( vector<int>::iterator inouts_it=cells_it->second.getInouts().begin(); inouts_it != cells_it->second.getInouts().end(); inouts_it++ )
 			file << " " << cells_it->second.getNetName(*inouts_it);
 		file << endl;
-		for(map<string,Inst>::iterator tmp=cells_it->second.getInstances().begin(); tmp!=cells_it->second.getInstances().end(); ++tmp){
+		for(map<string,CellInstance>::iterator tmp=cells_it->second.getInstances().begin(); tmp!=cells_it->second.getInstances().end(); ++tmp){
 			file << tmp->first << " ";
 			for(vector<int>::iterator tmp2=tmp->second.ports.begin(); tmp2!=tmp->second.ports.end(); ++tmp2)
 				file << cells_it->second.getNetName(*tmp2) << " ";

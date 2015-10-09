@@ -128,7 +128,6 @@ public:
 		clsOutStream->rdbuf( clsOriginalStreamBuffer );
 	} // end destructor
 	
-	
 	int overflow( int ch ) {
 		clsTextBox->WriteText( wxChar( ch ) );
 		if(clsFlush || ch=='\n') {

@@ -21,7 +21,7 @@ void AutoCell::clear() {
     if (rt != NULL) delete(rt);
 }
 
-Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDiffEnd, int pDiffEnd, t_DGorS type) {
+Element* AutoCell::createElement(int vcost, int nDiffIni, int pDiffIni, int nDiffEnd, int pDiffEnd, TransTerminalType type) {
     Element tmp;
     tmp.diffP = rt->createNode();
     tmp.diffN = rt->createNode();
@@ -197,8 +197,8 @@ void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC,
     int bestCost, currentCost;
     
     if (speculate){
-        vector<t_net2> bestNOrdering;
-        vector<t_net2> bestPOrdering;
+        vector<TransitorTerminal> bestNOrdering;
+        vector<TransitorTerminal> bestPOrdering;
         //get previosly cost
         if(currentNetList.getOrderingP().size()!=0 && currentNetList.getOrderingN().size()!=0){
             state = 4;
@@ -235,7 +235,7 @@ void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC,
     state++;
 }
 
-bool AutoCell::testGap(vector<t_net2>::iterator last_it, vector<t_net2>::iterator eulerPath_it, vector<t_net2>& ordering, t_DGorS type){
+bool AutoCell::testGap(vector<TransitorTerminal>::iterator last_it, vector<TransitorTerminal>::iterator eulerPath_it, vector<TransitorTerminal>& ordering, TransTerminalType type){
     bool gap = false;
     //tests if there was a gap between last it and current
     if (eulerPath_it != ordering.begin() && eulerPath_it->link != -1 && type != GAP) {
@@ -311,7 +311,7 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, int reduceVRt, bool opt
     for (inoutPins_it = inoutPins.begin(); inoutPins_it != inoutPins.end(); inoutPins_it++)
         rt->addArc(tmp->inoutCnt, inoutPins_it->second, 0);
     
-    vector<t_net2>::iterator eulerPathP_it = currentNetList.getOrderingP().begin(), eulerPathN_it = currentNetList.getOrderingN().begin(), lastP_it, lastN_it;
+    vector<TransitorTerminal>::iterator eulerPathP_it = currentNetList.getOrderingP().begin(), eulerPathN_it = currentNetList.getOrderingN().begin(), lastP_it, lastN_it;
     int nDiffTrackIni, pDiffTrackIni, nDiffTrackEnd, pDiffTrackEnd;
     
     while (eulerPathP_it != currentNetList.getOrderingP().end() && eulerPathN_it != currentNetList.getOrderingN().end()) {

@@ -104,16 +104,16 @@ void Placer::incrementalPlacement(Router* rt, string lpSolverFile){
 		cpt.insertConstraint( "ZERO", lastNode, CP_MAX, "WIDTH");
 	}
 	cout << "-> # Conflicts = " << nrConflicts << endl;
-	vector<t_net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
+	vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
 	Interface *currentInterface;
-	for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
 			currentInterface=currentCircuit->getInterface(nets_it->name);
 			if(currentInterface){
 				cpt.insertUpperBound("N_"+ nets_it->name+"_MIN", currentInterface->pos.getX()+currentCircuit->getLMargin());
 				cpt.insertLowerBound("N_"+ nets_it->name+"_MAX", currentInterface->pos.getX()+currentCircuit->getLMargin());
 			}
-			for(list<t_inst>::iterator pins_it=nets_it->insts.begin(); pins_it!=nets_it->insts.end(); pins_it++){
+			for(list<InstancePin>::iterator pins_it=nets_it->insts.begin(); pins_it!=nets_it->insts.end(); pins_it++){
 				cpt.insertConstraint("N_"+ nets_it->name+"_MIN", "C_" + pins_it->targetCellInst +"_P_"+ currentCircuit->getCellNetlst(currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getInstances()[pins_it->targetCellInst].subCircuit)->getInout(pins_it->targetPin), CP_MIN, 0);
 				cpt.insertConstraint("C_"+ pins_it->targetCellInst+"_P_" + currentCircuit->getCellNetlst(currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getInstances()[pins_it->targetCellInst].subCircuit)->getInout(pins_it->targetPin), "N_" + nets_it->name + "_MAX",CP_MIN, 0);
 			}
@@ -138,10 +138,10 @@ void Placer::checkWL(){
 	multimap<string,Pin>::iterator pin_it;
 	Interface *currentInterface;
 	int minX, maxX, minY, maxY, x,y, wl=0;
-	vector<t_net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
-	for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+	vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
+	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
-			for(list<t_inst>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
+			for(list<InstancePin>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
 				currentInstance=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstance(nodes_it->targetCellInst);
 				if(currentInstance){
 					currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
@@ -188,10 +188,10 @@ void Placer::autoFlip(){
 	multimap<string,Pin>::iterator pin_it;
 	int minX, maxX, minY, maxY, x,y, xMY;
 	map<string, int> netMinX, netMaxX, instanceMY;
-	vector<t_net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
-	for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+	vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
+	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
-			for(list<t_inst>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
+			for(list<InstancePin>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
 				currentInstance=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstance(nodes_it->targetCellInst);
 				if(currentInstance){
 					currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
@@ -220,9 +220,9 @@ void Placer::autoFlip(){
 			netMaxX[nets_it->name]=maxX;
 		}
 	}
-	for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
-			for(list<t_inst>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
+			for(list<InstancePin>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++){
 				currentInstance=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstance(nodes_it->targetCellInst);
 				currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
 				currentCell=currentCircuit->getCellNetlst(currentInstance->getTargetCell());
@@ -260,7 +260,7 @@ bool Placer::checkPlacement(){
 	int cellsHeight=currentCircuit->getRowHeight()*currentCircuit->getVPitch()*currentCircuit->getRules()->getScale();
 	CLayout *l, *currentLayout;	
 	list<string>::iterator slots_it;
-	int posXi=0, posXf=0, width=0, rowSize;
+	int posXi=0, posXf=0, width=0, rowSize = 0;
 	int nrRows=rows.size();
 	rows.clear();
 	rows.resize(nrRows);
@@ -366,7 +366,7 @@ void Placer::setArea(int n, float u){
     
     //		for(int c=0; c<cell->getInouts().size(); ++c)
     //			insertInterface(cell->getNetName(cell->getInouts()[c]), N, cell->getIOType(c), 0, 0);
-    for(map<string,Inst>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
+    for(map<string,CellInstance>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
         CLayout *l=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL");
         if(!l)
             throw AstranError("Cell layout " + inst_it->second.subCircuit + "not found");
@@ -490,7 +490,7 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
         throw AstranError("Could not save file: " + fname);
     
     fpl << "UCLA pl 1.0\n";
-    fpl << "# Automatically generated by Jungle Parrot software.\n";
+    fpl << "# Automatically generated by Astran.\n";
     fpl << "#     by Adriel Mota Ziesemer Junior (amziesemej[at]inf.ufrgs.br) - UFRGS, Brazil.\n\n";
     
     for(interface_it=currentCircuit->getInterfaces()->begin(); interface_it!=currentCircuit->getInterfaces()->end(); interface_it++)
@@ -514,7 +514,7 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
     if (!fnodes)
         throw AstranError("Could not save file: " + fname);
     fnodes << "UCLA nodes 1.0\n";
-    fnodes << "# Automatically generated by Jungle Parrot software.\n";
+    fnodes << "# Automatically generated by Astran.\n";
     fnodes << "#     by Adriel Mota Ziesemer Junior (amziesemej[at]inf.ufrgs.br) - UFRGS, Brazil.\n\n";
     fnodes << "NumNodes : " << currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstances()->size()+currentCircuit->getInterfaces()->size() << "\n";
     fnodes << "NumTerminals : " << currentCircuit->getInterfaces()->size() << endl;
@@ -534,11 +534,11 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
         throw AstranError("Could not save file: " + fname);
     
     fnets << "UCLA nets 1.0\n";
-    fnets << "# Automatically generated by Jungle Parrot software.\n";
+    fnets << "# Automatically generated by Astran.\n";
     fnets << "#     by Adriel Mota Ziesemer Junior (amziesemej[at]inf.ufrgs.br) - UFRGS, Brazil.\n\n";
     int num_pins=0, num_nets=0;
-    vector<t_net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
-    for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+    vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
+    for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
         if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
             num_pins += nets_it->insts.size();
             num_nets++;
@@ -547,14 +547,14 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
     fnets << "NumNets : " << num_nets << "\n";
     fnets << "NumPins : " << num_pins << "\n";
     
-    for(vector<t_net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
+    for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
         if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
             if(currentCircuit->getInterfaces()->find(nets_it->name)!=currentCircuit->getInterfaces()->end()){
                 fnets << "NetDegree : " << nets_it->insts.size()+1 << "\n";
                 fnets << "    " << nets_it->name << "  B\n";
             }else
                 fnets << "NetDegree : " << nets_it->insts.size() << "\n";
-            for(list<t_inst>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++)
+            for(list<InstancePin>::iterator nodes_it=nets_it->insts.begin(); nodes_it!=nets_it->insts.end(); nodes_it++)
                 fnets << "    " << nodes_it->targetCellInst << "  B\n";
         }
     }
@@ -565,7 +565,7 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
         throw AstranError("Could not save file: " + fname);
     
     fscl << "UCLA scl 1.0\n";
-    fscl << "# Automatically generated by Jungle Parrot software.\n";
+    fscl << "# Automatically generated by Astran.\n";
     fscl << "#     by Adriel Mota Ziesemer Junior (amziesemej[at]inf.ufrgs.br) - UFRGS, Brazil.\n\n";
     fscl << "NumRows : " << rows.size() << "\n";
     for (int r=0; r<rows.size(); r++)
@@ -587,7 +587,7 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
     if (!fwts)
         throw AstranError("Could not save file: " + fname);
     fwts << "UCLA wts 1.0\n";
-    fwts << "# Automatically generated by Jungle Parrot software.\n";
+    fwts << "# Automatically generated by Astran.\n";
     fwts << "#     by Adriel Mota Ziesemer Junior (amziesemej[at]inf.ufrgs.br) - UFRGS, Brazil.\n\n";
     
     for(interface_it=currentCircuit->getInterfaces()->begin(); interface_it!=currentCircuit->getInterfaces()->end(); interface_it++)

@@ -69,7 +69,7 @@ Interface* Circuit::getInterface(string n){
 }
 
 bool Circuit::insertLayout(CLayout& tmp){
-	map<string, CLayout>::iterator cells_it=layouts.find(tmp.getName());
+	// map<string, CLayout>::iterator cells_it=layouts.find(tmp.getName());
 	//	if(cells_it!=layouts.end())
 	//		cout << "-> Cell layout " << tmp.getName() << " already exists. Overwriting..." << endl;
 	layouts[tmp.getName()]=tmp;
@@ -92,7 +92,7 @@ void Circuit::insertCell(CellNetlst& tmp){
 }
 
 bool Circuit::insertEquation(string cellName, string& tmp){
-	map<string, string>::iterator cells_it=equations.find(cellName);
+	//map<string, string>::iterator cells_it=equations.find(cellName);
 	//	if(cells_it!=equations.end())
 	//		cout << "-> Cell equation " << cellName << " already exists. Overwriting..." << endl;
 	equations[cellName]=tmp;
@@ -117,7 +117,7 @@ bool Circuit::insertInterface(string name, direction orient, IOType type, int po
  CellNetlst* cell=getCellNetlst(cellName);
  for(int c=0; c<cell->getInouts().size(); ++c)
  insertInterface(cell->getNetName(cell->getInouts()[c]), N, cell->getIOType(c), 0, 0);
- for(map<string,Inst>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
+ for(map<string,CellInstance>::iterator inst_it=cell->getInstances().begin(); inst_it!=cell->getInstances().end(); ++inst_it){
  list<string> inouts;
  for(int c=0; c<inst_it->second.ports.size(); ++c)
  inouts.push_back(cell->getNetName(inst_it->second.ports[c]));
@@ -141,8 +141,8 @@ CellNetlst Circuit::getFlattenCell(string name){
 		cout << "-> ERROR: Cell not found: " << name << endl;
 	}else{
 		tmp=cellNetlsts[name];
-		map<string,Inst>& instances=tmp.getInstances();
-		for(map<string,Inst>::iterator instance_it=instances.begin(); instance_it!=instances.end(); ++instance_it){
+		map<string,CellInstance>& instances=tmp.getInstances();
+		for(map<string,CellInstance>::iterator instance_it=instances.begin(); instance_it!=instances.end(); ++instance_it){
 			if(instance_it==instances.begin()) cout << "-> Removing cell hierarchy in " << name << endl;
 			CellNetlst currentCell=getFlattenCell(instance_it->second.subCircuit);
 			currentCell.appendNetNameSuffix(instance_it->first);
@@ -153,7 +153,7 @@ CellNetlst Circuit::getFlattenCell(string name){
 			for(n=0;n<instance_it->second.ports.size();++n)
 				currentCell.getNet(currentCell.getInouts().at(n)).name=tmp.getNetName(instance_it->second.ports[n]);
 			for(n=0;n<currentCell.size();++n){
-				Trans& currentTrans=currentCell.getTrans(n);
+				Transistor& currentTrans=currentCell.getTrans(n);
 				currentTrans.name=currentTrans.name+"_"+instance_it->first;
 				tmp.insertTrans(currentTrans.name, currentCell.getNetName(currentTrans.drain), currentCell.getNetName(currentTrans.gate), currentCell.getNetName(currentTrans.source), currentTrans.type, currentTrans.length, currentTrans.width);
 			}
