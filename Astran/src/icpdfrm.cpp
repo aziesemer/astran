@@ -9,7 +9,17 @@ IcpdFrm::IcpdFrm( wxWindow* parent ):ICPD_frm( parent ){
     
 	printHeader(cout, "", "");
     
-	readCommand("read \"astran.cfg\"");
+	string astran_cfg;
+    astran_cfg = "astran.cfg";
+
+    wxString astran_path;
+    ::wxGetEnv(wxT("ASTRAN_PATH"), &astran_path);
+	
+	if (wxDirExists(astran_path)) {
+		astran_cfg = string(wxString(astran_path).mb_str()) + "/bin/astran.cfg";
+	}
+
+	readCommand(string("read \"" + astran_cfg + "\""));
 	wxabout = new WxAbout(this);
 	wxrules = new WxRules(this);
 	wxautocell = new WxAutoCell(this);

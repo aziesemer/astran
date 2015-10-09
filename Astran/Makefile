@@ -163,6 +163,7 @@ linux-build: $(OBJ) $(BIN) pos-compile
 	@ g++ $(CFLAGS) -c -o $@ $(@:.o=.cpp)
 
 $(BIN): $(OBJ)
+	@ echo Linking $@
 	@ g++ -g -o $@ $(OBJ) $(LIBS)
 
 pos-compile:
