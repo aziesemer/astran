@@ -33,7 +33,7 @@ The following procedure was tested in Centos 5.11 and Ubuntu 14.04
 ```
 git clone https://github.com/aziesemer/astran.git astran
 cd astran/Astran
-make -f makefile-linux
+make
 ```
 
 - On Mac OSX

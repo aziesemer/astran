@@ -25,7 +25,7 @@ bool icpdFrmApp::OnInit(){
             designmng.readCommand(cmd);
         }
     }if (argc == 2 && string(wxString(argv[1]).mb_str())=="--help") {
-        cout << "Use: " << getFileName(string(argv[0])) << " [--shell] or [filename]" << endl;
+        cout << "Use: " << getFileName(string(wxString(argv[0]).mb_str())) << " [--shell] or [filename]" << endl;
         exit(0);
     }else if (argc == 2 ){
 		DesignMng designmng;
