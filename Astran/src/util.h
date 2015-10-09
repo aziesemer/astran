@@ -49,18 +49,12 @@ inline bool isNumber(string number){
 	istringstream test_num(number.c_str());
 	double value;
 	test_num >> value;
-	if (test_num.fail())
-		return false;
-	else
-		return true;
+    return !test_num.fail();
 }
 
 inline bool fileExist(string filename){
 	ifstream file(filename.c_str());
-	if (!file)
-		return false;
-	else
-		return true;
+    return file.good();
 }
 
 inline string upcase(string s){
