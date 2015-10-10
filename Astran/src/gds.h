@@ -39,11 +39,13 @@ public:
    void generateLibrary(); 
    void generateLibname(char*);
    void generateStruct(); 
-   void generateStructname(char*); 
+   void generateStructname(char*);
+   void generateString(const char* a);
    void add_Layer(short int &);
    void add_Boxtype(short int &);
    void add_XY(long int&, long int&, long int&, long int&);
    void generateBox(short int,long int, long int, long int, long int);
+   void generateLabel(short int layer, long int x, long int y, const char* text);
    void generateEndelement();
    void generateEndStruct();
    void generateEndLibrary();

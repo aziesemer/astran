@@ -847,6 +847,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
     }
     
     list <Box>::iterator layer_it;
+    
     //Insert TAPs
     if(currentCircuit->getCellTemplate()!="Tapless"){
         bool btP=false, btN=false;
@@ -934,8 +935,8 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             }
         }
         
-        if(!btP) cout << "-> WARNING: Could not insert bodye ties to the P transistors" << endl;
-        if(!btN) cout << "-> WARNING: Could not insert bodye ties to the N transistors" << endl;
+        if(!btP) cout << "-> WARNING: Could not insert PTAPs" << endl;
+        if(!btN) cout << "-> WARNING: Could not insert NTAPs" << endl;
     }
     currentLayout.setWidth(width);
     currentLayout.setHeight(height);

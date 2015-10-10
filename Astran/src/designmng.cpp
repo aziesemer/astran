@@ -382,11 +382,20 @@ bool DesignMng::readCommand(string cmd){
                                         if(x2-x1!=0 & y2-y1!=0){
                                             g.generateBox(layer, x1, y1, x2, y2);
 //                                            cout << layer << "-"<< x1 << "-" << y1 << "-" << x2 << "-" << y2 << endl;
+                                            g.generateEndelement();
                                         }
-                                        g.generateEndelement();
                                     }
                                 }
                             }
+                            
+                            list<Label>::iterator labels_it;
+                            for (labels_it = circuit->getLayout(words[2])->labels.begin(); labels_it != circuit->getLayout(words[2])->labels.end(); labels_it++){
+                                strcpy(tmp, labels_it->text.c_str());
+                                g.generateLabel(strToInt(rules->getGDSIIVal(MET1)), 2*labels_it->pt.getX(), 2*labels_it->pt.getY(), tmp);
+                                g.generateEndelement();
+                            }
+                            
+                            
                             g.generateEndStruct();
                             g.generateEndLibrary();
                         }else if(tipo=="C2C"){

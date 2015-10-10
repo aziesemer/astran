@@ -270,6 +270,30 @@ void Gds::generateStructname(char* a) {
   write();
 }
 
+void Gds::generateString(const char* a) {
+    
+    int j = strlen(a) ;
+    conv_2b tmp;
+    tmp.l = j + 4;
+    bool x = false;
+    
+    if(j % 2 != 0){
+        tmp.l++;
+        x = true;
+    }
+    
+    f.push_back(tmp.c[1]);
+    f.push_back(tmp.c[0]);
+    f.push_back(0x19);
+    f.push_back(0x06);
+    
+    for(int i=0 ; i<j ; i++)
+        f.push_back(a[i]);
+    
+    if(x)
+        f.push_back(0x00);
+}
+
 
 void Gds::add_Layer(short int& layer){
      
@@ -314,12 +338,6 @@ void Gds::add_XY(long int& x1, long int& y1, long int& x2, long int& y2){
 
 
 void Gds::generateBox(short int layer, long int x1, long int y1, long int x2, long int y2){
-     
-  conv_4b tmp,tmp2,tmp3,tmp4;
-  tmp.l = x1;
-  tmp2.l = y1;
-  tmp3.l = x2;
-  tmp4.l = y2;
   
   f.push_back(0x00); 
   f.push_back(0x04); 
@@ -334,7 +352,46 @@ void Gds::generateBox(short int layer, long int x1, long int y1, long int x2, lo
   add_XY(x1, y1, x2, y2);
 
   write();
+}
 
+void Gds::generateLabel(short int layer, long int x, long int y, const char* text){
+    
+    f.push_back(0x00);
+    f.push_back(0x04);
+    f.push_back(0x0C);
+    f.push_back(0x00);
+    
+    add_Layer(layer);
+    
+    f.push_back(0x00);
+    f.push_back(0x06);
+    f.push_back(0x16);
+    f.push_back(0x02);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    
+/*    f.push_back(0x00);
+    f.push_back(0x0C);
+    f.push_back(0x1B);
+    f.push_back(0x05);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    f.push_back(0x00);
+    f.push_back(0x03);
+*/
+    f.push_back(0x00);
+    f.push_back(0x0C);
+    f.push_back(0x10);
+    f.push_back(0x03);
+    add_longint(x);
+    add_longint(y);
+    
+    generateString(text);
+    write();
 }
 
 void Gds::generateEndelement(){
