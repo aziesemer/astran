@@ -169,7 +169,7 @@ $(BIN): $(OBJ)
 pos-compile:
 	@ chmod -x build/bin/astran.cfg
 	@ echo "Done, the output diretory is 'build'. Move it to the right place."
-	@ echo "Test the binnary with: build/bin/astran --shell"
+	@ echo "Test the binnary with: build/bin/Astran [--shell]"
 
 install:
 	@ cp -r build /usr/astran 
