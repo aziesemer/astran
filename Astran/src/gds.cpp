@@ -370,19 +370,19 @@ void Gds::generateLabel(short int layer, long int x, long int y, const char* tex
     f.push_back(0x00);
     f.push_back(0x00);
     
-/*    f.push_back(0x00);
+    f.push_back(0x00);
     f.push_back(0x0C);
     f.push_back(0x1B);
     f.push_back(0x05);
+    f.push_back(0x3f);
+    f.push_back(0xf0);
     f.push_back(0x00);
     f.push_back(0x00);
     f.push_back(0x00);
     f.push_back(0x00);
     f.push_back(0x00);
     f.push_back(0x00);
-    f.push_back(0x00);
-    f.push_back(0x03);
-*/
+
     f.push_back(0x00);
     f.push_back(0x0C);
     f.push_back(0x10);
