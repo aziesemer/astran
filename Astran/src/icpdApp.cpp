@@ -18,7 +18,7 @@ bool icpdFrmApp::OnInit()
     setlocale(LC_ALL,"C");
 
     ifstream ifile(cmdFilename.mb_str());
-    if ((ifile) && (!cmdFilename.empty())) {
+    if ((!ifile) && (!cmdFilename.empty())) {
         cout << "ERROR: File \'" << cmdFilename.mb_str() << "\' doesn't exist" << endl;
         return false;
     }
@@ -34,15 +34,17 @@ bool icpdFrmApp::OnInit()
         astran_cfg = "astran.cfg";
         astran_cfg = string(wxString(astran_path).mb_str()) + "/bin/astran.cfg";        
 
-        ifstream ifile(astran_cfg.c_str());
-        if (ifile) 
+        // By default load astran.cfg
+        ifstream afile(astran_cfg.c_str());
+        if (afile) 
         {
             cmd = string("read ") + astran_cfg;
             cout << "astran> " << cmd << endl;
             designmng.readCommand(cmd); 
         }
 
-        if (!ifile) 
+        // Read astran_script
+        if (ifile) 
         {
             cmd = string("read ") + string(wxString(cmdFilename).mb_str());
             cout << "astran> " << cmd << endl;
