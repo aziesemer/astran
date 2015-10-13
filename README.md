@@ -38,6 +38,10 @@ make
 
 - On Mac OSX
 
+## Environment
+
+```ASTRAN_PATH``` needs to point to the astran path.
+
 ##Using
 
 - On Command Line
