@@ -18,7 +18,7 @@ bool icpdFrmApp::OnInit()
     setlocale(LC_ALL,"C");
 
     ifstream ifile(cmdFilename.mb_str());
-    if ((!ifile) && (!cmdFilename.empty())) {
+    if ((ifile) && (!cmdFilename.empty())) {
         cout << "ERROR: File \'" << cmdFilename.mb_str() << "\' doesn't exist" << endl;
         return false;
     }
@@ -28,27 +28,25 @@ bool icpdFrmApp::OnInit()
         DesignMng designmng;
         string cmd;
 
-        ifstream ifile(cmdFilename.mb_str());
+        wxString astran_path;
+        ::wxGetEnv(wxT("ASTRAN_PATH"), &astran_path);
+        string astran_cfg;
+        astran_cfg = "astran.cfg";
+        astran_cfg = string(wxString(astran_path).mb_str()) + "/bin/astran.cfg";        
+
+        ifstream ifile(astran_cfg.c_str());
         if (ifile) 
         {
-            cmd = string("read ") + string(wxString(cmdFilename).mb_str());
-            cout << "astran> " + cmd;
-            designmng.readCommand(cmd);
-        } else 
-        {
-            string astran_cfg;
-            astran_cfg = "astran.cfg";
-
-            wxString astran_path;
-            ::wxGetEnv(wxT("ASTRAN_PATH"), &astran_path);
-
-            if (wxDirExists(astran_path)) {
-                astran_cfg = string(wxString(astran_path).mb_str()) + "/bin/astran.cfg";
-            }
-
             cmd = string("read ") + astran_cfg;
-            cout << "astran> " + cmd;
+            cout << "astran> " << cmd << endl;
             designmng.readCommand(cmd); 
+        }
+
+        if (!ifile) 
+        {
+            cmd = string("read ") + string(wxString(cmdFilename).mb_str());
+            cout << "astran> " << cmd << endl;
+            designmng.readCommand(cmd);
         }
 
         while (true) {
