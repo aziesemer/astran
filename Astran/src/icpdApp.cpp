@@ -13,9 +13,33 @@ using namespace std;
 
 IMPLEMENT_APP(icpdFrmApp);
 
+bool icpdFrmApp::Initialize(int& argc, wchar_t **argv) { 
+
+    static const wxCmdLineEntryDesc desc[] = { 
+        { wxCMD_LINE_SWITCH, wxT("s"), wxT("shell"), wxT("Run in shell mode") }, 
+        // { wxCMD_LINE_SWITCH, wxT("c"), wxT("commands"), wxT("Show all available commands") },
+        { wxCMD_LINE_PARAM, NULL, NULL, wxT("FILENAME"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+        { wxCMD_LINE_NONE }
+    }; 
+
+    wxCmdLineParser parser(desc, argc, argv); 
+    if (parser.Parse(true) != 0) { 
+        exit(1); 
+    } 
+
+    gui_enabled = !parser.Found(wxT("shell"));
+    cmdFilename = parser.GetParam(0);
+
+    if (gui_enabled) { 
+        return wxApp::Initialize(argc, argv); 
+    } else { 
+        return wxAppConsole::Initialize(argc, argv); 
+    }
+} 
+
 bool icpdFrmApp::OnInit()
 {
-    setlocale(LC_ALL,"C");
+    setlocale(LC_ALL, "C");
 
     ifstream ifile(cmdFilename.mb_str());
     if ((!ifile) && (!cmdFilename.empty())) {
@@ -59,16 +83,29 @@ bool icpdFrmApp::OnInit()
     } 
     else
     {
-		wxInitAllImageHandlers();
-		IcpdFrm *frame = new IcpdFrm(NULL);
-		SetTopWindow(frame);
-        // frame->SetIcon(wxIcon(help));
-		frame->Show();
-	}
+        wxInitAllImageHandlers();
+        IcpdFrm *frame = new IcpdFrm(NULL);
+        SetTopWindow(frame);
+        frame->Show();
+    }
 
     return true;
 }
 
 int icpdFrmApp::OnExit(){
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
+
+void icpdFrmApp::CleanUp()
+{ 
+    if (gui_enabled) { 
+        wxApp::CleanUp(); 
+    } else { 
+        wxAppConsole::CleanUp(); 
+    } 
+} 
+
+HybridTraits *icpdFrmApp::CreateTraits()
+{ 
+    return new HybridTraits(gui_enabled); 
+} 

@@ -16,9 +16,9 @@
 #include <wx/cmdline.h> 
 
 #ifndef WX_PRECOMP
-	#include <wx/wx.h>
+    #include <wx/wx.h>
 #else
-	#include <wx/wxprec.h>
+    #include <wx/wxprec.h>
 #endif
 #include "icpdfrm.h"
 #include <wx/wx.h>
@@ -26,67 +26,30 @@
 
 class HybridTraits : public wxGUIAppTraits
 { 
-	public: 
-		HybridTraits(bool gui_enabled) : wxGUIAppTraits(), 
-			gui_enabled(gui_enabled) { 
-		} 
+    public: 
+        HybridTraits(bool gui_enabled) : wxGUIAppTraits(), 
+            gui_enabled(gui_enabled) { 
+        }
 
-	private: 
-		bool gui_enabled; 
+    private: 
+        bool gui_enabled;
+        bool show_commands; 
 }; 
-
-
 
 class icpdFrmApp : public wxApp
 {
-	public:
-		wxString cmdFilename; 
+    public:
+        wxString cmdFilename; 
 
-	private:
+    private:
 
-		bool OnInit();
-		int OnExit();
+        bool gui_enabled; 
 
-		bool Initialize(int& argc, wchar_t **argv) { 
- 
-			static const wxCmdLineEntryDesc desc[] = { 
-				{ wxCMD_LINE_SWITCH, wxT("s"), wxT("shell"), wxT("Run in shell mode") }, 
-				{ wxCMD_LINE_PARAM, NULL, NULL, wxT("FILENAME"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-				{ wxCMD_LINE_NONE }
-			}; 
-
-			// wxCmdLineParser parser;
-			wxCmdLineParser parser(desc, argc, argv); 
-			if (parser.Parse(true) != 0) { 
-				exit(1); 
-			} 
-
-			gui_enabled = !parser.Found(wxT("shell"));
-			cmdFilename = parser.GetParam(0);
-
-			if (gui_enabled) { 
-				// printf("Running in GUI\n");
-				return wxApp::Initialize(argc, argv); 
-			} else { 
-				// printf("Running in CLI mode\n");
-				return wxAppConsole::Initialize(argc, argv); 
-			}
-      } 
-
-	void CleanUp() { 
-		if (gui_enabled) { 
-			wxApp::CleanUp(); 
-		} else { 
-			wxAppConsole::CleanUp(); 
-		} 
-	} 
-
-	HybridTraits *CreateTraits() { 
-		return new HybridTraits(gui_enabled); 
-	} 
-
-	bool gui_enabled; 
-
+        bool OnInit();
+        int OnExit();
+        bool Initialize(int& argc, wchar_t **argv);
+        void CleanUp();
+        HybridTraits *CreateTraits();
 };
 
 #endif
