@@ -16,9 +16,9 @@ IMPLEMENT_APP(icpdFrmApp);
 bool icpdFrmApp::Initialize(int& argc, wchar_t **argv) { 
 
     static const wxCmdLineEntryDesc desc[] = { 
-        { wxCMD_LINE_SWITCH, wxT("s"), wxT("shell"), wxT("Run in shell mode") }, 
-        // { wxCMD_LINE_SWITCH, wxT("c"), wxT("commands"), wxT("Show all available commands") },
-        { wxCMD_LINE_PARAM, NULL, NULL, wxT("FILENAME"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+        { wxCMD_LINE_SWITCH, wxT_2("s"), wxT_2("shell"), wxT_2("Run in shell mode") }, 
+        // { wxCMD_LINE_SWITCH, wxT_2("c"), wxT_2("commands"), wxT_2("Show all available commands") },
+        { wxCMD_LINE_PARAM, NULL, NULL, wxT_2("FILENAME"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
         { wxCMD_LINE_NONE }
     }; 
 
@@ -26,9 +26,16 @@ bool icpdFrmApp::Initialize(int& argc, wchar_t **argv) {
     if (parser.Parse(true) != 0) { 
         exit(1); 
     } 
+    
+    gui_enabled = !parser.Found(wxT_2("shell"));
 
-    gui_enabled = !parser.Found(wxT("shell"));
-    cmdFilename = parser.GetParam(0);
+    // cout << " STAT:" << parser.Parse(true) << endl;
+    // cout << " FILE:" << parser.GetParam(0).mb_str() << endl;
+    // cout << " CONT:" << parser.GetParamCount() << endl;
+
+    if (parser.GetParamCount() == 1) {
+        cmdFilename = parser.GetParam(0);
+    }
 
     if (gui_enabled) { 
         return wxApp::Initialize(argc, argv); 
@@ -53,7 +60,7 @@ bool icpdFrmApp::OnInit()
         string cmd;
 
         wxString astran_path;
-        ::wxGetEnv(wxT("ASTRAN_PATH"), &astran_path);
+        ::wxGetEnv(wxT_2("ASTRAN_PATH"), &astran_path);
         string astran_cfg;
         astran_cfg = "astran.cfg";
         astran_cfg = string(wxString(astran_path).mb_str()) + "/bin/astran.cfg";        

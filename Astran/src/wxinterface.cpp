@@ -443,11 +443,10 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxVERTICAL );
 	
-	wx_log = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-	wx_log->SetMaxLength( 0 ); 
+	// wxTE_MULTILINE|
+	wx_log = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	// wx_log->SetMaxLength( 0 ); 
 	bSizer9->Add( wx_log, 1, wxALL|wxEXPAND, 5 );
-	
-	
 	bSizer2->Add( bSizer9, 1, wxEXPAND|wxALIGN_CENTER_HORIZONTAL, 5 );
 	
 	wxCommand = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
