@@ -271,8 +271,8 @@ void AutoCell::route(bool hPoly, bool increaseIntTracks, int reduceVRt, bool opt
     
     for (int x = 0; x < currentNetList.getOrderingN().size(); x++) {
         int p;
-        for (p = center - 1; trackPos[p] > nDif_iniY; --p);
-        for (; increaseIntTracks && p>1 && trackPos[p] > nDif_endY + currentRules->getIntValue(currentNetList.getTrans(currentNetList.getOrderingN()[x].link).width)
+        for (p = center - 1; p && (trackPos[p] > nDif_iniY); --p);
+        for (; p && increaseIntTracks && p>1 && trackPos[p] > nDif_endY + currentRules->getIntValue(currentNetList.getTrans(currentNetList.getOrderingN()[x].link).width)
              && trackPos[p] > supWidth + currentRules->getRule(S2M1M1)+ currentRules->getRule(S2M1M1); --p);
         diffNini.push_back(p);
     }
