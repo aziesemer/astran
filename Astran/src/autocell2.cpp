@@ -866,6 +866,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             currentLayout.addPolygon(0, height+currentRules->getRule(W2DF)/2, width, height-currentRules->getRule(W2DF)/2, NDIF);
             currentLayout.addPolygon(0, height+currentRules->getRule(W2DF)/2+currentRules->getRule(E1INDF), width, height-currentRules->getRule(W2DF)/2-currentRules->getRule(E1IPDF), NSEL);
         }
+        //search for blocking regions in the PTAP area add its interval to a list
         btIntervalsN=btIntervalsP;
         for ( layer_it = currentLayout.layers[NDIF].begin(); layer_it != currentLayout.layers[NDIF].end(); layer_it++ ){
             if(layer_it->getY1() < minDiffDist){
@@ -888,6 +889,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 }
             }
         }
+        //search for empty regions in the list and insert the PTAP geometries where it fits
         for(list<int>::iterator btIntervals_it=btIntervalsN.begin(); btIntervals_it!=btIntervalsN.end(); ++btIntervals_it){
             list<int>::iterator ini, end;
             ini=btIntervals_it;
@@ -901,6 +903,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
             }
         }
         
+        //search for blocking regions in the NTAP area add its interval to a list
         for ( layer_it = currentLayout.layers[PDIF].begin(); layer_it != currentLayout.layers[PDIF].end(); layer_it++ ){
             if(layer_it->getY2() > height-minDiffDist){
                 for(list<int>::iterator btIntervals_it=btIntervalsP.begin(); btIntervals_it!=btIntervalsP.end(); ++btIntervals_it){
@@ -922,6 +925,7 @@ bool AutoCell::compact(string lpSolverFile, int diffStretching, int griddedPoly,
                 }
             }
         }
+        //search for empty regions in the list and insert the NTAP geometries where it fits
         for(list<int>::iterator btIntervals_it=btIntervalsP.begin(); btIntervals_it!=btIntervalsP.end(); ++btIntervals_it){
             list<int>::iterator ini, end;
             ini=btIntervals_it;
