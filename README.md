@@ -10,7 +10,7 @@ Its functionality is being extended to produce complete circuit layouts. Feature
 
 
 ###Features:
-- ASTRAN 3 is under active development and supports +45nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...
+- ASTRAN 3 is under active development and supports 45+nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...
 - It generates all kinds of logic cells, including non-complementary as PTL;
 - Cell instances can be individually sized before generation to reduce delay;
 - Cell layout generation flow includes: transistor folding, 1-D transistor placement (using Threshold Accepting metaheuristic), intracell routing (using pathfinder and iterated 1-steiner algorithms) and 2-D layout compaction (using ILP);
