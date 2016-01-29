@@ -1,5 +1,4 @@
-#ifndef __wxabout__
-#define __wxabout__
+#pragma once
 
 /**
 @file
@@ -18,5 +17,3 @@ public:
 	/** Constructor */
 	WxAbout( wxWindow* parent );
 };
-
-#endif // __wxabout__

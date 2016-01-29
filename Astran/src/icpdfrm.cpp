@@ -19,13 +19,7 @@ IcpdFrm::IcpdFrm( wxWindow* parent ):ICPD_frm( parent ){
 		astran_cfg = string(wxString(astran_path).mb_str()) + "/bin/astran.cfg";
 	}
 
-	readCommand(string("read \"" + astran_cfg + "\""));
-	wxabout = new WxAbout(this);
-	wxrules = new WxRules(this);
-	wxautocell = new WxAutoCell(this);
-	wxcircuit = new WxCircuit(this);
-	wxfp = new WxFP(this);
-	wxpreferences = new WxPreferences(this);
+	executeCommand(string("read \"" + astran_cfg + "\""));
 	refresh();
 }
 
@@ -33,7 +27,7 @@ IcpdFrm::IcpdFrm( wxWindow* parent ):ICPD_frm( parent ){
 
 // Frame events
 void IcpdFrm::OnClose(wxCloseEvent& event){
-	readCommand("exit");
+	executeCommand("exit");
 }
 
 void IcpdFrm::CmdKeyDown( wxKeyEvent& event ){
@@ -75,7 +69,7 @@ void IcpdFrm::newDesign( wxCommandEvent& event ){
 	wxString cmd = wxGetTextFromUser(wxT("Enter the name: "),wxT("New Design"),wxT(""));
 	if(cmd!=wxT("")){
 		cmd=wxT("new design \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
         
 		instanceLevel.clear();
 		refresh();
@@ -86,7 +80,7 @@ void IcpdFrm::newCell( wxCommandEvent& event ){
 	wxString cmd = wxGetTextFromUser(wxT("Enter the cell name: "),wxT("Add a new cell netlist"),wxT(""));
 	if(cmd!=wxT("")){
 		cmd=wxT("new cell ") + cmd;
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -97,7 +91,7 @@ void IcpdFrm::loadProject( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("load project \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
     }
 }
@@ -107,7 +101,7 @@ void IcpdFrm::loadTech( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("load technology \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
     }
 }
 
@@ -116,7 +110,7 @@ void IcpdFrm::loadSpiceNetlist( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("load netlist \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -126,7 +120,7 @@ void IcpdFrm::loadLayouts( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("load layouts \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -136,7 +130,7 @@ void IcpdFrm::loadPlacement( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("load placement \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -146,7 +140,7 @@ void IcpdFrm::loadRouting( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("load routing \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -157,7 +151,7 @@ void IcpdFrm::saveProject( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save project \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -166,7 +160,7 @@ void IcpdFrm::saveTech( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save technology \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -175,7 +169,7 @@ void IcpdFrm::saveSpiceNetlist( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save netlist \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -184,7 +178,7 @@ void IcpdFrm::saveLayouts( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save layouts \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -193,7 +187,7 @@ void IcpdFrm::savePlacement( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save placement \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -202,7 +196,7 @@ void IcpdFrm::saveRouting( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save routing \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -212,7 +206,7 @@ void IcpdFrm::importSpiceNetlist( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("import netlist \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -222,7 +216,7 @@ void IcpdFrm::importLEF( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("import lef \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -233,7 +227,7 @@ void IcpdFrm::exportLayout( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("export layout ") + wx_layouts->GetStringSelection() + wxT(" \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -242,7 +236,7 @@ void IcpdFrm::exportCellSizes( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("export cellsizes \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -251,7 +245,7 @@ void IcpdFrm::exportPlacement( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("export placement \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
@@ -261,7 +255,7 @@ void IcpdFrm::flReadScript( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("read \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
@@ -271,13 +265,13 @@ void IcpdFrm::saveHistory( wxCommandEvent& event ){
 	if ( tmp->ShowModal() == wxID_OK ){
 		wxString cmd = tmp->GetPath();
 		cmd = wxT("save history \"") + cmd + wxT("\"");
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 	}
 }
 
 // File Exit
 void IcpdFrm::OnFileExit( wxCommandEvent& event ){
-	readCommand("exit");
+	executeCommand("exit");
 }
 
 // View
@@ -319,36 +313,36 @@ void IcpdFrm::showFP( wxCommandEvent& event ){
 }
 
 void IcpdFrm::calcPinsPos( wxCommandEvent& event ){
-	readCommand("calcPinsPos");
+	executeCommand("calcPinsPos");
 }
 
 void IcpdFrm::plTerminals( wxCommandEvent& event ){
-	readCommand("place terminals");
+	executeCommand("place terminals");
 }
 
 void IcpdFrm::fastp( wxCommandEvent& event ){
-	readCommand("place fplace");
+	executeCommand("place fplace");
 }
 
 void IcpdFrm::plVerify( wxCommandEvent& event ){
-	readCommand("place check");
+	executeCommand("place check");
 }
 
 void IcpdFrm::plAutoFlip( wxCommandEvent& event ){
-	readCommand("place autoflip");
+	executeCommand("place autoflip");
 }
 
 void IcpdFrm::plIncremental( wxCommandEvent& event ){
-	readCommand("place incremental");
+	executeCommand("place incremental");
 }
 
 void IcpdFrm::plWL( wxCommandEvent& event ){
-	readCommand("place getwl");
+	executeCommand("place getwl");
 }
 
 // Route
 void IcpdFrm::rotdl( wxCommandEvent& event ){
-	readCommand("route rotdl");
+	executeCommand("route rotdl");
 	refresh();
 }
 
@@ -356,23 +350,23 @@ void IcpdFrm::pfinder( wxCommandEvent& event ){
 	wxString cmd = wxGetTextFromUser(wxT("Enter the number of iterations (ex. 1000): "),wxT("Negociation Based Router"),wxT(""));
 	if(cmd!=wxT("")){
 		cmd=wxT("route pfinder ") + cmd;
-		readCommand(string(cmd.mb_str()));
+		executeCommand(string(cmd.mb_str()));
 		refresh();
 	}
 }
 
 void IcpdFrm::rtOptimize( wxCommandEvent& event ){
-	readCommand("route optimize");
+	executeCommand("route optimize");
 	refresh();
 }
 
 void IcpdFrm::rtCompact( wxCommandEvent& event ){
-	readCommand("route compact");
+	executeCommand("route compact");
 	refresh();
 }
 
 void IcpdFrm::rtClear( wxCommandEvent& event ){
-	readCommand("route clear");
+	executeCommand("route clear");
 	refresh();
 }
 
@@ -425,7 +419,7 @@ void IcpdFrm::printInstance( wxCommandEvent& event ){
 		string cmd = "print instance ";
 		cmd += instanceLevel.back()->getName();
 		cmd += " " + string(wx_instances->GetStringSelection().mb_str());
-		readCommand(cmd);
+		executeCommand(cmd);
 		CLayout *tmp=designmng.getCircuit()->getLayout(instanceLevel.back()->getInstance(string(wx_instances->GetStringSelection().mb_str()))->getTargetCell());
 		if(tmp){
 			instanceLevel.push_back(tmp);
@@ -438,37 +432,33 @@ void IcpdFrm::printInstance( wxCommandEvent& event ){
 
 void IcpdFrm::printCell( wxCommandEvent& event ){
 	wxString cmd = wxT("print cell ") + wx_cells->GetStringSelection(); 
-	readCommand(string(cmd.mb_str()));
+	executeCommand(string(cmd.mb_str()));
 }
 
 void IcpdFrm::printNet( wxCommandEvent& event ){
 	wxString cmd = wxT("print net ") + wx_nets->GetStringSelection();
-	readCommand(string(cmd.mb_str()));
+	executeCommand(string(cmd.mb_str()));
 }
 
 void IcpdFrm::printInterface( wxCommandEvent& event ){
 	wxString cmd = wxT("print interface ") + wx_interfaces->GetStringSelection();
-	readCommand(string(cmd.mb_str()));
+	executeCommand(string(cmd.mb_str()));
 }
 
 // Shell
 void IcpdFrm::command( wxCommandEvent& event ){
 	string cmd=string(wxCommand->GetValue().mb_str());
 	wxCommand->SetValue(_T(""));
-	readCommand(cmd.c_str());
+	executeCommand(cmd.c_str());
 }
 
-void IcpdFrm::readCommand(string cmd){
+void IcpdFrm::executeCommand(string cmd){
 	statusBar->SetStatusText(wxT("Executing command..."));
+    statusBar->Refresh();
+    Update();
 	designmng.readCommand(cmd);
 	statusBar->SetStatusText(wxT(""));
 }
-
-/* sem uso!!
- void IcpdFrm::selectCell(wxCommandEvent& event){
- wxString cmd = "select cell" + wx_layouts->GetStringSelection();
- readCommand(cmd.c_str());
- }*/
 
 // functions that don't implement events
 void IcpdFrm::refresh(){
@@ -497,7 +487,7 @@ void IcpdFrm::refresh(){
      */
 	wx_interfaces->DeselectAll();
 	wx_interfaces->Clear();
-	map<string, Interface>::iterator tmp4_it;
+	map<string, Circuit::Interface>::iterator tmp4_it;
 	for(tmp4_it=designmng.getCircuit()->getInterfaces()->begin(); tmp4_it!=designmng.getCircuit()->getInterfaces()->end(); tmp4_it++)
 		wx_interfaces->Append(wxString::From8BitData(tmp4_it->first.c_str()));
     

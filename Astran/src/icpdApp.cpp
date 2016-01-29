@@ -9,8 +9,7 @@
 
 #include "icpdApp.h"
 
-using namespace std;
-
+DECLARE_APP(icpdFrmApp)
 IMPLEMENT_APP(icpdFrmApp);
 
 bool icpdFrmApp::Initialize(int& argc, wchar_t **argv) { 

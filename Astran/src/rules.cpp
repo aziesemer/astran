@@ -52,13 +52,13 @@ void Rules::readRules(string filename) {
 		if (line >> parm_tmp  && parm_tmp[0] != '*') {
 			if (parm_tmp == "MINSTEP"){
 				line >> parm_tmp;
-				if(resolution==0) resolution= int(round(1.0/atof(parm_tmp.c_str())));
+				if(resolution==0) resolution= static_cast<int>(round(1.0/atof(parm_tmp.c_str())));
 				else cout << "-> " << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
 			}
 			else if (parm_tmp == "CIFMET"){
 				line >> parm_tmp;
 				if(resolution==0)
-					resolution=int(round(atof(parm_tmp.c_str())));
+					resolution=static_cast<int>(round(atof(parm_tmp.c_str())));
 				else cout << "-> " << fileline << ": MINSTEP or CIFMET was already set. Ignoring this line" << endl;
 			}
 			else if ( (i = findRule(parm_tmp)) >=0){
@@ -101,7 +101,7 @@ void Rules::saveRules(string filename) {
 		file_out << layer_labels_lst[header].valCIF << endl;
 	}
 
-	file_out << "MINSTEP\t\t" << 1/float(resolution) << endl << endl;
+	file_out << "MINSTEP\t\t" << 1.0/resolution << endl << endl;
 
 	for (int i=0; i < N_RULES; ++i) {
 		if (rules_lst[i].val){
@@ -133,7 +133,7 @@ bool Rules::saveGDSIILayerTable(string filename) {
 	
 	lTabfile.open(filename.c_str()); // Write
 	if (!lTabfile){
-		cerr << lTabfile << ": Layer Table file could not be created" << endl;
+        cout << filename << ": Layer Table file could not be created" << endl;
 		return false;
 	}
 	
@@ -153,8 +153,8 @@ string Rules::getLayerPurposeText(layerPurpose l){
 		case L_DRAWING:	return("drawing");
 		case L_PIN:	return("pin");
 		case L_NET:	return("net");
-	}
-    return "";
+        case L_OTHER: return "";
+    }
 }
 
 bool Rules::saveCIFLayerTable(string filename) {
@@ -163,7 +163,7 @@ bool Rules::saveCIFLayerTable(string filename) {
 
 	lTabfile.open(filename.c_str()); // Write
 	if (!lTabfile){
-		cerr << lTabfile << ": Layer Table file could not be created" << endl;
+		cout << filename << ": Layer Table file could not be created" << endl;
 		return false;
 	}
 	

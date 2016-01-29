@@ -31,12 +31,12 @@ void WxFP::ok(){
 	// compare if current Top Cell is different from selection box
 	if (string(cell_choice->GetStringSelection().mb_str()) != currentFrmwork->getDesign()->getCircuit()->getTopCell()){
 		cmd=wxT("set topcell ") + cell_choice->GetStringSelection();
-		currentFrmwork->readCommand(string(cmd.mb_str()));
+		currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
 	// set new values for margins
 	cmd=wxT("set area ") +  wxNrRows->GetValue() + wxT(" ") +  wxUtilization->GetValue();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 
 	// compare if current margins are different from textboxes values
 	if ((wxC2L->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getLMargin() * currentFrmwork->getDesign()->getCircuit()->getHPitch())) || 
@@ -44,7 +44,7 @@ void WxFP::ok(){
 		(wxC2B->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getBMargin() * currentFrmwork->getDesign()->getCircuit()->getVPitch())) ||
 		(wxC2T->GetValue() != wxString::Format(_T("%f"), currentFrmwork->getDesign()->getCircuit()->getTMargin() * currentFrmwork->getDesign()->getCircuit()->getVPitch()))) {
 			cmd=wxT("set margins ") +  wxC2L->GetValue() + wxT(" ") +  wxC2R->GetValue() + wxT(" ") +  wxC2T->GetValue() + wxT(" ") +  wxC2B->GetValue();
-			currentFrmwork->readCommand(string(cmd.mb_str()));
+			currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
 	Show(false);

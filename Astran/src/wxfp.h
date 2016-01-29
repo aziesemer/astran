@@ -1,5 +1,4 @@
-#ifndef __WXFP_h__
-#define __WXFP_h__
+#pragma once
 
 /**
 @file
@@ -31,5 +30,3 @@ public:
 
 	void refresh();
 };
-
-#endif // __WXFP_h__

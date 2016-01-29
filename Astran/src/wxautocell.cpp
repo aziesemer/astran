@@ -27,17 +27,17 @@ void WxAutoCell::generateCell( wxCommandEvent& event ){
 	
 	// Select cell
 	wxString cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 	
 	// Autoflow
 	cmd=wxT("cellgen autoflow");
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 	update();
 }
 
 void WxAutoCell::select( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen select ") + cellnet_choice->GetStringSelection();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 	update();
 }
 
@@ -46,13 +46,13 @@ void WxAutoCell::fold( wxCommandEvent& event ){
     cmd+= nrIntTracks->GetValue();
     cmd+= wxT(" ");
     cmd+= wxString::Format(_T("%d"), reduceMetTracks->GetValue());
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 	update();
 }
 
 void WxAutoCell::place( wxCommandEvent& event ){
 	wxString cmd=wxT("cellgen place ") + p_TAQ->GetValue() + wxT(" ") + p_NRA->GetValue() + wxT(" ") + p_WC->GetValue() + wxT(" ") + p_GMC->GetValue() + wxT(" ") + p_RC->GetValue() + wxT(" ") + p_RTDC->GetValue() + wxT(" ") + p_NGC->GetValue();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 	update();
 }
 
@@ -65,7 +65,7 @@ void WxAutoCell::route( wxCommandEvent& event ){
     cmd+= reduceVRt->GetValue()==true?wxT("1"):wxT("0");
     cmd+= wxT(" ");
     cmd+= optimize->GetValue()==true?wxT("1"):wxT("0");
-	currentFrmwork->readCommand(string(cmd.mb_str()));
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
 	update();
 }
 
@@ -90,8 +90,8 @@ void WxAutoCell::compact( wxCommandEvent& event ){
     cmd+= debug->GetValue()==true?wxT("1"):wxT("0");
     cmd+= wxT(" ");
     cmd+= timeLimit->GetValue();
-	currentFrmwork->readCommand(string(cmd.mb_str()));
-	update();
+	currentFrmwork->executeCommand(string(cmd.mb_str()));
+    currentFrmwork->refresh();
 }
 
 void WxAutoCell::view( wxCommandEvent& event ){

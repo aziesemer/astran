@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC017D311C5BEFB600E1E226 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = BC017D301C5BEFB600E1E226 /* Makefile */; };
 		BC0C597318529EEC00F47434 /* tech_freePDK45.rul in Resources */ = {isa = PBXBuildFile; fileRef = BC0C597218529EEC00F47434 /* tech_freePDK45.rul */; };
 		BC0C59761853807E00F47434 /* tech_035.rul in Resources */ = {isa = PBXBuildFile; fileRef = BC0C59751853807E00F47434 /* tech_035.rul */; };
 		BC97A535178F2BBE0002254A /* autocell2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A4FD178F2BBE0002254A /* autocell2.cpp */; };
@@ -21,12 +22,11 @@
 		BC97A53F178F2BBE0002254A /* icpdApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A510178F2BBE0002254A /* icpdApp.cpp */; };
 		BC97A540178F2BBE0002254A /* icpdfrm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A512178F2BBE0002254A /* icpdfrm.cpp */; };
 		BC97A541178F2BBE0002254A /* lef.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A514178F2BBE0002254A /* lef.cpp */; };
-		BC97A542178F2BBE0002254A /* pathfinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A516178F2BBE0002254A /* pathfinder.cpp */; };
-		BC97A543178F2BBE0002254A /* pathfinder2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A518178F2BBE0002254A /* pathfinder2.cpp */; };
+		BC97A542178F2BBE0002254A /* gridrouter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A516178F2BBE0002254A /* gridrouter.cpp */; };
+		BC97A543178F2BBE0002254A /* graphrouter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A518178F2BBE0002254A /* graphrouter.cpp */; };
 		BC97A544178F2BBE0002254A /* placer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51A178F2BBE0002254A /* placer.cpp */; };
 		BC97A545178F2BBE0002254A /* router.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51C178F2BBE0002254A /* router.cpp */; };
 		BC97A546178F2BBE0002254A /* rules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A51E178F2BBE0002254A /* rules.cpp */; };
-		BC97A547178F2BBE0002254A /* spice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A521178F2BBE0002254A /* spice.cpp */; };
 		BC97A548178F2BBE0002254A /* verilog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A525178F2BBE0002254A /* verilog.cpp */; };
 		BC97A549178F2BBE0002254A /* wxabout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A527178F2BBE0002254A /* wxabout.cpp */; };
 		BC97A54A178F2BBE0002254A /* wxautocell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A529178F2BBE0002254A /* wxautocell.cpp */; };
@@ -45,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC017D301C5BEFB600E1E226 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
 		BC0C597218529EEC00F47434 /* tech_freePDK45.rul */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = tech_freePDK45.rul; path = ../build/Work/tech_freePDK45.rul; sourceTree = "<group>"; };
 		BC0C59751853807E00F47434 /* tech_035.rul */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = tech_035.rul; path = ../build/Work/tech_035.rul; sourceTree = "<group>"; };
 		BC64D7DE1B2648BD0048D30A /* wxicons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxicons.h; sourceTree = "<group>"; };
@@ -75,17 +76,16 @@
 		BC97A513178F2BBE0002254A /* icpdfrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icpdfrm.h; sourceTree = "<group>"; };
 		BC97A514178F2BBE0002254A /* lef.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lef.cpp; sourceTree = "<group>"; };
 		BC97A515178F2BBE0002254A /* lef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lef.h; sourceTree = "<group>"; };
-		BC97A516178F2BBE0002254A /* pathfinder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pathfinder.cpp; sourceTree = "<group>"; };
-		BC97A517178F2BBE0002254A /* pathfinder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pathfinder.h; sourceTree = "<group>"; };
-		BC97A518178F2BBE0002254A /* pathfinder2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pathfinder2.cpp; sourceTree = "<group>"; };
-		BC97A519178F2BBE0002254A /* pathfinder2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pathfinder2.h; sourceTree = "<group>"; };
+		BC97A516178F2BBE0002254A /* gridrouter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gridrouter.cpp; sourceTree = "<group>"; };
+		BC97A517178F2BBE0002254A /* gridrouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gridrouter.h; sourceTree = "<group>"; };
+		BC97A518178F2BBE0002254A /* graphrouter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = graphrouter.cpp; sourceTree = "<group>"; };
+		BC97A519178F2BBE0002254A /* graphrouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graphrouter.h; sourceTree = "<group>"; };
 		BC97A51A178F2BBE0002254A /* placer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = placer.cpp; sourceTree = "<group>"; };
 		BC97A51B178F2BBE0002254A /* placer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = placer.h; sourceTree = "<group>"; };
 		BC97A51C178F2BBE0002254A /* router.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = router.cpp; sourceTree = "<group>"; };
 		BC97A51D178F2BBE0002254A /* router.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = router.h; sourceTree = "<group>"; };
 		BC97A51E178F2BBE0002254A /* rules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rules.cpp; sourceTree = "<group>"; };
 		BC97A51F178F2BBE0002254A /* rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rules.h; sourceTree = "<group>"; };
-		BC97A521178F2BBE0002254A /* spice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = spice.cpp; sourceTree = "<group>"; };
 		BC97A522178F2BBE0002254A /* spice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spice.h; sourceTree = "<group>"; };
 		BC97A523178F2BBE0002254A /* thresholdaccept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thresholdaccept.h; sourceTree = "<group>"; };
 		BC97A524178F2BBE0002254A /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
@@ -128,6 +128,7 @@
 		BC97A4D0178F2B1E0002254A = {
 			isa = PBXGroup;
 			children = (
+				BC017D301C5BEFB600E1E226 /* Makefile */,
 				BCB5E8321BC81A900085A066 /* astran.cfg */,
 				BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */,
 				BC0C59751853807E00F47434 /* tech_035.rul */,
@@ -195,17 +196,16 @@
 				BC97A513178F2BBE0002254A /* icpdfrm.h */,
 				BC97A514178F2BBE0002254A /* lef.cpp */,
 				BC97A515178F2BBE0002254A /* lef.h */,
-				BC97A516178F2BBE0002254A /* pathfinder.cpp */,
-				BC97A517178F2BBE0002254A /* pathfinder.h */,
-				BC97A518178F2BBE0002254A /* pathfinder2.cpp */,
-				BC97A519178F2BBE0002254A /* pathfinder2.h */,
+				BC97A516178F2BBE0002254A /* gridrouter.cpp */,
+				BC97A517178F2BBE0002254A /* gridrouter.h */,
+				BC97A518178F2BBE0002254A /* graphrouter.cpp */,
+				BC97A519178F2BBE0002254A /* graphrouter.h */,
 				BC97A51A178F2BBE0002254A /* placer.cpp */,
 				BC97A51B178F2BBE0002254A /* placer.h */,
 				BC97A51C178F2BBE0002254A /* router.cpp */,
 				BC97A51D178F2BBE0002254A /* router.h */,
 				BC97A51E178F2BBE0002254A /* rules.cpp */,
 				BC97A51F178F2BBE0002254A /* rules.h */,
-				BC97A521178F2BBE0002254A /* spice.cpp */,
 				BC97A522178F2BBE0002254A /* spice.h */,
 				BC97A523178F2BBE0002254A /* thresholdaccept.h */,
 				BC97A524178F2BBE0002254A /* util.h */,
@@ -257,7 +257,7 @@
 		BC97A4D2178F2B1E0002254A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0720;
 			};
 			buildConfigurationList = BC97A4D5178F2B1E0002254A /* Build configuration list for PBXProject "Astran" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -310,14 +310,14 @@
 				BC97A53C178F2BBE0002254A /* draw.cpp in Sources */,
 				BC97A53D178F2BBE0002254A /* gds.cpp in Sources */,
 				BC97A53F178F2BBE0002254A /* icpdApp.cpp in Sources */,
+				BC017D311C5BEFB600E1E226 /* Makefile in Sources */,
 				BC97A540178F2BBE0002254A /* icpdfrm.cpp in Sources */,
 				BC97A541178F2BBE0002254A /* lef.cpp in Sources */,
-				BC97A542178F2BBE0002254A /* pathfinder.cpp in Sources */,
-				BC97A543178F2BBE0002254A /* pathfinder2.cpp in Sources */,
+				BC97A542178F2BBE0002254A /* gridrouter.cpp in Sources */,
+				BC97A543178F2BBE0002254A /* graphrouter.cpp in Sources */,
 				BC97A544178F2BBE0002254A /* placer.cpp in Sources */,
 				BC97A545178F2BBE0002254A /* router.cpp in Sources */,
 				BC97A546178F2BBE0002254A /* rules.cpp in Sources */,
-				BC97A547178F2BBE0002254A /* spice.cpp in Sources */,
 				BC97A548178F2BBE0002254A /* verilog.cpp in Sources */,
 				BC97A549178F2BBE0002254A /* wxabout.cpp in Sources */,
 				BC97A54A178F2BBE0002254A /* wxautocell.cpp in Sources */,
@@ -336,6 +336,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -345,9 +346,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -380,6 +383,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -392,6 +396,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
@@ -471,6 +476,7 @@
 					"-liconv",
 					"-llzma",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "UFRGS.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = app;
@@ -535,6 +541,7 @@
 					"-liconv",
 					"-llzma",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "UFRGS.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SYMROOT = ../build;
 				WRAPPER_EXTENSION = app;

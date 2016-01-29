@@ -2,8 +2,7 @@
 *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr., Cristiano Lazzari     *
 *   (amziesemerj,clazz)@inf.ufrgs.br                                      *
 ***************************************************************************/
-#ifndef DRAW_H
-#define DRAW_H
+#pragma once
 
 /**
 Estrutura de dados e diretivas de desenho
@@ -16,8 +15,6 @@ Estrutura de dados e diretivas de desenho
 #include <list>
 #include "rules.h"
 #include "util.h"
-
-using namespace std;
 
 class Point {
 	protected:
@@ -79,6 +76,3 @@ class Draw{
 	void merge();
 	void clear();
 };
-
-
-#endif

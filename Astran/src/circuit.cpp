@@ -60,7 +60,7 @@ string* Circuit::getEquation(string n){
 		return NULL;
 }
 
-Interface* Circuit::getInterface(string n){
+Circuit::Interface* Circuit::getInterface(string n){
 	map<string,Interface>::iterator tmp=interfaces.find(n);
 	if(tmp!=interfaces.end())
 		return &tmp->second;
@@ -276,7 +276,7 @@ void Circuit::calculateCellsPins(){
 								}else if((dx<0 && dy<0) || 
 										 (dx<=0 && dy>=0 && dy<currentRules->getRule(S1M1M1)-1) ||
 										 (dx>=0 && dy<=0 && dx<currentRules->getRule(S1M1M1)-1) ||
-										 (dx>=0 && dy>=0 && sqrt(float(dx*dx+dy*dy))<currentRules->getRule(S1M1M1)-1)){
+										 (dx>=0 && dy>=0 && sqrt(static_cast<float>(dx*dx+dy*dy))<currentRules->getRule(S1M1M1)-1)){
 									if(aroundNet=="none") aroundNet=layer_it->getNet();
 									if(aroundNet!=layer_it->getNet() || (connectedNet!="none" && aroundNet!=connectedNet)) fail=true;
 								}								

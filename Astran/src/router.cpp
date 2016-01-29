@@ -4,9 +4,7 @@
  **************************************************************************/
 #include "router.h"
 
-Router::Router(){
-	sizeX=sizeY=sizeZ=0;
-}
+Router::Router():sizeX(0), sizeY(0), sizeZ(0){}
 
 Router::~Router(){}
 
@@ -25,12 +23,12 @@ void Router::test(string r){
 		rt.setLayerCosts(0,	11, 4, 4);
 		rt.setLayerCosts(1,	4, 11, 4);
 		for(int x=1; x<=nrNets; x++){
-			netIndex[intToStr(x)]=x;
+			netIndex[to_string(x)]=x;
 			int netSize=2+rand()%5;
 			for(int y=0; y<netSize; y++){
 				int node=rand()%(sizeX*sizeY);
 				if(rt.getNet(node)){ --y; continue;}
-				rt.addNodetoNet(netIndex[intToStr(x)], node);
+				rt.addNodetoNet(netIndex[to_string(x)], node);
 				Point p((rt.getPosX(node)+1)*pitchH, (rt.getPosY(node)+1)*pitchV);
 			}
 		}
@@ -65,7 +63,7 @@ void Router::setup(int sX, int sY, int sZ){
 	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
 			if(netIndex.find(nets_it->name)==netIndex.end()) netIndex[nets_it->name]=i++;
-			Interface* tmp_int=currentCircuit->getInterface(nets_it->name);
+			Circuit::Interface* tmp_int=currentCircuit->getInterface(nets_it->name);
 			if(tmp_int){
 				//					cerr << netIndex[nets_it->name] << " " << tmp_int->pos.getX()+currentCircuit->getLMargin() << " " << tmp_int->pos.getY()+currentCircuit->getBMargin() << endl;
 				rt.addNodetoNet(netIndex[nets_it->name], rt.getPos(tmp_int->pos.getX()+currentCircuit->getLMargin() ,tmp_int->pos.getY()+currentCircuit->getBMargin(), 2));
@@ -86,7 +84,7 @@ void Router::setup(int sX, int sY, int sZ){
 								posx=tmp_inst->getX()-posx;
 							else
 								posx+=tmp_inst->getX();								
-							rt.addNodetoNet(netIndex[nets_it->name], rt.getPos(round(float(posx)/pitchH)+currentCircuit->getLMargin() ,round(float(posy)/pitchV)+currentCircuit->getBMargin(),0));
+							rt.addNodetoNet(netIndex[nets_it->name], rt.getPos(round(static_cast<float>(posx)/pitchH)+currentCircuit->getLMargin() ,round(static_cast<float>(posy)/pitchV)+currentCircuit->getBMargin(),0));
 						}
                         else
                             throw AstranError("Pin " + currentCircuit->getCellNetlst(tmp_inst->getTargetCell())->getInout(nodes_it->targetPin) + " not found in cell instance " + nodes_it->targetCellInst);
@@ -123,7 +121,7 @@ void Router::compactLayout(string lpSolverFile){
 	
 	vector<Box*> geometries;
 	
-	compaction cpt(CP_LP, "ILProuting");
+	Compaction cpt(CP_LP, "ILProuting");
 	Rules* currentRules=currentCircuit->getRules();
 	cpt.insertConstraint( "ZERO", "MAXM1", CP_EQ, currentRules->getRule(W1M1)*1.5);
 	cpt.insertConstraint( "ZERO", "MAXM12", CP_EQ, currentRules->getRule(S1M1M1)*3.5);
@@ -149,7 +147,7 @@ void Router::compactLayout(string lpSolverFile){
 					Point p((x+1)*pitchH,(y+1)*pitchV);
 					rtLayout[rt.getNet(currentNode)-1].addLabel("X",p);
 				}
-				if(true){
+				if(/* DISABLES CODE */ (true)){
 					if(rt.areConnected(currentNode, RT_EAST)){
 						rtLayout[rt.getNet(currentNode)-1].addPath((x+1)*pitchH, (y+1)*pitchV, currentRules->getRule(W1M1),pitchH, true, E, rtLayers[z*2]);
 					}
@@ -162,12 +160,12 @@ void Router::compactLayout(string lpSolverFile){
 						rtLayout[rt.getNet(currentNode)-1].addEnc(b, currentRules->getRule(E1M2VI), rtLayers[(z+1)*2]);
 					}
 				}else{
-					if(z%2==1){
+/*					if(z%2==1){
 						//se conecta com o da direira ou para baixo cria dogleg
 						if(x<sizeX-1 && rt.areConnected(currentNode,RT_EAST)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(0,((y+1)*pitchV)-currentRules->getRule(W1M1)/2, 0, ((y+1)*pitchV)+currentRules->getRule(W1M1)/2, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "x" + labels[currentNode] + "a", "x" + labels[currentNode] + "b", CP_EQ, "x" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("x" + labels[currentNode] + "min");
 								if(lastx!="")
@@ -180,7 +178,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(y<sizeY-1 && rt.areConnected(currentNode,RT_NORTH)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(0,((y+1)*pitchV)-currentRules->getRule(W1M1)/2, 0, ((y+1)*pitchV)+currentRules->getRule(W1M1)/2, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "x" + labels[currentNode] + "a", "x" + labels[currentNode] + "b", CP_EQ, "x" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("x" + labels[currentNode] + "min");
 								if(lastx!="")
@@ -192,7 +190,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(y>0 && rt.areConnected(currentNode, RT_DOWN)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(0,((y+1)*pitchV)-currentRules->getRule(W1M1)/2, 0, ((y+1)*pitchV)+currentRules->getRule(W1M1)/2, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "x" + labels[currentNode] + "a", "x" + labels[currentNode] + "b", CP_EQ, "x" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("x" + labels[currentNode] + "min");
 								if(lastx!="")
@@ -201,7 +199,7 @@ void Router::compactLayout(string lpSolverFile){
 							}
 							
 							geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(0,y*pitchV, 0, (y+1)*pitchV, rtLayers[z*2]));
-							string px=intToStr(geometries.size()-1);
+							string px=to_string(geometries.size()-1);
 							cpt.insertConstraint( "x" + px + "a", "x" + px + "b", CP_MIN, currentRules->getRule(W1M1));
 							cpt.insertConstraint( "x" + px + "a", "x" + px + "b", CP_EQ, "x" + px + "s");
 							cpt.insertConstraint( "x" + px + "s", "MAXM1", CP_EQ, "x" + px + "min");
@@ -233,7 +231,7 @@ void Router::compactLayout(string lpSolverFile){
 							rtLayout[rt.getNet(currentNode)-1].addEnc(b, currentRules->getRule(E1M2VI), rtLayers[(z+1)*2]);
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(0,((y+1)*pitchV)-currentRules->getRule(W1M1)/2, 0, ((y+1)*pitchV)+currentRules->getRule(W1M1)/2, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "x" + labels[currentNode] + "a", "x" + labels[currentNode] + "b", CP_EQ, "x" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("x" + labels[currentNode] + "min");
 								if(lastx!="")
@@ -247,7 +245,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(z>0 && rt.areConnected(currentNode, RT_DOWN)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(0,((y+1)*pitchV)-currentRules->getRule(W1M1)/2, 0, ((y+1)*pitchV)+currentRules->getRule(W1M1)/2, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "x" + labels[currentNode] + "a", "x" + labels[currentNode] + "b", CP_EQ, "x" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("x" + labels[currentNode] + "min");
 								if(lastx!="")
@@ -267,7 +265,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(y<sizeY-1 && rt.areConnected(currentNode,RT_NORTH)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(((x+1)*pitchH)-currentRules->getRule(W1M1)/2, 0, ((x+1)*pitchH)+currentRules->getRule(W1M1)/2, 0, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "y" + labels[currentNode] + "a", "y" + labels[currentNode] + "b", CP_EQ, "y" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("y" + labels[currentNode] + "min");
 								if(lasty[x]!="")
@@ -279,7 +277,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(x<sizeX-1 && rt.areConnected(currentNode,RT_EAST)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(((x+1)*pitchH)-currentRules->getRule(W1M1)/2, 0, ((x+1)*pitchH)+currentRules->getRule(W1M1)/2, 0, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "y" + labels[currentNode] + "a", "y" + labels[currentNode] + "b", CP_EQ, "y" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("y" + labels[currentNode] + "min");
 								if(lasty[x]!="")
@@ -291,7 +289,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(x>0 && rt.areConnected(currentNode, RT_WEST)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(((x+1)*pitchH)-currentRules->getRule(W1M1)/2, 0, ((x+1)*pitchH)+currentRules->getRule(W1M1)/2, 0, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "y" + labels[currentNode] + "a", "y" + labels[currentNode] + "b", CP_EQ, "y" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("y" + labels[currentNode] + "min");
 								if(lasty[x]!="")
@@ -300,7 +298,7 @@ void Router::compactLayout(string lpSolverFile){
 							}
 							
 							geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(x*pitchH, 0, (x+1)*pitchH, 0, rtLayers[z*2]));
-							string px=intToStr(geometries.size()-1);
+							string px=to_string(geometries.size()-1);
 							cpt.insertConstraint( "y" + px + "a", "y" + px + "b", CP_MIN, currentRules->getRule(W1M1));
 							cpt.insertConstraint( "y" + px + "a", "y" + px + "b", CP_EQ, "y" + px + "s");
 							cpt.insertConstraint( "y" + px + "s", "MAXM1", CP_EQ, "y" + px + "min");
@@ -329,7 +327,7 @@ void Router::compactLayout(string lpSolverFile){
 							rtLayout[rt.getNet(currentNode)-1].addEnc(b, currentRules->getRule(E1M2VI), rtLayers[(z+1)*2]);
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(((x+1)*pitchH)-currentRules->getRule(W1M1)/2, 0, ((x+1)*pitchH)+currentRules->getRule(W1M1)/2, 0, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "y" + labels[currentNode] + "a", "y" + labels[currentNode] + "b", CP_EQ, "y" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("y" + labels[currentNode] + "min");
 								if(lasty[x]!="")
@@ -343,7 +341,7 @@ void Router::compactLayout(string lpSolverFile){
 						if(z>0 && rt.areConnected(currentNode, RT_DOWN)){
 							if(labels[currentNode]==""){ //cria um novo segmento
 								geometries.push_back(&rtLayout[rt.getNet(currentNode)-1].addPolygon(((x+1)*pitchV)-currentRules->getRule(W1M1)/2, 0, ((x+1)*pitchV)+currentRules->getRule(W1M1)/2, 0, rtLayers[z*2]));
-								labels[currentNode]=intToStr(geometries.size()-1);
+								labels[currentNode]=to_string(geometries.size()-1);
 								cpt.insertConstraint( "y" + labels[currentNode] + "a", "y" + labels[currentNode] + "b", CP_EQ, "y" + labels[currentNode] + "min");
 								cpt.insertLPMinVar("y" + labels[currentNode] + "min");
 								if(lasty[x]!="")
@@ -358,7 +356,7 @@ void Router::compactLayout(string lpSolverFile){
 							cpt.insertConstraint("ZERO",  "y" + labels[currentNode] + "b", CP_MIN, ((y+1)*pitchV));
 						}
 					}
-				}
+*/				}
 			}
 		}
 	}
@@ -366,10 +364,10 @@ void Router::compactLayout(string lpSolverFile){
 	cpt.solve(lpSolverFile, 3600);
 	
 	for (unsigned int i =0; i < geometries.size(); i++ ) {		
-		int xa = cpt.getVariableVal( "x" + intToStr( i ) + "a" );
-		int xb = cpt.getVariableVal( "x" + intToStr( i ) + "b" );
-		int ya = cpt.getVariableVal( "y" + intToStr( i ) + "a" );
-		int yb = cpt.getVariableVal( "y" + intToStr( i ) + "b" );
+		int xa = cpt.getVariableVal( "x" + to_string( i ) + "a" );
+		int xb = cpt.getVariableVal( "x" + to_string( i ) + "b" );
+		int ya = cpt.getVariableVal( "y" + to_string( i ) + "a" );
+		int yb = cpt.getVariableVal( "y" + to_string( i ) + "b" );
 		
 		if(xa!=-1 && xb!=-1){
 			geometries[i]->setWidth(xb-xa);
@@ -452,15 +450,15 @@ void Router::readRoutingRotdl(string fileName){
 					}
 					line >> str; // ]
 				}else
-                    throw AstranError("Expected ( or [ in line: " + intToStr(fileline));
+                    throw AstranError("Expected ( or [ in line: " + to_string(fileline));
 			}
 			
 		}else if(upcase(str)=="ERROR:"){
 			line >> str;
 			line >> netName;
-            throw AstranError("Unable to route net: " + netName + " in line: " + intToStr(fileline));
+            throw AstranError("Unable to route net: " + netName + " in line: " + to_string(fileline));
 		}else 
-            throw AstranError("Parser error in line: " + intToStr(fileline));
+            throw AstranError("Parser error in line: " + to_string(fileline));
 	}
 	rt.showResult();
 }

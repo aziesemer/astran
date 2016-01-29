@@ -2,34 +2,34 @@
  *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr.                        *
  *   amziesemerj[at]inf.ufrgs.br                                           *
  **************************************************************************/
-#include "pathfinder2.h"
+#include "graphrouter.h"
 
-Pathfinder2::Pathfinder2(){}
+GraphRouter::GraphRouter(){}
 
-Pathfinder2::~Pathfinder2(){}
+GraphRouter::~GraphRouter(){}
 
 //Create a new node in the graph
-unsigned int Pathfinder2::createNode(){
+unsigned int GraphRouter::createNode(){
 	static Node tmp;
 	graph.push_back(tmp);
-	return(graph.size()-1);
+	return(static_cast<int>(graph.size()-1));
 };
 
 //Clear data structures
-void Pathfinder2::clear(){
+void GraphRouter::clear(){
 	netlist.clear();
 	graph.clear();
 	arcs.clear();
 }
 
 //Create a graph of a given size
-unsigned int Pathfinder2::createGraph(int size){
+unsigned int GraphRouter::createGraph(int size){
 	graph.resize(size);
 	return 1;
 };
 
 //Add a new node to the net
-void Pathfinder2::addNodetoNet(unsigned int net, unsigned int node){
+void GraphRouter::addNodetoNet(unsigned int net, unsigned int node){
 	if(graph[node].net==-1){ 
 		netlist[net].nodes.push_back(node);
 		graph[node].net=net;
@@ -39,7 +39,7 @@ void Pathfinder2::addNodetoNet(unsigned int net, unsigned int node){
 };
 
 //Connect 2 nodes and give a cost to it
-void Pathfinder2::addArc(unsigned int node1, unsigned int node2, unsigned int cost){
+void GraphRouter::addArc(unsigned int node1, unsigned int node2, unsigned int cost){
 	t_arc tmp;
 	tmp.cost=cost;
 	tmp.node1=node1;
@@ -52,7 +52,7 @@ void Pathfinder2::addArc(unsigned int node1, unsigned int node2, unsigned int co
 };
 
 //Remove arcs connected to a given node
-void Pathfinder2::remArcs(unsigned int node){
+void GraphRouter::remArcs(unsigned int node){
 	int n;
 	
 	for(list<t_arc*>::iterator arc_it = graph[node].arcs.begin(); arc_it != graph[node].arcs.end(); arc_it++){
@@ -67,12 +67,12 @@ void Pathfinder2::remArcs(unsigned int node){
 	graph[node].arcs.clear();
 };
 
-void Pathfinder2::clearHistory(){
+void GraphRouter::clearHistory(){
    	for(unsigned int x=0; x<graph.size(); x++)
 		graph[x].history=0;
 }
 
-int Pathfinder2::prim(list<unsigned int> tmp_netnodes,unsigned int actualAttempt,unsigned int net) {
+int GraphRouter::prim(list<unsigned int> tmp_netnodes,unsigned int actualAttempt,unsigned int net) {
 	unsigned int c=1;
    	int cost=0;
 	int ok;		
@@ -89,7 +89,7 @@ int Pathfinder2::prim(list<unsigned int> tmp_netnodes,unsigned int actualAttempt
 	
 }
 
-bool Pathfinder2::routeNets(unsigned int nrAttempts){
+bool GraphRouter::routeNets(unsigned int nrAttempts){
 	int ok=0;
 	int actualAttempt=0, minConflict=0, cntConflict=-1;
 	int conflicts;
@@ -107,7 +107,7 @@ bool Pathfinder2::routeNets(unsigned int nrAttempts){
 	reset();
 	start=clock(); 
 	
-	//Pathfinder2 Routing
+	//GraphRouter Routing
 	do{
 		actualAttempt++;
 		finalNet=actualAttempt;
@@ -182,7 +182,7 @@ bool Pathfinder2::routeNets(unsigned int nrAttempts){
 	return(ok && !conflicts);
 	
 }	
-int Pathfinder2::addSteiner(unsigned int actualAttempt,unsigned int net) {
+int GraphRouter::addSteiner(unsigned int actualAttempt,unsigned int net) {
 	list<int> stCandidates;
 	list<int>::iterator stCandidates_it,bestCandidate_it;
 	list<unsigned int> tmp_netnodes=netlist[net].nodes;
@@ -227,7 +227,7 @@ int Pathfinder2::addSteiner(unsigned int actualAttempt,unsigned int net) {
 }
 
 
-bool Pathfinder2::optimize(){
+bool GraphRouter::optimize(){
 	list<unsigned int>::iterator netTree_it;
 	map<unsigned int,t_nets>::iterator nets_it;
 	clock_t start,finish;
@@ -282,7 +282,7 @@ bool Pathfinder2::optimize(){
 }
 
 //Find the shortest path using a maze router
-int Pathfinder2::bfsRoute(list<unsigned int>& sourceNodes, const unsigned int targetNet, const unsigned int label, const bool checkConflict, const unsigned int maxCost, unsigned int actualAttempt, bool definitive ){
+int GraphRouter::bfsRoute(list<unsigned int>& sourceNodes, const unsigned int targetNet, const unsigned int label, const bool checkConflict, const unsigned int maxCost, unsigned int actualAttempt, bool definitive ){
 	
 	static vector<t_trace> trace;
 	trace.resize(graph.size());
@@ -353,7 +353,7 @@ int Pathfinder2::bfsRoute(list<unsigned int>& sourceNodes, const unsigned int ta
 }
 
 //Find the shortest path using a maze router
-int Pathfinder2::bfsRoute2(list<unsigned int>& sourceNodes, const unsigned int targetNet, const unsigned int label, const bool checkConflict, const unsigned int maxCost, unsigned int actualAttempt, bool definitive ){
+int GraphRouter::bfsRoute2(list<unsigned int>& sourceNodes, const unsigned int targetNet, const unsigned int label, const bool checkConflict, const unsigned int maxCost, unsigned int actualAttempt, bool definitive ){
 	
 	vector<t_trace> trace(graph.size());
 	for (int n=0; n<trace.size(); n++) trace[n].clear();
@@ -426,7 +426,7 @@ int Pathfinder2::bfsRoute2(list<unsigned int>& sourceNodes, const unsigned int t
 }
 
 
-unsigned int Pathfinder2::calcCost(const t_arc* arc, const unsigned int targetNode, const unsigned int targetNet, unsigned int actualAttempt){
+unsigned int GraphRouter::calcCost(const t_arc* arc, const unsigned int targetNode, const unsigned int targetNet, unsigned int actualAttempt){
  	if(actualAttempt!=1)
 		return arc->cost+(graph[targetNode].history*(graph[targetNode].nrNets+1));
 	else
@@ -435,7 +435,7 @@ unsigned int Pathfinder2::calcCost(const t_arc* arc, const unsigned int targetNo
 
 
 
-int Pathfinder2::getNrFinalArcs(int n){
+int GraphRouter::getNrFinalArcs(int n){
 	int cnt=0;
 	for(list<t_arc*>::iterator arc_it = graph[n].arcs.begin(); arc_it != graph[n].arcs.end(); arc_it++){
 		if((*arc_it)->label==finalNet)
@@ -444,7 +444,7 @@ int Pathfinder2::getNrFinalArcs(int n){
 	return cnt;
 }	
 
-int Pathfinder2::getCost(){
+int GraphRouter::getCost(){
 	unsigned int finalCost=0;
 	for(list<t_arc>::iterator arc_it = arcs.begin(); arc_it != arcs.end(); arc_it++)
 		if(arc_it->label==finalNet)
@@ -452,7 +452,7 @@ int Pathfinder2::getCost(){
 	return finalCost;
 }
 
-void Pathfinder2::showResult(){
+void GraphRouter::showResult(){
 	unsigned int finalCost=0,wlCost=0;
 	for(list<t_arc>::iterator arc_it = arcs.begin(); arc_it != arcs.end(); arc_it++){
 		if(arc_it->label==finalNet){
@@ -465,7 +465,7 @@ void Pathfinder2::showResult(){
 //	cout << "-> Wirelength =" << wlCost << endl;
 }
 
-bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){
+bool GraphRouter::areConnected(unsigned int n1, unsigned int n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if((*arc_it)->label==finalNet){
 			if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
@@ -475,11 +475,11 @@ bool Pathfinder2::areConnected(unsigned int n1, unsigned int n2){
 	return false;
 }
 
-int Pathfinder2::areConnected2(unsigned int n1, unsigned n2){
+int GraphRouter::areConnected2(unsigned int n1, unsigned n2){
 	return graph[n1].net==graph[n2].net && graph[n1].nrNets>=1 && graph[n2].nrNets>=1;
 }
 
-bool Pathfinder2::connect(int net, unsigned int n1, unsigned n2){
+bool GraphRouter::connect(int net, unsigned int n1, unsigned n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1)){
 			(*arc_it)->label=finalNet;
@@ -499,11 +499,11 @@ bool Pathfinder2::connect(int net, unsigned int n1, unsigned n2){
 	return false;
 }
 
-bool Pathfinder2::isSource(unsigned int x){
+bool GraphRouter::isSource(unsigned int x){
 	return graph[x].source==1;
 }
 
-int Pathfinder2::getArcCost(int n1, int n2){
+int GraphRouter::getArcCost(int n1, int n2){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
 			return (*arc_it)->cost;
@@ -511,7 +511,7 @@ int Pathfinder2::getArcCost(int n1, int n2){
 	return -1;
 }
 
-int Pathfinder2::setArcCost(int n1, int n2, int cost){
+int GraphRouter::setArcCost(int n1, int n2, int cost){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1))
 			return (*arc_it)->cost=cost;
@@ -520,7 +520,7 @@ int Pathfinder2::setArcCost(int n1, int n2, int cost){
 }
 
 //Lock arc for specified net
-bool Pathfinder2::lockArc(int n1, int n2, int net){
+bool GraphRouter::lockArc(int n1, int n2, int net){
 	for(list<t_arc*>::iterator arc_it = graph[n1].arcs.begin(); arc_it != graph[n1].arcs.end(); arc_it++){
 		if(((*arc_it)->node1==n1 && (*arc_it)->node2==n2) || ((*arc_it)->node1==n2 && (*arc_it)->node2==n1)){
 			(*arc_it)->lockNet=net;
@@ -530,7 +530,7 @@ bool Pathfinder2::lockArc(int n1, int n2, int net){
 	return false;
 }
 
-void Pathfinder2::reset(){
+void GraphRouter::reset(){
 	for(map<unsigned int,t_nets>::iterator nets_it=netlist.begin(); nets_it!=netlist.end(); nets_it++){
 		for(list<unsigned int>::iterator nodes_it=nets_it->second.nodes.begin(); nodes_it!=nets_it->second.nodes.end();nodes_it++)
 			if(graph[*nodes_it].source==2) nets_it->second.nodes.erase(nodes_it);

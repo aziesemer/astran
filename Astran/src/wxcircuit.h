@@ -1,5 +1,4 @@
-#ifndef WXCIRCUIT
-#define WXCIRCUIT
+#pragma once
 
 /**
 @file
@@ -31,5 +30,3 @@ public:
 
 	void refresh();
 };
-
-#endif // WXCIRCUIT

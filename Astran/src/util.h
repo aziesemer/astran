@@ -7,8 +7,7 @@
  *
  */
 
-#ifndef UTIL_H
-#define UTIL_H
+#pragma once
 
 #include <sstream>
 #include <fstream>
@@ -20,13 +19,13 @@
 #include <wx/wx.h>
 #include <wx/process.h>
 
-using namespace std;
-
 #define printme( e ) { cerr << #e << " = " << ( e ) << "\n"; };
-#define VERSION "3.10"
+#define VERSION "3.20"
 
 enum IOType {IOTYPE_INPUT, IOTYPE_OUTPUT, IOTYPE_INOUT};
 enum HorV {V, H};
+
+using namespace std;
 
 inline void printHeader (ostream& target, string begin, string end) {
 	time_t timer = time(NULL);
@@ -62,18 +61,6 @@ inline string upcase(string s){
 	return s;
 }
 
-inline string intToStr(int pos){
-	ostringstream tmp;
-	tmp << pos;
-	return tmp.str();
-}
-
-inline string doubleToStr(double pos){
-    ostringstream tmp;
-    tmp << pos;
-    return tmp.str();
-}
-
 inline int strToInt( const string &s){
 	istringstream myStream(s);
 	int i;
@@ -81,23 +68,23 @@ inline int strToInt( const string &s){
 	return i;
 }
 
-inline string removeExt(const string &fileName){
+inline string removeExt(const string& fileName){
 	return fileName.substr(0,fileName.find_last_of("."));
 }
 
-inline string getFileName(const string &fileName){
+inline string getFileName(const string& fileName){
 	return fileName.substr(fileName.find_last_of("/\\")+1);
 }
 
-inline string getExt(const string &fileName){
+inline string getExt(const string& fileName){
 	return fileName.substr(fileName.find_last_of(".")+1);
 }
 
-inline string getPath(const string &fileName){
+inline string getPath(const string& fileName){
 	return fileName.substr(0,fileName.find_last_of("/\\")+1);
 }
 
-inline void icpdExecute(const string exec_cmd){
+inline void icpdExecute(const string& exec_cmd){
 #if defined (_MSC_VER)
 	wxExecute(exec_cmd);
 #else
@@ -170,6 +157,4 @@ using std::min;
 #else
 #define _popen popen
 #define _pclose pclose
-#endif
-
 #endif

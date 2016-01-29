@@ -13,8 +13,7 @@ Verilog::Verilog(){}
 
 Verilog::~Verilog(){}
 
-
-bool Verilog::readFile(string nome, Circuit& netlist){
+bool Verilog::readFile(const string& nome, Circuit& netlist){
 	vector<string> tokens;
 	int a, b, instance=0;
 	CellNetlst cell;
@@ -52,7 +51,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 						readRange(tokens,++n,a,b);
 						while(tokens[n++]!=";"){
 							for(int i=b; i<=a; ++i){
-								wires.push_back(tokens[n]+ "[" + intToStr(i) + "]");
+								wires.push_back(tokens[n]+ "[" + to_string(i) + "]");
 							}
 							if(!compareChars(tokens[++n], ",", ";")) return false;
 						}
@@ -68,7 +67,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 						readRange(tokens,++n,a,b);
 						while(tokens[n++]!=";"){
 							for(int i=b; i<=a; ++i){
-								inputs.push_back(tokens[n]+ "[" + intToStr(i) + "]");
+								inputs.push_back(tokens[n]+ "[" + to_string(i) + "]");
 							}
 							if(!compareChars(tokens[++n], ",", ";")) return false;
 						}
@@ -84,7 +83,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 						readRange(tokens,++n,a,b);
 						while(tokens[n++]!=";"){
 							for(int i=b; i<=a; ++i){
-								outputs.push_back(tokens[n]+ "[" + intToStr(i) + "]");
+								outputs.push_back(tokens[n]+ "[" + to_string(i) + "]");
 							}
 							if(!compareChars(tokens[++n], ",", ";")) return false;
 						}
@@ -99,14 +98,14 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 					string v1, v2;
 					v1=tokens[++n];
 					if(tokens[n+1]=="["){
-						intToStr(readRange(tokens,++n,a,b));
-						v1+="["+intToStr(a)+"]";				
+						to_string(readRange(tokens,++n,a,b));
+						v1+="["+to_string(a)+"]";				
 					}
 					if(!compareChars(tokens[++n], "=")) return false;
 					v2=tokens[++n];
 					if(tokens[n+1]=="["){
-						intToStr(readRange(tokens,++n,a,b));
-						v2+="["+intToStr(a)+"]";
+						to_string(readRange(tokens,++n,a,b));
+						v2+="["+to_string(a)+"]";
 					}
 //					cout << v1 << "-" << v2 << endl;
 					assigns[v1]=v2;
@@ -159,16 +158,16 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 									net_ids2.push_back(netlist.getGndNet());
 									v2=net_ids2.front();
 									wires.push_back(v2);
-									cell.insertInstance("X"+intToStr(instance++), "INV", net_ids2);
+									cell.insertInstance("X"+to_string(instance++), "INV", net_ids2);
 								}
 								if(tokens[n+1]=="["){
 									int c,d;
-									intToStr(readRange(tokens,++n,c,d));
-									v2+="["+intToStr(d+x)+"]";				
+									to_string(readRange(tokens,++n,c,d));
+									v2+="["+to_string(d+x)+"]";				
 								}
 								else{ //no brakets
 									if(!findNet(v2))
-										v2+="["+intToStr(x)+"]";				
+										v2+="["+to_string(x)+"]";				
 								}
 								if(assigns.find(v2)!=assigns.end()) v2=assigns[v2];
 								if(!findNet(v2))
@@ -178,7 +177,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 							}
 							net_ids.push_back(netlist.getVddNet());
 							net_ids.push_back(netlist.getGndNet());
-							cell.insertInstance("X"+intToStr(instance++), mod, net_ids);
+							cell.insertInstance("X"+to_string(instance++), mod, net_ids);
 						}
 					}else{
 						if(!compareChars(tokens[n], "(")) return false;
@@ -194,12 +193,12 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 								net_ids2.push_back(netlist.getGndNet());
 								v2=net_ids2.front();
 								wires.push_back(v2);								
-								cell.insertInstance("X"+intToStr(instance++), "INV", net_ids2);
+								cell.insertInstance("X"+to_string(instance++), "INV", net_ids2);
 							}
 							if(tokens[n+1]=="["){
 								int c,d;
-								intToStr(readRange(tokens,++n,c,d));
-								v2+="["+intToStr(c)+"]";				
+								to_string(readRange(tokens,++n,c,d));
+								v2+="["+to_string(c)+"]";				
 							}
 							if(assigns.find(v2)!=assigns.end()) v2=assigns[v2];
 							if(!findNet(v2))
@@ -209,7 +208,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
 						}
 						net_ids.push_back(netlist.getVddNet());
 						net_ids.push_back(netlist.getGndNet());
-						cell.insertInstance("X"+intToStr(instance++), mod, net_ids);
+						cell.insertInstance("X"+to_string(instance++), mod, net_ids);
 					}					
 					n++;
 					if(!compareChars(tokens[n++], ";")) return false;
@@ -221,7 +220,7 @@ bool Verilog::readFile(string nome, Circuit& netlist){
     return true;
 }
 
-int Verilog::findNet(string v){
+int Verilog::findNet(const string v){
 	vector<string>::iterator tmp;
 
 	for(tmp=inputs.begin(); tmp!=inputs.end(); ++tmp)
@@ -233,7 +232,7 @@ int Verilog::findNet(string v){
 	return false;
 }
 	
-int Verilog::getValue(string v){
+int Verilog::getValue(const string v){
 	if(parameters.find(v)!=parameters.end())
 		return strToInt(parameters[v]);
 	return strToInt(v);
@@ -277,22 +276,20 @@ bool Verilog::readRange(vector<string>& tokens, int& n,  int& a, int& b){
 	}
 	return true;	
 }
-					 
 
-bool Verilog::compareChars(string a, string b){
+bool Verilog::compareChars(const string a, const string b){
 	if (a == b) return true;
 	cout << "-> ERROR: It was expecting " << b << " but get " << a << endl;
 	return false;
 }
 
-bool Verilog::compareChars(string a, string b, string c){
+bool Verilog::compareChars(const string a, const string b, const string c){
 	if (a == b | a == c) return true;
 	cout << "-> ERROR: It was expecting " << b << " or " << c << " but get " << a << endl;
 	return false;
 }
 
-
-int Verilog::parserFile(string& filename, vector<string>& words){
+int Verilog::parserFile(const string& filename, vector<string>& words){
 	int fileline=0;
 	bool comment=false;
 	string str_tmp;
@@ -347,5 +344,5 @@ int Verilog::parserFile(string& filename, vector<string>& words){
 		}
 	}
 	arq.close();
-	return words.size();
+	return static_cast<int>(words.size());
 }

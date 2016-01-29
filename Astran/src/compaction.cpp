@@ -7,7 +7,7 @@
 #include "compaction.h"
 
 /** Constructor. */
-compaction::compaction( cp_algo a ,string name) {
+Compaction::Compaction( cp_algo a ,string name) {
 	algo = a;
 	lp_filename = name;
 	variables.clear();
@@ -15,13 +15,13 @@ compaction::compaction( cp_algo a ,string name) {
 }
 
 /** Insert new variable. */
-void compaction::insertVal( string name ) {
+void Compaction::insertVal( string name ) {
 	variables[name] = 0;  
 	//  cout << "INS VAR " << name << endl;
 }
 
 /** Insert new constraint. */
-void compaction::insertConstraintBTZ( string v1 ) {
+void Compaction::insertConstraintBTZ( string v1 ) {
 	
 	cp_constraint cpc;
 	
@@ -39,12 +39,12 @@ void compaction::insertConstraintBTZ( string v1 ) {
 	constraints.push_back( cpc );
 }
 
-void compaction::insertConstraint( string v1 ) {
+void Compaction::insertConstraint( string v1 ) {
     ctrts.push_back(v1);
 }
 
 /** Insert new constraint. */
-void compaction::insertConstraintEBTZ( string v1 ) {
+void Compaction::insertConstraintEBTZ( string v1 ) {
 	
 	cp_constraint cpc;
 	
@@ -63,7 +63,7 @@ void compaction::insertConstraintEBTZ( string v1 ) {
 }
 
 /** Insert new constraint. */
-void compaction::insertConstraintEZ( string v1 ) {
+void Compaction::insertConstraintEZ( string v1 ) {
 	
 	cp_constraint cpc;
 	
@@ -83,7 +83,7 @@ void compaction::insertConstraintEZ( string v1 ) {
 
 
 /** Insert new constraint. */
-void compaction::insertConstraint( string v1, string v2, cp_cons_tp type, int val ) {
+void Compaction::insertConstraint( string v1, string v2, cp_cons_tp type, int val ) {
 	
 	cp_constraint cpc;
 	
@@ -111,7 +111,7 @@ void compaction::insertConstraint( string v1, string v2, cp_cons_tp type, int va
 }
 
 /** Insert new constraint. */
-void compaction::insertConstraint( string v1, string v2, cp_cons_tp type, string t ) {
+void Compaction::insertConstraint( string v1, string v2, cp_cons_tp type, string t ) {
 	
 	cp_constraint cpc;
 	
@@ -146,7 +146,7 @@ void compaction::insertConstraint( string v1, string v2, cp_cons_tp type, string
 }
 
 /** Insert new constraint. */
-void compaction::insertConstraint( string v1, string v2, cp_cons_tp type, string t, int val ) {
+void Compaction::insertConstraint( string v1, string v2, cp_cons_tp type, string t, int val ) {
 	
 	cp_constraint cpc;
 	
@@ -183,7 +183,7 @@ void compaction::insertConstraint( string v1, string v2, cp_cons_tp type, string
 }
 
 /** Insert Upper Bound. */
-void compaction::insertUpperBound( string v1, int val ) {
+void Compaction::insertUpperBound( string v1, int val ) {
 	
 	cp_constraint cpc;
     
@@ -203,7 +203,7 @@ void compaction::insertUpperBound( string v1, int val ) {
 }
 
 /** Insert Upper Bound. */
-void compaction::insertLowerBound( string v1, int val ) {
+void Compaction::insertLowerBound( string v1, int val ) {
 	
 	cp_constraint cpc;
     
@@ -223,40 +223,40 @@ void compaction::insertLowerBound( string v1, int val ) {
 }
 
 /** Force these variavles to be integer. */
-void compaction::forceIntegerVar( string v ) {
+void Compaction::forceIntegerVar( string v ) {
 	int_vars.push_back( v );
 }
 
 /** Force these variavles to be binary. */
-void compaction::forceBinaryVar( string v ) {
+void Compaction::forceBinaryVar( string v ) {
 	bin_vars.push_back( v );
 }
 
 /** Force these variavles to be semi-continuous (0 or interval). */
-void compaction::forceSecVar( string v ) {
+void Compaction::forceSecVar( string v ) {
 	sec_vars.push_back( v );
 }
 
 /** Force these variavles to be special ordered set. */
-void compaction::forceSOS( string v ) {
+void Compaction::forceSOS( string v ) {
 	sos_vars.push_back( v );
 }
 
 
 /** Insert LP variable. These variables are include in the minimization objective function. */
-void compaction::insertLPMinVar( string v ) {
+void Compaction::insertLPMinVar( string v ) {
 	lp_min_var.push_back( v );
 	lp_min_val.push_back( 1 );
 }
 
 /** Insert LP variable. These variables are include in the minimization objective function. */
-void compaction::insertLPMinVar( string v, int i ) {
+void Compaction::insertLPMinVar( string v, int i ) {
 	lp_min_var.push_back( v );
 	lp_min_val.push_back( i );
 }
 
 /*
- int compaction::solve(string lpSolverFile) {
+ int Compaction::solve(string lpSolverFile) {
  cout << "-> Calling LP Solver (" 
  << variables.size() << " variables, " 
  << constraints.size() << " constraints)" << endl;
@@ -407,8 +407,8 @@ void compaction::insertLPMinVar( string v, int i ) {
  }
  */
 
-/** Solve compaction constraints with linear programming. */
-int compaction::solve(string lpSolverFile, int timeLimit) {
+/** Solve Compaction constraints with linear programming. */
+int Compaction::solve(string lpSolverFile, int timeLimit) {
 	cout << "-> Calling LP Solver (" 
 	<< variables.size() << " variables, " 
 	<< constraints.size() << " constraints)" << endl;
@@ -535,14 +535,14 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     
     remove(solFileName.c_str());
     
-    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + intToStr(timeLimit) + " ResultFile=" + solFileName + " " + lp_filename + ".lp";
+    string cmd = "\"" + lpSolverFile + "\" TimeLimit=" + to_string(timeLimit) + " ResultFile=" + solFileName + " " + lp_filename + ".lp";
 
 	cout << "-> Running command: " << cmd << endl;
 	
 	FILE *x = _popen(cmd.c_str(), "r");
 	
 	if(x==NULL)
-		throw AstranError("Problem executing lp_solve!");
+		throw AstranError("Problem executing: " + cmd);
     
     cout << "-> To interrupt earlier and get the current best solution, type in a terminal: kill -2 [gurobi process]" << endl;
     cout << "-> * and H means new feasible solution found:";
@@ -570,7 +570,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
     FILE* stream = fopen(solFileName.c_str(), "r");
     
 	if(stream==NULL)
-		throw AstranError("Problem opening " + solFileName);
+		throw AstranError("Problem opening: " + solFileName);
     
 	while (fgets(line, 150, stream)) {
 		
@@ -598,7 +598,7 @@ int compaction::solve(string lpSolverFile, int timeLimit) {
 
 
 /** Get variables values. */
-int compaction::getVariableVal( string name ) {
+int Compaction::getVariableVal( string name ) {
 	map<string,int>::iterator i = variables.find( name );
 	if ( i != variables.end() ) 
 		return i->second;

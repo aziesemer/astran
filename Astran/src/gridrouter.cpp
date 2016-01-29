@@ -3,10 +3,10 @@
  *   amziesemerj[at]inf.ufrgs.br                                           *
  **************************************************************************/
 
-#include "pathfinder.h"
+#include "gridrouter.h"
 
 //Clear data structures
-void Pathfinder::clear(){
+void GridRouter::clear(){
 	for(int x=0; x<graph.size(); x++)
 		graph[x].net=0;
     netlist.clear();
@@ -15,7 +15,7 @@ void Pathfinder::clear(){
 	blockageNet=0;
 }
 
-void Pathfinder::reset(){
+void GridRouter::reset(){
 	graph.clear();
 	graph.resize(sizeXY*sizeZ);
 	for(map<int,t_nets>::iterator nets_it=netlist.begin(); nets_it!=netlist.end(); ++nets_it){
@@ -30,7 +30,7 @@ void Pathfinder::reset(){
 }
 
 //Set the size of the grid 
-void Pathfinder::setSize(int sX, int sY, int sZ){
+void GridRouter::setSize(int sX, int sY, int sZ){
 	sizeX=sX;
 	sizeY=sY;
 	sizeZ=sZ;
@@ -47,7 +47,7 @@ void Pathfinder::setSize(int sX, int sY, int sZ){
 }
 
 //Add a new node to the net
-bool Pathfinder::addNodetoNet(int net, int node){
+bool GridRouter::addNodetoNet(int net, int node){
 	if((net>0) & !graph[node].net){
 		netlist[net].nodes.push_back(node);
 		netlist[net].netTree.push_back(node);
@@ -60,27 +60,27 @@ bool Pathfinder::addNodetoNet(int net, int node){
 }
 
 //Set the arc Costs
-void Pathfinder::setLayerCosts(int layer, int hCost, int vCost, int upCost){
+void GridRouter::setLayerCosts(int layer, int hCost, int vCost, int upCost){
 	costs[layer*3]=hCost;
 	costs[layer*3+1]=vCost;
 	costs[layer*3+2]=upCost;
 }
 
 //Calculate manhattan distance between nodes
-inline int Pathfinder::calcDistance(int node1, int node2){
+inline int GridRouter::calcDistance(int node1, int node2){
 	//	return 0;
 	return 5*(abs(getPosX(node1)-getPosX(node2))+abs(getPosY(node1)-getPosY(node2))+abs(getPosZ(node1)-getPosZ(node2)));
 }
 
 
 //Clear node congestion history
-void Pathfinder::clearHistory(){
+void GridRouter::clearHistory(){
    	for(int x=0; x<graph.size(); x++)
 		graph[x].history=0;
 }
 
 //Astar Search
-bool Pathfinder::aStar(map<int,t_nets>::iterator& net, list<int>& targetNodes){	
+bool GridRouter::aStar(map<int,t_nets>::iterator& net, list<int>& targetNodes){	
 	static t_tmp actualNode;
 	int node;
 	
@@ -155,7 +155,7 @@ bool Pathfinder::aStar(map<int,t_nets>::iterator& net, list<int>& targetNodes){
 	return false;
 }
 
-void Pathfinder::routeNets(int nrAttempts){
+void GridRouter::routeNets(int nrAttempts){
 	list<int> targetNodes;
 	map<int,t_nets>::iterator nets_it;
 	list<int>::iterator netTree_it;
@@ -174,7 +174,7 @@ void Pathfinder::routeNets(int nrAttempts){
 		if(rand()%2==0) getCenter((nets_it->second).nodes);	
 		//cout << (nets_it->second).nodes[0] << endl;
 	}	
-	//Pathfinder Routing
+	//GridRouter Routing
 	cout << "-> Routing graph..." << endl;
 	do{		
 		// Loop over all nets
@@ -235,7 +235,7 @@ void Pathfinder::routeNets(int nrAttempts){
 		//		cout << conflicts << endl;
 	}while(targetNodes.empty() && conflicts && actualAttempt<nrAttempts);
 	//	cout << visited << endl;
-		cout << endl << "-> Runtime = " << float((clock()-start)/(CLOCKS_PER_SEC/1000))/1000 << "s" << endl;
+		cout << endl << "-> Runtime = " << static_cast<float>((clock()-start)/(CLOCKS_PER_SEC/1000))/1000 << "s" << endl;
 	if(!targetNodes.empty()) cout << "-> Impossible to route net: " << nets_it->first << endl;		
 	if(conflicts || !targetNodes.empty()){
 		cout <<"-> Unable to route the circuit after ";
@@ -250,28 +250,20 @@ void Pathfinder::routeNets(int nrAttempts){
 }
 
 
-rt_dir Pathfinder::dirFromPos(int antPos, int pos){
-	rt_dir dir,dirR;
-	dirR=RT_INVALID;
-	dir=RT_WEST;
-	if(getDir(antPos,dir)==pos) dirR=dir;
-	dir=RT_EAST;
-	if(getDir(antPos,dir)==pos) dirR=dir;
-	dir=RT_SOUTH;
-	if(getDir(antPos,dir)==pos) dirR=dir;
-	dir=RT_NORTH;
-	if(getDir(antPos,dir)==pos) dirR=dir;
-	dir=RT_UP;
-	if(getDir(antPos,dir)==pos) dirR=dir;
-	dir=RT_DOWN;
-	if(getDir(antPos,dir)==pos) dirR=dir;
-	return dirR;
+rt_dir GridRouter::dirFromPos(int antPos, int pos){
+	if(getDir(antPos,RT_WEST)==pos) return RT_WEST;
+	else if(getDir(antPos,RT_EAST)==pos) return RT_EAST;
+	else if(getDir(antPos,RT_SOUTH)==pos) return RT_SOUTH;
+	else if(getDir(antPos,RT_NORTH)==pos) return RT_NORTH;
+	else if(getDir(antPos,RT_UP)==pos) return RT_UP;
+	else if(getDir(antPos,RT_DOWN)==pos) return RT_DOWN;
+    else return RT_INVALID;
 }
 
-void Pathfinder::optimize(){
+void GridRouter::optimize(){
 }
 
-void Pathfinder::pqAddto(t_tmp& actualNode, priority_queue<t_tmp>& pq, const int& targetNet, list<int>& targetNodes, rt_dir direction){
+void GridRouter::pqAddto(t_tmp& actualNode, priority_queue<t_tmp>& pq, const int& targetNet, list<int>& targetNodes, rt_dir direction){
 	t_tmp tmp;
 	int lCost, nextNode;
 	list<int>::iterator target_it;
@@ -290,7 +282,7 @@ void Pathfinder::pqAddto(t_tmp& actualNode, priority_queue<t_tmp>& pq, const int
 	}	
 }
 //Put the closest to center node in the vector front
-int Pathfinder::getCenter(vector<int>& Nodes){
+int GridRouter::getCenter(vector<int>& Nodes){
 	int x=0,y=0,z=0;
 	int centerNode,temp,closestPos;
 	vector<int>::iterator target_it;
@@ -308,7 +300,7 @@ int Pathfinder::getCenter(vector<int>& Nodes){
 	return 0;
 }
 
-list<int>::iterator Pathfinder::getClosestNode(int node,list<int>& targetNodes){
+list<int>::iterator GridRouter::getClosestNode(int node,list<int>& targetNodes){
 	int lCost=calcDistance(node, targetNodes.front());
     int tempCost;
     list<int>::iterator closestNode=targetNodes.begin();
@@ -322,7 +314,7 @@ list<int>::iterator Pathfinder::getClosestNode(int node,list<int>& targetNodes){
     return closestNode;
 }	
 
-int Pathfinder::getClosestNodePos(int node,vector<int>& targetNodes){
+int GridRouter::getClosestNodePos(int node,vector<int>& targetNodes){
 	int lCost=calcDistance(node, targetNodes[0]);
 	int closestNodePos=0;
 	for(int pos=0;pos<targetNodes.size();pos++){
@@ -335,7 +327,7 @@ int Pathfinder::getClosestNodePos(int node,vector<int>& targetNodes){
 	return closestNodePos;
 }	
 
-int Pathfinder::getClosestNodeDistance(int& node, list<int>& targetNodes){
+int GridRouter::getClosestNodeDistance(int& node, list<int>& targetNodes){
 	int lCost;
 	list<int>::iterator target_it;
 	lCost=calcDistance(node, targetNodes.front());
@@ -344,7 +336,7 @@ int Pathfinder::getClosestNodeDistance(int& node, list<int>& targetNodes){
 	return lCost;
 }
 
-inline int Pathfinder::calcCost(int node2, rt_dir dir){
+inline int GridRouter::calcCost(int node2, rt_dir dir){
 	int tmp = (actualAttempt ? graph[node2].history*(graph[node2].nrNets+1) : 0);
 	switch (dir){
 		case RT_WEST: return costs[getPosZ(node2)*3] + tmp; break;
@@ -353,11 +345,12 @@ inline int Pathfinder::calcCost(int node2, rt_dir dir){
 		case RT_EAST: return costs[getPosZ(node2)*3] + tmp; break;
 		case RT_NORTH: return costs[getPosZ(node2)*3+1] + tmp; break;
 		case RT_UP: return costs[(getPosZ(node2)-1)*3+2] + tmp;  break;
-	}
+        default: throw AstranError("BUG: invalid direction");
+    }
 	return 0;
 }
 
-void Pathfinder::showResult(){
+void GridRouter::showResult(){
 	int finalCost=0,wlCost=0,pins=0;
 	rt_dir UP=RT_UP;
 	for(map<int,t_nets>::iterator nets_it=netlist.begin(); nets_it!=netlist.end();++nets_it){
@@ -388,7 +381,7 @@ void Pathfinder::showResult(){
 	cout << "-> # Pins =" << pins << endl;
 }
 
-bool Pathfinder::areConnected(int node1, rt_dir dir){
+bool GridRouter::areConnected(int node1, rt_dir dir){
 	switch(dir){
 		case RT_WEST:	return getPosX(node1)>0 && getNet(node1-1)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
 		case RT_SOUTH:	return getPosY(node1)>0 && getNet(node1-sizeX)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
@@ -396,11 +389,12 @@ bool Pathfinder::areConnected(int node1, rt_dir dir){
 		case RT_EAST:	return getPosX(node1)+1<sizeX && getNet(node1+1)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
 		case RT_NORTH:	return getPosY(node1)+1<sizeY && getNet(node1+sizeX)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
 		case RT_UP:		return getPosZ(node1)+1<sizeZ && getNet(node1+sizeXY)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
+        default: throw AstranError("BUG: invalid direction");
 	}
 	return false;
 }
 
-bool Pathfinder::connect(int net, int n1, int n2){		
+bool GridRouter::connect(int net, int n1, int n2){		
 	//cout << n1 << ", " << getNet(n1) << endl;
 	//cout << n2 << ", " << getNet(n2) << endl;
     if(!getNet(n1)){
@@ -419,7 +413,7 @@ bool Pathfinder::connect(int net, int n1, int n2){
 }		
 
 //Write to a designated file the routing result
-void Pathfinder::pathTree(int net, ofstream& froute){	
+void GridRouter::pathTree(int net, ofstream& froute){	
 	int antPos,pos,desloc;
 	rt_dir dir;
 	int r=0;
@@ -459,6 +453,7 @@ void Pathfinder::pathTree(int net, ofstream& froute){
 						case RT_UP:
 							froute << "[ " << desloc <<  " UP ] ";
 							break;						
+                        default: throw AstranError("BUG: invalid direction");
 					}
 					desloc=1;	
 				}

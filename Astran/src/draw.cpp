@@ -4,8 +4,8 @@
 ***************************************************************************/
 #include "draw.h"
 
-Draw::Draw() {
-}
+Draw::Draw() {}
+
 Draw::~Draw() {}
 
 Box& Draw::addLayer(Box& bx, layer_name l){
@@ -104,25 +104,25 @@ void Draw::merge(){
 				layer_it2++;
 				while(!restart && layer_it2 != layers_it->second.end()){
 					//verify if layer_it2 is inside layer_it           
-					if((int(layer_it2->getX()-layer_it2->getWidth()/2)>=int(layer_it->getX()-layer_it->getWidth()/2)) &&						
-					   (int(layer_it2->getX()+layer_it2->getWidth()/2)<=int(layer_it->getX()+layer_it->getWidth()/2)) &&
-					   (int(layer_it2->getY()+layer_it2->getHeight()/2)<=int(layer_it->getY()+layer_it->getHeight()/2)) &&
-					   (int(layer_it2->getY()-layer_it2->getHeight()/2)>=int(layer_it->getY()-layer_it->getHeight()/2))){
+					if((static_cast<int>(layer_it2->getX()-layer_it2->getWidth()/2)>=static_cast<int>(layer_it->getX()-layer_it->getWidth()/2)) &&
+					   (static_cast<int>(layer_it2->getX()+layer_it2->getWidth()/2)<=static_cast<int>(layer_it->getX()+layer_it->getWidth()/2)) &&
+					   (static_cast<int>(layer_it2->getY()+layer_it2->getHeight()/2)<=static_cast<int>(layer_it->getY()+layer_it->getHeight()/2)) &&
+					   (static_cast<int>(layer_it2->getY()-layer_it2->getHeight()/2)>=static_cast<int>(layer_it->getY()-layer_it->getHeight()/2))){
 						layers_it->second.erase(layer_it2);
 						restart=true;
 					}
 					//verify if layer_it is inside layer_it2           
-					else if((int(layer_it2->getX()-layer_it2->getWidth()/2)<=int(layer_it->getX()-layer_it->getWidth()/2)) &&
-					        (int(layer_it2->getX()+layer_it2->getWidth()/2)>=int(layer_it->getX()+layer_it->getWidth()/2)) &&
-					        (int(layer_it2->getY()+layer_it2->getHeight()/2)>=int(layer_it->getY()+layer_it->getHeight()/2)) &&
-					        (int(layer_it2->getY()-layer_it2->getHeight()/2)<=int(layer_it->getY()-layer_it->getHeight()/2))){
+					else if((static_cast<int>(layer_it2->getX()-layer_it2->getWidth()/2)<=static_cast<int>(layer_it->getX()-layer_it->getWidth()/2)) &&
+					        (static_cast<int>(layer_it2->getX()+layer_it2->getWidth()/2)>=static_cast<int>(layer_it->getX()+layer_it->getWidth()/2)) &&
+					        (static_cast<int>(layer_it2->getY()+layer_it2->getHeight()/2)>=static_cast<int>(layer_it->getY()+layer_it->getHeight()/2)) &&
+					        (static_cast<int>(layer_it2->getY()-layer_it2->getHeight()/2)<=static_cast<int>(layer_it->getY()-layer_it->getHeight()/2))){
 						*layer_it=*layer_it2;
 						layers_it->second.erase(layer_it2);
 						restart=true;
 					}
 					//verify if layer_it2 is beside layer_it           
-					else if(int(layer_it2->getX()+layer_it2->getWidth()/2)>=int(layer_it->getX()-(layer_it->getWidth()/2)) &&
-						(int(layer_it2->getX()+layer_it2->getWidth()/2)<=int(layer_it->getX()+layer_it->getWidth()/2)) &&
+					else if(static_cast<int>(layer_it2->getX()+layer_it2->getWidth()/2)>=static_cast<int>(layer_it->getX()-(layer_it->getWidth()/2)) &&
+						(static_cast<int>(layer_it2->getX()+layer_it2->getWidth()/2)<=static_cast<int>(layer_it->getX()+layer_it->getWidth()/2)) &&
 					layer_it2->getHeight()==layer_it->getHeight() && layer_it->getY()==layer_it2->getY()){
 						tmp=((layer_it2->getX()-layer_it2->getWidth()/2)+(layer_it->getX()+layer_it->getWidth()/2))/2;
 						layer_it->setWidth((layer_it->getX()+layer_it->getWidth()/2)-(layer_it2->getX()-layer_it2->getWidth()/2));
@@ -130,8 +130,8 @@ void Draw::merge(){
 						layers_it->second.erase(layer_it2);
 						restart=true;
 					}
-					else if(int(layer_it->getX()+layer_it->getWidth()/2)>=int(layer_it2->getX()-(layer_it2->getWidth()/2)) &&
-						(int(layer_it->getX()+layer_it->getWidth()/2)<=int(layer_it2->getX()+layer_it2->getWidth()/2)) &&
+					else if(static_cast<int>(layer_it->getX()+layer_it->getWidth()/2)>=static_cast<int>(layer_it2->getX()-(layer_it2->getWidth()/2)) &&
+						(static_cast<int>(layer_it->getX()+layer_it->getWidth()/2)<=static_cast<int>(layer_it2->getX()+layer_it2->getWidth()/2)) &&
 					layer_it->getHeight()==layer_it2->getHeight() && layer_it->getY()==layer_it2->getY()){
 						tmp=((layer_it->getX()-layer_it->getWidth()/2)+(layer_it2->getX()+layer_it2->getWidth()/2))/2;
 						layer_it->setWidth((layer_it2->getX()+layer_it2->getWidth()/2)-(layer_it->getX()-layer_it->getWidth()/2));
@@ -140,8 +140,8 @@ void Draw::merge(){
 						restart=true;
 					}
 					//verify if layer_it is above layer_it2           
-					else if(int(layer_it2->getY()+layer_it2->getHeight()/2)>=int(layer_it->getY()-(layer_it->getHeight()/2)) &&
-						(int(layer_it2->getY()+layer_it2->getHeight()/2)<=int(layer_it->getY()+layer_it->getHeight()/2)) &&
+					else if(static_cast<int>(layer_it2->getY()+layer_it2->getHeight()/2)>=static_cast<int>(layer_it->getY()-(layer_it->getHeight()/2)) &&
+						(static_cast<int>(layer_it2->getY()+layer_it2->getHeight()/2)<=static_cast<int>(layer_it->getY()+layer_it->getHeight()/2)) &&
 					layer_it2->getWidth()==layer_it->getWidth() && layer_it->getX()==layer_it2->getX()){
 						tmp=((layer_it2->getY()-layer_it2->getHeight()/2)+(layer_it->getY()+layer_it->getHeight()/2))/2;
 						layer_it->setHeight((layer_it->getY()+layer_it->getHeight()/2)-(layer_it2->getY()-layer_it2->getHeight()/2));
@@ -150,8 +150,8 @@ void Draw::merge(){
 						restart=true;
 					}   
 					//verify if layer_it is below layer_it2           
-					else if(int(layer_it->getY()+layer_it->getHeight()/2)>=int(layer_it2->getY()-layer_it2->getHeight()/2) &&
-						(int(layer_it->getY()+layer_it->getHeight()/2)<=(layer_it2->getY()+layer_it2->getHeight()/2)) &&
+					else if(static_cast<int>(layer_it->getY()+layer_it->getHeight()/2)>=static_cast<int>(layer_it2->getY()-layer_it2->getHeight()/2) &&
+						(static_cast<int>(layer_it->getY()+layer_it->getHeight()/2)<=static_cast<int>(layer_it2->getY()+layer_it2->getHeight()/2)) &&
 					layer_it2->getWidth()==layer_it->getWidth() && layer_it->getX()==layer_it2->getX()){
 						tmp=((layer_it->getY()-layer_it->getHeight()/2)+(layer_it2->getY()+layer_it2->getHeight()/2))/2;
 						layer_it->setHeight((layer_it2->getY()+layer_it2->getHeight()/2)-(layer_it->getY()-layer_it->getHeight()/2));

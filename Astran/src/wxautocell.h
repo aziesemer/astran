@@ -1,5 +1,4 @@
-#ifndef __WXAUTOCELL__
-#define __WXAUTOCELL__
+#pragma once
 
 /**
 @file
@@ -37,5 +36,3 @@ public:
 
 	void refresh();
 };
-
-#endif // __WXAUTOCELL__

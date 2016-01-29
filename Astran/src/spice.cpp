@@ -5,20 +5,20 @@
 
 #include "spice.h"
 
-void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
+static void Spice::readFile(const string& fileName, Circuit& netlist, bool reading_cadence)
 {
-	ifstream arq (nome.c_str());
+	ifstream arq (fileName.c_str());
 	string linha;
 	
 	if (!arq.is_open())
-        throw AstranError("Could not open Spice file: " + nome );
+        throw AstranError("Could not open Spice file: " + fileName );
 	
 	vector<string> palavras;
 	string palavra;
 	
 	CellNetlst subcktCell,topCell;
 	CellNetlst *currentCell=&topCell;
-	topCell.setName(upcase(removeExt(getFileName(nome))));
+	topCell.setName(upcase(removeExt(getFileName(fileName))));
 	string cellName;
 	unsigned int lineNr=0;
 	while (!arq.eof()){
@@ -44,20 +44,20 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 					case 'E': orient=E; break;
 					case 'W': orient=W; break;
 					default: 
-                        throw AstranError("Line" + intToStr(lineNr) + ": Interface orientation unknown.");
+                        throw AstranError("Line" + to_string(lineNr) + ": Interface orientation unknown.");
 
 				}
 				switch(palavras[3][0]){
 					case 'I': type=IOTYPE_INPUT; break;
 					case 'O': type=IOTYPE_OUTPUT; break;
 					default: 
-                        throw AstranError("Line" + intToStr(lineNr) + ": Interface type unknown. Use INPUT or OUTPUT");
+                        throw AstranError("Line" + to_string(lineNr) + ": Interface type unknown. Use INPUT or OUTPUT");
 				}
 				topCell.insertInOut(palavras[1]);
 				netlist.insertInterface(palavras[1], orient, type, 0, 0);
 			}
 			else
-                throw AstranError("Line" + intToStr(lineNr) + ": Number of parameters for *interface is not correct");
+                throw AstranError("Line" + to_string(lineNr) + ": Number of parameters for *interface is not correct");
 				
 			continue;
 		}
@@ -89,7 +89,7 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 
 		}
 		else if (palavras[0] == string(".INCLUDE")){
-			readFile(getPath(nome)+palavras[1],netlist,reading_cadence);
+			readFile(getPath(fileName)+palavras[1],netlist,reading_cadence);
 //                throw AstranError("Could not read included file in line: " + intToStr(lineNr));
 		}
 
@@ -111,12 +111,12 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 			else if(palavras[5]=="NMOS" || palavras[5]=="CMOSN" || palavras[5]=="MODN" || palavras[5]=="NMOS_VTL")
 				type=NMOS;
 			else 
-                throw AstranError("Line" + intToStr(lineNr) + ": Parameter " + palavras[5] + " is incorrect. Use NMOS or PMOS");
+                throw AstranError("Line" + to_string(lineNr) + ": Parameter " + palavras[5] + " is incorrect. Use NMOS or PMOS");
 
 			// get parameters' values
 			float length=0, width=0;
 			for (int p=6; p<palavras.size(); p++){
-				int pos=palavras[p].find("=");
+				int pos=static_cast<int>(palavras[p].find("="));
 				string parm=palavras[p].substr(0,pos++);
 				float  tam=atof((palavras[p].substr(pos)).c_str())*getFactor(palavras[p][palavras[p].size()-1])*getFactor(palavras[p][palavras[p].size()-2]);
 				if(parm=="L")
@@ -124,7 +124,7 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 				else if(parm=="W")
 					width=tam;
 				else if(parm!="AD" && parm!="PD" && parm!="AS" && parm!="PS" && parm!="NRD" && parm!="NRS" && parm!="M")
-                    throw AstranError("Line" + intToStr(lineNr) + ": Parameter " + parm + " not supported");
+                    throw AstranError("Line" + to_string(lineNr) + ": Parameter " + parm + " not supported");
 			}
 
 			// insert transistor in cell
@@ -145,18 +145,18 @@ void Spice::readFile(string nome, Circuit& netlist, bool reading_cadence)
 			currentCell=&topCell;
 		}
 		else
-            throw AstranError("Line" + intToStr(lineNr));
+            throw AstranError("Errot in line " + to_string(lineNr) + " of: " + fileName);
 	}
 
 	if(topCell.getNets().size() != 0)
 		netlist.insertCell(topCell);
 }
 
-void Spice::saveFile(string filename, Circuit& netList){
+static void Spice::saveFile(const string& fileName, Circuit& netList){
 	ofstream file;
-	file.open(filename.c_str()); // Write
+	file.open(fileName.c_str()); // Write
 	if (!file)
-        throw AstranError("Could not save file: " + filename);
+        throw AstranError("Could not save file: " + fileName);
 
 	printHeader (file, "* ", "");
 	
@@ -187,7 +187,7 @@ void Spice::saveFile(string filename, Circuit& netList){
 	}
 }
 
-float Spice::getFactor(char s){
+static float Spice::getFactor(char s){
 	switch(s){
 		case 'U': return 1;
 		case 'N': return 0.001;  //fill with the others

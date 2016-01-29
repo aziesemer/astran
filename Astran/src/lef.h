@@ -3,8 +3,7 @@
 *   amziesemerj[at]@inf.ufrgs.br                                          *
 ***************************************************************************/
 
-#ifndef LEF_H
-#define LEF_H
+#pragma once
 
 /**
 Read a LEF library of cells
@@ -22,10 +21,19 @@ Read a LEF library of cells
 #include "util.h"
 #include <iomanip>
 
-using namespace std;
-
 class Lef{
-	private:
+public:
+    Lef();
+    ~Lef();
+    void readPort(Pin& tmp);
+    void readObs(Draw& tmp, string net);
+    void readPin(CellNetlst& c, string name, CLayout& layout);
+    void readMacro(CellNetlst& c, CLayout& tmp);
+    void readUnits();
+    void readFile(string nome, Circuit& c, bool rTech);
+    void saveFile(string nome, Circuit& c);
+
+private:
 	ifstream arq;
 
 	unsigned int fileline;
@@ -36,17 +44,4 @@ class Lef{
 	unsigned int manufGrid;
 	bool readTech; //read Layers in CIF (false) or Tech (true) format
 	int readLine(vector<string>& words);
-
-	public:
-	Lef();
-	~Lef();
-	void readPort(Pin& tmp);
-	void readObs(Draw& tmp, string net);
-	void readPin(CellNetlst& c, string name, CLayout& layout);
-	void readMacro(CellNetlst& c, CLayout& tmp);
-	void readUnits();
-	void readFile(string nome, Circuit& c, bool rTech);
-	void saveFile(string nome, Circuit& c);
 };
-
-#endif

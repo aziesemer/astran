@@ -153,7 +153,7 @@ BIN=build/bin/Astran
 SRC=$(shell find -name "*.cpp")
 OBJ=$(SRC:.cpp=.o)
 
-CFLAGS = $(shell wx-config --cxxflags --libs) -Wno-deprecated
+CFLAGS = $(shell wx-config --cxxflags --libs) -std=c++14 -O3
 LIBS = $(shell wx-config --libs)
 
 linux-build: $(OBJ) $(BIN) pos-compile

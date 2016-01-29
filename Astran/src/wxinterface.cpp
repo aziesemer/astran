@@ -456,7 +456,7 @@ ICPD_frm::ICPD_frm( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	this->SetSizer( bSizer2 );
 	this->Layout();
-	statusBar = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
+	statusBar = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
 	
 	// Connect Events
 	this->Connect( wxEVT_CLOSE_WINDOW, wxCloseEventHandler( ICPD_frm::OnClose ) );

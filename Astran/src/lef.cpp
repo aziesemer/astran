@@ -5,10 +5,7 @@
 
 #include "lef.h"
 
-Lef::Lef(){
-	fileline=0;
-	cellsHeight=0;
-}
+Lef::Lef(): fileline(0), cellsHeight(0){}
 
 Lef::~Lef(){}
 
@@ -23,7 +20,7 @@ void Lef::readObs(Draw& tmp, string net){
 			}
 			currentLayer=(layer_name)tmp;
 		} else if(words[0]=="RECT")
-			tmp.addPolygon(int(atof(words[1].c_str())*manufGrid),int(atof(words[2].c_str())*manufGrid),int(atof(words[3].c_str())*manufGrid),int(atof(words[4].c_str())*manufGrid),currentLayer).setNet(net);
+			tmp.addPolygon(static_cast<int>(atof(words[1].c_str())*manufGrid),static_cast<int>(atof(words[2].c_str())*manufGrid),static_cast<int>(atof(words[3].c_str())*manufGrid),static_cast<int>(atof(words[4].c_str())*manufGrid),currentLayer).setNet(net);
 	}
 }
 
@@ -46,6 +43,7 @@ void Lef::readPin(CellNetlst& c, string name, CLayout& layout){
 						case MET1: layout.layers[MET1P].push_back(*layer_it); break;
 						case MET2: layout.layers[MET2P].push_back(*layer_it); break;
 						case MET3: layout.layers[MET3P].push_back(*layer_it); break;
+                        default:break;
 					}
 				}
 			}
@@ -56,8 +54,8 @@ void Lef::readPin(CellNetlst& c, string name, CLayout& layout){
 void Lef::readMacro(CellNetlst& c, CLayout& tmp){
 	while(readLine(words) && words[0]!="END"){
 		if(words[0]=="SIZE"){
-			tmp.setWidth(int(atof(words[1].c_str())*manufGrid));
-			tmp.setHeight(int(atof(words[3].c_str())*manufGrid));
+			tmp.setWidth(static_cast<int>(atof(words[1].c_str())*manufGrid));
+			tmp.setHeight(static_cast<int>(atof(words[3].c_str())*manufGrid));
 			tmp.addPolygon(0, 0, tmp.getWidth(), tmp.getHeight(), CELLBOX);
 		}
 		else if(words[0]=="PIN"){
@@ -88,14 +86,14 @@ void Lef::saveFile(string nome, Circuit& c){
 	outfile << "UNITS\n";
 	outfile << " DATABASE MICRONS 1000 ;\n";
 	outfile << "END UNITS\n\n";
-	outfile << "MANUFACTURINGGRID " << float(1)/c.getRules()->getScale() << "\n\n";
+	outfile << "MANUFACTURINGGRID " << 1.0/c.getRules()->getScale() << "\n\n";
 	
 	for(map<string,CLayout>::iterator cells_it=c.getLayouts()->begin(); cells_it!=c.getLayouts()->end(); cells_it++){
 		if(c.findCellNetlst(cells_it->first)){
 			outfile << "MACRO " << cells_it->first << "\n";
 			outfile << " CLASS CORE\n";
 			outfile << " ORIGIN 0.000 0.000\n";
-			outfile << " SIZE " << float((cells_it->second).getWidth())/c.getRules()->getScale() << " BY " << float((cells_it->second).getHeight())/c.getRules()->getScale() << "\n";
+			outfile << " SIZE " << static_cast<float>((cells_it->second).getWidth())/c.getRules()->getScale() << " BY " << static_cast<float>((cells_it->second).getHeight())/c.getRules()->getScale() << "\n";
 			outfile << " SYMMETRY X Y  ;\n";
 			outfile << " SITE standard ;\n";
 			for(int pin_nr=0; pin_nr<c.getCellNetlst(cells_it->first)->getInouts().size(); ++pin_nr){
@@ -118,10 +116,10 @@ void Lef::saveFile(string nome, Circuit& c){
 									outfile << "  LAYER " << c.getRules()->getCIFVal(layers_it->first) << " ;\n";
 									newLayer=false;
 								}
-								outfile << "   RECT " <<  float(layer_it->getX()-float(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
-								float(layer_it->getY()-float(layer_it->getHeight()/2))/c.getRules()->getScale() << " " <<
-								float(layer_it->getX()+float(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
-								float(layer_it->getY()+float(layer_it->getHeight()/2))/c.getRules()->getScale() << ";\n";
+								outfile << "   RECT " <<  static_cast<float>(layer_it->getX()-static_cast<float>(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
+								static_cast<float>(layer_it->getY()-static_cast<float>(layer_it->getHeight()/2))/c.getRules()->getScale() << " " <<
+								static_cast<float>(layer_it->getX()+static_cast<float>(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
+								static_cast<float>(layer_it->getY()+static_cast<float>(layer_it->getHeight()/2))/c.getRules()->getScale() << ";\n";
 							}
 						}
 					}
@@ -136,10 +134,10 @@ void Lef::saveFile(string nome, Circuit& c){
 					outfile << "  LAYER " << c.getRules()->getCIFVal(layers_it->first) << " ;\n";
 					for ( layer_it = layers_it->second.begin(); layer_it != layers_it->second.end(); layer_it++ ){
 						if(layer_it->getNet()=="" || !c.getCellNetlst(cells_it->first)->isIO(layer_it->getNet())){
-							outfile << "   RECT " <<  float(layer_it->getX()-float(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
-							float(layer_it->getY()-float(layer_it->getHeight()/2))/c.getRules()->getScale() << " " <<
-							float(layer_it->getX()+float(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
-							float(layer_it->getY()+float(layer_it->getHeight()/2))/c.getRules()->getScale() << ";\n";
+							outfile << "   RECT " <<  static_cast<float>(layer_it->getX()-static_cast<float>(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
+							static_cast<float>(layer_it->getY()-static_cast<float>(layer_it->getHeight()/2))/c.getRules()->getScale() << " " <<
+							static_cast<float>(layer_it->getX()+static_cast<float>(layer_it->getWidth()/2))/c.getRules()->getScale() << " " <<
+							static_cast<float>(layer_it->getY()+static_cast<float>(layer_it->getHeight()/2))/c.getRules()->getScale() << ";\n";
 						}
 					}
 				}
@@ -176,7 +174,7 @@ void Lef::readFile(string nome, Circuit& c, bool rTech){
 			c.insertLayout(tmp_layout);
 		}
 		else if(words[0]=="UNITS") readUnits();
-		else if(words[0]=="MANUFACTURINGGRID") manufGrid=int(1/atof(words[1].c_str()));
+		else if(words[0]=="MANUFACTURINGGRID") manufGrid=static_cast<int>(1/atof(words[1].c_str()));
 	}
 }
 
@@ -193,5 +191,5 @@ int Lef::readLine(vector<string>& words){
 			if (words[0][0]=='#') words.clear();
 		}
 	}
-	return words.size();
+	return static_cast<int>(words.size());
 }

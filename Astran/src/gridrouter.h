@@ -2,8 +2,7 @@
  *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr., Cristiano Lazzari     *
  *   (amziesemerj,clazz)@inf.ufrgs.br                                      *
  ***************************************************************************/
-#ifndef PATHFINDER_H
-#define PATHFINDER_H
+#pragma once
 
 /**
  Route using a Pathfinder based algorithm
@@ -17,17 +16,15 @@
 #include <map>
 #include <iostream>
 #include <strstream>
+#include <fstream>
 #include <time.h>
 #include <math.h>
 #include <stdlib.h>
-#include <fstream>
 #include "util.h"
-
-using namespace std;
 
 enum rt_dir {RT_EAST, RT_WEST, RT_NORTH, RT_SOUTH, RT_DOWN, RT_UP, RT_INVALID};
 
-class Pathfinder{
+class GridRouter{
 protected:
 	class Node{
 	public:
@@ -72,10 +69,10 @@ protected:
 	int conflicts;
 	int blockageNet;
 public:
-	Pathfinder(){};
-	~Pathfinder(){};
+	GridRouter(){};
+	~GridRouter(){};
 	
-	int getDir(int& node, rt_dir& dir){return node+direction[dir];};	
+	int getDir(const int& node, const rt_dir& dir){return node+direction[dir];};
 	int getDirN(int& node, rt_dir dir){return node+direction[dir];};
 	void setBlockageNet(int net){blockageNet=net;};
 	bool addNodetoNet(int net, int node);	
@@ -109,10 +106,8 @@ public:
 	void pqAddto(t_tmp& actualNode, priority_queue<t_tmp>& pq, const int& targetNet, list<int>& targetNodes, rt_dir direction);
 	void pathTree(int net, ofstream& froute);
 	void clearHistory();
-	int graphSize(){ return graph.size();};
-	int netlistSize(){ return netlist.size();};
+	unsigned long graphSize(){ return graph.size();};
+	unsigned long netlistSize(){ return netlist.size();};
 	int netTreeFirst(int net) { return *(netlist[net].netTree.begin());};
 	rt_dir dirFromPos(int antPos, int pos);
 };
-
-#endif

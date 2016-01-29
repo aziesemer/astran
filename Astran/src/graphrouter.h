@@ -2,8 +2,7 @@
  *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr., Cristiano Lazzari     *
  *   (amziesemerj,clazz)@inf.ufrgs.br                                      *
  ***************************************************************************/
-#ifndef PATHFINDER2_H
-#define PATHFINDER2_H
+#pragma once
 
 /**
  Route the graph using a Pathfinder based algorithm
@@ -18,20 +17,20 @@
 #include <iostream>
 #include <strstream>
 #include <time.h>
+#include <util.h>
 
-using namespace std;
-
-//Adjacency list
-struct t_arc{
-	unsigned int cost;
-	int label;
-	unsigned int node1;
-	unsigned int node2;
-	int lockNet;
-};
-class Pathfinder2{
+class GraphRouter{
 protected:
-	class Node{
+    //Adjacency list
+    struct t_arc{
+        unsigned int cost;
+        int label;
+        unsigned int node1;
+        unsigned int node2;
+        int lockNet;
+    };
+    
+    class Node{
 	public:
 		list<t_arc*> arcs;
 		int net;
@@ -65,10 +64,6 @@ protected:
 		bool conflict;
 	};
 	
-	struct steiners{
-		int net;
-		int node;
-	};
 	map<int,int> solvedNets;		
 	map<unsigned int,t_nets> netlist;
 	vector<Node> graph;
@@ -76,8 +71,8 @@ protected:
 	unsigned int finalNet;
 	
 public:
-	Pathfinder2();
-	~Pathfinder2();
+	GraphRouter();
+	~GraphRouter();
 	int prim(list<unsigned int> tmp_netnodes,unsigned int actualAttempt,unsigned int net);
 	int addSteiner(unsigned int actualAttempt,unsigned int net);
 	unsigned int createNode();
@@ -110,5 +105,3 @@ public:
 	void reset();
 	
 };
-
-#endif

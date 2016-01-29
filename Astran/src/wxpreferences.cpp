@@ -71,35 +71,35 @@ void WxPreferences::ok(){
 	if(string(plPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getPlacerFile()){
 		path = wxT("\"") + plPath->GetValue() + wxT("\"");
 		cmd=wxT("set placer ") + path;
-		currentFrmwork->readCommand(string(cmd.mb_str()));
+		currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current rotdl path is different from textbox value
 	if(string(rotdlPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getRotDL()){
 		path = wxT("\"") + rotdlPath->GetValue() + wxT("\"");
 		cmd=wxT("set rotdl ") + path;
-		currentFrmwork->readCommand(string(cmd.mb_str()));
+		currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current viewer path is different from textbox value
 	if(string(viewerPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getViewer()){
 		path = wxT("\"") + viewerPath->GetValue() + wxT("\"");
 		cmd=wxT("set viewer ") + path;
-		currentFrmwork->readCommand(string(cmd.mb_str()));
+		currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current lpsolver path is different from textbox value
 	if(string(lpsolverPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getlpSolver()){
 		path = wxT("\"") + lpsolverPath->GetValue() + wxT("\"");
 		cmd=wxT("set lpsolve ") + path;
-		currentFrmwork->readCommand(string(cmd.mb_str()));
+		currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
 	// compare if current log path is different from textbox value
 	if(string(logPath->GetValue().mb_str())!=currentFrmwork->getDesign()->getLog()){
 		path = wxT("\"") + logPath->GetValue() + wxT("\"");
 		cmd=wxT("set log ") + path;
-		currentFrmwork->readCommand(string(cmd.mb_str()));
+		currentFrmwork->executeCommand(string(cmd.mb_str()));
 	}
 
     Show(false);

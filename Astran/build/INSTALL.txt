@@ -8,7 +8,7 @@ HOW TO COMPILE THE SOURCE CODE:
 3. $ sudo apt-get install libwxgtk2.8-dev
 4. $ sudo apt-get install g++
 5. $ cd gme-ufrgs/Astran/src/
-6. $ g++ *.cpp `wx-config --cppflags --libs` -Wno-deprecated -O3 -o ../build/bin/Astran
+6. $ g++ *.cpp `wx-config --cppflags --libs` -std=c++14 -O3 -o ../build/bin/Astran
 
 - MAC:
 0. If you are using Mac OS X 10.9/10.10, download wxWidgets 3.x source code for OS X:

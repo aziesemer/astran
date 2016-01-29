@@ -1,5 +1,4 @@
-#ifndef THRESHOLD_ACCEPT_H
-#define THRESHOLD_ACCEPT_H
+#pragma once
 
 #define ever (;;)
 
@@ -10,9 +9,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
-using namespace std;
 
 inline double GetNextThreshold(double threshold, double accept_ratio, double dp) {
     
@@ -65,7 +61,7 @@ int FindInitialThreshold(toOptimize& obj) {
         
         obj_copy = obj;
         temp = (temp_max-temp_min)/2 + temp_min;
-        cont_delta = 0;
+        avg_delta = cont_delta = 0;
         
         //   LOG("  trying threshold %i [ %i ; %i ] ", temp, temp_min, temp_max);
         
@@ -94,7 +90,7 @@ int FindInitialThreshold(toOptimize& obj) {
     
     //  cout << ">";
     
-    return max(temp,0);
+    return std::max(temp,0);
 }
 
 
@@ -110,7 +106,7 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
     double accept_ratio;
     double average_cost;
     int cont_accepts;
-    int num_repetitions = int(initial_solution.GetProblemSize()*quality_factor);
+    int num_repetitions = static_cast<int>(initial_solution.GetProblemSize()*quality_factor);
     
     if (cost == 0 )
         return initial_solution;
@@ -127,12 +123,12 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
     toOptimize solution = initial_solution;
     
     if (print_progress)
-        cout << " ( initial cost = " << cost << " num reps = " << num_repetitions << " problem size = " << initial_solution.GetProblemSize() << " ) ";
+        std::cout << " ( initial cost = " << cost << " num reps = " << num_repetitions << " problem size = " << initial_solution.GetProblemSize() << " ) ";
     
     //  LOG("Running Simulated Annealing... Initial cost =  %..3fi\n",cost);
     int iter = 0;
     
-    int time_of_iteration_ini = clock();
+    clock_t time_of_iteration_ini = clock();
     
     for ever {
         iter++;
@@ -208,7 +204,7 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
         double bla = solution.GetCost();
         
         if (bla != cost) {
-            cout << "INCONSISTENCY ERROR " << bla << " <> " << cost << "\n";
+            std::cout << "INCONSISTENCY ERROR " << bla << " <> " << cost << "\n";
         }
         
         if (print_progress)
@@ -216,18 +212,13 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
                    iter,cost,bla,previous_cost,accept_ratio,avg_delta,desvio_padrao,threshold,cost_ratio,cont_same_cost);
         
         if (print_progress)
-            cerr << ".";
+            std::cerr << ".";
         
         threshold = GetNextThreshold(threshold,accept_ratio, desvio_padrao);
     }
     
     if (print_progress)
-        cout << " final cost = " << cost << " ";
+        std::cout << " final cost = " << cost << " ";
     
     return solution;
 }
-
-
-
-
-#endif

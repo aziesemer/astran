@@ -8,17 +8,15 @@
  */
 
 #include "placer.h"
-Placer::Placer(){
-	nrSites=0;
-	utilization=100;
-};
+
+Placer::Placer():nrSites(0), utilization(100){};
 
 int Placer::getHSize(){
 	return nrSites+currentCircuit->getLMargin()+currentCircuit->getRMargin();
 }
 
 int Placer::getVSize(){
-	return rows.size()*currentCircuit->getRowHeight()+currentCircuit->getBMargin()+currentCircuit->getTMargin();
+	return static_cast<int>(rows.size())*currentCircuit->getRowHeight()+currentCircuit->getBMargin()+currentCircuit->getTMargin();
 }
 
 float Placer::getUtilization(){
@@ -38,7 +36,7 @@ CLayout* Placer::getLayoutFromInstance(string instanceName){
 
 void Placer::incrementalPlacement(Router* rt, string lpSolverFile){
 	int hGrid=currentCircuit->getHPitch()*currentCircuit->getRules()->getScale();
-	compaction cpt(CP_LP, "ILPplacement");
+	Compaction cpt(CP_LP, "ILPplacement");
 	Instance *currentInstance;
 	CLayout *currentLayout;
 	cpt.insertConstraint("ZERO", "XMARGIN", CP_EQ, currentCircuit->getLMargin());
@@ -105,7 +103,7 @@ void Placer::incrementalPlacement(Router* rt, string lpSolverFile){
 	}
 	cout << "-> # Conflicts = " << nrConflicts << endl;
 	vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
-	Interface *currentInterface;
+	Circuit::Interface *currentInterface;
 	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
 		if(nets_it->name!=currentCircuit->getVddNet() && nets_it->name!=currentCircuit->getGndNet()){
 			currentInterface=currentCircuit->getInterface(nets_it->name);
@@ -136,7 +134,7 @@ void Placer::checkWL(){
 	CLayout *currentLayout;
 	CellNetlst *currentCell;
 	multimap<string,Pin>::iterator pin_it;
-	Interface *currentInterface;
+	Circuit::Interface *currentInterface;
 	int minX, maxX, minY, maxY, x,y, wl=0;
 	vector<Net>& nets=currentCircuit->getCellNetlst(currentCircuit->getTopCell())->getNets();
 	for(vector<Net>::iterator nets_it=nets.begin(); nets_it!=nets.end(); nets_it++){
@@ -261,7 +259,7 @@ bool Placer::checkPlacement(){
 	CLayout *l, *currentLayout;	
 	list<string>::iterator slots_it;
 	int posXi=0, posXf=0, width=0, rowSize = 0;
-	int nrRows=rows.size();
+	int nrRows=static_cast<int>(rows.size());
 	rows.clear();
 	rows.resize(nrRows);
 	Instance *currentInstance;
@@ -269,15 +267,15 @@ bool Placer::checkPlacement(){
 	for(cellsInst_it=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstances()->begin();cellsInst_it!=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstances()->end();cellsInst_it++){
 		l=currentCircuit->getLayout(cellsInst_it->second.getTargetCell());
 		if(l){
-			x=(cellsInst_it->second.getX()-int(cellsInst_it->second.getMY())*l->getWidth())/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale());
+			x=(cellsInst_it->second.getX()-static_cast<int>(cellsInst_it->second.getMY())*l->getWidth())/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale());
 			y=(cellsInst_it->second.getY()/(currentCircuit->getVPitch()*currentCircuit->getRules()->getScale()));
 			if(y%currentCircuit->getRowHeight()){
-				y=floor(float(cellsInst_it->second.getY())/cellsHeight);
+				y=floor(static_cast<float>(cellsInst_it->second.getY())/cellsHeight);
 				cellsInst_it->second.setY(y*cellsHeight);
 				//				cout << "-> Shifting instance " << cellsInst_it->first << " to fit in row: " << y << endl;
 				y*=currentCircuit->getRowHeight();
 			}
-			int rowNr=abs(y/currentCircuit->getRowHeight())-int(cellsInst_it->second.getMX());
+			int rowNr=abs(y/currentCircuit->getRowHeight())-static_cast<int>(cellsInst_it->second.getMX());
 			if(rowNr%2 && !cellsInst_it->second.getMX()){
 				//				cout << "-> Mirroring instance: " << cellsInst_it->first << endl;
 				cellsInst_it->second.setY(cellsInst_it->second.getY()+(currentCircuit->getRowHeight()*currentCircuit->getVPitch()*currentCircuit->getRules()->getScale()));
@@ -285,14 +283,14 @@ bool Placer::checkPlacement(){
 			}
 			if(rowNr>=0 && x>=0){
 				if(rowNr>=rows.size()) rows.resize(rowNr+1);
-				width=max(width, int(x+l->getWidth()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())));
+				width=max(width, static_cast<int>(x+l->getWidth()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())));
 				for(slots_it=rows[rowNr].begin(); slots_it!=rows[rowNr].end(); slots_it++){
 					currentInstance=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstance(*slots_it);
 					if(currentInstance){
 						currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
 						rowSize+=currentLayout->getWidth();
 						if(currentLayout){
-							posXi=(currentInstance->getX()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale()))-(int(currentInstance->getMY())*currentLayout->getWidth());
+							posXi=(currentInstance->getX()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale()))-(static_cast<int>(currentInstance->getMY())*currentLayout->getWidth());
 							posXf=posXi+currentLayout->getWidth()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale());
 							if((posXi<x+l->getWidth()/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())) && (posXf>x)){
 								if(errorMsgs<6) cout << "-> Instance " << cellsInst_it->first << " in row " << rowNr << " is overlaping cell " << *slots_it << ". Run INCREMENTAL PLACEMENT afterward to correct this problem." << endl;
@@ -328,7 +326,7 @@ bool Placer::checkPlacement(){
 			currentLayout=currentCircuit->getLayout(currentInstance->getTargetCell());
 			if(currentInstance && currentLayout) rowSize+=currentLayout->getWidth();
 		}
-		width=max(width, int(rowSize/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())));
+		width=max(width, static_cast<int>(rowSize/(currentCircuit->getHPitch()*currentCircuit->getRules()->getScale())));
 	}
     
 	if(errorMsgs>5) cout << "-> WARNING: A total of " << errorMsgs << " errors were found. Just the 5 firsts were shown." << endl;
@@ -380,7 +378,7 @@ void Placer::setArea(int n, float u){
     if(nrSites<=0)
         throw AstranError("No cell instance found in the circuit");
     
-    utilization= 100*(float(tmp)/(nrSites*rows.size()));
+    utilization= 100*(static_cast<float>(tmp)/(nrSites*rows.size()));
     cout << "-> Setting place area to " << rows.size()*currentCircuit->getRowHeight()*currentCircuit->getVPitch() << " x " <<  nrSites*currentCircuit->getHPitch() << " (HxW)um  with " << getUtilization() << "% of utilization" << endl;
 }
 
@@ -481,7 +479,7 @@ void Placer::writeBookshelfFiles(string fileName, bool dotPLOnly){
     int vGrid=currentCircuit->getVPitch()*currentCircuit->getRules()->getScale();
     int hGrid=currentCircuit->getHPitch()*currentCircuit->getRules()->getScale();
     map<string, Instance>::iterator cellsInst_it;
-    map<string, Interface>::iterator interface_it;
+    map<string, Circuit::Interface>::iterator interface_it;
     string fname;
     
     fname = fileName + ".pl";
@@ -624,7 +622,7 @@ void Placer::writeCadende(string fileName){
     map<string, int> mapping;
     
     for(cellsInst_it=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstances()->begin();cellsInst_it!=currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstances()->end();cellsInst_it++)
-        if(mapping.find(cellsInst_it->second.getTargetCell())==mapping.end()) mapping[cellsInst_it->second.getTargetCell()]=mapping.size()+1;
+        if(mapping.find(cellsInst_it->second.getTargetCell())==mapping.end()) mapping[cellsInst_it->second.getTargetCell()]=static_cast<int>(mapping.size()+1);
     
     fcadence << "Signature: 0; Symbols: 1; Instances: "<< currentCircuit->getLayout(currentCircuit->getTopCell() + "_PL")->getInstances()->size() << "; Cells: " << mapping.size() << endl << endl;
     
@@ -648,7 +646,7 @@ void Placer::writeCadende(string fileName){
 
 void Placer::placeInterfaceTerminals(){
     int nrN=0, nrS=0, nrW=0, nrE=0;
-    map<string, Interface>::iterator interface_it;
+    map<string, Circuit::Interface>::iterator interface_it;
     for(interface_it=currentCircuit->getInterfaces()->begin(); interface_it!=currentCircuit->getInterfaces()->end(); interface_it++){
         switch(interface_it->second.orient){
             case N: nrN++; break;
@@ -659,7 +657,7 @@ void Placer::placeInterfaceTerminals(){
     }
     //falta verificar se já posui posição atribuita
     int posN=0, posS=0, posW=0, posE=0;
-    int height=(rows.size()*currentCircuit->getRowHeight())-1;
+    int height=(static_cast<int>(rows.size())*currentCircuit->getRowHeight())-1;
     for(interface_it=currentCircuit->getInterfaces()->begin(); interface_it!=currentCircuit->getInterfaces()->end(); interface_it++){
         switch(interface_it->second.orient){
             case N: interface_it->second.pos.setPos(((currentCircuit->getLMargin()+nrSites+currentCircuit->getRMargin())/nrN)*posN++ - currentCircuit->getLMargin(),height+currentCircuit->getTMargin()); break;

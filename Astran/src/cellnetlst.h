@@ -1,9 +1,8 @@
 /**************************************************************************
- *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr.                        *
- *   [amziesemerj[at]@inf.ufrgs.br                                      *
+ *   Copyright (C) 2005 by Adriel Mota Ziesemer Jr.                       *
+ *   [amziesemerj[at]@inf.ufrgs.br                                        *
  **************************************************************************/
-#ifndef CELLNETLST_H
-#define CELLNETLST_H
+#pragma once
 
 /**
  Data Structure of the cell netlist
@@ -22,10 +21,7 @@
 #include "thresholdaccept.h"
 #include "util.h"
 
-using namespace std;
-
 enum TransType {PMOS, NMOS};
-
 enum TransTerminalType {DRAIN, GATE, SOURCE, GAP};
 
 // Points the net to a transistor
@@ -59,6 +55,57 @@ struct CellInstance{
 };
 
 class CellNetlst{
+public:
+    void setName(string n){name=n;};
+    string getName(){return name;};
+    vector<int>& getInouts(){return inouts;};
+    string getInout(int n);
+    Net& getNet(int n){return nets[n];};
+    vector<Net>& getNets(){return nets;};
+    bool setIOType(string name, IOType t);
+    IOType getIOType(int net){return inouts_type[net];};
+    void appendNetNameSuffix(string n);
+    string& getNetName(int n){return nets[n].name;};
+    bool insertInOut(string name);
+    int insertNet(string& name, TransTerminalType type, int t);
+    void insertInstance(string instName, string subCircuit, vector<string> &ports);
+    map<string,CellInstance>& getInstances(){return instances;};
+    bool check();
+    void folding(float pSize, float nSize, string VddNet_Name, string GndNet_Name);
+    void insertTrans(string name, string d, string g, string s, TransType t, float l, float w);
+    unsigned long size(){return trans.size();};
+    int pSize();
+    int nSize();
+    Transistor& getTrans(int ID){ return trans[ID];};
+    void print();
+    void clear();
+    bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
+    void printPlacement();
+    unsigned int calcWeight(vector<TransitorTerminal>& eulerPathP,vector<TransitorTerminal>& eulerPathN);
+    int getMaxCongestioning(){return maxCong;};
+    int getWidth(){return posPN;};
+    void move(const vector<TransitorTerminal>& ref, vector<TransitorTerminal>& cp);
+    vector<TransitorTerminal>& getOrderingP(){return orderingP;};
+    vector<TransitorTerminal>& getOrderingN(){return orderingN;};
+    void setOrderingP(vector<TransitorTerminal>& ordering){orderingP=ordering;};
+    void setOrderingN(vector<TransitorTerminal>& ordering){orderingN=ordering;};
+    
+    int Perturbation(); //Retorna o custo da perturbacao
+    int GetCost(); //Retorna o custo
+    int GetProblemSize(); //Retorna um numero qualquer que indica o tamanho do problem (ex. numero de transistores)
+    void UndoPerturbation(); //Desfaz a ultima perturbacao
+    bool isIO(string n);
+    
+    //Métodos para o algoritmo de folging nas series
+    bool defineIOToGraph(string Vdd_Name, string Gnd_Name);
+    bool isOut(int out_id);
+    bool isGate(int gate_id);
+    bool wasVisit(int indexNet);
+    int getSeriesToFolding(int currentNet, int currentTrans, int nextNet);
+    void findSeriesToFolding(int startNet);
+    void foldingSeries(float pSize, float nSize);
+    bool seriesFolding(int numSequence, int numTrans, int numLegs, int biggerTrans);
+
 protected:
 	string name;
 	vector<Transistor> trans;
@@ -88,60 +135,5 @@ protected:
 	bool visit(int nDifs);
 	bool verifyCnt(int pos);
 	TransitorTerminal point(int link, TransTerminalType type);
-	
 	void move(vector<TransitorTerminal>& ref);
-	
-public:
-	void setName(string n){name=n;};
-	string getName(){return name;};
-	vector<int>& getInouts(){return inouts;};
-	string getInout(int n);
-	Net& getNet(int n){return nets[n];};
-	vector<Net>& getNets(){return nets;};
-	bool setIOType(string name, IOType t);
-	IOType getIOType(int net){return inouts_type[net];};
-	void appendNetNameSuffix(string n);
-	string& getNetName(int n){return nets[n].name;};
-	bool insertInOut(string name);
-	int insertNet(string& name, TransTerminalType type, int t);
-	void insertInstance(string instName, string subCircuit, vector<string> &ports);
-	map<string,CellInstance>& getInstances(){return instances;};
-	bool check();
-	void folding(float pSize, float nSize, string VddNet_Name, string GndNet_Name);
-	void insertTrans(string name, string d, string g, string s, TransType t, float l, float w);
-	int size(){return trans.size();};
-	int pSize();
-	int nSize();
-	Transistor& getTrans(int ID){ return trans[ID];};
-	void print();
-	void clear();
-	bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
-    void printPlacement();
-	unsigned int calcWeight(vector<TransitorTerminal>& eulerPathP,vector<TransitorTerminal>& eulerPathN);
-    int getMaxCongestioning(){return maxCong;};
-    int getWidth(){return posPN;};
-	void move(const vector<TransitorTerminal>& ref, vector<TransitorTerminal>& cp);	
-	vector<TransitorTerminal>& getOrderingP(){return orderingP;};
-	vector<TransitorTerminal>& getOrderingN(){return orderingN;};
-    void setOrderingP(vector<TransitorTerminal>& ordering){orderingP=ordering;};
-	void setOrderingN(vector<TransitorTerminal>& ordering){orderingN=ordering;};
-
-	int Perturbation(); //Retorna o custo da perturbacao
-	int GetCost(); //Retorna o custo
-	int GetProblemSize(); //Retorna um numero qualquer que indica o tamanho do problem (ex. numero de transistores)
-	void UndoPerturbation(); //Desfaz a ultima perturbacao
-	bool isIO(string n);
-    
-    //Métodos para o algoritmo de folging nas series
-    bool defineIOToGraph(string Vdd_Name, string Gnd_Name);
-    bool isOut(int out_id);
-    bool isGate(int gate_id);
-    bool wasVisit(int indexNet);
-    int getSeriesToFolding(int currentNet, int currentTrans, int nextNet);
-    void findSeriesToFolding(int startNet);
-    void foldingSeries(float pSize, float nSize);
-    bool seriesFolding(int numSequence, int numTrans, int numLegs, int biggerTrans);
-    
 };
-
-#endif

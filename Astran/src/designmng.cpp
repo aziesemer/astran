@@ -4,26 +4,14 @@
  ***************************************************************************/
 #include "designmng.h"
 
-DesignMng::DesignMng(){
-	viewerProgram="";
-	verboseMode=0;
-	poscmdlog = 0;
-	historyFile="";
-	circuit=NULL;
-	router=NULL;
-	rules=NULL;
-	placer=NULL;
-	autocell=NULL;
-	readCommand("new design astran_project");
+DesignMng::DesignMng():viewerProgram(""),verboseMode(0),poscmdlog(0),historyFile(""){
+    circuit->setRules(rules.get());
+    placer->setCircuit(circuit.get());
+    router->setCircuit(circuit.get());
+    setName("astran_project");
 }
 
-DesignMng::~DesignMng(){
-	delete circuit;
-	delete placer;
-	delete rules;
-	delete autocell;
-	delete router;
-}
+DesignMng::~DesignMng(){}
 
 // vector shell_cmd: command received from shell
 // vector reg_cmd: command registered in commands_lst[]
@@ -73,7 +61,7 @@ void DesignMng::run(string filename) {
 	string str_tmp;
 	while(getline(file, str_tmp)){
 		if((str_tmp[0] != '*') && !readCommand(str_tmp))
-            cout << "-> WARNING: Could not execute line " << intToStr(line) << " of: " << filename << endl;
+            cout << "-> WARNING: Could not execute line " << to_string(line) << " of: " << filename << endl;
 		line++;
 	}
 }
@@ -141,8 +129,7 @@ void DesignMng::saveProjectConfig(string filename, string project_name){
     
     //save netlist
     file_to_save = project_name + ".sp";
-    Spice spice;
-    spice.saveFile(file_to_save, *circuit);
+    Spice::saveFile(file_to_save, *circuit);
     
     //save cell library
     file_to_save = project_name + ".lay";
@@ -173,7 +160,7 @@ bool DesignMng::readCommand(string cmd){
             addToHistoryLog(cmd);
             if (cmd.size()){
                 commandlog.push_back(cmd);
-                poscmdlog = commandlog.size();
+                poscmdlog = static_cast<int>(commandlog.size());
             }
         }
         
@@ -218,21 +205,14 @@ bool DesignMng::readCommand(string cmd){
             switch (getCommandCode(words)){
                     
                 case NEW_DESIGN:{
-                    delete circuit;
-                    delete placer;
-                    delete rules;
-                    delete autocell;
-                    delete router;
-                    
-                    circuit = new Circuit();
-                    placer = new Placer();
-                    rules = new Rules();
-                    autocell = new AutoCell();
-                    router = new Router();
-                    circuit->setRules(rules);
-                    placer->setCircuit(circuit);
-                    router->setCircuit(circuit);
-                    
+                    circuit =  std::make_unique<Circuit>();
+                    router =  std::make_unique<Router>();
+                    rules =  std::make_unique<Rules>();
+                    placer =  std::make_unique<Placer>();
+                    autocell =  std::make_unique<AutoCell>();
+                    circuit->setRules(rules.get());
+                    placer->setCircuit(circuit.get());
+                    router->setCircuit(circuit.get());
                     setName(words[2].c_str());
                 }
                     break;
@@ -265,8 +245,7 @@ bool DesignMng::readCommand(string cmd){
                         if(!vlog.readFile(words[2], *circuit))
                             throw AstranError("Could not read verilog file: " + words[2]);
                     }else {//if(tipo=="SP" || tipo="LIB"){
-                        Spice spice;
-                        spice.readFile(words[2], *circuit, false);
+                        Spice::readFile(words[2], *circuit, false);
                     }
                 }
                     break;
@@ -308,8 +287,7 @@ bool DesignMng::readCommand(string cmd){
                     
                 case SAVE_NETLIST:{
                     cout << "-> Saving spice netlist to file: " << words[2] << endl;
-                    Spice spice;
-                    spice.saveFile(words[2], *circuit);
+                    Spice::saveFile(words[2], *circuit);
                 }
                     break;
                     
@@ -338,8 +316,7 @@ bool DesignMng::readCommand(string cmd){
                     /****  IMPORT - 2  ****/
                 case IMPORT_NETLIST:{
                     cout << "-> Importing netlist from file: " << words[2] << endl;
-                    Spice spice;
-                    spice.readFile(words[2], *circuit, true);
+                    Spice::readFile(words[2], *circuit, true);
                 }
                     break;
                     
@@ -461,7 +438,7 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case PLACE_INCREMENTAL:
-                    placer->incrementalPlacement(router, lpSolverFile);
+                    placer->incrementalPlacement(router.get(), lpSolverFile);
                     break;
                     
                 case PLACE_CHECK:
@@ -492,7 +469,7 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case ROUTE_CLEAR:
-                    router->getPathfinderRt()->clear();
+                    router->getGridRouter()->clear();
                     break;
                     
                     /****  PRINT - 4  ****/
@@ -683,7 +660,7 @@ bool DesignMng::readCommand(string cmd){
                     /****  CELLGEN - 9  ****/
                     
                 case CELLGEN_SELECT:
-                    autocell->selectCell(circuit,upcase(words[2]));
+                    autocell->selectCell(circuit.get(),upcase(words[2]));
                     break;
                     
                 case CELLGEN_AUTOFLOW:
