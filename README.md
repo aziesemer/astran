@@ -38,7 +38,9 @@ make
 ```
 
 - On Mac OSX
-t
+
+Read the INSTALL.txt file.
+
 ## Environment
 
 ```ASTRAN_PATH``` needs to point to the astran path.
