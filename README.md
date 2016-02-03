@@ -8,6 +8,7 @@ ASTRAN is a free, open source, physical synthesis framework for Mac and Linux
 It supports automatic layout generation of CMOS cells from a transistor level netlist description in SPICE format. Area overhead compared to high quality hand-made standard-cells layouts is 3.7% on average.
 Its functionality is being extended to produce complete circuit layouts. Features include transistor sizing, floorplanning, cell placement, and routing. The framework is very modular and new contributions to this project are welcome.
 
+![Astran](https://gme-ufrgs.googlecode.com/files/screenshot2.png)
 
 ###Features:
 - ASTRAN 3 is under active development and supports 45+nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...
@@ -37,7 +38,7 @@ make
 ```
 
 - On Mac OSX
-
+t
 ## Environment
 
 ```ASTRAN_PATH``` needs to point to the astran path.
