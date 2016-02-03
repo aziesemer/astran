@@ -24,7 +24,7 @@ TIP: Download and install always the latest version directly from the GIT reposi
 There is a <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">video</a> tutorial that can be usefull.
 Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrgs.br
 
-If you are using ASTRAN, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.
+If you are using ASTRAN, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/Adriel_Ziesemer_Jr">profile</a>  for other works.
 
 ##Building
 
