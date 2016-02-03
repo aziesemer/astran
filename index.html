@@ -1,45 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
     <title>ASTRAN - Automatic Synthesis of Transistor Networks by aziesemer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+    <section class="page-header">
+      <h1 class="project-name">ASTRAN - Automatic Synthesis of Transistor Networks</h1>
+      <h2 class="project-tagline">#cell #layout #synthesis #cmos #standardcell</h2>
+      <a href="https://github.com/aziesemer/astran" class="btn">View on GitHub</a>
+      <a href="https://github.com/aziesemer/astran/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/aziesemer/astran/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <header>
-          <h1>ASTRAN - Automatic Synthesis of Transistor Networks</h1>
-          <h2>#cell #layout #synthesis #cmos #standardcell</h2>
-        </header>
-
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/aziesemer/astran/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/aziesemer/astran/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/aziesemer/astran" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <p>ASTRAN is a free, open source, physical synthesis framework for Mac and Linux</p>
+    <section class="main-content">
+      <p>ASTRAN is an acronym for <strong>Automatic Synthesis of Transistor Networks</strong>. It is a free, open source, physical synthesis framework for Mac and Linux</p>
 
 <p>It supports automatic layout generation of CMOS cells from a transistor level netlist description in SPICE format. Area overhead compared to high quality hand-made standard-cells layouts is 3.7% on average.
-It's functionality is being extended to produce complete circuit layouts. Features include transistor sizing, floorplanning, cell placement, and routing. The framework is very modular and new contributions to this project are welcome.</p>
+Its functionality is being extended to produce complete circuit layouts. Features include transistor sizing, floorplanning, cell placement, and routing. The framework is very modular and new contributions to this project are welcome.</p>
 
-<p>Features:</p>
+<p><img src="https://gme-ufrgs.googlecode.com/files/screenshot2.png" alt="Astran"></p>
+
+<h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features:</h3>
 
 <ul>
-<li>ASTRAN 3 is under active development and supports +45nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...</li>
+<li>ASTRAN 3 is under active development and supports 45+nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...</li>
 <li>It generates all kinds of logic cells, including non-complementary as PTL;</li>
 <li>Cell instances can be individually sized before generation to reduce delay;</li>
 <li>Cell layout generation flow includes: transistor folding, 1-D transistor placement (using Threshold Accepting metaheuristic), intracell routing (using pathfinder and iterated 1-steiner algorithms) and 2-D layout compaction (using ILP);</li>
@@ -50,18 +41,60 @@ It's functionality is being extended to produce complete circuit layouts. Featur
 
 <p>TIP: Download and install always the latest version directly from the GIT repository. Binary versions will not be updated anymore since google closed this service. It's pretty easy to compile.</p>
 
-<p>There is a video tutorial that can be usefull in: <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">https://www.youtube.com/watch?v=IFbCDSMi_FE</a>
+<p>There is a <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">video</a> tutorial that can be usefull.
 Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrgs.br</p>
 
-<p>If you are using my tool, please cite: ISVLSI'14 or visit my profile for other works</p>
-        </section>
+<p>If you are using ASTRAN, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.</p>
 
-        <footer>
-          ASTRAN - Automatic Synthesis of Transistor Networks is maintained by <a href="https://github.com/aziesemer">aziesemer</a><br>
-          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+<h2>
+<a id="building" class="anchor" href="#building" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building</h2>
 
-                  <script type="text/javascript">
+<ul>
+<li>On Linux </li>
+</ul>
+
+<p>The following procedure was tested in Centos 5.11 and Ubuntu 14.04</p>
+
+<pre><code>git clone https://github.com/aziesemer/astran.git astran
+cd astran/Astran
+make
+</code></pre>
+
+<ul>
+<li>On Mac OSX</li>
+</ul>
+
+<p>Read the INSTALL.txt file.</p>
+
+<h2>
+<a id="environment-optional" class="anchor" href="#environment-optional" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Environment (optional)</h2>
+
+<p><code>ASTRAN_PATH</code> needs to point to the astran path.</p>
+
+<h2>
+<a id="using" class="anchor" href="#using" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using</h2>
+
+<ul>
+<li>On Command Line</li>
+</ul>
+
+<p><code>$Astran --shell</code></p>
+
+<ul>
+<li>On GUI </li>
+</ul>
+
+<p><img src="https://github.com/aziesemer/astran/blob/master/Astran/misc/astran.jpg?raw=true" alt="Astran GUI"></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/aziesemer/astran">ASTRAN - Automatic Synthesis of Transistor Networks</a> is maintained by <a href="https://github.com/aziesemer">aziesemer</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -72,7 +105,5 @@ Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrg
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
   </body>
 </html>
