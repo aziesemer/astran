@@ -56,4 +56,3 @@ Read the INSTALL.txt file.
 ```$Astran```
 
 ![Astran GUI](https://github.com/aziesemer/astran/blob/master/Astran/misc/astran.jpg?raw=true)
-
