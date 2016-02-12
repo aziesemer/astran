@@ -153,7 +153,8 @@ BIN=build/bin/Astran
 SRC=$(shell find -name "*.cpp")
 OBJ=$(SRC:.cpp=.o)
 
-CFLAGS = $(shell wx-config --cxxflags --libs) -std=c++14 -O3
+CFLAGS = $(shell wx-config --cxxflags --libs) -std=c++14 -O3 -Wno-deprecated -fpermissive
+
 LIBS = $(shell wx-config --libs)
 
 linux-build: $(OBJ) $(BIN) pos-compile
@@ -168,8 +169,10 @@ $(BIN): $(OBJ)
 
 pos-compile:
 	@ chmod -x build/bin/astran.cfg
-	@ echo "Done, the output diretory is 'build'. Move it to the right place."
-	@ echo "Test the binnary with: build/bin/Astran [--shell]"
+	@ echo "Done, the build output diretory is 'build'."
+	@ echo "To test:"
+	@ echo "   export ASTRAN_PATH=build"
+	@ echo "   build/bin/Astran [--shell]"
 
 install:
 	@ cp -r build /usr/astran

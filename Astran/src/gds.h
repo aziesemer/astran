@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <util.h>
+#include "util.h"
 
 class Gds {
 public:
@@ -36,19 +36,19 @@ public:
     void generateEndStruct();
     void generateEndLibrary();
     void add_longint(long int&);
-    
+
 private:
     union conv_2b{
         char c[2];
         int l;
     };
-    
-    
+
+
     union conv_4b{
         char c[4];
         long int l;
     };
-    
+
    ofstream file;
    string filename;
    vector<char> f;

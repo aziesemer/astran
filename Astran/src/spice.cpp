@@ -5,7 +5,7 @@
 
 #include "spice.h"
 
-static void Spice::readFile(const string& fileName, Circuit& netlist, bool reading_cadence)
+void Spice::readFile(const string& fileName, Circuit& netlist, bool reading_cadence)
 {
 	ifstream arq (fileName.c_str());
 	string linha;
@@ -152,7 +152,7 @@ static void Spice::readFile(const string& fileName, Circuit& netlist, bool readi
 		netlist.insertCell(topCell);
 }
 
-static void Spice::saveFile(const string& fileName, Circuit& netList){
+void Spice::saveFile(const string& fileName, Circuit& netList){
 	ofstream file;
 	file.open(fileName.c_str()); // Write
 	if (!file)
@@ -187,7 +187,7 @@ static void Spice::saveFile(const string& fileName, Circuit& netList){
 	}
 }
 
-static float Spice::getFactor(char s){
+float Spice::getFactor(char s){
 	switch(s){
 		case 'U': return 1;
 		case 'N': return 0.001;  //fill with the others
