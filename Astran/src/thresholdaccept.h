@@ -10,24 +10,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-inline double GetNextThreshold(double threshold, double accept_ratio, double dp) {
-    
-    if (accept_ratio > 0.98)
-        return double(threshold)*0.6;
-    
-    if (accept_ratio > 0.2)
-        return double(threshold)*0.96;
-    
-    if (threshold == 0 || accept_ratio == 0 || dp == 0)
-        return 0;
-    
-    return double(threshold)*0.98;
+inline double GetNextThreshold(const double& threshold, const double& accept_ratio) {
+    return threshold*(0.98-(accept_ratio*accept_ratio)/2);
 }
 
-inline bool TA_Accept(double delta, double threshold) {
-    if (delta <= 0)
-        return true;
-    
+inline bool TA_Accept(const double& delta, const double& threshold) {
     return delta<=threshold;
 }
 
@@ -47,7 +34,7 @@ int FindInitialThreshold(toOptimize& obj) {
     toOptimize obj_copy = obj;
     
     //  cout << "[Cost";
-    double ini_cost = obj.GetCost();
+    double ini_cost = obj.getCost();
     double cost=ini_cost;
     
     //  cout << "]";
@@ -66,8 +53,8 @@ int FindInitialThreshold(toOptimize& obj) {
         //   LOG("  trying threshold %i [ %i ; %i ] ", temp, temp_min, temp_max);
         
         for (int r=0; r<5000; r++) {
-            obj_copy.Perturbation();
-            delta = obj_copy.GetCost()-cost;
+            obj_copy.perturbation();
+            delta = obj_copy.getCost()-cost;
             
             if (TA_Accept(delta,temp)) {
                 avg_delta += delta;
@@ -75,7 +62,7 @@ int FindInitialThreshold(toOptimize& obj) {
                 cont_delta++;
             }
             else
-                obj_copy.UndoPerturbation();
+                obj_copy.undoPerturbation();
         }
         
         avg_delta/=cont_delta;
@@ -98,15 +85,13 @@ int FindInitialThreshold(toOptimize& obj) {
 template <class toOptimize>
 toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, bool greedy=false, bool print_progress=true, bool high_threshold=false){
     double threshold = (greedy?0:(high_threshold?99999:FindInitialThreshold<toOptimize>(initial_solution)));
-    //int temperature = 99999999;
-    //int temperature = 0;
-    double cost = initial_solution.GetCost();
+    double cost = initial_solution.getCost();
     double delta = 0;
     double avg_delta;
     double accept_ratio;
     double average_cost;
     int cont_accepts;
-    int num_repetitions = static_cast<int>(initial_solution.GetProblemSize()*quality_factor);
+    int num_repetitions = static_cast<int>(initial_solution.getProblemSize()*quality_factor);
     
     if (cost == 0 )
         return initial_solution;
@@ -120,10 +105,11 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
     int cont_same_cost = 0;
     double cost_ratio;
     
-    toOptimize solution = initial_solution;
+    toOptimize currentSolution = initial_solution;
+    toOptimize bestSolution = currentSolution;
     
     if (print_progress)
-        std::cout << " ( initial cost = " << cost << " num reps = " << num_repetitions << " problem size = " << initial_solution.GetProblemSize() << " ) ";
+        std::cout << " ( initial cost = " << cost << " num reps = " << num_repetitions << " problem size = " << initial_solution.getProblemSize() << " ) ";
     
     //  LOG("Running Simulated Annealing... Initial cost =  %..3fi\n",cost);
     int iter = 0;
@@ -139,25 +125,17 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
         var_2 = 0;
         avg_delta = 0;
         
-        
-        
         for (int i=0; i<num_repetitions; i++) {
+            currentSolution.perturbation();
+            delta = currentSolution.getCost()-cost;
             
-            //      cerr << "0";
-            
-            solution.Perturbation();
-            delta = solution.GetCost()-cost;
-            
-            //      cerr << "1";
             if (TA_Accept(delta,threshold)) {
                 cont_accepts++;
                 cost += delta;
                 avg_delta += delta;
             }
             else {
-                //	cerr << "2";
-                solution.UndoPerturbation();
-                //	cerr << "3";
+                currentSolution.undoPerturbation();
             }
             
             var_1 += cost*cost/num_repetitions;
@@ -170,9 +148,6 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
         double desvio_padrao;
         
         double time_of_iteration = double(clock() - time_of_iteration_ini)/double(CLOCKS_PER_SEC);
-        
-        if (time_of_iteration > 17500) break;
-        
         
         if (cont_accepts > 1)
             desvio_padrao = sqrt(variancia);
@@ -201,24 +176,29 @@ toOptimize ThresholdAccept(toOptimize& initial_solution, double quality_factor, 
         if (cont_same_cost > 9)
             break;
         
-        double bla = solution.GetCost();
+        double bla = currentSolution.getCost();
         
         if (bla != cost) {
             std::cout << "INCONSISTENCY ERROR " << bla << " <> " << cost << "\n";
         }
         
+        if(cost < bestSolution.getCost())
+            bestSolution = currentSolution;
+
         if (print_progress)
             printf(" Iteration %i; cost = %.3f (%.3f); p_cost = %.3f; accept = %.3f; avg_delta = %.3f; dp = %.3f; thres = %.3f; cost_ratio = %.3f; [%i]\n",
-                   iter,cost,bla,previous_cost,accept_ratio,avg_delta,desvio_padrao,threshold,cost_ratio,cont_same_cost);
+                   iter,cost,static_cast<double>(bestSolution.getCost()),previous_cost,accept_ratio,avg_delta,desvio_padrao,threshold,cost_ratio,cont_same_cost);
         
         if (print_progress)
             std::cerr << ".";
+        if (time_of_iteration > 17500) break;
+
         
-        threshold = GetNextThreshold(threshold,accept_ratio, desvio_padrao);
+        threshold = GetNextThreshold(threshold,accept_ratio);
     }
     
     if (print_progress)
         std::cout << " final cost = " << cost << " ";
     
-    return solution;
+    return bestSolution;
 }

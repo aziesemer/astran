@@ -58,7 +58,7 @@ $ tar xzvf Astran.tar.gz
 3. Download Gurobi Optimizer from:
 http://www.gurobi.com/download/gurobi-optimizer
 
-    You need to register first. After that, install the latest version
+    You need to register it first. After that, install the latest version
  supported by your SO (e.g. 5.0.2 for Mac OS X 10.6). You gonna need to
  acquire a valid license to use Gurobi, it's free for academic use:
 http://www.gurobi.com/download/licenses/free-academic
@@ -91,4 +91,4 @@ http://www.gurobi.com/download/licenses/free-academic
     http://www.dll-files.com/dllindex/dll-files.shtml?glut32
 
 IMPORTANT TIP: Edit astran.cfg  and save the configuration so you don't
- have to set it again when you run the tool again.
+ have to set it when you run the tool again.

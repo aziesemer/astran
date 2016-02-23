@@ -90,10 +90,10 @@ public:
     void setOrderingP(vector<TransitorTerminal>& ordering){orderingP=ordering;};
     void setOrderingN(vector<TransitorTerminal>& ordering){orderingN=ordering;};
     
-    int Perturbation(); //Retorna o custo da perturbacao
-    int GetCost(); //Retorna o custo
-    int GetProblemSize(); //Retorna um numero qualquer que indica o tamanho do problem (ex. numero de transistores)
-    void UndoPerturbation(); //Desfaz a ultima perturbacao
+    int perturbation(); //Retorna o custo da perturbacao
+    int getCost(); //Retorna o custo
+    int getProblemSize(); //Retorna um numero qualquer que indica o tamanho do problem (ex. numero de transistores)
+    void undoPerturbation(); //Desfaz a ultima perturbacao
     bool isIO(string n);
     
     //Métodos para o algoritmo de folging nas series

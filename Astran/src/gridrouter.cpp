@@ -345,7 +345,7 @@ inline int GridRouter::calcCost(int node2, rt_dir dir){
 		case RT_EAST: return costs[getPosZ(node2)*3] + tmp; break;
 		case RT_NORTH: return costs[getPosZ(node2)*3+1] + tmp; break;
 		case RT_UP: return costs[(getPosZ(node2)-1)*3+2] + tmp;  break;
-        default: throw AstranError("BUG: invalid direction");
+        default: assert(false);
     }
 	return 0;
 }
@@ -389,7 +389,7 @@ bool GridRouter::areConnected(int node1, rt_dir dir){
 		case RT_EAST:	return getPosX(node1)+1<sizeX && getNet(node1+1)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
 		case RT_NORTH:	return getPosY(node1)+1<sizeY && getNet(node1+sizeX)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
 		case RT_UP:		return getPosZ(node1)+1<sizeZ && getNet(node1+sizeXY)==getNet(node1) && getNet(node1) && getNet(node1)!=blockageNet;
-        default: throw AstranError("BUG: invalid direction");
+        default: assert(false);
 	}
 	return false;
 }
@@ -453,7 +453,7 @@ void GridRouter::pathTree(int net, ofstream& froute){
 						case RT_UP:
 							froute << "[ " << desloc <<  " UP ] ";
 							break;						
-                        default: throw AstranError("BUG: invalid direction");
+                        default: assert(false);
 					}
 					desloc=1;	
 				}

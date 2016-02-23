@@ -99,11 +99,12 @@ void WxAutoCell::view( wxCommandEvent& event ){
 }
 
 void WxAutoCell::refresh(){
-	// append the itens (cells) for the selection box
+	// append the cells' names to the selection box
 	cellnet_choice->Clear();
 	for(map<string, CellNetlst>::iterator cells_it=currentFrmwork->getDesign()->getCircuit()->getCellNetlsts()->begin(); cells_it!=currentFrmwork->getDesign()->getCircuit()->getCellNetlsts()->end(); cells_it++)
 		cellnet_choice->Append(wxString::From8BitData(cells_it->first.c_str()));
     cellnet_choice->Select(0);
+    update();
 }
 
 void WxAutoCell::update(){

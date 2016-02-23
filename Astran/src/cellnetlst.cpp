@@ -361,7 +361,7 @@ void CellNetlst::clear(){
     instances.clear();
 }
 
-int CellNetlst::GetCost(){
+int CellNetlst::getCost(){
     static int lastRightP, lastRightN, rightP, rightN, leftP, leftN, pos, x;
     static string nName;
     
@@ -382,7 +382,7 @@ int CellNetlst::GetCost(){
                     leftP=trans[orderingP[pos].link].source;
                     rightP=trans[orderingP[pos].link].drain;
                     break;
-                default: break;
+                default: assert(false);
             }
         }
         if(orderingN[pos].link!=-1){
@@ -395,7 +395,7 @@ int CellNetlst::GetCost(){
                     leftN=trans[orderingN[pos].link].source;
                     rightN=trans[orderingN[pos].link].drain;
                     break;
-                default: break;
+                default: assert(false);
             }
         }
         if(orderingP[pos].link!=-1 && orderingN[pos].link!=-1 && trans[orderingP[pos].link].gate!=trans[orderingN[pos].link].gate) ++mismatchesGate;
@@ -459,7 +459,7 @@ int CellNetlst::GetCost(){
     return(localCong + 100*(congCost*maxCong + gmCost*mismatchesGate + ngCost*wGaps + rCost*wRouting + wCost*posPN));
 }
 
-int CellNetlst::Perturbation(){
+int CellNetlst::perturbation(){
     custo_anterior = custo_atual;
     PorN=rand()%4;
     switch(PorN){
@@ -467,7 +467,7 @@ int CellNetlst::Perturbation(){
         case 1: cpN=orderingN; move(orderingN); break;
         default: cpP=orderingP; cpN=orderingN; move(orderingP); move(orderingN); break;
     }
-    custo_atual = GetCost();
+    custo_atual = getCost();
     return custo_atual-custo_anterior;
 }
 
@@ -495,7 +495,7 @@ void CellNetlst::move(vector<TransitorTerminal>& ref){
                 case SOURCE:
                     ref[c].type=DRAIN;
                     break;
-                default: break;
+                default: assert(false);
             }
         }
         for(int c=0; c<size/2; c++){
@@ -506,11 +506,11 @@ void CellNetlst::move(vector<TransitorTerminal>& ref){
     }
 }
 
-int CellNetlst::GetProblemSize(){
+int CellNetlst::getProblemSize(){
     return static_cast<int>(orderingP.size()*orderingN.size());
 }
 
-void CellNetlst::UndoPerturbation(){
+void CellNetlst::undoPerturbation(){
     switch(PorN){
         case 0: orderingP=cpP; break;
         case 1: orderingN=cpN; break;
@@ -553,21 +553,21 @@ bool CellNetlst::transPlacement(bool newPl, int saquality, int nrattempts, int w
             orderingN.push_back(tmp);
     }
     int best=0;
-    int best_cost=GetCost();
+    int best_cost=getCost();
     //	cout << "- Initial Cost (0): " << best_cost << endl;
     
     tmpP=orderingP;
     tmpN=orderingN;
     
     for(int at=1; at<=nrattempts ; at++){
-        custo_atual=custo_anterior=GetCost();
+        custo_atual=custo_anterior=getCost();
         //		cout << "- Running Threshold Accept algorithm (" << at << "): " << endl;
         //		*this = SimulatedAnnealing<CellNetlst>(*this,saquality,false,true,!ep || at!=1);
         *this = ThresholdAccept<CellNetlst>(*this,saquality,false,true,true);
         cout << endl;
-        if(best_cost>=GetCost()){
+        if(best_cost>=getCost()){
             best=at;
-            best_cost=GetCost();
+            best_cost=getCost();
             tmpP=orderingP;
             tmpN=orderingN;
         }
@@ -578,7 +578,7 @@ bool CellNetlst::transPlacement(bool newPl, int saquality, int nrattempts, int w
     return true;
 }
 void CellNetlst::printPlacement(){
-    GetCost();
+    getCost();
     cout << "-> Final cost: Width=" << posPN << "; Gate Mismatches="<<  mismatchesGate << "; WL="<< wRouting << "; Rt. Density=" << maxCong << "; Nr. Gaps=" << wGaps << endl;
     //	cout << "-> Transistor Ordering (" << best << "): " << endl;
     cout << "   PMOS: ";
