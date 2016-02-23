@@ -1,13 +1,12 @@
 
 #ASTRAN
 
-ASTRAN is an acronym for __Automatic Synthesis of Transistor Networks__.
-
-ASTRAN is a free, open source, physical synthesis framework for Mac and Linux
+ASTRAN is an acronym for __Automatic Synthesis of Transistor Networks__. It is a free, open source, physical synthesis framework for Mac and Linux.
 
 It supports automatic layout generation of CMOS cells from a transistor level netlist description in SPICE format. Area overhead compared to high quality hand-made standard-cells layouts is 3.7% on average.
 Its functionality is being extended to produce complete circuit layouts. Features include transistor sizing, floorplanning, cell placement, and routing. The framework is very modular and new contributions to this project are welcome.
 
+![Astran](https://gme-ufrgs.googlecode.com/files/screenshot2.png)
 
 ###Features:
 - ASTRAN 3 is under active development and supports 45+nm technology rules (including freePDK45) like: redundant diff contacts, conditional design rules (metal/poly/diff enclosure of contacts, gate extension on diff, diff to gate spacing, metal/poly spacing on dense line-ends), minimum area,...
@@ -23,7 +22,7 @@ TIP: Download and install always the latest version directly from the GIT reposi
 There is a <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">video</a> tutorial that can be usefull.
 Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrgs.br
 
-If you are using my tool, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/A_Ziesemer_Jr">profile</a>  for other works.
+If you are using ASTRAN, please cite: <a href="https://www.researchgate.net/publication/262876168_Simultaneous_Two-Dimensional_Cell_Layout_Compaction_Using_MILP_with_ASTRAN?ev=prf_pub">ISVLSI'14</a> or visit my <a href="https://www.researchgate.net/profile/Adriel_Ziesemer_Jr">profile</a>  for other works.
 
 ##Building
 
@@ -38,7 +37,9 @@ make
 
 - On Mac OSX
 
-## Environment
+Read the INSTALL.txt file.
+
+## Environment (optional)
 
 ```ASTRAN_PATH``` needs to point to the astran path.
 
@@ -46,9 +47,8 @@ make
 
 - On Command Line
 
-```Astran --shell```
+```$Astran --shell```
 
 - On GUI 
 
 ![Astran GUI](https://github.com/aziesemer/astran/blob/master/Astran/misc/astran.jpg?raw=true)
-

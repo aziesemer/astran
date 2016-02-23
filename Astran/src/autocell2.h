@@ -14,6 +14,7 @@
 #include <sstream>
 #include <iterator>
 #include <time.h>
+#include <memory>
 #include "clayout.h"
 #include "draw.h"
 #include "rules.h"

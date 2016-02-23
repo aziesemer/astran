@@ -17,7 +17,7 @@
 #include <iostream>
 #include <strstream>
 #include <time.h>
-#include <util.h>
+#include "util.h"
 
 class GraphRouter{
 protected:
