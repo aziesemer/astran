@@ -23,7 +23,7 @@
 #     clobber                  remove all built files
 #     all                      build all configurations
 #     help                     print help mesage
- 
+#
 #  Targets .build-impl, .clean-impl, .clobber-impl, .all-impl, and
 #  .help-impl are implemented in nbproject/makefile-impl.mk.
 #
@@ -59,7 +59,7 @@ build: .build-post
 .build-post: .build-impl
 # Add your post 'build' code here...
 	@ echo
-	@ echo "#> DONE! :) To test it NOW, execute:"	
+	@ echo "#> DONE! :) To test it NOW, execute:"
 	@ echo "export ASTRAN_PATH=$$(pwd)/build"
 	@ echo "$$(pwd)/build/bin/Astran [--shell]"
 	@ echo
@@ -131,54 +131,3 @@ include nbproject/Makefile-impl.mk
 # include project make variables
 include nbproject/Makefile-variables.mk
 
-
-#==============================================================================
-
-else
-
-# TESTED ON:
-# - CentOS 5.11
-# - Ubuntu 12.04
-# - Ubuntu 14.04
-# - Ubuntu 15.04
-
-# UBUNTU DEPENDENCIES
-# sudo apt-get install wx2.8-headers libwxgtk2.8-0 libwxgtk2.8-dev wx-common
-
-PREFIX=/usr
-
-export LD_LIBRARY_PATH=/usr/lib64/
-
-BIN=build/bin/Astran
-SRC=$(shell find -name "*.cpp")
-OBJ=$(SRC:.cpp=.o)
-
-CFLAGS = $(shell wx-config --cxxflags --libs) -O3 -Wno-deprecated -fpermissive
-
-LIBS = $(shell wx-config --libs)
-
-linux-build: $(OBJ) $(BIN) pos-compile
-
-%.o: %.cpp %.h
-	@ echo Compiling $(@:.o=.cpp)
-	@ g++ $(CFLAGS) -c -o $@ $(@:.o=.cpp)
-
-$(BIN): $(OBJ)
-	@ echo Linking $@
-	@ g++ -g -o $@ $(OBJ) $(LIBS)
-
-pos-compile:
-	@ chmod -x build/bin/astran.cfg
-	@ echo "Done, the build output diretory is 'build'."
-	@ echo "To test:"
-	@ echo "   export ASTRAN_PATH=build"
-	@ echo "   build/bin/Astran [--shell]"
-
-install:
-	@ cp -r build /usr/astran
-
-clean:
-	@ rm -rf $(BIN)
-	@ rm -rf $(OBJ)
-
-endif
