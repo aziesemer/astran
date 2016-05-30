@@ -400,7 +400,7 @@ void Gds::write(){
     file.write(buffer,f.size());
     f.clear();
     
-    delete buffer;
+    delete[] buffer;
 }
 
 Gds::~Gds() {

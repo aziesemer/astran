@@ -205,11 +205,11 @@ bool DesignMng::readCommand(string cmd){
             switch (getCommandCode(words)){
                     
                 case NEW_DESIGN:{
-                    circuit =  std::make_unique<Circuit>();
-                    router =  std::make_unique<Router>();
-                    rules =  std::make_unique<Rules>();
-                    placer =  std::make_unique<Placer>();
-                    autocell =  std::make_unique<AutoCell>();
+                    circuit =  std::unique_ptr<Circuit>(new Circuit());
+                    router =  std::unique_ptr<Router>(new Router());
+                    rules =  std::unique_ptr<Rules>(new Rules());
+                    placer =  std::unique_ptr<Placer>(new Placer());
+                    autocell =  std::unique_ptr<AutoCell>(new AutoCell());
                     circuit->setRules(rules.get());
                     placer->setCircuit(circuit.get());
                     router->setCircuit(circuit.get());

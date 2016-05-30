@@ -153,7 +153,7 @@ BIN=build/bin/Astran
 SRC=$(shell find -name "*.cpp")
 OBJ=$(SRC:.cpp=.o)
 
-CFLAGS = $(shell wx-config --cxxflags --libs) -std=c++14 -O3 -Wno-deprecated -fpermissive
+CFLAGS = $(shell wx-config --cxxflags --libs) -O3 -Wno-deprecated -fpermissive
 
 LIBS = $(shell wx-config --libs)
 

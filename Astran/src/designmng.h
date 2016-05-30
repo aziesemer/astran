@@ -209,11 +209,11 @@ private:
     };
     
     string name;
-    std::unique_ptr<Circuit> circuit =  std::make_unique<Circuit>();
-    std::unique_ptr<Router> router =  std::make_unique<Router>();
-    std::unique_ptr<Rules> rules =  std::make_unique<Rules>();
-    std::unique_ptr<Placer> placer =  std::make_unique<Placer>();
-    std::unique_ptr<AutoCell> autocell =  std::make_unique<AutoCell>();
+    std::unique_ptr<Circuit> circuit = std::unique_ptr<Circuit>(new Circuit());
+    std::unique_ptr<Router> router = std::unique_ptr<Router>(new Router());
+    std::unique_ptr<Rules> rules = std::unique_ptr<Rules>(new Rules());
+    std::unique_ptr<Placer> placer = std::unique_ptr<Placer>(new Placer());
+    std::unique_ptr<AutoCell> autocell = std::unique_ptr<AutoCell>(new AutoCell());
     
     int verboseMode, poscmdlog;
     

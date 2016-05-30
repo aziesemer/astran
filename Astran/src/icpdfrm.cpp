@@ -20,7 +20,13 @@ IcpdFrm::IcpdFrm( wxWindow* parent ):ICPD_frm( parent ){
 	}
 
 	executeCommand(string("read \"" + astran_cfg + "\""));
-	refresh();
+    wxabout = new WxAbout(this);
+    wxrules = new WxRules(this);
+    wxautocell = new WxAutoCell(this);
+    wxcircuit = new WxCircuit(this);
+    wxfp = new WxFP(this);
+    wxpreferences = new WxPreferences(this);
+    refresh();
 }
 
 // functions that implement events
