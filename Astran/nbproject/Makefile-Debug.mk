@@ -21,7 +21,8 @@ FC=gfortran
 AS=as
 
 # Macros
-CND_PLATFORM=GNU-Linux-x86
+# CND_PLATFORM=GNU-Linux-x86
+CND_PLATFORM=$(shell uname)
 CND_DLIB_EXT=so
 CND_CONF=Debug
 CND_DISTDIR=dist
@@ -44,15 +45,14 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/designmng.o \
 	${OBJECTDIR}/src/draw.o \
 	${OBJECTDIR}/src/gds.o \
+	${OBJECTDIR}/src/graphrouter.o \
+	${OBJECTDIR}/src/gridrouter.o \
 	${OBJECTDIR}/src/icpdApp.o \
 	${OBJECTDIR}/src/icpdfrm.o \
 	${OBJECTDIR}/src/lef.o \
-	${OBJECTDIR}/src/pathfinder.o \
-	${OBJECTDIR}/src/pathfinder2.o \
 	${OBJECTDIR}/src/placer.o \
 	${OBJECTDIR}/src/router.o \
 	${OBJECTDIR}/src/rules.o \
-	${OBJECTDIR}/src/spice.o \
 	${OBJECTDIR}/src/verilog.o \
 	${OBJECTDIR}/src/wxabout.o \
 	${OBJECTDIR}/src/wxautocell.o \
@@ -62,13 +62,12 @@ OBJECTFILES= \
 	${OBJECTDIR}/src/wxpreferences.o \
 	${OBJECTDIR}/src/wxrules.o
 
-
 # C Compiler Flags
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=`wx-config --cppflags` -Wno-deprecated 
-CXXFLAGS=`wx-config --cppflags` -Wno-deprecated 
+CCFLAGS=`wx-config --cppflags --debug=yes` -Wno-deprecated -std=c++14 -fpermissive
+CXXFLAGS=$(CCFLAGS)
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -81,11 +80,21 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk build/bin/Astran.app/Contents/MacOS/Astran
+ifeq ($(shell uname), Linux)
+	"${MAKE}" -f nbproject/Makefile-${CND_CONF}.mk build/bin/Astran
+else
+	"${MAKE}" -f nbproject/Makefile-${CND_CONF}.mk build/bin/Astran.app/Contents/MacOS/Astran
+endif
+
+build/bin/Astran: ${OBJECTFILES}
+	${MKDIR} -p build/bin
+	${LINK.cc} -o build/bin/Astran ${OBJECTFILES} ${LDLIBSOPTIONS} `wx-config --libs`
 
 build/bin/Astran.app/Contents/MacOS/Astran: ${OBJECTFILES}
 	${MKDIR} -p build/bin/Astran.app/Contents/MacOS
 	${LINK.cc} -o build/bin/Astran.app/Contents/MacOS/Astran ${OBJECTFILES} ${LDLIBSOPTIONS} `wx-config --libs`
+
+
 
 ${OBJECTDIR}/src/autocell2.o: src/autocell2.cpp 
 	${MKDIR} -p ${OBJECTDIR}/src
@@ -217,13 +226,28 @@ ${OBJECTDIR}/src/wxrules.o: src/wxrules.cpp
 	${RM} $@.d
 	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/wxrules.o src/wxrules.cpp
 
+${OBJECTDIR}/src/gridrouter.o: src/gridrouter.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/gridrouter.o src/gridrouter.cpp
+
+${OBJECTDIR}/src/graphrouter.o: src/graphrouter.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/graphrouter.o src/graphrouter.cpp
+
+${OBJECTDIR}/src/HybridTraits.o: src/HybridTraits.cpp 
+	${MKDIR} -p ${OBJECTDIR}/src
+	${RM} $@.d
+	$(COMPILE.cc) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/src/HybridTraits.o src/HybridTraits.cpp
+
 # Subprojects
 .build-subprojects:
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
-	${RM} build/bin/Astran.app/Contents/MacOS/Astran
+	${RM} -rf build/bin/Astran*
 
 # Subprojects
 .clean-subprojects:

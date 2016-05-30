@@ -22,12 +22,12 @@ CLEAN_SUBPROJECTS_=.clean-subprojects
 CLEAN_SUBPROJECTS_NO=
 CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
-
 # Project Name
 PROJECTNAME=Astran
 
 # Active Configuration
-DEFAULTCONF=Debug
+# DEFAULTCONF=Debug
+DEFAULTCONF=Release
 CONF=${DEFAULTCONF}
 
 # All Configurations

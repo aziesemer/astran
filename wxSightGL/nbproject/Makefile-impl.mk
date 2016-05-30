@@ -1,6 +1,6 @@
-# 
-# Generated Makefile - do not edit! 
-# 
+#
+# Generated Makefile - do not edit!
+#
 # Edit the Makefile in the project folder instead (../Makefile). Each target
 # has a pre- and a post- target defined where you can add customization code.
 #
@@ -27,11 +27,12 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=wxSightGL
 
 # Active Configuration
-DEFAULTCONF=Debug
+# DEFAULTCONF=Debug
+DEFAULTCONF=Release
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release 
+ALLCONFS=Debug Release
 
 
 # build
@@ -46,7 +47,7 @@ ALLCONFS=Debug Release
 	"${MAKE}" -f nbproject/Makefile-${CONF}.mk QMAKE=${QMAKE} SUBPROJECTS=${SUBPROJECTS} .clean-conf
 
 
-# clobber 
+# clobber
 .clobber-impl: .clobber-pre .depcheck-impl
 	@#echo "=> Running $@..."
 	for CONF in ${ALLCONFS}; \
@@ -54,7 +55,7 @@ ALLCONFS=Debug Release
 	    "${MAKE}" -f nbproject/Makefile-$${CONF}.mk QMAKE=${QMAKE} SUBPROJECTS=${SUBPROJECTS} .clean-conf; \
 	done
 
-# all 
+# all
 .all-impl: .all-pre .depcheck-impl
 	@#echo "=> Running $@..."
 	for CONF in ${ALLCONFS}; \

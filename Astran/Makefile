@@ -43,13 +43,6 @@
 #
 # NOCDDL
 
-
-# Detect the OS
-OS := $(shell uname)
-
-# IF Mac OSX
-ifeq ($(OS), "Darwin")
-
 # Environment
 MKDIR=mkdir
 CP=cp
@@ -62,8 +55,14 @@ build: .build-post
 .build-pre:
 # Add your pre 'build' code here...
 
+
 .build-post: .build-impl
 # Add your post 'build' code here...
+	@ echo
+	@ echo "#> DONE! :) To test it NOW, execute:"	
+	@ echo "export ASTRAN_PATH=$$(pwd)/build"
+	@ echo "$$(pwd)/build/bin/Astran [--shell]"
+	@ echo
 
 
 # clean
@@ -124,6 +123,7 @@ help: .help-post
 
 .help-post: .help-impl
 # Add your post 'help' code here...
+
 
 # include project implementation makefile
 include nbproject/Makefile-impl.mk
