@@ -34,6 +34,7 @@
 		BC97A54C178F2BBE0002254A /* wxfp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52D178F2BBE0002254A /* wxfp.cpp */; };
 		BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
 		BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
+		BCA358EA1D62601500BD7157 /* ilptransplacer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCA358E81D62601500BD7157 /* ilptransplacer.cpp */; };
 		BCB5E8331BC81A900085A066 /* astran.cfg in Resources */ = {isa = PBXBuildFile; fileRef = BCB5E8321BC81A900085A066 /* astran.cfg */; };
 		BCBBF217181454EB00139922 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCBBF216181454EB00139922 /* icon.icns */; };
 		BCDE61AD183B9FDB00419EA7 /* ISSUES.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */; };
@@ -103,6 +104,8 @@
 		BC97A530178F2BBE0002254A /* wxinterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxinterface.h; sourceTree = "<group>"; };
 		BC97A533178F2BBE0002254A /* wxrules.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxrules.cpp; sourceTree = "<group>"; };
 		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
+		BCA358E81D62601500BD7157 /* ilptransplacer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ilptransplacer.cpp; sourceTree = "<group>"; };
+		BCA358E91D62601500BD7157 /* ilptransplacer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ilptransplacer.hpp; sourceTree = "<group>"; };
 		BCB5E8321BC81A900085A066 /* astran.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = astran.cfg; path = ../build/bin/astran.cfg; sourceTree = "<group>"; };
 		BCBBF216181454EB00139922 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ISSUES.txt; path = ../build/ISSUES.txt; sourceTree = "<group>"; };
@@ -226,6 +229,8 @@
 				BC97A533178F2BBE0002254A /* wxrules.cpp */,
 				BC97A534178F2BBE0002254A /* wxrules.h */,
 				BC64D7DE1B2648BD0048D30A /* wxicons.h */,
+				BCA358E81D62601500BD7157 /* ilptransplacer.cpp */,
+				BCA358E91D62601500BD7157 /* ilptransplacer.hpp */,
 			);
 			name = src;
 			path = ../src;
@@ -305,6 +310,7 @@
 				BC97A537178F2BBE0002254A /* cif.cpp in Sources */,
 				BC97A538178F2BBE0002254A /* circuit.cpp in Sources */,
 				BC97A539178F2BBE0002254A /* clayout.cpp in Sources */,
+				BCA358EA1D62601500BD7157 /* ilptransplacer.cpp in Sources */,
 				BC97A53A178F2BBE0002254A /* compaction.cpp in Sources */,
 				BC97A53B178F2BBE0002254A /* designmng.cpp in Sources */,
 				BC97A53C178F2BBE0002254A /* draw.cpp in Sources */,

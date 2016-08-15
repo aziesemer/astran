@@ -77,6 +77,7 @@ public:
     int pSize();
     int nSize();
     Transistor& getTrans(int ID){ return trans[ID];};
+    vector<Transistor>& getTrans(){ return trans;};
     void print();
     void clear();
     bool transPlacement(bool ep, int saquality, int nrattempts, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);

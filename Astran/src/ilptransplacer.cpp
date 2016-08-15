@@ -1,0 +1,113 @@
+//
+//  ilptransplacer.cpp
+//  Astran
+//
+//  Created by Adriel Ziesemer Jr. on 15/08/16.
+//
+//
+
+#include "ilptransplacer.hpp"
+
+bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet){
+    vector<TransitorTerminal> orderingP, orderingN;
+    
+    TransitorTerminal tmp;
+    tmp.type=DRAIN;
+    unsigned long i;
+    for(i=0;i < netlist.getTrans().size();++i){
+        tmp.link= static_cast<int>(i);
+        if(netlist.getTrans()[i].type==PMOS)
+            orderingP.push_back(tmp);
+        else
+            orderingN.push_back(tmp);
+    }
+    
+    tmp.type=DRAIN;
+    tmp.link=-1;
+    unsigned long width=max(orderingP.size(), orderingN.size());
+    for(i=orderingP.size();i<width;i++)
+        orderingP.push_back(tmp);
+    for(i=orderingN.size();i<width;i++)
+        orderingN.push_back(tmp);
+
+    
+    unsigned long Cnum = width;
+    GRBEnv *env = new GRBEnv();
+    
+    try {
+        GRBModel model = GRBModel(*env);
+        model.set(GRB_IntAttr_ModelSense, -1);
+        
+        // Create binary decision variables
+        GRBVar **P = new GRBVar*[Cnum];
+        GRBVar **N = new GRBVar*[Cnum];
+        for (int i = 0; i < Cnum; i++)
+            P[i] = new GRBVar[Cnum];
+            N[i] = new GRBVar[Cnum];
+        for (int i = 0; i < Cnum; i++) {
+            for (int j = 0; j < Cnum; j++) {
+                P[i][j] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "P_"+to_string(i)+"_"+to_string(j));
+                N[i][j] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "N_"+to_string(i)+"_"+to_string(j));
+            }
+        }
+//        GRBVar *sequencia = new GRBVar[n];
+//        sequencia = model.addVars(n, GRB_CONTINUOUS);
+        
+        model.update();
+        
+        // C. Transistor Placement
+        // Each transistor i should be placed in exactly 1 column j
+        for (int i = 0; i < Cnum; i++) {
+            GRBLinExpr exprP = 0;
+            GRBLinExpr exprN = 0;
+            for (int j = 0; j < Cnum; j++){
+                exprP += P[i][j];
+                exprN += N[i][j];
+            }
+            model.addConstr(exprP == 1, "C1_"+to_string(i));
+            model.addConstr(exprN == 1, "C3_"+to_string(i));
+        }
+        
+        // Each column should contein exactly 1 transistor
+        for (int j = 0; j < Cnum; j++) {
+            GRBLinExpr exprP = 0;
+            GRBLinExpr exprN = 0;
+            for (int i = 0; i < Cnum; i++){
+                exprP += P[i][j];
+                exprN += N[i][j];
+            }
+            model.addConstr(exprP == 1, "C2_"+to_string(i));
+            model.addConstr(exprN == 1, "C4_"+to_string(i));
+        }
+        
+        // D. Transistor Pairing
+        for (int j = 0; j < Cnum; j++)
+            P[i][i].set(GRB_DoubleAttr_UB, 0);
+        
+//...
+        
+        // Optimize model
+        model.update();
+        model.write("result.lp");
+        model.optimize();
+        model.write("result.sol");
+        
+        // Extract solution
+        if (model.get(GRB_IntAttr_SolCount) > 0) {
+            for (int i = 0; i < Cnum; i++)
+                for (int j  =0; j < Cnum; j++)
+                    if(P[i][j].get(GRB_DoubleAttr_X) > 0.5)
+                        cout << i << "->" << j << endl;
+        }
+        cout << "Número de dominós em sequência: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
+        delete[] P;
+        delete[] N;
+    } catch (...) {
+        cout << "Error during optimization" << endl;
+    }
+    delete env;
+
+    return true;
+}
+
+

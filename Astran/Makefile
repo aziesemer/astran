@@ -43,6 +43,13 @@
 #
 # NOCDDL
 
+
+# Detect the OS
+OS := $(shell uname)
+
+# IF Mac OSX
+ifeq ($(OS), "Darwin")
+
 # Environment
 MKDIR=mkdir
 CP=cp
