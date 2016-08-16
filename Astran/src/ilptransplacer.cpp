@@ -50,8 +50,6 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                 N[i][j] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "N_"+to_string(i)+"_"+to_string(j));
             }
         }
-//        GRBVar *sequencia = new GRBVar[n];
-//        sequencia = model.addVars(n, GRB_CONTINUOUS);
         
         model.update();
         
@@ -81,8 +79,18 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         }
         
         // D. Transistor Pairing
-        for (int j = 0; j < Cnum; j++)
-            P[i][i].set(GRB_DoubleAttr_UB, 0);
+        for (int x = 0; x < Cnum; x++){
+            for (int y = 0; y < Cnum; y++){
+                if(orderingP[x].link!=-1 && orderingN[y].link!=-1 && netlist.getTrans()[orderingP[x].link].gate==netlist.getTrans()[orderingN[y].link].gate){
+                    GRBVar pair = model.addVar(0.0, 1.0, -10, GRB_BINARY, "Pair_"+to_string(x)+"_"+to_string(y));
+                    for (int j = 0; j < Cnum; j++){
+                        model.addConstr(pair - P[x][j] - N[y][j] >= -1);
+                        model.addConstr(pair - P[x][j]  <= 0);
+                        model.addConstr(pair - N[y][j]  <= 0);
+                    }
+                }
+            }
+        }
         
 //...
         
