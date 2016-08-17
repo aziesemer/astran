@@ -35,6 +35,8 @@
 		BC97A54D178F2BBE0002254A /* wxinterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A52F178F2BBE0002254A /* wxinterface.cpp */; };
 		BC97A54F178F2BBE0002254A /* wxrules.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97A533178F2BBE0002254A /* wxrules.cpp */; };
 		BCA358EA1D62601500BD7157 /* ilptransplacer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCA358E81D62601500BD7157 /* ilptransplacer.cpp */; };
+		BCA358F01D63F97400BD7157 /* libgurobi_g++4.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA358EF1D63F97400BD7157 /* libgurobi_g++4.2.a */; };
+		BCA358F21D63F9BB00BD7157 /* libgurobi65.so in Frameworks */ = {isa = PBXBuildFile; fileRef = BCA358F11D63F9BB00BD7157 /* libgurobi65.so */; };
 		BCB5E8331BC81A900085A066 /* astran.cfg in Resources */ = {isa = PBXBuildFile; fileRef = BCB5E8321BC81A900085A066 /* astran.cfg */; };
 		BCBBF217181454EB00139922 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = BCBBF216181454EB00139922 /* icon.icns */; };
 		BCDE61AD183B9FDB00419EA7 /* ISSUES.txt in Resources */ = {isa = PBXBuildFile; fileRef = BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */; };
@@ -106,6 +108,8 @@
 		BC97A534178F2BBE0002254A /* wxrules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxrules.h; sourceTree = "<group>"; };
 		BCA358E81D62601500BD7157 /* ilptransplacer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ilptransplacer.cpp; sourceTree = "<group>"; };
 		BCA358E91D62601500BD7157 /* ilptransplacer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ilptransplacer.hpp; sourceTree = "<group>"; };
+		BCA358EF1D63F97400BD7157 /* libgurobi_g++4.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libgurobi_g++4.2.a"; path = "../../../../../../Library/gurobi650/mac64/lib/libgurobi_g++4.2.a"; sourceTree = "<group>"; };
+		BCA358F11D63F9BB00BD7157 /* libgurobi65.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgurobi65.so; path = ../../../../../../Library/gurobi650/mac64/lib/libgurobi65.so; sourceTree = "<group>"; };
 		BCB5E8321BC81A900085A066 /* astran.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = astran.cfg; path = ../build/bin/astran.cfg; sourceTree = "<group>"; };
 		BCBBF216181454EB00139922 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		BCDE61AC183B9FDB00419EA7 /* ISSUES.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ISSUES.txt; path = ../build/ISSUES.txt; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCA358F21D63F9BB00BD7157 /* libgurobi65.so in Frameworks */,
+				BCA358F01D63F97400BD7157 /* libgurobi_g++4.2.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +181,8 @@
 		BC97A4FC178F2BBE0002254A /* src */ = {
 			isa = PBXGroup;
 			children = (
+				BCA358F11D63F9BB00BD7157 /* libgurobi65.so */,
+				BCA358EF1D63F97400BD7157 /* libgurobi_g++4.2.a */,
 				BC97A4FD178F2BBE0002254A /* autocell2.cpp */,
 				BC97A4FE178F2BBE0002254A /* autocell2.h */,
 				BC97A4FF178F2BBE0002254A /* cellnetlst.cpp */,
@@ -374,12 +382,19 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/gurobi650/mac64/include/,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-L/Library/gurobi650/mac64/lib/",
+					"-lpthread",
+					"-lm",
+					"-lgurobi_c++",
+					"-lgurobi65",
+				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0 /usr/local/include/wx-3.0";
 			};
@@ -414,11 +429,18 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/Library/gurobi650/mac64/include/,
 				);
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-L/Library/gurobi650/mac64/lib/",
+					"-lpthread",
+					"-lm",
+					"-lgurobi_c++",
+					"-lgurobi65",
+				);
 				SDKROOT = macosx;
 				USER_HEADER_SEARCH_PATHS = "/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0 /usr/local/include/wx-3.0";
 			};
@@ -437,6 +459,10 @@
 				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Astran/Astran-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/gurobi650/mac64/lib",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",
@@ -502,6 +528,10 @@
 				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Astran/Astran-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/gurobi650/mac64/lib",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-I/usr/local/lib/wx/include/osx_cocoa-unicode-static-3.0",

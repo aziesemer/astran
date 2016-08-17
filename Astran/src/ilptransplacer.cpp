@@ -84,9 +84,9 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                 if(orderingP[x].link!=-1 && orderingN[y].link!=-1 && netlist.getTrans()[orderingP[x].link].gate==netlist.getTrans()[orderingN[y].link].gate){
                     GRBVar pair = model.addVar(0.0, 1.0, -10, GRB_BINARY, "Pair_"+to_string(x)+"_"+to_string(y));
                     for (int j = 0; j < Cnum; j++){
-                        model.addConstr(pair - P[x][j] - N[y][j] >= -1); // Logical AND operation
-                        model.addConstr(pair - P[x][j]  <= 0);
-                        model.addConstr(pair - N[y][j]  <= 0);
+                        model.addConstr(pair - P[x][j] - N[y][j] >= -1, "D1_"+to_string(x)+"_"+to_string(y)); // Logical AND operation
+                        model.addConstr(pair - P[x][j]  <= 0, "D2_"+to_string(x)+"_"+to_string(y));
+                        model.addConstr(pair - N[y][j]  <= 0, "D3_"+to_string(x)+"_"+to_string(y));
                     }
                 }
             }
