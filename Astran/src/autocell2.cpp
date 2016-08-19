@@ -148,13 +148,13 @@ void AutoCell::autoFlow(string lpSolverFile){
             cout << "-> Trying with " << nrTracks << " tracks and conservative = " << conservative << " ..." << endl;
             calcArea(nrTracks, conservative);
             foldTrans();
-            placeTrans(false, 150, 3, 4, 4, 1, 4, 2); //try with , 8)
+            placeTrans(false, 150, 3, 4, 4, 1, 4, 2, 1); //try with , 8)
             if(currentNetList.getMaxCongestioning()<=6 && nrTracks==2) break;
             if(currentNetList.getMaxCongestioning()<=8 && nrTracks==3) break;
             if(nrTracks==4) break;
             nrTracks++;
         }
-        placeTrans(true, 150, 3, 4, 4, 1, 4, 2);
+        placeTrans(true, 150, 3, 4, 4, 1, 4, 2, 1);
         route(true, false, (currentNetList.getMaxCongestioning()<=5?true:false), true);
         if(compact(lpSolverFile, true, false, 50, 2, true, true, true, false, false, 3600)) break;
         conservative++;
@@ -178,46 +178,60 @@ void AutoCell::foldTrans() {
     state++;
 }
 
-void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC) {
+void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC, int ILP) {
     checkState(3);
     cout << "-> Placing transistors..." << endl;
     int bestCost, currentCost;
     
-    if (speculate){
-        vector<TransitorTerminal> bestNOrdering;
-        vector<TransitorTerminal> bestPOrdering;
-        //get previosly cost
-        if(currentNetList.getOrderingP().size()!=0 && currentNetList.getOrderingN().size()!=0){
-            state = 4;
-            route(true, false,1, false);
-            state = 3;
-            bestCost=rt->getCost();
-            bestNOrdering=currentNetList.getOrderingN();
-            bestPOrdering=currentNetList.getOrderingP();
-        }
-        else bestCost=-1;
+    if (ILP == 1) {
+        cout << "-> Placing transistors with ILP..." << endl;
+
+        IlpTransPlacer transPlacement;
+        bool placementOk = transPlacement.transPlacement(currentNetList, wC, gmC, rC, congC, ngC,  "VCC", "GND");
         
-        for(int c=0; c<nrAttempts; c++){
-            if (!currentNetList.transPlacement(true, saquality, 1, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
-                throw AstranError("Could not place the transistors");
-            state = 4;
-            route(true, false,1, false);
-            state =  3;
-            currentCost=rt->getCost();
-            if(bestCost==-1 || currentCost<bestCost){
-                bestCost=currentCost;
+        if (placementOk == TRUE){
+            cout << "Transistors have been placemented" << endl;
+        } else {
+            cout << "It is not possible placement the transistors" << endl;
+        }
+        
+        
+    } else {
+        if (speculate){
+            vector<TransitorTerminal> bestNOrdering;
+            vector<TransitorTerminal> bestPOrdering;
+            //get previosly cost
+            if(currentNetList.getOrderingP().size()!=0 && currentNetList.getOrderingN().size()!=0){
+                state = 4;
+                route(true, false,1, false);
+                state = 3;
+                bestCost=rt->getCost();
                 bestNOrdering=currentNetList.getOrderingN();
                 bestPOrdering=currentNetList.getOrderingP();
-                cout << "-> New best transistor ordering found with cost: " << bestCost << endl;
             }
+            else bestCost=-1;
+            
+            for(int c=0; c<nrAttempts; c++){
+                if (!currentNetList.transPlacement(true, saquality, 1, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
+                    throw AstranError("Could not place the transistors");
+                state = 4;
+                route(true, false,1, false);
+                state =  3;
+                currentCost=rt->getCost();
+                if(bestCost==-1 || currentCost<bestCost){
+                    bestCost=currentCost;
+                    bestNOrdering=currentNetList.getOrderingN();
+                    bestPOrdering=currentNetList.getOrderingP();
+                    cout << "-> New best transistor ordering found with cost: " << bestCost << endl;
+                }
+            }
+            currentNetList.setOrderingN(bestNOrdering);
+            currentNetList.setOrderingP(bestPOrdering);
+        }else{
+            if (!currentNetList.transPlacement(true, saquality, nrAttempts, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
+                throw AstranError("Could not place the transistors");
         }
-        currentNetList.setOrderingN(bestNOrdering);
-        currentNetList.setOrderingP(bestPOrdering);
-    }else{
-        if (!currentNetList.transPlacement(true, saquality, nrAttempts, wC, gmC, rC, congC, ngC, currentCircuit->getVddNet(), currentCircuit->getGndNet()))
-            throw AstranError("Could not place the transistors");
     }
-    
     currentNetList.printPlacement();
     state++;
 }
