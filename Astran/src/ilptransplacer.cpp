@@ -41,9 +41,10 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         // Create binary decision variables
         GRBVar **P = new GRBVar*[Cnum];
         GRBVar **N = new GRBVar*[Cnum];
-        for (int i = 0; i < Cnum; i++)
+        for (int i = 0; i < Cnum; i++){
             P[i] = new GRBVar[Cnum];
             N[i] = new GRBVar[Cnum];
+        }
         for (int i = 0; i < Cnum; i++) {
             for (int j = 0; j < Cnum; j++) {
                 P[i][j] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "P_"+to_string(i)+"_"+to_string(j));
@@ -107,6 +108,44 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                     if(P[i][j].get(GRB_DoubleAttr_X) > 0.5)
                         cout << i << "->" << j << endl;
         }
+       
+        //Put the corect transistor ordering in OrderingP vector
+        vector<TransitorTerminal> orderingAux(width);
+        orderingAux.clear();
+        tmp.type=DRAIN;
+        tmp.link=-1;
+        for(i=0;i<width;i++){
+            orderingAux.push_back(tmp);
+        }
+        
+        for (int i = 0; i < Cnum; i++) {
+            for (int j = 0; j < Cnum; j++) {
+                //If have number 1 in this variable, transistor i is placed in column j
+                if (P[i][j].get(GRB_DoubleAttr_X) > 0.5)
+                    orderingAux.at(j) = orderingP[i];
+            }
+        }
+        orderingP.clear();
+        orderingP = orderingAux;
+        
+        //Put the corect transistor ordering in OrderingN vector
+        orderingAux.clear();
+        tmp.type=DRAIN;
+        tmp.link=-1;
+        for(i=0;i<width;i++)
+            orderingAux.push_back(tmp);
+        
+        for (int i = 0; i < Cnum; i++) {
+            for (int j = 0; j < Cnum; j++) {
+                //If have number 1 in this variable, transistor i is placed in column j
+                if (N[i][j].get(GRB_DoubleAttr_X) > 0.5)
+                    orderingAux.at(j) = orderingN[i];
+            }
+        }
+        orderingN.clear();
+        orderingN = orderingN;
+        
+        
         cout << "Número de dominós em sequência: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
         delete[] P;
         delete[] N;
