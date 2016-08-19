@@ -154,6 +154,7 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
     } catch (...) {
         cout << "Error during optimization" << endl;
     }
+    
     delete env;
 
     return true;

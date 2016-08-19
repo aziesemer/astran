@@ -1,0 +1,6 @@
+load technology "/Users/Smaniotto/astran/Astran/build/Work/lib65.sp"
+load technology "/Users/Smaniotto/astran/Astran/build/Work/tech_0065.rul"
+load netlist "/Users/Smaniotto/astran/Astran/build/Work/lib65.sp"
+cellgen select NAND21
+cellgen autoflow
+exit
