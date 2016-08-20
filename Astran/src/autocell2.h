@@ -20,6 +20,7 @@
 #include "rules.h"
 #include "circuit.h"
 #include "graphrouter.h"
+#include "ilptransplacer.hpp"
 #include "compaction.h"
 #include "util.h"
 
@@ -31,7 +32,7 @@ public:
     void calcArea(int nrIntTracks, int reduceMetTracks);
     void autoFlow(string lpSolverFile);
     void foldTrans();
-    void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC);
+    void placeTrans(bool ep, int saquality, int nrAttempts, int wC, int gmC, int rC, int congC, int ngC, int ILP);
     void route(bool hPoly, bool increaseIntTracks, int reduceVRt, bool optimize);
     bool compact(string lpSolverFile, int diffStretching, int griddedPolly, int rdCntsCost, int maxDiffConts, int alignDiffConts, int reduceLturns, bool enableDFM, bool experimental, bool debug, int timeLimit);
     void selectCell(Circuit* c, string cell);

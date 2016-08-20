@@ -1,0 +1,1581 @@
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:56:33 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '20' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.00 seconds
+(null): 1213 rows, 711 columns, 3674 nonzeros
+Optimize a model with 1213 rows, 711 columns and 3674 nonzeros
+Coefficient statistics:
+  Matrix range    [5e-01, 1e+05]
+  Objective range [1e+00, 5e+03]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+04]
+Presolve removed 498 rows and 315 columns
+Presolve time: 0.02s
+Presolved: 715 rows, 396 columns, 1970 nonzeros
+Variable types: 0 continuous, 396 integer (200 binary)
+
+Root relaxation: objective 6.069981e+05, 372 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 606998.134    0  137          - 606998.134      -     -    0s
+H    0     0                    610765.00000 606998.134  0.62%     -    0s
+H    0     0                    609239.00000 606998.134  0.37%     -    0s
+     0     0 607185.418    0  130 609239.000 607185.418  0.34%     -    0s
+H    0     0                    608022.00000 607185.418  0.14%     -    0s
+     0     0 607185.418    0  129 608022.000 607185.418  0.14%     -    0s
+     0     0 607339.821    0  104 608022.000 607339.821  0.11%     -    0s
+H    0     0                    607924.00000 607339.821  0.10%     -    0s
+     0     0 607339.821    0  109 607924.000 607339.821  0.10%     -    0s
+     0     0 607365.654    0  141 607924.000 607365.654  0.09%     -    0s
+     0     0 607365.654    0  141 607924.000 607365.654  0.09%     -    0s
+     0     0 607378.519    0  127 607924.000 607378.519  0.09%     -    0s
+H    0     0                    607905.00000 607378.519  0.09%     -    0s
+     0     0 607378.809    0  128 607905.000 607378.809  0.09%     -    0s
+     0     0 607381.205    0  124 607905.000 607381.205  0.09%     -    0s
+     0     0 607381.205    0  125 607905.000 607381.205  0.09%     -    0s
+     0     0 607381.205    0  117 607905.000 607381.205  0.09%     -    0s
+H    0     0                    607758.00000 607381.205  0.06%     -    0s
+H    0     0                    607635.00000 607381.205  0.04%     -    0s
+H    0     0                    607616.00000 607381.205  0.04%     -    0s
+     0     0 607381.205    0  111 607616.000 607381.205  0.04%     -    0s
+     0     0 607381.205    0   46 607616.000 607381.205  0.04%     -    0s
+     0     0 607381.205    0  121 607616.000 607381.205  0.04%     -    0s
+     0     0 607426.666    0  124 607616.000 607426.666  0.03%     -    0s
+H    0     0                    607573.00000 607426.666  0.02%     -    0s
+H    0     0                    607541.00000 607426.666  0.02%     -    0s
+     0     0 607427.374    0   48 607541.000 607427.374  0.02%     -    0s
+     0     0 607428.210    0  129 607541.000 607428.210  0.02%     -    0s
+     0     0 607428.210    0  119 607541.000 607428.210  0.02%     -    0s
+H    0     0                    607514.00000 607428.210  0.01%     -    0s
+     0     2 607428.210    0  118 607514.000 607428.210  0.01%     -    0s
+H  160    56                    607493.00000 607442.992  0.01%   4.3    0s
+*  335    73              18    607477.00000 607442.993  0.01%   4.2    0s
+
+Cutting planes:
+  Gomory: 17
+  Implied bound: 4
+  MIR: 45
+  Flow cover: 1
+  Zero half: 2
+
+Explored 366 nodes (3030 simplex iterations) in 0.33 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.074770000000e+05, best bound 6.074430000000e+05, gap 0.0056%
+
+Wrote result file 'ILPmodel.sol'
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:56:45 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2408 rows, 1301 columns, 8008 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:56:48 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4804 rows, 2391 columns, 16529 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:56:53 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4804 rows, 2391 columns, 16529 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:56:58 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4578 rows, 2327 columns, 15966 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:57:04 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4268 rows, 2183 columns, 14562 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:57:56 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2483 rows, 1340 columns, 8418 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:58:02 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2483 rows, 1340 columns, 8418 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:58:07 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2523 rows, 1364 columns, 8658 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 10:59:49 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2502 rows, 1349 columns, 8489 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 11:00:00 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4598 rows, 2322 columns, 15713 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 11:00:11 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 4242 rows, 2180 columns, 14501 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 11:00:23 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4598 rows, 2322 columns, 15713 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 11:00:37 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4268 rows, 2183 columns, 14562 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 11:03:06 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2483 rows, 1340 columns, 8418 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 11:03:43 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '20' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 1343 rows, 765 columns, 4075 nonzeros
+Optimize a model with 1343 rows, 765 columns and 4075 nonzeros
+Coefficient statistics:
+  Matrix range    [5e-01, 1e+05]
+  Objective range [1e+00, 5e+03]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+04]
+Presolve removed 521 rows and 325 columns
+Presolve time: 0.03s
+Presolved: 822 rows, 440 columns, 2263 nonzeros
+Variable types: 0 continuous, 440 integer (223 binary)
+
+Root relaxation: objective 6.070810e+05, 415 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 607081.042    0  135          - 607081.042      -     -    0s
+H    0     0                    613259.00000 607081.042  1.01%     -    0s
+H    0     0                    610293.00000 607081.042  0.53%     -    0s
+     0     0 607298.782    0  206 610293.000 607298.782  0.49%     -    0s
+     0     0 607298.782    0  204 610293.000 607298.782  0.49%     -    0s
+     0     0 607559.872    0  170 610293.000 607559.872  0.45%     -    0s
+H    0     0                    609023.00000 607559.872  0.24%     -    0s
+     0     0 607562.541    0  187 609023.000 607562.541  0.24%     -    0s
+     0     0 607609.996    0  155 609023.000 607609.996  0.23%     -    0s
+     0     0 607612.822    0  115 609023.000 607612.822  0.23%     -    0s
+     0     0 607615.472    0  139 609023.000 607615.472  0.23%     -    0s
+     0     0 607616.737    0  146 609023.000 607616.737  0.23%     -    0s
+H    0     0                    607934.00000 607616.737  0.05%     -    0s
+H    0     0                    607897.00000 607616.737  0.05%     -    0s
+     0     0 607616.740    0  146 607897.000 607616.740  0.05%     -    0s
+     0     0 607620.178    0  136 607897.000 607620.178  0.05%     -    0s
+     0     0 607620.264    0  158 607897.000 607620.264  0.05%     -    0s
+     0     0 607626.187    0  158 607897.000 607626.187  0.04%     -    0s
+     0     0 607627.835    0  167 607897.000 607627.835  0.04%     -    0s
+     0     0 607628.267    0  156 607897.000 607628.267  0.04%     -    0s
+     0     0 607628.271    0  155 607897.000 607628.271  0.04%     -    0s
+     0     0 607628.286    0  166 607897.000 607628.286  0.04%     -    0s
+     0     0 607628.328    0  160 607897.000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  160 607897.000 607628.328  0.04%     -    0s
+H    0     0                    607884.00000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  125 607884.000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  180 607884.000 607628.328  0.04%     -    0s
+H    0     0                    607864.00000 607628.328  0.04%     -    0s
+     0     0 607637.017    0  157 607864.000 607637.017  0.04%     -    0s
+     0     0 607645.978    0  169 607864.000 607645.978  0.04%     -    0s
+     0     0 607646.916    0  121 607864.000 607646.916  0.04%     -    0s
+     0     0 607647.518    0  166 607864.000 607647.518  0.04%     -    0s
+     0     0 607647.518    0  166 607864.000 607647.518  0.04%     -    0s
+     0     0 607648.793    0  143 607864.000 607648.793  0.04%     -    0s
+     0     0 607648.814    0  149 607864.000 607648.814  0.04%     -    0s
+     0     0 607648.814    0  144 607864.000 607648.814  0.04%     -    0s
+     0     0 607649.167    0  166 607864.000 607649.167  0.04%     -    0s
+     0     0 607649.167    0  157 607864.000 607649.167  0.04%     -    0s
+     0     0 607649.167    0  150 607864.000 607649.167  0.04%     -    0s
+     0     2 607649.167    0  145 607864.000 607649.167  0.04%     -    0s
+*   41     8              26    607762.00000 607671.568  0.01%  10.4    0s
+*  707   237              27    607761.00000 607693.249  0.01%   7.2    0s
+*  825   228              24    607760.00000 607695.401  0.01%   7.0    0s
+* 1074   192              23    607758.00000 607702.978  0.01%   7.1    0s
+
+Cutting planes:
+  Gomory: 21
+  Cover: 1
+  Implied bound: 6
+  MIR: 46
+  Zero half: 2
+
+Explored 1087 nodes (10010 simplex iterations) in 0.80 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.077580000000e+05, best bound 6.077030000000e+05, gap 0.0090%
+
+Wrote result file 'ILPmodel.sol'
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:23:19 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '12' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 3819 rows, 1990 columns, 13118 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:23:38 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 4059 rows, 2101 columns, 13824 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:23:55 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '12' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 4015 rows, 2101 columns, 13736 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:24:14 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '12' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4038 rows, 2110 columns, 13815 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:24:34 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4148 rows, 2152 columns, 14297 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:34:46 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.1 build v6.5.1rc3 (mac64)
+Copyright (c) 2016, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '20' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 1013 rows, 621 columns, 3016 nonzeros
+Optimize a model with 1013 rows, 621 columns and 3016 nonzeros
+Coefficient statistics:
+  Matrix range    [5e-01, 1e+05]
+  Objective range [1e+00, 5e+03]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+04]
+Presolve removed 459 rows and 291 columns
+Presolve time: 0.08s
+Presolved: 554 rows, 330 columns, 1513 nonzeros
+Variable types: 0 continuous, 330 integer (167 binary)
+
+Root relaxation: objective 6.071929e+05, 313 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 607192.872    0  120          - 607192.872      -     -    0s
+     0     0 607335.034    0   92          - 607335.034      -     -    0s
+     0     0 607371.066    0   45          - 607371.066      -     -    0s
+     0     0 607371.066    0   27          - 607371.066      -     -    0s
+     0     0 607371.366    0   24          - 607371.366      -     -    0s
+     0     0 607371.366    0   39          - 607371.366      -     -    0s
+     0     0 607371.373    0   61          - 607371.373      -     -    0s
+     0     0 607371.381    0   21          - 607371.381      -     -    0s
+H    0     0                    807756.00000 607371.381  24.8%     -    0s
+H    0     0                    607868.00000 607371.381  0.08%     -    0s
+H    0     0                    607777.00000 607371.381  0.07%     -    0s
+     0     0 607371.381    0   58 607777.000 607371.381  0.07%     -    0s
+     0     0 607371.847    0    9 607777.000 607371.847  0.07%     -    0s
+H    0     0                    607560.00000 607371.847  0.03%     -    0s
+     0     0 607371.847    0   32 607560.000 607371.847  0.03%     -    0s
+     0     0 607371.847    0   13 607560.000 607371.847  0.03%     -    0s
+     0     0 607371.847    0    8 607560.000 607371.847  0.03%     -    0s
+H    0     0                    607521.00000 607371.847  0.02%     -    0s
+H    0     0                    607451.00000 607371.847  0.01%     -    0s
+     0     0 607371.847    0   92 607451.000 607371.847  0.01%     -    0s
+     0     0 607372.231    0   21 607451.000 607372.231  0.01%     -    0s
+H    0     0                    607430.00000 607372.231  0.01%     -    0s
+
+Cutting planes:
+  Gomory: 15
+  Implied bound: 3
+  MIR: 20
+
+Explored 0 nodes (1358 simplex iterations) in 0.34 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.074300000000e+05, best bound 6.073730000000e+05, gap 0.0094%
+
+Wrote result file 'ILPmodel.sol'
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:35:52 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.1 build v6.5.1rc3 (mac64)
+Copyright (c) 2016, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2408 rows, 1301 columns, 8008 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:36:14 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.1 build v6.5.1rc3 (mac64)
+Copyright (c) 2016, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4804 rows, 2391 columns, 16529 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:36:38 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.1 build v6.5.1rc3 (mac64)
+Copyright (c) 2016, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4242 rows, 2180 columns, 14501 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:37:02 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.1 build v6.5.1rc3 (mac64)
+Copyright (c) 2016, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4598 rows, 2322 columns, 15713 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 15:37:31 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.1 build v6.5.1rc3 (mac64)
+Copyright (c) 2016, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4543 rows, 2285 columns, 15758 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:07:15 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2502 rows, 1349 columns, 8489 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:07:18 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4804 rows, 2391 columns, 16529 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:07:21 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4507 rows, 2312 columns, 15755 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:07:25 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4598 rows, 2322 columns, 15713 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:07:31 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4543 rows, 2285 columns, 15758 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:12:37 2016
+
+
+ERROR 10009: Invalid license key (user smaniotto, host MacBook-Air-de-Gustavo.local, hostID 3b68f3da) - license file '/Users/Smaniotto/gurobi.lic'
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:13:18 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2408 rows, 1301 columns, 8008 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:13:26 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4804 rows, 2391 columns, 16529 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:13:36 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4242 rows, 2180 columns, 14501 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:13:48 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 4598 rows, 2322 columns, 15713 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 19:14:00 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4543 rows, 2285 columns, 15758 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 23:37:34 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2502 rows, 1349 columns, 8489 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 23:37:36 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4804 rows, 2391 columns, 16529 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 23:37:40 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4507 rows, 2312 columns, 15755 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 23:37:44 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4598 rows, 2322 columns, 15713 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Thu Aug 18 23:37:49 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 4543 rows, 2285 columns, 15758 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 00:42:17 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '20' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 1343 rows, 765 columns, 4075 nonzeros
+Optimize a model with 1343 rows, 765 columns and 4075 nonzeros
+Coefficient statistics:
+  Matrix range    [5e-01, 1e+05]
+  Objective range [1e+00, 5e+03]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+04]
+Presolve removed 521 rows and 325 columns
+Presolve time: 0.03s
+Presolved: 822 rows, 440 columns, 2263 nonzeros
+Variable types: 0 continuous, 440 integer (223 binary)
+
+Root relaxation: objective 6.070810e+05, 415 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 607081.042    0  135          - 607081.042      -     -    0s
+H    0     0                    613259.00000 607081.042  1.01%     -    0s
+H    0     0                    610293.00000 607081.042  0.53%     -    0s
+     0     0 607298.782    0  206 610293.000 607298.782  0.49%     -    0s
+     0     0 607298.782    0  204 610293.000 607298.782  0.49%     -    0s
+     0     0 607559.872    0  170 610293.000 607559.872  0.45%     -    0s
+H    0     0                    609023.00000 607559.872  0.24%     -    0s
+     0     0 607562.541    0  187 609023.000 607562.541  0.24%     -    0s
+     0     0 607609.996    0  155 609023.000 607609.996  0.23%     -    0s
+     0     0 607612.822    0  115 609023.000 607612.822  0.23%     -    0s
+     0     0 607615.472    0  139 609023.000 607615.472  0.23%     -    0s
+     0     0 607616.737    0  146 609023.000 607616.737  0.23%     -    0s
+H    0     0                    607934.00000 607616.737  0.05%     -    0s
+H    0     0                    607897.00000 607616.737  0.05%     -    0s
+     0     0 607616.740    0  146 607897.000 607616.740  0.05%     -    0s
+     0     0 607620.178    0  136 607897.000 607620.178  0.05%     -    0s
+     0     0 607620.264    0  158 607897.000 607620.264  0.05%     -    0s
+     0     0 607626.187    0  158 607897.000 607626.187  0.04%     -    0s
+     0     0 607627.835    0  167 607897.000 607627.835  0.04%     -    0s
+     0     0 607628.267    0  156 607897.000 607628.267  0.04%     -    0s
+     0     0 607628.271    0  155 607897.000 607628.271  0.04%     -    0s
+     0     0 607628.286    0  166 607897.000 607628.286  0.04%     -    0s
+     0     0 607628.328    0  160 607897.000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  160 607897.000 607628.328  0.04%     -    0s
+H    0     0                    607884.00000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  125 607884.000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  180 607884.000 607628.328  0.04%     -    0s
+H    0     0                    607864.00000 607628.328  0.04%     -    0s
+     0     0 607637.017    0  157 607864.000 607637.017  0.04%     -    0s
+     0     0 607645.978    0  169 607864.000 607645.978  0.04%     -    0s
+     0     0 607646.916    0  121 607864.000 607646.916  0.04%     -    0s
+     0     0 607647.518    0  166 607864.000 607647.518  0.04%     -    0s
+     0     0 607647.518    0  166 607864.000 607647.518  0.04%     -    0s
+     0     0 607648.793    0  143 607864.000 607648.793  0.04%     -    0s
+     0     0 607648.814    0  149 607864.000 607648.814  0.04%     -    0s
+     0     0 607648.814    0  144 607864.000 607648.814  0.04%     -    0s
+     0     0 607649.167    0  166 607864.000 607649.167  0.04%     -    0s
+     0     0 607649.167    0  157 607864.000 607649.167  0.04%     -    0s
+     0     0 607649.167    0  150 607864.000 607649.167  0.04%     -    0s
+     0     2 607649.167    0  145 607864.000 607649.167  0.04%     -    0s
+*   41     8              26    607762.00000 607671.568  0.01%  10.4    0s
+*  707   237              27    607761.00000 607693.249  0.01%   7.2    0s
+*  825   228              24    607760.00000 607695.401  0.01%   7.0    0s
+* 1074   192              23    607758.00000 607702.978  0.01%   7.1    0s
+
+Cutting planes:
+  Gomory: 21
+  Cover: 1
+  Implied bound: 6
+  MIR: 46
+  Zero half: 2
+
+Explored 1087 nodes (10010 simplex iterations) in 0.76 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.077580000000e+05, best bound 6.077030000000e+05, gap 0.0090%
+
+Wrote result file 'ILPmodel.sol'
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 00:47:32 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 3149 rows, 1632 columns, 10431 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 00:47:36 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 6443 rows, 3108 columns, 22115 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 00:47:40 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 8470 rows, 3957 columns, 29408 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 00:47:45 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.02 seconds
+(null): 7398 rows, 3522 columns, 25298 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 00:47:50 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.03 seconds
+(null): 7891 rows, 3723 columns, 27137 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.1 (mac64) logging started Fri Aug 19 19:34:58 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.1rc3 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '20' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('20') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 3149 rows, 1632 columns, 10431 nonzeros
+Optimize a model with 3149 rows, 1632 columns and 10431 nonzeros
+Coefficient statistics:
+  Matrix range    [5e-01, 1e+05]
+  Objective range [1e+00, 5e+03]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+04]
+Presolve removed 1072 rows and 526 columns
+Presolve time: 0.05s
+Presolved: 2077 rows, 1106 columns, 5909 nonzeros
+Variable types: 0 continuous, 1106 integer (647 binary)
+
+Root relaxation: objective 1.215772e+06, 976 iterations, 0.03 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 1215772.43    0  384          - 1215772.43      -     -    0s
+     0     0 1216171.61    0  357          - 1216171.61      -     -    0s
+     0     0 1216322.52    0  378          - 1216322.52      -     -    0s
+     0     0 1216331.64    0  385          - 1216331.64      -     -    0s
+     0     0 1216353.32    0  381          - 1216353.32      -     -    0s
+     0     0 1216356.24    0  294          - 1216356.24      -     -    0s
+     0     0 1216361.00    0  354          - 1216361.00      -     -    0s
+     0     0 1216362.10    0  363          - 1216362.10      -     -    0s
+     0     0 1216362.10    0  366          - 1216362.10      -     -    0s
+     0     0 1216362.21    0  335          - 1216362.21      -     -    0s
+     0     0 1216362.25    0  335          - 1216362.25      -     -    0s
+     0     0 1216362.25    0  337          - 1216362.25      -     -    0s
+     0     0 1216362.25    0  336          - 1216362.25      -     -    0s
+H    0     0                    1217353.0000 1216362.25  0.08%     -    0s
+H    0     0                    1217083.0000 1216362.25  0.06%     -    0s
+H    0     0                    1216739.0000 1216362.25  0.03%     -    0s
+     0     0 1216362.25    0  344 1216739.00 1216362.25  0.03%     -    0s
+     0     0 1216364.50    0  269 1216739.00 1216364.50  0.03%     -    0s
+     0     0 1216386.34    0  308 1216739.00 1216386.34  0.03%     -    0s
+     0     0 1216390.90    0  311 1216739.00 1216390.90  0.03%     -    0s
+     0     0 1216390.96    0  321 1216739.00 1216390.96  0.03%     -    0s
+     0     0 1216391.41    0  324 1216739.00 1216391.41  0.03%     -    0s
+     0     0 1216392.89    0  301 1216739.00 1216392.89  0.03%     -    0s
+     0     0 1216392.93    0  304 1216739.00 1216392.93  0.03%     -    0s
+     0     0 1216393.71    0  306 1216739.00 1216393.71  0.03%     -    0s
+     0     0 1216393.71    0  304 1216739.00 1216393.71  0.03%     -    0s
+     0     2 1216393.71    0  303 1216739.00 1216393.71  0.03%     -    0s
+*  119    86              59    1216591.0000 1216407.23  0.02%   6.5    0s
+H  161   111                    1216542.0000 1216407.23  0.01%   6.2    0s
+H  376   272                    1216535.0000 1216408.08  0.01%   5.8    1s
+*  729   357              49    1216519.0000 1216413.70  0.01%   5.6    1s
+
+Cutting planes:
+  Gomory: 28
+  Implied bound: 8
+  MIR: 83
+  Zero half: 4
+
+Explored 732 nodes (8233 simplex iterations) in 1.18 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 1.216519000000e+06, best bound 1.216414000000e+06, gap 0.0086%
+
+Wrote result file 'ILPmodel.sol'
+

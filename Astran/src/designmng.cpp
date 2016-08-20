@@ -673,7 +673,7 @@ bool DesignMng::readCommand(string cmd){
                     break;
                     
                 case CELLGEN_PLACE:
-                    autocell->placeTrans(true, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()));
+                    autocell->placeTrans(true, atoi(words[2].c_str()), atoi(words[3].c_str()), atoi(words[4].c_str()), atoi(words[5].c_str()), atoi(words[6].c_str()), atoi(words[7].c_str()), atoi(words[8].c_str()), 1);
                     break;
                     
                 case CELLGEN_GETARCCOST:
