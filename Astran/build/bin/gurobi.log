@@ -1579,3 +1579,195 @@ Best objective 1.216519000000e+06, best bound 1.216414000000e+06, gap 0.0086%
 
 Wrote result file 'ILPmodel.sol'
 
+
+Gurobi 6.5.0 (mac64) logging started Fri Aug 19 22:54:58 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.0rc1 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('0.500000') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2962 rows, 1555 columns, 9993 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.0 (mac64) logging started Fri Aug 19 22:55:17 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.0rc1 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('0.500000') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2920 rows, 1525 columns, 9891 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.0 (mac64) logging started Fri Aug 19 22:55:29 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.0rc1 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('0.500000') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2928 rows, 1525 columns, 9907 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.0 (mac64) logging started Fri Aug 19 22:55:38 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.0rc1 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+WARNING: Numeric variable name in LP file ('0.500000') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 2920 rows, 1525 columns, 9891 nonzeros
+
+Unable to retrieve attribute 'X'
+
+
+ERROR 10010: Model too large for current Gurobi license
+
+
+Gurobi 6.5.0 (mac64) logging started Fri Aug 19 22:56:05 2016
+
+Set parameter TimeLimit to value 3600
+
+Gurobi Optimizer version 6.5.0 build v6.5.0rc1 (mac64)
+Copyright (c) 2015, Gurobi Optimization, Inc.
+
+Warning: unknown variable '+' in integer section
+Warning: unknown variable '-' in integer section
+Warning: unknown variable '12' in integer section
+Warning: unknown variable '0.500000' in integer section
+Warning: unknown variable '2.000000' in integer section
+Warning: unknown variable '20' in integer section
+WARNING: Numeric variable name in LP file ('12') - often the result
+         of a constant term in the left-hand side of a constraint.
+
+Read LP format model from file ILPmodel.lp
+Reading time = 0.01 seconds
+(null): 1343 rows, 765 columns, 4075 nonzeros
+Optimize a model with 1343 rows, 765 columns and 4075 nonzeros
+Coefficient statistics:
+  Matrix range    [5e-01, 1e+05]
+  Objective range [1e+00, 5e+03]
+  Bounds range    [1e+00, 1e+00]
+  RHS range       [1e+00, 2e+04]
+Presolve removed 521 rows and 325 columns
+Presolve time: 0.04s
+Presolved: 822 rows, 440 columns, 2263 nonzeros
+Variable types: 0 continuous, 440 integer (223 binary)
+
+Root relaxation: objective 6.070810e+05, 415 iterations, 0.01 seconds
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0 607081.042    0  135          - 607081.042      -     -    0s
+H    0     0                    613259.00000 607081.042  1.01%     -    0s
+H    0     0                    610293.00000 607081.042  0.53%     -    0s
+     0     0 607298.782    0  206 610293.000 607298.782  0.49%     -    0s
+     0     0 607298.782    0  204 610293.000 607298.782  0.49%     -    0s
+     0     0 607559.872    0  170 610293.000 607559.872  0.45%     -    0s
+H    0     0                    609023.00000 607559.872  0.24%     -    0s
+     0     0 607562.541    0  187 609023.000 607562.541  0.24%     -    0s
+     0     0 607609.996    0  155 609023.000 607609.996  0.23%     -    0s
+     0     0 607612.822    0  115 609023.000 607612.822  0.23%     -    0s
+     0     0 607615.472    0  139 609023.000 607615.472  0.23%     -    0s
+     0     0 607616.737    0  146 609023.000 607616.737  0.23%     -    0s
+H    0     0                    607934.00000 607616.737  0.05%     -    0s
+H    0     0                    607897.00000 607616.737  0.05%     -    0s
+     0     0 607616.740    0  146 607897.000 607616.740  0.05%     -    0s
+     0     0 607620.178    0  136 607897.000 607620.178  0.05%     -    0s
+     0     0 607620.264    0  158 607897.000 607620.264  0.05%     -    0s
+     0     0 607626.187    0  158 607897.000 607626.187  0.04%     -    0s
+     0     0 607627.835    0  167 607897.000 607627.835  0.04%     -    0s
+     0     0 607628.267    0  156 607897.000 607628.267  0.04%     -    0s
+     0     0 607628.271    0  155 607897.000 607628.271  0.04%     -    0s
+     0     0 607628.286    0  166 607897.000 607628.286  0.04%     -    0s
+     0     0 607628.328    0  160 607897.000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  160 607897.000 607628.328  0.04%     -    0s
+H    0     0                    607884.00000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  125 607884.000 607628.328  0.04%     -    0s
+     0     0 607628.328    0  180 607884.000 607628.328  0.04%     -    0s
+H    0     0                    607864.00000 607628.328  0.04%     -    0s
+     0     0 607637.017    0  157 607864.000 607637.017  0.04%     -    0s
+     0     0 607645.978    0  169 607864.000 607645.978  0.04%     -    0s
+     0     0 607646.916    0  121 607864.000 607646.916  0.04%     -    0s
+     0     0 607647.518    0  166 607864.000 607647.518  0.04%     -    0s
+     0     0 607647.518    0  166 607864.000 607647.518  0.04%     -    0s
+     0     0 607648.793    0  143 607864.000 607648.793  0.04%     -    0s
+     0     0 607648.814    0  149 607864.000 607648.814  0.04%     -    0s
+     0     0 607648.814    0  144 607864.000 607648.814  0.04%     -    0s
+     0     0 607649.167    0  166 607864.000 607649.167  0.04%     -    0s
+     0     0 607649.167    0  157 607864.000 607649.167  0.04%     -    0s
+     0     0 607649.167    0  150 607864.000 607649.167  0.04%     -    0s
+     0     2 607649.167    0  145 607864.000 607649.167  0.04%     -    0s
+*   41     8              26    607762.00000 607671.568  0.01%  10.4    0s
+*  707   237              27    607761.00000 607693.249  0.01%   7.2    0s
+*  825   228              24    607760.00000 607695.401  0.01%   7.0    0s
+* 1074   192              23    607758.00000 607702.978  0.01%   7.1    0s
+
+Cutting planes:
+  Gomory: 21
+  Cover: 1
+  Implied bound: 6
+  MIR: 46
+  Zero half: 2
+
+Explored 1087 nodes (10010 simplex iterations) in 0.84 seconds
+Thread count was 4 (of 4 available processors)
+
+Optimal solution found (tolerance 1.00e-04)
+Best objective 6.077580000000e+05, best bound 6.077030000000e+05, gap 0.0090%
+
+Wrote result file 'ILPmodel.sol'
+
