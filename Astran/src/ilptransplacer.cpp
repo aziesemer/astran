@@ -74,8 +74,8 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                 exprP += P[i][j];
                 exprN += N[i][j];
             }
-            model.addConstr(exprP == 1, "C2_"+to_string(i));
-            model.addConstr(exprN == 1, "C4_"+to_string(i));
+            model.addConstr(exprP == 1, "C2_"+to_string(j));
+            model.addConstr(exprN == 1, "C4_"+to_string(j));
         }
         model.update();
         // D. Transistor Pairing
@@ -102,12 +102,12 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         model.write("result.sol");
 
         // Extract solution
-        if (model.get(GRB_IntAttr_SolCount) > 0) {
-            for (int i = 0; i < Cnum; i++)
-                for (int j  =0; j < Cnum; j++)
-                    if(P[i][j].get(GRB_DoubleAttr_X) > 0.5)
-                        cout << i << "->" << j << endl;
-        }
+        // if (model.get(GRB_IntAttr_SolCount) > 0) {
+        //     for (int i = 0; i < Cnum; i++)
+        //         for (int j  =0; j < Cnum; j++)
+        //             if(P[i][j].get(GRB_DoubleAttr_X) > 0.5)
+        //                 cout << i << "->" << j << endl;
+        // }
 
         //Put the corect transistor ordering in OrderingP vector
         vector<TransitorTerminal> orderingAux(width);
@@ -128,7 +128,7 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         orderingP.clear();
         orderingP = orderingAux;
         netlist.setOrderingP(orderingAux);
-        
+
         //Put the corect transistor ordering in OrderingN vector
         orderingAux.clear();
         tmp.type=DRAIN;
@@ -148,13 +148,13 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         netlist.setOrderingN(orderingAux);
 
 
-        cout << "Número de dominós em sequência: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
+        //cout << "Número de dominós em sequência: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
         delete[] P;
         delete[] N;
     } catch (...) {
         cout << "Error during optimization" << endl;
     }
-    
+
     delete env;
 
     return true;

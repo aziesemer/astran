@@ -1,5 +1,7 @@
-load technology "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/tech_0065.rul"
-load netlist "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/lib65.sp"
+load technology "/Users/Smaniotto/astran/Astran/build/Work/tech_0065.rul"
+load netlist "/Users/Smaniotto/astran/Astran/build/Work/lib65.sp"
+print cell NAND21
 cellgen select NAND21
-cellgen fold 2 0
-cellgen place 150 3 3 4 1 4 2
+cellgen autoflow
+cellgen select NAND21
+cellgen autoflow
