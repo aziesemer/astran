@@ -21,7 +21,7 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         else
             orderingN.push_back(tmp);
     }
-
+    
     tmp.type=DRAIN;
     tmp.link=-1;
     unsigned long width=max(orderingP.size(), orderingN.size());
@@ -29,14 +29,14 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         orderingP.push_back(tmp);
     for(i=orderingN.size();i<width;i++)
         orderingN.push_back(tmp);
-
+    
     unsigned long Cnum = width;
     GRBEnv *env = new GRBEnv();
-
+    
     try {
         GRBModel model = GRBModel(*env);
         //model.set(GRB_IntAttr_ModelSense, -1);
-
+        
         // Create binary decision variables
         GRBVar **P = new GRBVar*[Cnum];
         GRBVar **N = new GRBVar*[Cnum];
@@ -50,9 +50,9 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                 N[i][j] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "N_"+to_string(i)+"_"+to_string(j));
             }
         }
-
+        
         model.update();
-
+        
         // C. Transistor Placement
         // Each transistor i should be placed in exactly 1 column j
         for (int i = 0; i < Cnum; i++) {
@@ -65,7 +65,7 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
             model.addConstr(exprP == 1, "C1_"+to_string(i));
             model.addConstr(exprN == 1, "C3_"+to_string(i));
         }
-
+        
         // Each column should contein exactly 1 transistor
         for (int j = 0; j < Cnum; j++) {
             GRBLinExpr exprP = 0;
@@ -92,15 +92,15 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                 }
             }
         }
-
-//...
-
+        
+        //...
+        
         // Optimize model
         model.update();
         model.write("result.lp");
         model.optimize();
         model.write("result.sol");
-
+        
         //Put the corect transistor ordering in OrderingP vector
         vector<TransitorTerminal> orderingAux(width);
         for (int i = 0; i < Cnum; i++) {
@@ -125,9 +125,9 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
             }
         }
         netlist.setOrderingN(orderingAux);
-
-
-        cout << "Número de dominós em sequência: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
+        
+        
+        //cout << "Número de dominós em sequência: " << model.get(GRB_DoubleAttr_ObjVal) << endl;
         delete[] P;
         delete[] N;
     } catch (...) {
@@ -135,6 +135,6 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
     }
     
     delete env;
-
+    
     return true;
 }
