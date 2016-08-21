@@ -74,8 +74,8 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                 exprP += P[i][j];
                 exprN += N[i][j];
             }
-            model.addConstr(exprP == 1, "C2_"+to_string(i));
-            model.addConstr(exprN == 1, "C4_"+to_string(i));
+            model.addConstr(exprP == 1, "C2_"+to_string(j));
+            model.addConstr(exprN == 1, "C4_"+to_string(j));
         }
         model.update();
         // D. Transistor Pairing
