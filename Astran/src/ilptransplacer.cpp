@@ -101,14 +101,6 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         model.optimize();
         model.write("result.sol");
 
-        // Extract solution
-        if (model.get(GRB_IntAttr_SolCount) > 0) {
-            for (int i = 0; i < Cnum; i++)
-                for (int j  =0; j < Cnum; j++)
-                    if(P[i][j].get(GRB_DoubleAttr_X) > 0.5)
-                        cout << i << "->" << j << endl;
-        }
-
         //Put the corect transistor ordering in OrderingP vector
         vector<TransitorTerminal> orderingAux(width);
         for (int i = 0; i < Cnum; i++) {
