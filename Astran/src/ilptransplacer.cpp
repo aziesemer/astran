@@ -111,40 +111,27 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
 
         //Put the corect transistor ordering in OrderingP vector
         vector<TransitorTerminal> orderingAux(width);
-        orderingAux.clear();
-        tmp.type=DRAIN;
-        tmp.link=-1;
-        for(i=0;i<width;i++){
-            orderingAux.push_back(tmp);
-        }
-
         for (int i = 0; i < Cnum; i++) {
             for (int j = 0; j < Cnum; j++) {
                 //If have number 1 in this variable, transistor i is placed in column j
-                if (P[i][j].get(GRB_DoubleAttr_X) > 0.5)
-                    orderingAux.at(j) = orderingP[i];
+                if (P[i][j].get(GRB_DoubleAttr_X) > 0.5){
+                    cout << "P:" << i << "->" << j << endl;
+                    orderingAux[j] = orderingP[i];
+                }
             }
         }
-        orderingP.clear();
-        orderingP = orderingAux;
         netlist.setOrderingP(orderingAux);
         
         //Put the corect transistor ordering in OrderingN vector
-        orderingAux.clear();
-        tmp.type=DRAIN;
-        tmp.link=-1;
-        for(i=0;i<width;i++)
-            orderingAux.push_back(tmp);
-
         for (int i = 0; i < Cnum; i++) {
             for (int j = 0; j < Cnum; j++) {
                 //If have number 1 in this variable, transistor i is placed in column j
-                if (N[i][j].get(GRB_DoubleAttr_X) > 0.5)
-                    orderingAux.at(j) = orderingN[i];
+                if (N[i][j].get(GRB_DoubleAttr_X) > 0.5){
+                    cout << "N:" << i << "->" << j << endl;
+                    orderingAux[j] = orderingN[i];
+                }
             }
         }
-        orderingN.clear();
-        orderingN = orderingAux;
         netlist.setOrderingN(orderingAux);
 
 

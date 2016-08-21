@@ -1,4 +1,4 @@
-(ASTRAN - IC Physical Design Tool v3.20 - Fri Aug 19 22:56:09 2016);
+(ASTRAN - IC Physical Design Tool v3.20 - Sat Aug 20 17:08:51 2016);
 (--------------------------------------------------------);
 (UFRGS - Universidade Federal do Rio Grande do Sul);
 (GME - Microelectronics Group);
