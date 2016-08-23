@@ -77,21 +77,26 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
             model.addConstr(exprP == 1, "C2_"+to_string(j));
             model.addConstr(exprN == 1, "C4_"+to_string(j));
         }
+
         model.update();
         // D. Transistor Pairing
+        GRBVar nrPairs = model.addVar(0.0, width, -10, GRB_CONTINUOUS, "Pairs");
+        GRBLinExpr expr = -nrPairs;
         for (int x = 0; x < Cnum; x++){
             for (int y = 0; y < Cnum; y++){
                 if(orderingP[x].link!=-1 && orderingN[y].link!=-1 && netlist.getTrans()[orderingP[x].link].gate==netlist.getTrans()[orderingN[y].link].gate){
                     for (int j = 0; j < Cnum; j++){
-                        GRBVar pair = model.addVar(0.0, 1.0, -10, GRB_BINARY, "Pair_"+to_string(x)+"_"+to_string(y)+"_"+to_string(j));
+                        GRBVar pair = model.addVar(0.0, 1.0, 0, GRB_BINARY, "Pair_"+to_string(x)+"_"+to_string(y)+"_"+to_string(j));
                         model.update();
-                        model.addConstr(pair - P[x][j] - N[y][j] >= -1, "D1_"+to_string(x)+"_"+to_string(y)); // Logical AND operation
-                        model.addConstr(pair - P[x][j]  <= 0, "D2_"+to_string(x)+"_"+to_string(y));
-                        model.addConstr(pair - N[y][j]  <= 0, "D3_"+to_string(x)+"_"+to_string(y));
+                        model.addConstr(pair - P[x][j] - N[y][j] >= -1, "D1_"+to_string(x)+"_"+to_string(y)+"_"+to_string(j)); // Logical AND operation
+                        model.addConstr(pair - P[x][j]  <= 0, "D2_"+to_string(x)+"_"+to_string(y)+"_"+to_string(j));
+                        model.addConstr(pair - N[y][j]  <= 0, "D3_"+to_string(x)+"_"+to_string(y)+"_"+to_string(j));
+                        expr += pair;
                     }
                 }
             }
         }
+        model.addConstr(expr == 0, "D");
         
         //...
         

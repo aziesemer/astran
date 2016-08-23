@@ -1,17 +1,5 @@
 load technology "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/tech_0065.rul"
 load netlist "/Users/adrieljr/Dropbox/gme-ufrgs/Astran/build/Work/lib65.sp"
-cellgen select NAND21
+cellgen select ADD31
 cellgen fold 2 0
 cellgen place 150 3 3 4 1 4 2
-cellgen route 1 0 0 1
-cellgen select NOR20_G3
-cellgen fold 2 0
-cellgen place 150 3 3 4 1 4 2
-cellgen route 1 0 0 1
-cellgen select OAI2112_G2
-cellgen fold 2 0
-cellgen place 150 3 3 4 1 4 2
-cellgen route 1 0 0 1
-cellgen fold 2 1
-cellgen place 150 3 3 4 1 4 2
-cellgen route 1 0 0 1
