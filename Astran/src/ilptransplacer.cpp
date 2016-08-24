@@ -44,16 +44,16 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
         GRBVar *O_N = new GRBVar[Cnum]; //Transistor N orientation (S-G-D)
         GRBVar *A_P = new GRBVar[Cnum]; //Transistor P Abutment
         GRBVar *A_N = new GRBVar[Cnum]; //Transistor N Abutment
-        
+
         for (int i = 0; i < Cnum; i++){
             P[i] = new GRBVar[Cnum];
             N[i] = new GRBVar[Cnum];
-            
+
             O_P[i] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "O_P_"+to_string(i));
             O_N[i] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "O_N_"+to_string(i));
             A_P[i] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "A_P_"+to_string(i));
             A_N[i] = model.addVar(0.0, 1.0, 0, GRB_BINARY, "P_N_"+to_string(i));
-            
+
         }
         for (int i = 0; i < Cnum; i++) {
             for (int j = 0; j < Cnum; j++) {
@@ -119,23 +119,23 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
             //Get the signals connected in the drain/source of transistor Px
             int SD_source = netlist.getTrans( orderingP[x].link ).source;
             int SD_drain = netlist.getTrans( orderingP[x].link ).drain;
-            
+
             vector<TransitorTerminal> B_Px; // Vector with transistors that can abut diffusion with trasistor X
             B_Px.insert(B_Px.end(), netlist.getNet(SD_source).trans.begin(),netlist.getNet(SD_source).trans.end());
             B_Px.insert(B_Px.end(), netlist.getNet(SD_drain).trans.begin(),netlist.getNet(SD_drain).trans.end());
-            
+
             for (int i = 0; i < B_Px.size(); i++) {
                 cout << netlist.getTrans(B_Px[i].link).name << " - " << endl;
             }
-            
-            
+
+
             GRBLinExpr expr_Ap = 0;
             for (int xi = 0; xi < B_Px.size(); xi++) {
-                
+
                 GRBVar Ox_xi = model.addVar(0.0, 1.0, 0, GRB_BINARY, "O_x_"+to_string(x)+"_xi_"+to_string(xi));
                 GRBVar Oxi_x = model.addVar(0.0, 1.0, 0, GRB_BINARY, "O_xi_"+to_string(xi)+"_x_"+to_string(x));
                 model.update();
-                
+
                 model.addConstr(Ox_xi == (1 - O_P[x])*O_P[xi], "E1_Ox_xi_"+to_string(x)+"_"+to_string(xi));
                 model.addConstr(Oxi_x == (1 - O_P[xi])*O_P[x], "E1_Oxi_x_"+to_string(xi)+"_"+to_string(x));
                 model.update();
@@ -150,7 +150,7 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                     model.addConstr(Aux_firstTerm - P[xi][j+1]  <= 0, "E4_xi_j+1_"+to_string(xi)+"_"+to_string(j+1));
                     model.addConstr(Aux_firstTerm - Ox_xi <= 0, "E5_Ox_xi_j_"+to_string(x)+"_"+to_string(xi)+"_"+to_string(j));
                     model.update();
-                
+
                     GRBVar Aux_secondTerm = model.addVar(0.0, 1.0, 0, GRB_BINARY, "Aux_secondTerm_E_x_xi_j_"+to_string(x)+"_"+to_string(xi)+"_"+to_string(j));
 // Logical AND Operation - P(x,j+1)P(xi,j)O(xi,x)
                     //y ≥ x1 + x2 + x3 − 2, y ≤ x1, y ≤ x2, y <= x3
@@ -158,7 +158,7 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                     model.addConstr(Aux_secondTerm - P[x][j+1]  <= 0, "E7_x_j+1_"+to_string(x)+"_"+to_string(j+1));
                     model.addConstr(Aux_secondTerm - P[xi][j]  <= 0, "E8_xi_j_"+to_string(xi)+"_"+to_string(j));
                     model.addConstr(Aux_secondTerm - Oxi_x <= 0, "E9_Oxi_x_j_"+to_string(xi)+"_"+to_string(x)+"_"+to_string(j));
-                
+
                     model.update();
 
 // Logical OR Operation- P(x,j)P(xi,j+1)O(x,xi) + P(x,j+1)P(xi,j)O(xi,x)
@@ -166,15 +166,15 @@ bool IlpTransPlacer::transPlacement(CellNetlst &netlist, int wC, int gmC, int rC
                     model.addConstr( A_P[j] - Aux_firstTerm - Aux_secondTerm <= 0, "E10_j_"+to_string(j)+"_1term_2term_x_"+to_string(x)+"_xi_"+to_string(xi));
                     model.addConstr(A_P[j] - Aux_firstTerm >= 0, "E11_1term_x_"+to_string(x)+"_xi_"+to_string(xi)+"_j_"+to_string(j));
                     model.addConstr(A_P[j] - Aux_secondTerm >= 0, "E12_2term_x_"+to_string(x)+"_xi_"+to_string(xi)+"_j_"+to_string(j));
-                    
+
                     expr_Ap += A_P[j];
                     model.update();
 
-                
+
             }
             model.addConstr(expr_Ap == 1, "E_AP_j_"+to_string(j));
 
-            
+
         }
     }
 
