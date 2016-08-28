@@ -186,8 +186,10 @@ void AutoCell::placeTrans(bool speculate, int saquality, int nrAttempts, int wC,
     if (ILP == 1) {
         cout << "-> Placing transistors with ILP..." << endl;
 
-        IlpTransPlacer transPlacement;
-        bool placementOk = transPlacement.transPlacement(currentNetList, wC, gmC, rC, congC, ngC,  "VCC", "GND");
+        IlpTransPlacer transPlacement(currentNetList);
+        /// -------------------------------------  Alterar nome dos terminais para genericos
+        
+        bool placementOk = transPlacement.transPlacement(wC, gmC, rC, congC, ngC,  "VCC", "GND");
         
         if (placementOk == TRUE){
             cout << "Transistors have been placemented" << endl;

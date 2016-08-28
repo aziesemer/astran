@@ -19,9 +19,36 @@
 using namespace std;
 
 class IlpTransPlacer{
+private:
+    //Variables to ILP Model
+    GRBVar **P;// = new GRBVar*[Cnum]; //Transistor P Placement
+    GRBVar **N;// = new GRBVar*[Cnum]; //Transistor N Placement
+    GRBVar *O_P;// = new GRBVar[Cnum]; //Transistor P orientation (S-G-D)
+    GRBVar *O_N;// = new GRBVar[Cnum]; //Transistor N orientation (S-G-D)
+    GRBVar *A_P;// = new GRBVar[Cnum]; //Transistor P Abutment
+    GRBVar *A_N;// = new GRBVar[Cnum]; //Transistor N Abutment
     
+    GRBEnv *env = new GRBEnv();
+    GRBModel model = GRBModel(*env);
+    
+    unsigned long Cnum;
+    
+    //Auxiliar variables
+    vector<TransitorTerminal> orderingP, orderingN;
+    CellNetlst &netlist;
+    
+    //Functions to placement
+    bool transistorPlacement();
+    //bool transistorPairing(CellNetlst &netlist);
+    //bool transistorAbutment(CellNetlst &netlist);
+    bool transistorPairing();
+    bool transistorAbutment();
 public:
-    bool transPlacement(CellNetlst &netlist, int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
+    IlpTransPlacer(CellNetlst &net);
+    bool transPlacement(int wC, int gmC, int rC, int congC, int ngC, string vddNet, string gndNet);
+    
+    
+    
 };
 
 
