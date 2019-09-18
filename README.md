@@ -17,6 +17,10 @@ Its functionality is being extended to produce complete circuit layouts. Feature
 - Structural Verilog is supported once you provide a Spice description of each cell;
 - Includes a command line interpreter for increased flexibility, like the ability to run scripts;
 
+###Requirements:
+- C++ compiler with support to C++11;
+- Gurobi 5 (it has issues with newer versions, sometimes unfeasible solutions as obtained)
+
 TIP: Download and install always the latest version directly from the GIT repository. Binary versions will not be updated anymore since google closed this service. It's pretty easy to compile.
 
 There is a <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">video</a> tutorial that can be usefull.
