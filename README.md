@@ -18,7 +18,7 @@ Its functionality is being extended to produce complete circuit layouts. Feature
 
 ### Requirements:
 - C++ compiler with support to C++11;
-- Gurobi 5 (it has issues with newer versions, sometimes unfeasible solutions as obtained)
+- Gurobi 5 (it has issues with newer versions, sometimes unfeasible solutions as obtained). It seems that is working normally again with Gurobi 9, according to some feedback. I did not have time to test it, but you may give it a try if you cannot find Gurobi 5.
 
 TIP: Download and install always the latest version directly from the GIT repository. Binary versions will not be updated anymore since google closed this service. It's pretty easy to compile.
 
