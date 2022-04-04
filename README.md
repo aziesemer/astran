@@ -20,8 +20,6 @@ Its functionality is being extended to produce complete circuit layouts. Feature
 - C++ compiler with support to C++11;
 - Gurobi 5 (it has issues with newer versions, sometimes unfeasible solutions as obtained). It seems that is working normally again with Gurobi 9, according to some feedback. I did not have time to test it, but you may give it a try if you cannot find Gurobi 5.
 
-TIP: Download and install always the latest version directly from the GIT repository. Binary versions will not be updated anymore since google closed this service. It's pretty easy to compile.
-
 There is a <a href="https://www.youtube.com/watch?v=IFbCDSMi_FE">video</a> tutorial that can be usefull.
 Any question about the tool, please, send me an email: amziesemerj (at) inf.ufrgs.br
 
